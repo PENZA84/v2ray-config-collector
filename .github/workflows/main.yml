@@ -1,8 +1,9 @@
 name: Collect and Check Configs
+
 on:
   schedule:
-    - cron: '0 */6 * * *' # Запуск каждые 6 часов
-  workflow_dispatch: # Позволяет запускать вручную кнопкой
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -18,28 +19,35 @@ jobs:
 
       - name: Install dependencies
         run: |
-          # Пытаемся поставить из файла, если он есть
-          pip install -r requirements.txt || pip install requests
-
-      - name: Create Data Structure
-        run: |
-          # Создаем папки заранее, чтобы пути к файлам точно существовали
-          mkdir -p v2ray-config-collector/v2ray_config_collector/data/unique/protocols
-          mkdir -p v2ray-config-collector/v2ray_config_collector/data/sources
-          mkdir -p v2ray-config-collector/v2ray_config_collector/data/validated
+          pip install requests
+          # Если есть requirements.txt в папке v2ray_config_collector
+          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
 
       - name: Run collector
         run: |
-          # ПЕРЕХОДИМ В ПАПКУ СО СКРИПТОМ
-          cd v2ray-config-collector/v2ray_config_collector
-          # Теперь Python увидит папку core и положит TXT файлы в нужные места
+          # Переходим в папку проекта (используем точное название с твоего копирования)
+          cd v2ray_config_collector
+          
+          # Создаем структуру папок, чтобы отчеты по протоколам не потерялись
+          mkdir -p data/unique/protocols
+          mkdir -p data/sources
+          mkdir -p data/validated
+          
+          # Запускаем скрипт. Теперь он увидит папку core и все свои файлы
           python main.py
 
       - name: Commit and push results
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
+          
+          # Добавляем все изменения во всех папках
           git add .
-          # Фиксируем все изменения: и JSON, и TXT со списками дублей/мертвых ссылок
-          git commit -m "Auto-update: unique configs and sources lists" || exit 0
-          git push
+          
+          # Проверяем на изменения и пушим
+          if [ -n "$(git status --porcelain)" ]; then
+            git commit -m "Update: protocols and dead/duplicate sources"
+            git push
+          else
+            echo "Изменений не обнаружено"
+          fi
