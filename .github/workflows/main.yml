@@ -1,0 +1,31 @@
+name: Collect and Check Configs
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+  workflow_dispatch: # Позволяет запускать вручную кнопкой
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt # Установка библиотек из твоего файла
+
+      - name: Run collector
+        run: python v2ray_config_collector/main.py # Запуск твоего кода
+
+      - name: Commit and push results
+        run: |
+          git config --global user.name "GitHub Action"
+          git config --global user.email "action@github.com"
+          git add .
+          git commit -m "Auto-update configs" || exit 0
+          git push
