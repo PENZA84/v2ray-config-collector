@@ -17,15 +17,29 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: pip install -r requirements.txt # Установка библиотек из твоего файла
+        run: |
+          # Пытаемся поставить из файла, если он есть
+          pip install -r requirements.txt || pip install requests
+
+      - name: Create Data Structure
+        run: |
+          # Создаем папки заранее, чтобы пути к файлам точно существовали
+          mkdir -p v2ray-config-collector/v2ray_config_collector/data/unique/protocols
+          mkdir -p v2ray-config-collector/v2ray_config_collector/data/sources
+          mkdir -p v2ray-config-collector/v2ray_config_collector/data/validated
 
       - name: Run collector
-        run: python v2ray_config_collector/main.py # Запуск твоего кода
+        run: |
+          # ПЕРЕХОДИМ В ПАПКУ СО СКРИПТОМ
+          cd v2ray-config-collector/v2ray_config_collector
+          # Теперь Python увидит папку core и положит TXT файлы в нужные места
+          python main.py
 
       - name: Commit and push results
         run: |
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           git add .
-          git commit -m "Auto-update configs" || exit 0
+          # Фиксируем все изменения: и JSON, и TXT со списками дублей/мертвых ссылок
+          git commit -m "Auto-update: unique configs and sources lists" || exit 0
           git push
