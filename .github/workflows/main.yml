@@ -1,30 +1,64 @@
-- name: Commit and push results
+name: Collect and Check Configs
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests tqdm
+          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
+
+      - name: Run collector
+        run: |
+          cd v2ray_config_collector
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          
+          # Создаем твою структуру папок, чтобы скрипт не ругался
+          mkdir -p data/sources/working_configs
+          
+          python main.py
+
+      - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Указываем ПУТЬ к твоей папке, где лежит файл-пустышка validated
+          # Путь к твоей папке, где лежит файл-пустышка validated
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           
-          # 2. ПЕРЕНОСИМ ФАЙЛЫ из временной папки скрипта в твою рабочую папку
-          # Мы берем только .txt файлы, чтобы не затереть твой маркер 'validated'
+          # Переносим только рабочие конфиги (.txt) в твою папку
           cp v2ray_config_collector/data/validated/working_configs/*.txt "$TARGET_DIR/" 2>/dev/null || true
           
-          # 3. УДАЛЯЕМ папки, которые создал скрипт, чтобы они не мозолили глаза
+          # Полная очистка мусора и временных папок
           rm -rf v2ray_config_collector/data/validated/
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
           rm -rf v2ray_config_collector/data/raw/*.txt || true
 
-          # 4. ДОБАВЛЯЕМ В GIT
-          # Фиксируем новые файлы в твоей папке
+          # Добавляем файлы в Git (твою папку и маркер)
           git add "$TARGET_DIR/*.txt"
-          # И не забываем про саму пустышку validated, если она изменилась
           git add "$TARGET_DIR/validated" || true
           
+          # Индексируем всё остальное и пушим
           git add .
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Results moved to working_configs next to validated marker"
+            git commit -m "All working configs moved to $TARGET_DIR"
             git push origin main
           else
             echo "No changes detected"
