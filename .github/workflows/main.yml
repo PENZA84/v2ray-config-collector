@@ -1,59 +1,30 @@
-name: Collect and Check Configs
-
-on:
-  schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          pip install requests
-          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
-
-      - name: Run collector
+- name: Run collector
         run: |
           # 1. Заходим в папку проекта
           cd v2ray_config_collector
           
-          # 2. Помогаем Python найти папку core
+          # 2. ЖЕСТКАЯ ОЧИСТКА (удаляем файлы-ошибки из GitHub)
+          # Удаляем файл-путь D:\... и "файлы" вместо папок
+          rm -rf "data/D:\НЕТ НА ДИСКЕ\Проги\Интернет\VPN\V2ray Collecto\ПАРСИНГ\v2ray-config-collector-main\v2ray_config_collector\data\unique\protocols\\"
+          rm -rf "data/processed"
+          rm -rf "data/raw"
+          rm -rf "data/validated\working_configs"
+          
+          # На всякий случай чистим всё лишнее в data, кроме папки sources (если она важна)
+          find data/ -maxdepth 1 -type f -not -name "sources.txt" -delete || true
+
+          # 3. Настройка путей для Python
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           
-          # 3. Создаем полную структуру (как на твоем ПК)
+          # 4. СОЗДАНИЕ ПРАВИЛЬНОЙ СТРУКТУРЫ (через прямой слеш /)
           mkdir -p data/sources
           mkdir -p data/unique/protocols
           mkdir -p data/validated/working_configs
           mkdir -p data/raw
           mkdir -p data/processed
           
-          # 4. Запускаем
+          # 5. Проверка файла источников
+          if [ ! -f data/sources/sources.txt ]; then touch data/sources/sources.txt; fi
+          
+          # 6. ЗАПУСК
           python main.py
-
-      - name: Commit and push results
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          
-          # Удаляем мусорные файлы с неправильными именами (\), если они есть
-          find . -name "*\\*" -delete || true
-          
-          git add .
-          
-          # Проверяем изменения и пушим
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Auto-update: sync structure and duplicate_URL_sources.txt"
-            git push
-          else
-            echo "Изменений не обнаружено"
-          fi
