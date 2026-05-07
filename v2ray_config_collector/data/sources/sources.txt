@@ -381,17 +381,6 @@ https://t.me/ProxyMtpVPN
 https://t.me/NormanV2ray
 https://t.me/canfingV2rayNG
 https://t.me/LoopLine_Ir
-@filembad
-@blackRay
-@Config_magazine
-@WedBazGap
-@VPNnobody
-@Ciurou
-@NetMeli9
-@ProxyMtpVPN
-@NormanV2ray
-@canfingV2rayNG
-@LoopLine_Ir
 https://raw.githubusercontent.com/yebekhe/vpn-fail/main/sub-link
 https://raw.githubusercontent.com/ssrsub/ssr/master/v2ray
 https://raw.githubusercontent.com/Mahdi0024/ProxyCollector/master/sub/proxies.txt
