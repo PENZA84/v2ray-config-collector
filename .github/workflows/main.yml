@@ -19,7 +19,8 @@ jobs:
 
       - name: Install dependencies
         run: |
-          pip install requests
+          # Добавили tqdm, чтобы не было ошибки ModuleNotFoundError
+          pip install requests tqdm
           if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
 
       - name: Run collector
