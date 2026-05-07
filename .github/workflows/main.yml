@@ -1,66 +1,33 @@
-name: Collect and Check Configs
-
-on:
-  schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
+- name: Commit and push results
         run: |
-          # Добавили tqdm, чтобы не было ошибки ModuleNotFoundError
-          pip install requests tqdm
-          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-      - name: Run collector
-        run: |
-          cd v2ray_config_collector
+          # 1. ПРИНУДИТЕЛЬНО УДАЛЯЕМ ВСЁ ЛИШНЕЕ ПЕРЕД СОХРАНЕНИЕМ
+          # Удаляем сырые данные и промежуточные уникальные (но не проверенные) файлы
+          rm -rf v2ray_config_collector/data/raw
+          rm -rf v2ray_config_collector/data/processed
+          rm -rf v2ray_config_collector/data/unique/deduplicated.json
+          rm -rf v2ray_config_collector/data/unique/deduplicated.txt
           
-          # Очистка мусора (удаляем файлы, которые мешают папкам)
-          rm -rf data/processed
-          rm -rf data/raw
-          rm -rf "data/validated\working_configs"
-          
-          # Удаляем тот самый длинный файл с диском D
-          find data/ -type f -name "D:*" -delete || true
-          
-          # Помогаем Python найти core
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          
-          # Создаем структуру заново
-          mkdir -p data/sources
-          mkdir -p data/unique/protocols
-          mkdir -p data/validated/working_configs
-          mkdir -p data/raw
-          mkdir -p data/processed
-          
-          if [ ! -f data/sources/sources.txt ]; then touch data/sources/sources.txt; fi
-          
-          python main.py
+          # Если хочешь удалить и папку protocols внутри unique (оставив только validated):
+          # rm -rf v2ray_config_collector/data/unique/protocols
 
-      - name: Commit and push results
-        run: |
-          git config --global user.name "GitHub Action"
-          git config --global user.email "action@github.com"
-          
-          # Удаляем файлы с обратными слешами перед пушем
+          # 2. Очищаем мусорные файлы с путями Windows
           find . -name "*\\*" -delete || true
+          find . -name "D:*" -delete || true
+
+          # 3. ДОБАВЛЯЕМ ТОЛЬКО ТО, ЧТО ПРОШЛО ТЕСТ
+          # Добавляем папку с полностью рабочими конфигами
+          git add v2ray_config_collector/data/validated/working_configs/
           
-          git add .
+          # Добавляем источники (чтобы не потерять настройки)
+          git add v2ray_config_collector/data/sources/
+
+          # 4. Финальный пуш
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Auto-update: cleanup and sync protocols"
-            git push
+            git commit -m "Pure Result: $(date +'%H:%M') - Only Validated Configs Saved"
+            git push origin main
           else
-            echo "No changes to commit"
+            echo "No changes - maybe no new valid configs found"
           fi
