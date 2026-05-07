@@ -1,0 +1,18 @@
+# Valid HYSTERIA2 Configurations - TCP Test Passed
+# Generated on: 2026-05-07 05:29:55
+# Total valid configs: 14
+
+hysteria2://48b36b6a-eaa6-4843-9231-0bb8b38b5da5@ca-hy2.onetaplink.app:443?sni=hy2-ca.onetaplink.app%23%E9%98%B2%E5%A4%B1%E6%95%88github+SubCrawler%E5%8A%A0%E6%8B%BF%E5%A4%A7_050619144&insecure=1&alpn=h3#%E9%98%B2%E5%A4%B1%E6%95%88github%2BSubCrawler%E5%8A%A0%E6%8B%BF%E5%A4%A7_050619144
+hysteria2://992af1b9-8494-4d6e-8d41-4cf1a20ea618@rn01.388898.xyz:11141?sni=www.bing.com&insecure=1&alpn=h3#%E3%80%90%E5%A4%87%E7%94%A8-2%E3%80%91%E7%BE%8E%E5%9B%BDAT%26T%E5%A4%87%E7%94%A8%E5%AE%B6%E5%AE%BDhy2%F0%9F%87%BA%F0%9F%87%B8
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@jpaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc&insecure=1&obfs-password=%23%E6%97%A5%E6%9C%AC_050619306&alpn=h3#%E6%97%A5%E6%9C%AC_050619306
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc&insecure=1&obfs-password=%23%E6%97%A5%E6%9C%AC_050619303&alpn=h3#%E6%97%A5%E6%9C%AC_050619303
+hysteria2://de8e0342-ea12-4f9d-bc2a-e62409e1913f@zz.66jc.xyz:20003?sni=hkzz.66jc.xyz&insecure=1&obfs=salamander&obfs-password=YmGRdMZ74sEC91FN%23%E5%8F%B0%E6%B9%BE_050619060&alpn=h3#%E5%8F%B0%E6%B9%BE_050619060
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc%23%F0%9F%87%AF%F0%9F%87%B5+%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de+%E6%97%A5%E6%9C%AC+08&insecure=1&alpn=h3#%F0%9F%87%AF%F0%9F%87%B5%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E6%97%A5%E6%9C%AC%2008
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:58?sni=moak.ccwink.cc%23%F0%9F%87%B2%F0%9F%87%B4+%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de+%E6%BE%B3%E9%97%A8+01&insecure=1&alpn=h3#%F0%9F%87%B2%F0%9F%87%B4%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E6%BE%B3%E9%97%A8%2001
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:58?sni=moak.ccwink.cc%23%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1&insecure=1&alpn=h3#%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:88?sni=hkak.ccwink.cc%23%F0%9F%87%AD%F0%9F%87%B0+%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de+%E9%A6%99%E6%B8%AF+06&insecure=1&alpn=h3#%F0%9F%87%AD%F0%9F%87%B0%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E9%A6%99%E6%B8%AF%2006
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc%23%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1&insecure=1&alpn=h3#%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@jpaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc%23%F0%9F%87%AF%F0%9F%87%B5+%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de+%E6%97%A5%E6%9C%AC+02&insecure=1&alpn=h3#%F0%9F%87%AF%F0%9F%87%B5%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E6%97%A5%E6%9C%AC%2002
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:88?sni=hkak.ccwink.cc%23%F0%9F%87%AD%F0%9F%87%B0+%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de+%E9%A6%99%E6%B8%AF+16&insecure=1&alpn=h3#%F0%9F%87%AD%F0%9F%87%B0%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E9%A6%99%E6%B8%AF%2016
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@jpaws.ccwink.photos:6533?sni=jpdigital.ccwink.cc%23%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1&insecure=1&alpn=h3#%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1
+hysteria2://9e0f72bb-7ad6-4383-994a-497569a94d74@hkaws.ccwink.photos:88?sni=hkak.ccwink.cc%23%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1&insecure=1&alpn=h3#%F0%9F%8C%90%D8%B3%D8%B1%D9%88%D8%B1
