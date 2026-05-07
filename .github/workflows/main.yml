@@ -3,28 +3,29 @@
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Создаем твою целевую папку (на всякий случай)
-          mkdir -p v2ray_config_collector/data/sources/working_configs/
+          # 1. Указываем ПУТЬ к твоей папке, где лежит файл-пустышка validated
+          TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           
-          # 2. ПЕРЕНОСИМ ФАЙЛЫ
-          # Берем то, что нагенерил скрипт, и перекидываем в твою папку
-          cp v2ray_config_collector/data/validated/working_configs/*.txt v2ray_config_collector/data/sources/working_configs/ 2>/dev/null || true
+          # 2. ПЕРЕНОСИМ ФАЙЛЫ из временной папки скрипта в твою рабочую папку
+          # Мы берем только .txt файлы, чтобы не затереть твой маркер 'validated'
+          cp v2ray_config_collector/data/validated/working_configs/*.txt "$TARGET_DIR/" 2>/dev/null || true
           
-          # 3. ОЧИСТКА (удаляем дубликаты и временные папки, чтобы не мусорить)
+          # 3. УДАЛЯЕМ папки, которые создал скрипт, чтобы они не мозолили глаза
           rm -rf v2ray_config_collector/data/validated/
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
           rm -rf v2ray_config_collector/data/raw/*.txt || true
 
           # 4. ДОБАВЛЯЕМ В GIT
-          git add "v2ray_config_collector/data/sources/working_configs/*.txt"
-          git add "v2ray_config_collector/data/sources/*.txt" || true
+          # Фиксируем новые файлы в твоей папке
+          git add "$TARGET_DIR/*.txt"
+          # И не забываем про саму пустышку validated, если она изменилась
+          git add "$TARGET_DIR/validated" || true
           
-          # Пушим изменения
           git add .
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Configs successfully moved to data/sources/working_configs"
+            git commit -m "Results moved to working_configs next to validated marker"
             git push origin main
           else
-            echo "No new configs to commit"
+            echo "No changes detected"
           fi
