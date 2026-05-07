@@ -1,34 +1,58 @@
-- name: Commit and push results
+name: Collect and Check Configs
+
+on:
+  schedule:
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests tqdm
+          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
+
+      - name: Run collector
+        run: |
+          cd v2ray_config_collector
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          mkdir -p data/sources
+          mkdir -p data/unique/protocols
+          mkdir -p data/validated/working_configs
+          python main.py
+
+      - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # 1. ОЧИСТКА ТЯЖЕЛЫХ ВРЕМЕННЫХ ФАЙЛОВ (чтобы репозиторий не весил 100Мб+)
-          # Удаляем огромный JSON и сырой текст, но оставляем папки
+          
+          # Очистка перед сохранением
           rm -f v2ray_config_collector/data/processed/*.json || true
           rm -f v2ray_config_collector/data/raw/*.txt || true
-          
-          # 2. УДАЛЯЕМ МУСОРНЫЕ ФАЙЛЫ WINDOWS (которые создают ошибки)
           find . -name "*\\*" -delete || true
           find . -name "D:*" -delete || true
 
-          # 3. СОХРАНЯЕМ СТРУКТУРУ (git add по конкретным целям)
-          # Сохраняем только самое важное из unique (протоколы)
+          # Добавление результатов
           git add v2ray_config_collector/data/unique/protocols/*.txt || true
-          
-          # Сохраняем ТВОЁ ГЛАВНОЕ (полностью рабочие тесты)
           git add v2ray_config_collector/data/validated/working_configs/*.txt || true
-          
-          # Сохраняем источники
           git add v2ray_config_collector/data/sources/*.txt || true
-
-          # 4. ФИНАЛЬНЫЙ СИНХРОН
-          # Добавляем пустые папки (через .gitkeep если они есть) или оставшиеся файлы
           git add .
 
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Efficiency update: Saved only working protocols and validated configs"
+            git commit -m "Efficiency update: Saved working configs"
             git push origin main
           else
-            echo "Nothing new to save"
+            echo "No changes"
           fi
