@@ -1,13 +1,22 @@
+import os
+import sys
+
+# Эта строка гарантирует, что Python увидит папку core, 
+# даже если запуск идет через GitHub Actions
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+
 from core.fetcher import SourceCollector
 from core.parser import FormatConverter
 from core.deduplicator import ConfigDeduplicator
 from core.validator import ConnectivityValidator
 
 def main():
-
     title1 = "V2Ray Config Collector"
     print(title1)
     print("=" * len(title1))
+    
+    # Создаем объект коллектора. 
+    # Он сам пойдет в data/sources/sources.txt (мы это настроим в fetcher.py)
     collector = SourceCollector()
     collector.fetch_all_configs()
     
@@ -31,5 +40,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-
