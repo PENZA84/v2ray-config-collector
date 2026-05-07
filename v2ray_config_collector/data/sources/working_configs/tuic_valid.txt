@@ -1,5 +1,5 @@
 # Valid TUIC Configurations - TCP Test Passed
-# Generated on: 2026-05-07 05:29:55
+# Generated on: 2026-05-07 08:45:37
 # Total valid configs: 2
 
 tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?version=5&alpn=h3&congestion_control=bbr&udp_relay_mode=native#%F0%9F%87%A9%F0%9F%87%AA%20DE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
