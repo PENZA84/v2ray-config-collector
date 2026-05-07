@@ -20,20 +20,24 @@ jobs:
       - name: Install dependencies
         run: |
           pip install requests
-          # Если есть requirements.txt в папке v2ray_config_collector
           if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
 
       - name: Run collector
         run: |
-          # Переходим в папку проекта (используем точное название с твоего копирования)
+          # 1. Заходим в папку проекта
           cd v2ray_config_collector
           
-          # Создаем структуру папок, чтобы отчеты по протоколам не потерялись
-          mkdir -p data/unique/protocols
-          mkdir -p data/sources
-          mkdir -p data/validated
+          # 2. Помогаем Python найти папку core
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           
-          # Запускаем скрипт. Теперь он увидит папку core и все свои файлы
+          # 3. Создаем полную структуру (как на твоем ПК)
+          mkdir -p data/sources
+          mkdir -p data/unique/protocols
+          mkdir -p data/validated/working_configs
+          mkdir -p data/raw
+          mkdir -p data/processed
+          
+          # 4. Запускаем
           python main.py
 
       - name: Commit and push results
@@ -41,12 +45,14 @@ jobs:
           git config --global user.name "GitHub Action"
           git config --global user.email "action@github.com"
           
-          # Добавляем все изменения во всех папках
+          # Удаляем мусорные файлы с неправильными именами (\), если они есть
+          find . -name "*\\*" -delete || true
+          
           git add .
           
-          # Проверяем на изменения и пушим
+          # Проверяем изменения и пушим
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update: protocols and dead/duplicate sources"
+            git commit -m "Auto-update: sync structure and duplicate_URL_sources.txt"
             git push
           else
             echo "Изменений не обнаружено"
