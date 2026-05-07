@@ -3,31 +3,32 @@
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 1. ПРИНУДИТЕЛЬНО УДАЛЯЕМ ВСЁ ЛИШНЕЕ ПЕРЕД СОХРАНЕНИЕМ
-          # Удаляем сырые данные и промежуточные уникальные (но не проверенные) файлы
-          rm -rf v2ray_config_collector/data/raw
-          rm -rf v2ray_config_collector/data/processed
-          rm -rf v2ray_config_collector/data/unique/deduplicated.json
-          rm -rf v2ray_config_collector/data/unique/deduplicated.txt
+          # 1. ОЧИСТКА ТЯЖЕЛЫХ ВРЕМЕННЫХ ФАЙЛОВ (чтобы репозиторий не весил 100Мб+)
+          # Удаляем огромный JSON и сырой текст, но оставляем папки
+          rm -f v2ray_config_collector/data/processed/*.json || true
+          rm -f v2ray_config_collector/data/raw/*.txt || true
           
-          # Если хочешь удалить и папку protocols внутри unique (оставив только validated):
-          # rm -rf v2ray_config_collector/data/unique/protocols
-
-          # 2. Очищаем мусорные файлы с путями Windows
+          # 2. УДАЛЯЕМ МУСОРНЫЕ ФАЙЛЫ WINDOWS (которые создают ошибки)
           find . -name "*\\*" -delete || true
           find . -name "D:*" -delete || true
 
-          # 3. ДОБАВЛЯЕМ ТОЛЬКО ТО, ЧТО ПРОШЛО ТЕСТ
-          # Добавляем папку с полностью рабочими конфигами
-          git add v2ray_config_collector/data/validated/working_configs/
+          # 3. СОХРАНЯЕМ СТРУКТУРУ (git add по конкретным целям)
+          # Сохраняем только самое важное из unique (протоколы)
+          git add v2ray_config_collector/data/unique/protocols/*.txt || true
           
-          # Добавляем источники (чтобы не потерять настройки)
-          git add v2ray_config_collector/data/sources/
+          # Сохраняем ТВОЁ ГЛАВНОЕ (полностью рабочие тесты)
+          git add v2ray_config_collector/data/validated/working_configs/*.txt || true
+          
+          # Сохраняем источники
+          git add v2ray_config_collector/data/sources/*.txt || true
 
-          # 4. Финальный пуш
+          # 4. ФИНАЛЬНЫЙ СИНХРОН
+          # Добавляем пустые папки (через .gitkeep если они есть) или оставшиеся файлы
+          git add .
+
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Pure Result: $(date +'%H:%M') - Only Validated Configs Saved"
+            git commit -m "Efficiency update: Saved only working protocols and validated configs"
             git push origin main
           else
-            echo "No changes - maybe no new valid configs found"
+            echo "Nothing new to save"
           fi
