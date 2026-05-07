@@ -29,11 +29,17 @@ jobs:
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           
-          # Создаем структуру папок для РАБОЧИХ конфигов
+          # Создаем структуру папок, чтобы Git их точно увидел
           mkdir -p data/validated/working_configs/VLESS
           mkdir -p data/validated/working_configs/VMESS
           mkdir -p data/validated/working_configs/TROJAN
           mkdir -p data/validated/working_configs/SHADOWSOCKS
+          
+          # Твоя идея с файлом-заглушкой, чтобы папки не считались пустыми
+          touch data/validated/working_configs/VLESS/.gitkeep
+          touch data/validated/working_configs/VMESS/.gitkeep
+          touch data/validated/working_configs/TROJAN/.gitkeep
+          touch data/validated/working_configs/SHADOWSOCKS/.gitkeep
           
           python main.py
 
@@ -42,26 +48,22 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Очистка: удаляем огромные "черновики" (JSON и RAW), чтобы не забивать репозиторий
+          # 1. Очистка: удаляем тяжелые файлы, чтобы репозиторий не тормозил
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
           find . -name "*\\*" -delete || true
           find . -name "D:*" -delete || true
+          rm -rf v2ray_config_collector/data/raw/*.txt || true
 
-          # 2. Сохраняем ТОЛЬКО РЕЗУЛЬТАТ проверки (то, что на твоем скрине)
-          # Сохраняем все текстовые файлы из валидированных
+          # 2. Сохраняем результаты (validated, уникальные и источники)
           git add "**/data/validated/working_configs/**" || true
-          
-          # 3. Сохраняем уникальные по протоколам (для страховки)
           git add "**/data/unique/protocols/*.txt" || true
-          
-          # 4. Сохраняем твои источники
           git add "**/data/sources/*.txt" || true
-
-          # Финальный пуш
+          
+          # 3. Финальный пуш всех изменений
           git add .
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Success: Validated configs sorted by protocol"
+            git commit -m "Success: Validated configs sorted by protocol (v2rayN ready)"
             git push origin main
           else
             echo "No new working configs found"
