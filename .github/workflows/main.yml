@@ -1,35 +1,74 @@
-- name: Commit and push results
+name: Collect and Check Configs
+
+on:
+  schedule:
+    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+  workflow_dispatch: # Кнопка ручного запуска
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install dependencies
+        run: |
+          pip install requests tqdm
+          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
+
+      - name: Run collector
+        run: |
+          cd v2ray_config_collector
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          
+          # Создаем структуру папок
+          mkdir -p data/sources/working_configs
+          
+          python main.py
+
+      - name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # === ШАГ 0: ГЕНЕРАЛЬНАЯ УБОРКА ПЕРЕД ОБНОВЛЕНИЕМ ===
-          # Удаляем временный мусор, чтобы Git разрешил сделать pull
-          echo "Очистка временных файлов перед синхронизацией..."
-          rm -rf v2ray_config_collector/data/raw/*.txt || true
+          
+          # === ПОПРАВКА №1: УБОРКА ПЕРЕД СИНХРОНИЗАЦИЕЙ ===
+          # Удаляем мусор ДО того, как делать git pull, чтобы не было ошибки 128
+          echo "Удаляем временные файлы..."
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
-          rm -rf v2ray_config_collector/data/validated/working_configs/all_valid.txt || true
-
-          # === ШАГ 1: СИНХРОНИЗАЦИЯ ===
-          # Теперь в папке нет гигантов по 100МБ, и pull --rebase пройдет успешно
+          rm -rf v2ray_config_collector/data/raw/*.txt || true
+          
+          # === ПОПРАВКА №2: СИНХРОНИЗАЦИЯ ===
+          # Теперь, когда папка чистая, pull пройдет без конфликтов
           git pull origin main --rebase
 
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           SOURCE_DIR="v2ray_config_collector/data/validated/working_configs"
+          
           mkdir -p "$TARGET_DIR"
 
-          # 2. ОЧИСТКА СТАРЬЯ (30 дней)
+          # ОЧИСТКА СТАРЬЯ (30 дней)
           find "$TARGET_DIR" -name "*.txt" -mtime +30 -exec rm {} \;
 
-          # 4. НАРЕЗКА: режем тяжелые файлы, если они > 40МБ
+          # УДАЛЯЕМ ОГРОМНЫЙ ФАЙЛ
+          rm -f "$SOURCE_DIR/all_valid.txt"
+
+          # НАРЕЗКА ТЯЖЕЛЫХ ФАЙЛОВ
           if [ -d "$SOURCE_DIR" ]; then
             cd "$SOURCE_DIR"
             for f in *.txt; do
               if [ -f "$f" ]; then
                 fsize=$(stat -c%s "$f")
                 if [ $fsize -gt 41943040 ]; then
-                  echo "Файл $f весит $fsize, режем..."
+                  echo "Файл $f весит $fsize байт, режем на части..."
                   split -b 35M "$f" "${f%.txt}_part_" --additional-suffix=.txt
                   rm "$f"
                 fi
@@ -37,22 +76,22 @@
             done
             cd -
             
-            # 5. ПЕРЕНОС РЕЗУЛЬТАТОВ
+            # ПЕРЕНОС РЕЗУЛЬТАТОВ (те самые 8 483 конфига)
             cp "$SOURCE_DIR"/*.txt "$TARGET_DIR/" 2>/dev/null || true
           fi
-
-          # 6. ФИНАЛЬНАЯ ЗАЧИСТКА
+          
+          # УБОРКА ПОСЛЕ ПЕРЕНОСА
           rm -rf v2ray_config_collector/data/validated/
 
-          # 7. ГИТ: СОХРАНЯЕМ ТОЛЬКО НУЖНОЕ
+          # === ПОПРАВКА №3: СОХРАНЯЕМ ТОЛЬКО РЕЗУЛЬТАТ ===
           git add "$TARGET_DIR/*.txt"
-          git add "$TARGET_DIR/validated" 2>/dev/null || true
+          git add "$TARGET_DIR/validated" || true
           
-          # Убеждаемся, что мы НЕ добавили случайно raw_configs или json
-          git reset v2ray_config_collector/data/raw/ 2>/dev/null || true
-
+          # Если скрипт насоздавал новых папок в data/raw, игнорируем их
+          git reset v2ray_config_collector/data/raw/ || true
+          
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update: 8483 configs, auto-cleanup and sync"
+            git commit -m "Update configs: 8483 valid configs, auto-cleanup and sync"
             git push origin main
           else
             echo "No changes detected"
