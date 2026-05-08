@@ -2,8 +2,8 @@ name: Collect and Check Configs
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Запуск каждые 6 часов
-  workflow_dispatch: # Появится кнопка "Run workflow"
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,51 +36,29 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # === ГЛАВНОЕ ИСПРАВЛЕНИЕ: Очистка ДО синхронизации ===
-          echo "Удаляем тяжелый мусор (100MB+), чтобы Git не блокировал pull..."
+          # Очистка мусора ПЕРЕД синхронизацией
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
           rm -rf v2ray_config_collector/data/raw/*.txt || true
           
-          # Теперь pull пройдет без ошибки 128
           git pull origin main --rebase
 
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           SOURCE_DIR="v2ray_config_collector/data/validated/working_configs"
-          mkdir -p "$TARGET_DIR"
-
-          # Очистка старых файлов (>30 дней)
-          find "$TARGET_DIR" -name "*.txt" -mtime +30 -exec rm {} \;
-
-          # Удаляем дублирующий файл
-          rm -f "$SOURCE_DIR/all_valid.txt"
-
-          # Нарезка файлов больше 40МБ
+          
+          # Перенос твоих 8 483 конфигов
           if [ -d "$SOURCE_DIR" ]; then
-            cd "$SOURCE_DIR"
-            for f in *.txt; do
-              if [ -f "$f" ]; then
-                fsize=$(stat -c%s "$f")
-                if [ $fsize -gt 41943040 ]; then
-                  split -b 35M "$f" "${f%.txt}_part_" --additional-suffix=.txt
-                  rm "$f"
-                fi
-              fi
-            done
-            cd -
+            mkdir -p "$TARGET_DIR"
             cp "$SOURCE_DIR"/*.txt "$TARGET_DIR/" 2>/dev/null || true
           fi
 
-          # Финальная уборка
           rm -rf v2ray_config_collector/data/validated/
-          
-          # Добавляем только полезный результат
           git add "$TARGET_DIR/*.txt"
           git add .
           
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update configs: 8483 valid, auto-cleanup and sync"
+            git commit -m "Update: 8483 configs and cleanup"
             git push origin main
           else
-            echo "No changes detected"
+            echo "No changes"
           fi
