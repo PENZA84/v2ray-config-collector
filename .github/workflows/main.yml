@@ -2,7 +2,7 @@ name: Collect and Check Configs
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '0 */6 * * *' # Запуск каждые 6 часов
   workflow_dispatch:
 
 jobs:
@@ -29,7 +29,7 @@ jobs:
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           
-          # Создаем твою структуру папок, чтобы скрипт не ругался
+          # Создаем твою структуру папок, если её ещё нет
           mkdir -p data/sources/working_configs
           
           python main.py
@@ -39,26 +39,50 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Путь к твоей папке, где лежит файл-пустышка validated
+          # 1. СИНХРОНИЗАЦИЯ: подхватываем твои ручные добавления ссылок
+          git pull origin main --rebase
+
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
+          SOURCE_DIR="v2ray_config_collector/data/validated/working_configs"
           
-          # Переносим только рабочие конфиги (.txt) в твою папку
-          cp v2ray_config_collector/data/validated/working_configs/*.txt "$TARGET_DIR/" 2>/dev/null || true
+          mkdir -p "$TARGET_DIR"
+
+          # 2. ОЧИСТКА СТАРЬЯ: удаляем файлы, которые не обновлялись больше 30 дней
+          find "$TARGET_DIR" -name "*.txt" -mtime +30 -exec rm {} \;
+
+          # 3. УДАЛЯЕМ ОГРОМНЫЙ ФАЙЛ: он дублирует данные и весит больше 100МБ
+          rm -f "$SOURCE_DIR/all_valid.txt"
+
+          # 4. НАРЕЗКА: если файл > 40МБ, режем его на части для GitHub
+          cd "$SOURCE_DIR"
+          for f in *.txt; do
+            if [ -f "$f" ]; then
+              fsize=$(stat -c%s "$f")
+              if [ $fsize -gt 41943040 ]; then
+                echo "Файл $f слишком большой ($fsize байт), режем на части..."
+                split -b 35M "$f" "${f%.txt}_part_" --additional-suffix=.txt
+                rm "$f"
+              fi
+            fi
+          done
+          cd -
+
+          # 5. ПЕРЕНОС: копируем всё (целые файлы и части) в твою папку
+          cp "$SOURCE_DIR"/*.txt "$TARGET_DIR/" 2>/dev/null || true
           
-          # Полная очистка мусора и временных папок
+          # 6. УБОРКА МУСОРА: удаляем временные папки и логи скрипта
           rm -rf v2ray_config_collector/data/validated/
           find . -name "raw_configs.txt" -delete || true
           find . -name "*.json" -delete || true
           rm -rf v2ray_config_collector/data/raw/*.txt || true
 
-          # Добавляем файлы в Git (твою папку и маркер)
+          # 7. ГИТ: добавляем все текстовики и твой маркер validated
           git add "$TARGET_DIR/*.txt"
           git add "$TARGET_DIR/validated" || true
           
-          # Индексируем всё остальное и пушим
           git add .
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "All working configs moved to $TARGET_DIR"
+            git commit -m "Update configs: auto-cleanup 30d, file splitting, and sync"
             git push origin main
           else
             echo "No changes detected"
