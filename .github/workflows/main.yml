@@ -1,64 +1,39 @@
-name: Collect and Check Configs
-
-on:
-  schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
-
-jobs:
-  build:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Set up Python
-        uses: actions/setup-python@v4
-        with:
-          python-version: '3.9'
-
-      - name: Install dependencies
-        run: |
-          pip install requests tqdm
-          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
-
-      - name: Run collector
-        run: |
-          cd v2ray_config_collector
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          mkdir -p data/sources/working_configs
-          python main.py
-
-      - name: Commit and push results
+- name: Commit and push results
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # УБИРАЕМ ОШИБКУ 128 (Снимок 760)
-          # Удаляем мусор ДО того, как Git начнет тупить
-          echo "Чистим временные файлы перед синхронизацией..."
-          find . -name "raw_configs.txt" -delete || true
-          find . -name "*.json" -delete || true
-          rm -rf v2ray_config_collector/data/raw/*.txt || true
+          # === ЖЕСТКАЯ ОЧИСТКА ===
+          # Сбрасываем все изменения, которые натворил скрипт, кроме папки с результатами
+          echo "Принудительная очистка перед синхронизацией..."
+          git add v2ray_config_collector/data/validated/working_configs/*.txt || true
+          git stash || true 
+          git clean -fd  # Удаляет все новые неотслеживаемые файлы (raw_configs.txt и прочее)
           
+          # Теперь pull пройдет идеально
           git pull origin main --rebase
+
+          # Возвращаем наши напарсенные конфиги из заначки
+          git stash pop || true
 
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           SOURCE_DIR="v2ray_config_collector/data/validated/working_configs"
-          
+          mkdir -p "$TARGET_DIR"
+
+          # Перенос (твои 8483 конфига)
           if [ -d "$SOURCE_DIR" ]; then
-            mkdir -p "$TARGET_DIR"
             cp "$SOURCE_DIR"/*.txt "$TARGET_DIR/" 2>/dev/null || true
           fi
 
+          # Финальная зачистка перед пушем
           rm -rf v2ray_config_collector/data/validated/
+          find . -name "raw_configs.txt" -delete || true
+          
           git add "$TARGET_DIR/*.txt"
           git add .
           
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update: 8483 configs and cleanup"
+            git commit -m "Update configs: auto-cleanup and sync"
             git push origin main
           else
             echo "No changes"
