@@ -5,18 +5,22 @@ on:
     - cron: '0 */6 * * *'
   workflow_dispatch:
 
+# Добавляем глобальную переменную, чтобы GitHub использовал Node.js 24
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4 # ОБНОВЛЕНО С v3
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0 # Важно для нормальной работы Git
+          fetch-depth: 0
 
       - name: Set up Python
-        uses: actions/setup-python@v4
+        uses: actions/setup-python@v5 # ОБНОВЛЕНО С v4
         with:
           python-version: '3.9'
 
@@ -25,7 +29,6 @@ jobs:
           pip install requests tqdm
           if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
 
-      # СНАЧАЛА ОБНОВЛЯЕМ РЕПОЗИТОРИЙ, ПОКА ОН ЧИСТЫЙ
       - name: Sync repository
         run: |
           git config --global user.name "github-actions[bot]"
@@ -44,11 +47,10 @@ jobs:
           TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
           SOURCE_DIR="v2ray_config_collector/data/validated/working_configs"
           
-          # Очистка мусора (тех самых 100МБ)
+          # Очистка мусора
           find . -name "raw_configs.txt" -delete || true
           rm -rf v2ray_config_collector/data/raw/*.txt || true
           
-          # Перенос результатов
           if [ -d "$SOURCE_DIR" ]; then
             mkdir -p "$TARGET_DIR"
             cp "$SOURCE_DIR"/*.txt "$TARGET_DIR/" 2>/dev/null || true
@@ -56,10 +58,8 @@ jobs:
           
           rm -rf v2ray_config_collector/data/validated/
 
-          # Добавляем изменения
           git add "$TARGET_DIR/*.txt"
           
-          # Пушим только если есть реальные изменения
           if [ -n "$(git status --porcelain)" ]; then
             git commit -m "Auto-update configs: $(date +'%Y-%m-%d %H:%M')"
             git push origin main
