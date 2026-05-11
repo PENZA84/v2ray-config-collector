@@ -23,76 +23,88 @@ jobs:
           python-version: '3.x'
 
       - name: Install dependencies
-        run: pip install requests tqdm
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests tqdm
 
-      # 🔥 ШАГ: Проверка cleaned_urls.txt и слияние с основным списком
-      - name: Merge and Clean Sources
+      # 1. ЭТАП СБОРЩИКА: Просто готовим свежие ссылки (24ч) для парсера
+      - name: Sync Fresh Sources
         run: |
           python <<EOF
-          import os
-          import requests
-          from concurrent.futures import ThreadPoolExecutor
-
-          input_file = "cleaned_urls.txt"
-          # Тот самый файл, который реально читает парсер
-          target_file = "v2ray_config_collector/data/sources/sources.txt"
-
-          def is_alive(url):
-              try:
-                  r = requests.get(url.strip(), timeout=5)
-                  return url.strip() if r.status_code == 200 else None
-              except: return None
-
-          # 1. Проверяем новые ссылки из твоего файла
-          if os.path.exists(input_file):
-              with open(input_file, "r", encoding="utf-8") as f:
-                  urls_to_check = [l.strip() for l in f if l.strip()]
-              
-              print(f"Checking {len(urls_to_check)} links from {input_file}...")
-              with ThreadPoolExecutor(max_workers=50) as ex:
-                  new_alive = [r for r in ex.map(is_alive, urls_to_check) if r]
-          else:
-              new_alive = []
-
-          # 2. Читаем то, что уже было в базе
-          existing = []
-          if os.path.exists(target_file):
-              with open(target_file, "r", encoding="utf-8") as f:
-                  existing = [l.strip() for l in f if l.strip()]
-
-          # 3. Соединяем, убираем дубли
-          final_list = list(set(existing + new_alive))
-
-          # 4. Сохраняем обратно в sources.txt
-          with open(target_file, "w", encoding="utf-8") as f:
-              for u in final_list:
-                  f.write(u + "\n")
+          import os, requests
+          from datetime import datetime, timedelta, timezone
           
-          print(f"Total sources now: {len(final_list)}")
+          input_file = "cleaned_urls.txt"
+          target = "v2ray_config_collector/data/sources/sources.txt"
+          FRESH_LIMIT = timedelta(hours=24)
+          now = datetime.now(timezone.utc)
+          
+          fresh_urls = []
+          if os.path.exists(input_file):
+              with open(input_file, "r") as f:
+                  urls = [u.strip() for u in f if u.strip()]
+              for u in urls:
+                  try:
+                      r = requests.head(u, timeout=10)
+                      mod = r.headers.get('Last-Modified')
+                      if mod:
+                          d = datetime.strptime(mod, '%a, %d %b %Y %H:%M:%S %Z').replace(tzinfo=timezone.utc)
+                          if now - d < FRESH_LIMIT: fresh_urls.append(u)
+                      else: fresh_urls.append(u) # Если даты нет, рискуем
+                  except: continue
+          
+          os.makedirs(os.path.dirname(target), exist_ok=True)
+          with open(target, "w") as f:
+              f.write("\n".join(fresh_urls))
           EOF
 
-      - name: Commit Updated Sources
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add v2ray_config_collector/data/sources/sources.txt
-          git commit -m "Merged cleaned_urls.txt into sources" || echo "No changes"
-          git push origin main
-
+      # 2. ЭТАП ПАРСЕРА: Он делает только свою работу (как на скрине 790)
       - name: Run Main Collector
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Теперь он точно увидит обновленный sources.txt
           python main.py
 
-      - name: Final Cleanup and Push Results
+      # 3. ЭТАП ЦЕМЕНТА: Дробление и сортировка результатов ПАРСИНГА
+      - name: Split and Sort Results
         run: |
-          # Собираем все конфиги в один файл, как ты хотел (без дублей)
-          mkdir -p v2ray_config_collector/data/sources/working_configs
-          cat v2ray_config_collector/data/sources/working_configs/*.txt 2>/dev/null | sort | uniq > merged_all.txt
-          mv merged_all.txt v2ray_config_collector/data/sources/working_configs/all.txt
+          python <<EOF
+          import os
           
-          git add v2ray_config_collector/data/sources/working_configs/*.txt
-          git commit -m "Update working configs" || echo "No changes"
+          # Путь к тому, что выдал парсер
+          source_dir = "v2ray_config_collector/data/sources"
+          results_file = os.path.join(source_dir, "working_configs/all_working.txt")
+          proto_dir = os.path.join(source_dir, "protocols")
+          
+          if os.path.exists(results_file):
+              with open(results_file, "r", encoding="utf-8") as f:
+                  all_configs = sorted(list(set(line.strip() for line in f if line.strip())))
+              
+              total = len(all_configs)
+              MAX_PER_FILE = 500000
+              
+              # Дробим на all.txt, all1.txt...
+              for i in range(0, total, MAX_PER_FILE):
+                  idx = i // MAX_PER_FILE
+                  suffix = "" if idx == 0 else str(idx)
+                  with open(os.path.join(source_dir, f"all{suffix}.txt"), "w") as f:
+                      f.write("\n".join(all_configs[i:i+MAX_PER_FILE]))
+              
+              # Сортируем по протоколам
+              os.makedirs(proto_dir, exist_ok=True)
+              protos = ["vless", "vmess", "trojan", "ss", "ssr", "hysteria2", "tuic"]
+              for p in protos:
+                  p_configs = [c for c in all_configs if c.startswith(f"{p}://")]
+                  if p_configs:
+                      with open(os.path.join(proto_dir, f"{p}.txt"), "w") as f:
+                          f.write("\n".join(p_configs))
+          EOF
+
+      - name: Final Push to PENZA84
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add v2ray_config_collector/data/sources/*.txt
+          git add v2ray_config_collector/data/sources/protocols/*.txt
+          git commit -m "Clean split of parsed configs - Cement Strategy" || exit 0
           git push origin main
