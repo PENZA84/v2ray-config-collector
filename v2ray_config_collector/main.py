@@ -1,8 +1,7 @@
 import os
 import sys
 
-# Эта строка гарантирует, что Python увидит папку core, 
-# даже если запуск идет через GitHub Actions
+# Гарантируем, что Python видит папку core
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 from core.fetcher import SourceCollector
@@ -12,31 +11,38 @@ from core.validator import ConnectivityValidator
 
 def main():
     title1 = "V2Ray Config Collector"
-    print(title1)
+    print(f"\n{title1}")
     print("=" * len(title1))
     
-    # Создаем объект коллектора. 
-    # Он сам пойдет в data/sources/sources.txt (мы это настроим в fetcher.py)
+    # 1. Собираем сырые данные из источников
     collector = SourceCollector()
     collector.fetch_all_configs()
     
-    title2 = "Convert proxy configurations to JSON format"
-    print(title2)
+    title2 = "Deep Parsing (JSON, YAML, Base64, DNS)"
+    print(f"\n{title2}")
     print("=" * len(title2))
+    # Создаем конвертер и запускаем процесс
     converter = FormatConverter()
-    converter.convert_configs()
+    # ВАЖНО: используем метод process(), который мы прописали в новом parser.py
+    converter.process()
     
-    title3 = "Remove duplicate configurations"
-    print(title3)
+    title3 = "Deduplication & Cleaning"
+    print(f"\n{title3}")
     print("=" * len(title3))
+    # Дедупликатор берет файл deduplicated.txt и чистит его
     deduplicator = ConfigDeduplicator()
-    success = deduplicator.process()
+    deduplicator.process()
     
-    title4 = "Tests TCP connectivity of proxy configurations"
-    print(title4)
+    title4 = "Connectivity Validation"
+    print(f"\n{title4}")
     print("=" * len(title4))
+    # Валидатор проверяет, какие из прокси реально дышат
     validator = ConnectivityValidator()
     validator.test_all_configs()
+
+    print("\n" + "="*30)
+    print("Сбор и проверка завершены!")
+    print("="*30)
 
 if __name__ == "__main__":
     main()
