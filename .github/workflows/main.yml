@@ -17,14 +17,17 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
+      # 🐍 ШАГ С ЭСТЕТИКОЙ: Ставим самую последнюю версию Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.9'
+          python-version: '3.x' # GitHub сам выберет самую свежую (3.12 или 3.13)
 
       - name: Install dependencies
         run: |
+          # Сначала обновляем pip до максимума
           python -m pip install --upgrade pip
+          # Ставим библиотеки (tqdm теперь точно будет!)
           pip install requests tqdm
 
       - name: Filter and Update Parser Sources
@@ -77,6 +80,7 @@ jobs:
       - name: Run Main Collector
         run: |
           cd v2ray_config_collector
+          # PYTHONPATH помогает Питону видеть твои папки как модули
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
@@ -89,7 +93,7 @@ jobs:
           git add v2ray_config_collector/data/sources/working_configs/*.txt
           
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Direct update of sources.txt and split lists"
+            git commit -m "Direct update with Python 3.x and tqdm fixed"
             git push origin main
           else
             echo "No changes found, nothing to commit."
