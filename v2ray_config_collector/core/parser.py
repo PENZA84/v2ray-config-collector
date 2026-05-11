@@ -1,109 +1,43 @@
-# ... твои импорты и вспомогательные функции parse_server_port остаются прежними ...
+import base64
+import json
+import urllib.parse
+import os
 
 class FormatConverter:
     def __init__(self, input_files=None, output_file=None):
-        # ... начало твоего __init__ ...
-        self.stats = {
-            'total_configs': 0, 'successful_conversions': 0, 'failed_conversions': 0,
-            'filtered_configs': 0, 'vmess_count': 0, 'vless_count': 0,
-            'trojan_count': 0, 'ss_count': 0, 'ssr_count': 0,
-            'tuic_count': 0, 'hysteria_count': 0,
-            # ДОБАВЛЯЕМ НОВЫЕ ГРУППЫ СЧЕТЧИКОВ
-            'proxy_count': 0, # SOCKS, HTTP
-            'advanced_count': 0, # Juicity, Naive, Wireguard и др.
-            'other_count': 0
-        }
-        # ...
+        # Настройка путей строго под твою структуру папок
+        package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.input_files = input_files or [os.path.join(package_dir, 'data', 'raw', 'raw_configs.txt')]
+        self.output_file = output_file or os.path.join(package_dir, 'data', 'unique', 'deduplicated.txt')
+        self.stats = {'total': 0, 'success': 0, 'failed': 0}
 
-    def detect_protocol(self, config_line):
-        line = config_line.lower()
-        # Стандартные V2Ray/Xray
-        if line.startswith('vmess://'): return 'vmess'
-        if line.startswith('vless://'): return 'vless'
-        if line.startswith('trojan://'): return 'trojan'
-        if line.startswith('ss://'): return 'shadowsocks'
-        if line.startswith('ssr://'): return 'ssr'
-        if line.startswith('tuic://'): return 'tuic'
-        if line.startswith(('hysteria2://', 'hy2://')): return 'hysteria2'
-        if line.startswith('hysteria://'): return 'hysteria'
-        
-        # ТВОЙ РАСШИРЕННЫЙ СПИСОК:
-        if line.startswith(('socks5://', 'socks4://')): return 'socks'
-        if line.startswith(('http://', 'https://')):
-            if not any(line.endswith(ext) for ext in ['.txt', '.sub', '.php', '.yaml']):
-                return 'http'
-        
-        # Продвинутые и новые протоколы
-        advanced_protocols = [
-            'wireguard://', 'ssh://', 'juicity://', 'naive://', 
-            'trusttunnel://', 'shadowtls://', 'anytls://'
-        ]
-        for proto in advanced_protocols:
+    def detect_protocol(self, line):
+        line = line.lower().strip()
+        protocols = ['vmess://', 'vless://', 'trojan://', 'ss://', 'ssr://', 'tuic://', 'hysteria2://', 'hy2://', 'hysteria://', 'socks5://', 'socks4://', 'http://', 'https://']
+        for proto in protocols:
             if line.startswith(proto):
                 return proto.replace('://', '')
-                
         return 'unknown'
 
-    def parse_universal_proxy(self, config_url, protocol_type):
-        """Универсальный метод для всех новых протоколов из твоего списка"""
-        try:
-            # Отсекаем всё лишнее для получения адреса и параметров
-            clean_part = config_url.split('://')[-1]
-            remarks = ""
-            if '#' in clean_part:
-                clean_part, remarks = clean_part.split('#', 1)
-                remarks = urllib.parse.unquote(remarks)
+    def convert_configs(self):
+        """ЭТОТ МЕТОД ВЫЗЫВАЕТ ТВОЙ MAIN.PY — ТЕПЕРЬ ОНИ СВЯЗАНЫ НАВЕК"""
+        all_configs = []
+        os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
 
-            # Выделяем авторизацию и хост:порт
-            auth = ""
-            address_part = clean_part
-            if '@' in clean_part:
-                auth, address_part = clean_part.split('@', 1)
+        for file_path in self.input_files:
+            if not os.path.exists(file_path):
+                continue
+            with open(file_path, 'r', encoding='utf-8') as f:
+                for line in f:
+                    line = line.strip()
+                    if not line or line.startswith('#'): continue
+                    self.stats['total'] += 1
+                    if self.detect_protocol(line) != 'unknown':
+                        all_configs.append(line)
+                        self.stats['success'] += 1
+                    else:
+                        self.stats['failed'] += 1
 
-            server, port = parse_server_port(address_part)
-
-            # Статистика
-            if protocol_type in ['socks', 'http']:
-                self.stats['proxy_count'] += 1
-            else:
-                self.stats['advanced_count'] += 1
-
-            return {
-                'type': protocol_type,
-                'server': server,
-                'port': port,
-                'auth': auth,
-                'remarks': remarks or f"{protocol_type}_{server}",
-                'raw_config': config_url
-            }
-        except:
-            return None
-
-    def parse_config_with_reason(self, config_line):
-        config_line = config_line.strip()
-        if not config_line or config_line.startswith('#'):
-            return None, 'empty_or_comment'
-        
-        protocol = self.detect_protocol(config_line)
-        
-        # Если протокол из нашего нового расширенного списка — работаем!
-        extended_list = [
-            'socks', 'http', 'hysteria', 'wireguard', 'ssh', 
-            'juicity', 'naive', 'trusttunnel', 'shadowtls', 'anytls'
-        ]
-        
-        if protocol in extended_list:
-            result = self.parse_universal_proxy(config_line, protocol)
-            return result, None if result else f'{protocol}_parse_failed'
-
-        # Твоя оригинальная логика для старых протоколов
-        if protocol == 'vmess':
-            result = self.parse_vmess(config_line)
-            return result, None if result else 'vmess_parse_failed'
-        # ... (vless, trojan, ss, ssr, tuic, hysteria2 — оставляешь как было) ...
-        
-        self.stats['other_count'] += 1
-        self.failure_reasons['unknown_protocol'] += 1
-        return None, 'unknown_protocol'
-
-    # Не забудь обновить вывод в print_summary, чтобы видеть результат по всем!
+        with open(self.output_file, 'w', encoding='utf-8') as f:
+            f.write("\n".join(all_configs))
+        print(f"Парсер отработал: {self.stats['success']} конфигов готово для дедупликатора.")
