@@ -3,7 +3,7 @@ name: V2Ray Config Collector - Optimized
 on:
   schedule:
     - cron: '0 */6 * * *' # Запуск каждые 6 часов
-  workflow_dispatch:      # Кнопка ручного запуска
+  workflow_dispatch:      # Кнопка для ручного запуска
 
 jobs:
   build:
@@ -20,13 +20,13 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # ОБЯЗАТЕЛЬНО добавляем pyyaml для работы парсера
+          # Устанавливаем всё: requests для скачивания, tqdm для логов, pyyaml для DNS и Clash
           pip install requests tqdm pyyaml 
 
       - name: Run Collector and Validator
         run: |
           cd v2ray_config_collector
-          # Добавляем текущую папку в пути поиска модулей
+          # Добавляем путь, чтобы скрипты видели папку core
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
@@ -35,16 +35,20 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Добавляем ВСЕ результаты работы:
-          # 1. Рабочие прокси (validated)
-          # 2. Список DNS (из папки unique), если он создался
-          git add v2ray_config_collector/data/validated/all_valid.txt || true
-          git add v2ray_config_collector/data/unique/dns_list.txt || true
+          # Флаг -f принудительно добавляет файлы, даже если они в .gitignore
+          # Используем проверку [ -f ... ], чтобы скрипт не падал, если файл не создался
+          if [ -f v2ray_config_collector/data/validated/all_valid.txt ]; then
+            git add -f v2ray_config_collector/data/validated/all_valid.txt
+          fi
           
-          # Проверяем, есть ли что коммитить
-          if [ -n "$(git status --porcelain)" ]; then
+          if [ -f v2ray_config_collector/data/unique/dns_list.txt ]; then
+            git add -f v2ray_config_collector/data/unique/dns_list.txt
+          fi
+
+          # Сохраняем изменения, если они есть
+          if ! git diff --cached --quiet; then
             git commit -m "Update: fresh validated configs and DNS list"
             git push origin main
           else
-            echo "Никаких изменений не найдено."
+            echo "Изменений не найдено, пуш не требуется."
           fi
