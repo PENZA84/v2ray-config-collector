@@ -1,98 +1,62 @@
-import os
 import requests
+import os
 
 class SourceCollector:
-    def __init__(self, input_file='data/sources/sources.txt', stats_dict=None):
-        # Исправляем путь, чтобы он всегда был верным относительно корня
+    def __init__(self, source_file=None, output_file=None):
         package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.input_file = input_file or os.path.join(package_dir, 'data', 'sources', 'sources.txt')
-        self.stats = stats_dict if stats_dict is not None else {}
-        
-        self.headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
-        }
-
-    def read_links(self):
-        try:
-            if not os.path.exists(self.input_file):
-                print(f"Файл с источниками не найден: {self.input_file}")
-                return []
-            
-            with open(self.input_file, 'r', encoding='utf-8') as f:
-                raw_links = [line.strip() for line in f if line.strip() and not line.startswith('#')]
-            
-            seen = set()
-            unique_links = []
-            duplicates = []
-            
-            for link in raw_links:
-                if link in seen:
-                    duplicates.append(link)
-                else:
-                    seen.add(link)
-                    unique_links.append(link)
-
-            if duplicates:
-                dup_path = os.path.join(os.path.dirname(self.input_file), 'duplicate_URL_sources.txt')
-                with open(dup_path, 'w', encoding='utf-8') as f:
-                    for d in duplicates:
-                        f.write(d + '\n')
-                print(f"Найдено {len(duplicates)} дубликатов ссылок. Список в {dup_path}")
-            
-            if isinstance(self.stats, dict):
-                self.stats['total_links'] = len(unique_links)
-                
-            return unique_links
-        except Exception as e:
-            print(f"Ошибка в read_links: {e}")
-            return []
+        # Твой огромный список на 10к строк
+        self.source_file = source_file or os.path.join(package_dir, 'data', 'sources', 'sources.txt')
+        # Куда складываем сырые конфиги
+        self.output_file = output_file or os.path.join(package_dir, 'data', 'raw', 'raw_configs.txt')
 
     def fetch_all_configs(self):
-        links = self.read_links()
-        if not links:
+        if not os.path.exists(self.source_file):
+            print("Источники не найдены!")
             return
 
-        print(f"Начинаю скачивание. Уникальных ссылок: {len(links)}")
+        with open(self.source_file, 'r', encoding='utf-8') as f:
+            urls = [line.strip() for line in f if line.strip()]
+
+        print(f"Начинаю проверку и сбор. Ссылок в плане: {len(urls)}")
         
         all_content = []
-        success_count = 0
+        working_urls = [] # Сюда попадут только те, кто не 404
 
-        for link in links:
-            # --- МОЯ ПРОВЕРКА (Заплатка внутри монолита) ---
-            # Проверяем, является ли ссылка скачиваемой (HTTP/HTTPS)
-            if not link.lower().startswith(('http://', 'https://')):
-                # Если это сразу конфиг (vless://, hysteria2:// и т.д.), 
-                # мы просто добавляем его в общий список без скачивания
-                all_content.append(link)
+        for url in urls:
+            # Пропускаем комментарии, но сохраняем их в рабочем списке
+            if url.startswith('#'):
+                working_urls.append(url)
                 continue
-            
+
             try:
-                # Пытаемся скачать только то, что начинается на http
-                response = requests.get(link, headers=self.headers, timeout=15)
+                # Пробуем достучаться
+                response = requests.get(url, timeout=10, allow_redirects=True)
+                
                 if response.status_code == 200:
-                    content = response.text.strip()
-                    if content:
-                        all_content.append(content)
-                        success_count += 1
+                    all_content.append(response.text)
+                    working_urls.append(url) # Ссылка живая, оставляем!
+                elif response.status_code == 404:
+                    print(f"🗑 Удаляю мертвую ссылку (404): {url}")
+                    # Просто НЕ добавляем её в working_urls
                 else:
-                    print(f"Ошибка {response.status_code} для: {link}")
-            except Exception as e:
-                # Теперь эта ошибка не будет вылетать для протоколов v2ray!
-                print(f"Не удалось скачать {link}: {str(e)[:50]}")
+                    # Если ошибка временная (например, 429 или 500), пока оставим
+                    print(f"Временная проблема ({response.status_code}), оставляю: {url}")
+                    working_urls.append(url)
+            
+            except Exception:
+                print(f"⚠️ Ошибка сети, оставляю на всякий случай: {url}")
+                working_urls.append(url)
 
-        if not all_content:
-            print("Ничего не удалось собрать! Проверь источники.")
-            return
+        # --- МАГИЯ ОЧИСТКИ ---
+        # Перезаписываем твой sources.txt только живыми ссылками!
+        with open(self.source_file, 'w', encoding='utf-8') as f:
+            f.write("\n".join(working_urls))
 
-        # Создаем папку и сохраняем данные для парсера
-        package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        raw_dir = os.path.join(package_dir, 'data', 'raw')
-        os.makedirs(raw_dir, exist_ok=True)
-        raw_path = os.path.join(raw_dir, 'raw_configs.txt')
-        
-        with open(raw_path, 'w', encoding='utf-8') as f:
+        # Сохраняем добытое "сырьё"
+        os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
+        with open(self.output_file, 'w', encoding='utf-8') as f:
             f.write("\n".join(all_content))
             
-        print(f"--- Сбор завершен ---")
-        print(f"Успешно обработано {len(all_content)} элементов.")
-        print(f"Файл сохранен: {raw_path}")
+        print(f"--- Чистка завершена! ---")
+        print(f"Осталось живых ссылок: {len(working_urls)}")
+        print(f"Сырые данные сохранены в: {self.output_file}")
