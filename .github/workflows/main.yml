@@ -16,10 +16,6 @@ jobs:
         uses: actions/checkout@v4
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          fetch-depth: 0
-
-      - name: Set UTF-8
-        run: echo "PYTHONIOENCODING=utf-8" >> $GITHUB_ENV
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -27,99 +23,82 @@ jobs:
           python-version: '3.9'
 
       - name: Install dependencies
-        run: |
-          pip install requests tqdm
-          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
+        run: pip install requests
 
-      - name: Sync repository
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull origin main --rebase || echo "Already up to date"
-
-      # 🔥 УЛЬТРА-ФИЛЬТР: Разделение для v2rayN (без HTTP) и для Throne (ВСЁ)
-      - name: Filter and Split Sources
+      - name: Filter and Update Parser Sources
         run: |
           python <<EOF
+          import os
           import requests
           from concurrent.futures import ThreadPoolExecutor
-          import os
 
+          # Твой основной список ссылок
           input_file = "cleaned_urls.txt"
-          target_dir = "v2ray_config_collector/data/sources/working_configs"
-          os.makedirs(target_dir, exist_ok=True)
+          
+          # Файл, который читает твой парсер
+          parser_source = "v2ray_config_collector/data/sources/sources.txt"
+          
+          # Папка для готовых списков (all.txt и throne_proxies.txt)
+          out_dir = "v2ray_config_collector/data/sources/working_configs"
+          os.makedirs(out_dir, exist_ok=True)
 
-          # Современные протоколы (v2rayN + Throne)
-          modern = ['vmess://', 'vless://', 'trojan://', 'ss://', 'ssr://', 'hysteria', 'tuic', 'naive', 'juicity', 'shadowtls']
-          # Обычные прокси (Только Throne)
+          modern = ['vmess://', 'vless://', 'trojan://', 'ss://', 'ssr://', 'hysteria', 'tuic', 'naive', 'juicity']
           legacy = ['http://', 'https://', 'socks4://', 'socks5://']
-          banned = ['tg://proxy', 't.me/proxy']
 
-          def check_url(url):
+          def check(url):
               try:
-                  headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'}
-                  r = requests.get(url.strip(), timeout=7, headers=headers)
+                  # Проверяем живая ли ссылка (timeout 10 секунд)
+                  r = requests.get(url.strip(), timeout=10)
                   if r.status_code == 200:
-                      content = r.text.lower()
-                      if any(b in content for b in banned): return None
-                      
-                      is_modern = any(m in content for m in modern)
-                      is_legacy = any(l in content for l in legacy)
-                      
-                      if is_modern and is_legacy: return ('both', url.strip())
-                      if is_modern: return ('modern', url.strip())
-                      if is_legacy: return ('legacy', url.strip())
+                      c = r.text.lower()
+                      return (url.strip(), any(m in c for m in modern), any(l in c for l in legacy))
                   return None
-              except:
-                  return None
+              except: return None
 
           if os.path.exists(input_file):
               with open(input_file, "r", encoding="utf-8") as f:
                   urls = list(set(line.strip() for line in f if line.strip()))
               
               print(f"Checking {len(urls)} sources...")
-              with ThreadPoolExecutor(max_workers=50) as ex:
-                  results = [r for r in ex.map(check_url, urls) if r]
+              with ThreadPoolExecutor(max_workers=100) as ex:
+                  results = [r for r in ex.map(check, urls) if r]
 
-              # Для v2rayN (all.txt) - СТРОГО БЕЗ HTTP
-              v2rayn_list = [u for t, u in results if t in ['modern', 'both']]
+              # Записываем проверенные ссылки в sources.txt для парсера
+              with open(parser_source, "w", encoding="utf-8") as f:
+                  for u, m, l in results:
+                      f.write(u + "\n")
               
-              # Для Throne (throne_proxies.txt) - Включая все HTTP/SOCKS и современку
-              throne_list = [u for t, u in results if t in ['modern', 'legacy', 'both']]
+              # Список для v2rayN (БЕЗ HTTP)
+              with open(f"{out_dir}/all.txt", "w", encoding="utf-8") as f:
+                  for u, m, l in results:
+                      if m: f.write(u + "\n")
 
-              with open(f"{target_dir}/all.txt", "w", encoding="utf-8") as f:
-                  for u in v2rayn_list: f.write(u + "\n")
-              
-              with open(f"{target_dir}/throne_proxies.txt", "w", encoding="utf-8") as f:
-                  for u in throne_list: f.write(u + "\n")
+              # Список для Throne (С HTTP и всем остальным)
+              with open(f"{out_dir}/throne_proxies.txt", "w", encoding="utf-8") as f:
+                  for u, m, l in results:
+                      f.write(u + "\n")
 
-              print(f"V2rayN (all.txt): {len(v2rayn_list)}, Throne (Full): {len(throne_list)}")
-          else:
-              print("cleaned_urls.txt not found!")
+              print(f"Sources updated: {len(results)}")
           EOF
 
-      - name: Run collector
+      - name: Run Main Collector
         run: |
           cd v2ray_config_collector
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Используем наш отфильтрованный список как базу для парсера
-          cp data/sources/working_configs/all.txt data/sources/urls.txt 2>/dev/null || true
           python main.py
 
-      - name: Final cleanup
+      - name: Commit and Push changes
         run: |
-          # Удаляем дубликаты в итоговых файлах
-          for f in v2ray_config_collector/data/sources/working_configs/*.txt; do
-            [ -f "$f" ] && sort -u "$f" -o "$f"
-          done
-
-      - name: Commit and push results
-        run: |
-          TARGET_DIR="v2ray_config_collector/data/sources/working_configs"
-          git add "$TARGET_DIR/*.txt"
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          
+          # Добавляем обновленные файлы в очередь на сохранение
+          git add v2ray_config_collector/data/sources/sources.txt
+          git add v2ray_config_collector/data/sources/working_configs/*.txt
+          
+          # Если есть изменения — сохраняем и отправляем в репозиторий
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Ultra-update: Separate v2rayN (all.txt) and Throne (throne_proxies.txt)"
+            git commit -m "Direct update of sources.txt and split lists"
             git push origin main
           else
-            echo "No changes found."
+            echo "No changes found, nothing to commit."
           fi
