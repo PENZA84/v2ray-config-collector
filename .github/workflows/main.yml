@@ -2,8 +2,8 @@ name: V2Ray Config Collector - Optimized
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+  workflow_dispatch:      # Кнопка ручного запуска
 
 jobs:
   build:
@@ -20,27 +20,31 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests tqdm
+          # ОБЯЗАТЕЛЬНО добавляем pyyaml для работы парсера
+          pip install requests tqdm pyyaml 
 
-      # Запускаем наш основной процесс (main.py сам всё вызовет)
       - name: Run Collector and Validator
         run: |
           cd v2ray_config_collector
+          # Добавляем текущую папку в пути поиска модулей
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
-      # Сохраняем результат: только наш чистый файл для Throne и v2rayN
       - name: Final Push to Repository
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Добавляем файл, который создал наш validator.py
+          # Добавляем ВСЕ результаты работы:
+          # 1. Рабочие прокси (validated)
+          # 2. Список DNS (из папки unique), если он создался
           git add v2ray_config_collector/data/validated/all_valid.txt || true
+          git add v2ray_config_collector/data/unique/dns_list.txt || true
           
+          # Проверяем, есть ли что коммитить
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Update: fresh validated configs for Sing-box & Throne"
+            git commit -m "Update: fresh validated configs and DNS list"
             git push origin main
           else
-            echo "Новых рабочих прокси не найдено, отдыхаем!"
+            echo "Никаких изменений не найдено."
           fi
