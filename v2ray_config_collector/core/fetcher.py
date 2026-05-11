@@ -3,9 +3,11 @@ import requests
 
 class SourceCollector:
     def __init__(self, input_file='data/sources/sources.txt', stats_dict=None):
-        self.input_file = input_file
+        # Исправляем путь, чтобы он всегда был верным относительно корня
+        package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.input_file = input_file or os.path.join(package_dir, 'data', 'sources', 'sources.txt')
         self.stats = stats_dict if stats_dict is not None else {}
-        # Добавляем заголовки, чтобы нас не банили
+        
         self.headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
         }
@@ -17,7 +19,6 @@ class SourceCollector:
                 return []
             
             with open(self.input_file, 'r', encoding='utf-8') as f:
-                # Читаем, убираем пробелы и пустые строки
                 raw_links = [line.strip() for line in f if line.strip() and not line.startswith('#')]
             
             seen = set()
@@ -31,7 +32,6 @@ class SourceCollector:
                     seen.add(link)
                     unique_links.append(link)
 
-            # Сохраняем дубликаты, чтобы ты мог почистить sources.txt
             if duplicates:
                 dup_path = os.path.join(os.path.dirname(self.input_file), 'duplicate_URL_sources.txt')
                 with open(dup_path, 'w', encoding='utf-8') as f:
@@ -58,8 +58,16 @@ class SourceCollector:
         success_count = 0
 
         for link in links:
+            # --- МОЯ ПРОВЕРКА (Заплатка внутри монолита) ---
+            # Проверяем, является ли ссылка скачиваемой (HTTP/HTTPS)
+            if not link.lower().startswith(('http://', 'https://')):
+                # Если это сразу конфиг (vless://, hysteria2:// и т.д.), 
+                # мы просто добавляем его в общий список без скачивания
+                all_content.append(link)
+                continue
+            
             try:
-                # Добавляем timeout и headers для стабильности
+                # Пытаемся скачать только то, что начинается на http
                 response = requests.get(link, headers=self.headers, timeout=15)
                 if response.status_code == 200:
                     content = response.text.strip()
@@ -69,20 +77,22 @@ class SourceCollector:
                 else:
                     print(f"Ошибка {response.status_code} для: {link}")
             except Exception as e:
+                # Теперь эта ошибка не будет вылетать для протоколов v2ray!
                 print(f"Не удалось скачать {link}: {str(e)[:50]}")
 
         if not all_content:
-            print("Ничего не удалось скачать! Проверь интернет или ссылки.")
+            print("Ничего не удалось собрать! Проверь источники.")
             return
 
         # Создаем папку и сохраняем данные для парсера
-        os.makedirs('data/raw', exist_ok=True)
-        raw_path = 'data/raw/raw_configs.txt'
+        package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        raw_dir = os.path.join(package_dir, 'data', 'raw')
+        os.makedirs(raw_dir, exist_ok=True)
+        raw_path = os.path.join(raw_dir, 'raw_configs.txt')
         
         with open(raw_path, 'w', encoding='utf-8') as f:
-            # Склеиваем всё содержимое через новую строку
             f.write("\n".join(all_content))
             
         print(f"--- Сбор завершен ---")
-        print(f"Успешно получено данных из {success_count} источников.")
+        print(f"Успешно обработано {len(all_content)} элементов.")
         print(f"Файл сохранен: {raw_path}")
