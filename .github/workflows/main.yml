@@ -1,12 +1,9 @@
-name: Collect and Check Configs - Combined Workflow
+name: V2Ray Config Collector - Optimized
 
 on:
   schedule:
     - cron: '0 */6 * * *'
   workflow_dispatch:
-
-env:
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
@@ -14,92 +11,36 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x'
+          python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests tqdm
 
-      # 🏗 ПРОЕКТ №1: СБОРЩИК (Подготовка сырья)
-      # Он собирает базу из истории, чтобы Парсеру было с чем работать
-      - name: Run Collector Module
-        run: |
-          python <<EOF
-          import os, glob
-          working_dir = "v2ray_config_collector/data/sources/working_configs"
-          raw_output = "v2ray_config_collector/data/sources/sources.txt"
-          all_configs = set()
-          if os.path.exists(working_dir):
-              files = glob.glob(os.path.join(working_dir, "*.txt"))
-              files.sort(key=os.path.getmtime, reverse=True)
-              for f_path in files:
-                  with open(f_path, "r", encoding="utf-8") as f:
-                      all_configs.update(line.strip() for line in f if line.strip())
-          os.makedirs(os.path.dirname(raw_output), exist_ok=True)
-          with open(raw_output, "w", encoding="utf-8") as f:
-              f.write("\n".join(sorted(list(all_configs))))
-          EOF
-
-      # 🏗 ПРОЕКТ №2: ПАРСЕР (Основной процесс проверки)
-      # Исправляем ошибку "The operation was canceled" (скрин 790) через лимиты окружения, если нужно
-      - name: Run Parser Module (Main Collector)
+      # Запускаем наш основной процесс (main.py сам всё вызовет)
+      - name: Run Collector and Validator
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
-      # 🏗 ФИНАЛИЗАЦИЯ: Дробление результатов (Защита от перегрузки GitHub)
-      - name: Split and Sort Results
-        run: |
-          python <<EOF
-          import os
-          base_path = "v2ray_config_collector/data/sources"
-          results_file = os.path.join(base_path, "working_configs/all_working.txt")
-          if os.path.exists(results_file):
-              with open(results_file, "r", encoding="utf-8") as f:
-                  configs = sorted(list(set(line.strip() for line in f if line.strip())))
-              total = len(configs)
-              MAX = 500000
-              for i in range(0, total, MAX):
-                  idx = i // MAX
-                  name = "all.txt" if idx == 0 else f"all{idx}.txt"
-                  with open(os.path.join(base_path, name), "w", encoding="utf-8") as f:
-                      f.write("\n".join(configs[i:i+MAX]))
-              
-              proto_dir = os.path.join(base_path, "protocols")
-              os.makedirs(proto_dir, exist_ok=True)
-              for p in ["vless", "vmess", "trojan", "ss", "ssr", "hysteria2", "tuic"]:
-                  p_list = [c for c in configs if c.startswith(f"{p}://")]
-                  if p_list:
-                      with open(os.path.join(proto_dir, f"{p}.txt"), "w", encoding="utf-8") as f:
-                          f.write("\n".join(p_list))
-          EOF
-
-      # 🏗 ОТПРАВКА: Исправление ошибки "did not match any files" (скрин 791)
-      - name: Final Push to PENZA84
+      # Сохраняем результат: только наш чистый файл для Throne и v2rayN
+      - name: Final Push to Repository
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Явное создание структуры, чтобы Git всегда видел пути
-          mkdir -p v2ray_config_collector/data/sources/protocols/
-          touch v2ray_config_collector/data/sources/protocols/.gitkeep
+          # Добавляем файл, который создал наш validator.py
+          git add v2ray_config_collector/data/validated/all_valid.txt || true
           
-          # Добавляем всё, что создали, используя флаг --all или конкретные пути
-          git add v2ray_config_collector/data/sources/*.txt || true
-          git add v2ray_config_collector/data/sources/protocols/*.txt || true
-          
-          # Проверяем, есть ли что коммитить, чтобы избежать ошибки пустого коммита
           if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "PENZA84 Architecture: Collector & Parser sync (500k split)"
+            git commit -m "Update: fresh validated configs for Sing-box & Throne"
             git push origin main
           else
-            echo "Строительство завершено, новых данных для заливки нет."
+            echo "Новых рабочих прокси не найдено, отдыхаем!"
           fi
