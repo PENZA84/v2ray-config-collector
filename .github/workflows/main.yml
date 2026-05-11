@@ -17,20 +17,16 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
 
-      # 🐍 ШАГ С ЭСТЕТИКОЙ: Ставим самую последнюю версию Python
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.x' # GitHub сам выберет самую свежую (3.12 или 3.13)
+          python-version: '3.x'
 
       - name: Install dependencies
-        run: |
-          # Сначала обновляем pip до максимума
-          python -m pip install --upgrade pip
-          # Ставим библиотеки (tqdm теперь точно будет!)
-          pip install requests tqdm
+        run: pip install requests tqdm
 
-      - name: Filter and Update Parser Sources
+      # 🔥 ШАГ: Проверка cleaned_urls.txt и слияние с основным списком
+      - name: Merge and Clean Sources
         run: |
           python <<EOF
           import os
@@ -38,63 +34,65 @@ jobs:
           from concurrent.futures import ThreadPoolExecutor
 
           input_file = "cleaned_urls.txt"
-          parser_source = "v2ray_config_collector/data/sources/sources.txt"
-          out_dir = "v2ray_config_collector/data/sources/working_configs"
-          os.makedirs(out_dir, exist_ok=True)
+          # Тот самый файл, который реально читает парсер
+          target_file = "v2ray_config_collector/data/sources/sources.txt"
 
-          modern = ['vmess://', 'vless://', 'trojan://', 'ss://', 'ssr://', 'hysteria', 'tuic', 'naive', 'juicity']
-          legacy = ['http://', 'https://', 'socks4://', 'socks5://']
-
-          def check(url):
+          def is_alive(url):
               try:
-                  r = requests.get(url.strip(), timeout=10)
-                  if r.status_code == 200:
-                      c = r.text.lower()
-                      return (url.strip(), any(m in c for m in modern), any(l in c for l in legacy))
-                  return None
+                  r = requests.get(url.strip(), timeout=5)
+                  return url.strip() if r.status_code == 200 else None
               except: return None
 
+          # 1. Проверяем новые ссылки из твоего файла
           if os.path.exists(input_file):
               with open(input_file, "r", encoding="utf-8") as f:
-                  urls = list(set(line.strip() for line in f if line.strip()))
+                  urls_to_check = [l.strip() for l in f if l.strip()]
               
-              print(f"Checking {len(urls)} sources...")
-              with ThreadPoolExecutor(max_workers=100) as ex:
-                  results = [r for r in ex.map(check, urls) if r]
+              print(f"Checking {len(urls_to_check)} links from {input_file}...")
+              with ThreadPoolExecutor(max_workers=50) as ex:
+                  new_alive = [r for r in ex.map(is_alive, urls_to_check) if r]
+          else:
+              new_alive = []
 
-              with open(parser_source, "w", encoding="utf-8") as f:
-                  for u, m, l in results:
-                      f.write(u + "\n")
-              
-              with open(f"{out_dir}/all.txt", "w", encoding="utf-8") as f:
-                  for u, m, l in results:
-                      if m: f.write(u + "\n")
+          # 2. Читаем то, что уже было в базе
+          existing = []
+          if os.path.exists(target_file):
+              with open(target_file, "r", encoding="utf-8") as f:
+                  existing = [l.strip() for l in f if l.strip()]
 
-              with open(f"{out_dir}/throne_proxies.txt", "w", encoding="utf-8") as f:
-                  for u, m, l in results:
-                      f.write(u + "\n")
+          # 3. Соединяем, убираем дубли
+          final_list = list(set(existing + new_alive))
 
-              print(f"Sources updated: {len(results)}")
+          # 4. Сохраняем обратно в sources.txt
+          with open(target_file, "w", encoding="utf-8") as f:
+              for u in final_list:
+                  f.write(u + "\n")
+          
+          print(f"Total sources now: {len(final_list)}")
           EOF
+
+      - name: Commit Updated Sources
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add v2ray_config_collector/data/sources/sources.txt
+          git commit -m "Merged cleaned_urls.txt into sources" || echo "No changes"
+          git push origin main
 
       - name: Run Main Collector
         run: |
           cd v2ray_config_collector
-          # PYTHONPATH помогает Питону видеть твои папки как модули
           export PYTHONPATH=$PYTHONPATH:$(pwd)
+          # Теперь он точно увидит обновленный sources.txt
           python main.py
 
-      - name: Commit and Push changes
+      - name: Final Cleanup and Push Results
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          # Собираем все конфиги в один файл, как ты хотел (без дублей)
+          mkdir -p v2ray_config_collector/data/sources/working_configs
+          cat v2ray_config_collector/data/sources/working_configs/*.txt 2>/dev/null | sort | uniq > merged_all.txt
+          mv merged_all.txt v2ray_config_collector/data/sources/working_configs/all.txt
           
-          git add v2ray_config_collector/data/sources/sources.txt
           git add v2ray_config_collector/data/sources/working_configs/*.txt
-          
-          if [ -n "$(git status --porcelain)" ]; then
-            git commit -m "Direct update with Python 3.x and tqdm fixed"
-            git push origin main
-          else
-            echo "No changes found, nothing to commit."
-          fi
+          git commit -m "Update working configs" || echo "No changes"
+          git push origin main
