@@ -2,7 +2,7 @@ name: "🚀 V2Ray Завод (Парсинг)"
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Каждые 6 часов
+    - cron: '0 */6 * * *' # Автозапуск каждые 6 часов
   workflow_dispatch:      # Кнопка ручного запуска
 
 jobs:
@@ -24,39 +24,52 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests tqdm pyyaml
 
-      - name: Run Collector
+      - name: Run Collector (v2ray-config-collector)
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Запуск основного скрипта
+          # Запуск твоего основного парсера
           python main.py
 
-      - name: 🛠 Оптимизация размера и Push
+      - name: 🛠 Исправление и Оптимизация для Throne
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Скрипт-спасатель от ошибки 100МБ
           python -c "
           import os
           folder = 'v2ray_config_collector/data/validated'
           main_file = os.path.join(folder, 'all_valid.txt')
+          
+          # 1. Если парсер разбил всё на части (как на скрине 850) и удалил оригинал:
+          part1 = os.path.join(folder, 'all_valid_part1.txt')
+          if os.path.exists(part1) and not os.path.exists(main_file):
+              os.rename(part1, main_file)
+              print('♻️ Восстановил all_valid.txt из part1. Теперь Throne увидит обновления!')
+
+          # 2. Контроль размера (лимит GitHub 100MB)
           if os.path.exists(main_file):
               size_mb = os.path.getsize(main_file) / (1024 * 1024)
-              if size_mb > 95:
-                  print(f'⚠️ Файл слишком большой ({size_mb:.2f} MB). Режем!')
+              if size_mb > 90:
+                  print(f'⚠️ Файл слишком большой ({size_mb:.2f} MB). Подрезаем...')
                   with open(main_file, 'r', encoding='utf-8') as f:
                       lines = f.readlines()
-                  mid = len(lines) // 2
-                  with open(os.path.join(folder, 'all_valid_part1.txt'), 'w') as f1: f1.writelines(lines[:mid])
-                  with open(os.path.join(folder, 'all_valid_part2.txt'), 'w') as f2: f2.writelines(lines[mid:])
-                  os.remove(main_file)
+                  
+                  # Оставляем 350к строк (~60-70МБ), чтобы и Гитхаб пропустил, и Throne летал
+                  limit = 350000 
+                  with open(main_file, 'w', encoding='utf-8') as f:
+                      f.writelines(lines[:limit])
+                  
+                  # Излишки — в архивный файл
+                  with open(os.path.join(folder, 'all_valid_archive.txt'), 'w', encoding='utf-8') as f_arc:
+                      f_arc.writelines(lines[limit:])
+                  print('✅ Файл подрезан, лимиты GitHub соблюдены.')
           "
 
-          # Добавляем ПРИНУДИТЕЛЬНО (-f), игнорируя любые .gitignore
+          # Добавляем все результаты работы парсера принудительно
           git add -f v2ray_config_collector/data/validated/*.txt
           
           if ! git diff --cached --quiet; then
-            git commit -m "🚀 Завод выдал свежую базу 💋🍀"
+            git commit -m "🚀 Завод: v2ray-config-collector выдал свежую базу для Throne 💋🍀"
             git push origin main
           fi
