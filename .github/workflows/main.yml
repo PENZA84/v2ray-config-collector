@@ -1,26 +1,20 @@
-name: V2Ray Config Collector - Optimized
+name: V2Ray Config Collector
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Автозапуск каждые 6 часов
-  workflow_dispatch:      # Кнопка для ручного запуска
-
-env:
-  # Опережаем график: заставляем GitHub использовать Node.js 24 прямо сейчас
-  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        # Используем актуальные версии, совместимые с Node 24
-        uses: actions/checkout@v4 
-        with:
-          persist-credentials: true
+        # Поменяли на v4, чтобы Node.js не ругался
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        # Используем актуальные версии
+        # Поменяли на v5 для чистоты логов
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -30,30 +24,18 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests tqdm pyyaml 
 
-      - name: Run Collector and Validator
+      - name: Run Collector
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
-      - name: Final Push to Repository
+      - name: Final Push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          # Добавляем результаты (если они есть)
-          [ -f v2ray_config_collector/data/validated/all_valid.txt ] && git add -f v2ray_config_collector/data/validated/all_valid.txt
-          [ -f v2ray_config_collector/data/unique/dns_list.txt ] && git add -f v2ray_config_collector/data/unique/dns_list.txt
-          
-          # Очистка грязного файла
-          if [ -f v2ray_config_collector/data/unique/deduplicated.txt ]; then
-            echo "" > v2ray_config_collector/data/unique/deduplicated.txt
-            git add -f v2ray_config_collector/data/unique/deduplicated.txt
-          fi
-
+          git add v2ray_config_collector/data/validated/*.txt
           if ! git diff --cached --quiet; then
-            git commit -m "Update: fresh validated configs, cleaned raw data"
+            git commit -m "Update: fresh configs 💋🍀"
             git push origin main
-          else
-            echo "Изменений нет."
           fi
