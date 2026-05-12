@@ -1,60 +1,37 @@
-import requests
 import os
+import requests
+from tqdm import tqdm
 
-class SourceCollector:
-    def __init__(self, source_file=None, output_file=None):
-        package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        # Твой файл со списком 5030 источников
-        self.source_file = source_file or os.path.join(package_dir, 'data', 'sources', 'sources.txt')
-        # Куда сохраняем "улов"
-        self.output_file = output_file or os.path.join(package_dir, 'data', 'raw', 'raw_configs.txt')
+class ConfigFetcher:
+    def __init__(self, sources_file=None, output_file=None):
+        base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.sources_file = sources_file or os.path.join(base_path, 'data', 'sources', 'sources.txt')
+        self.output_file = output_file or os.path.join(base_path, 'data', 'raw', 'raw_configs.txt')
 
-    def fetch_all_configs(self):
-        if not os.path.exists(self.source_file):
-            print(f"❌ Файл источников не найден: {self.source_file}")
+    def fetch_all(self):
+        if not os.path.exists(self.sources_file):
+            print(f"❌ Файл источников не найден: {self.sources_file}")
             return
 
-        with open(self.source_file, 'r', encoding='utf-8') as f:
-            urls = [line.strip() for line in f if line.strip()]
+        with open(self.sources_file, 'r', encoding='utf-8') as f:
+            urls = [line.strip() for line in f if line.strip() and not line.startswith('#')]
 
-        print(f"🚀 Начинаю сбор. В списке: {len(urls)} ссылок.")
-        
+        if not urls:
+            print("⚠️ Список источников пуст.")
+            return
+
+        print(f"🌐 Начинаю загрузку из {len(urls)} источников...")
         all_content = []
-        clean_urls = [] 
 
-        for url in urls:
-            # Сохраняем комментарии
-            if url.startswith('#'):
-                clean_urls.append(url)
-                continue
-
+        for url in tqdm(urls, desc="Загрузка"):
             try:
-                # Уменьшил таймаут до 5 секунд для ускорения процесса
-                response = requests.get(url, timeout=5, allow_redirects=True)
-                
+                response = requests.get(url, timeout=10)
                 if response.status_code == 200:
                     all_content.append(response.text)
-                    clean_urls.append(url)
-                elif response.status_code == 404:
-                    print(f"🗑 Удаляю (404): {url}")
-                else:
-                    # Для всех остальных ошибок (500, 429) пока оставляем
-                    print(f"⚠️ Статус {response.status_code}, оставляю: {url}")
-                    clean_urls.append(url)
-            
-            except Exception:
-                # При ошибке сети оставляем ссылку, чтобы не удалить лишнее
-                print(f"📡 Тайм-аут или ошибка сети: {url}")
-                clean_urls.append(url)
+            except Exception as e:
+                continue
 
-        # Перезапись sources.txt (Генеральная уборка)
-        with open(self.source_file, 'w', encoding='utf-8') as f:
-            f.write("\n".join(clean_urls))
-
-        # ГАРАНТИЯ: Создаем папку data/raw если её нет
         os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
-        
         with open(self.output_file, 'w', encoding='utf-8') as f:
             f.write("\n".join(all_content))
-            
-        print(f"✨ Готово! Список очищен. Осталось источников: {len(clean_urls)}")
+        print(f"✅ Сырые данные сохранены в {self.output_file}")
