@@ -2,38 +2,61 @@ name: "🚀 V2Ray Завод (Парсинг)"
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
-  workflow_dispatch:
+    - cron: '0 */6 * * *' # Каждые 6 часов
+  workflow_dispatch:      # Кнопка ручного запуска
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4 # Чисто, без Node 20 Warning
+        uses: actions/checkout@v4
 
       - name: Set up Python
-        uses: actions/setup-python@v5 # Чисто и быстро
+        uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests tqdm pyyaml 
+          pip install requests tqdm pyyaml
 
       - name: Run Collector
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
+          # Запуск основного скрипта
           python main.py
 
-      - name: Final Push
+      - name: 🛠 Оптимизация размера и Push
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add v2ray_config_collector/data/validated/*.txt
+          
+          # Скрипт-спасатель от ошибки 100МБ
+          python -c "
+          import os
+          folder = 'v2ray_config_collector/data/validated'
+          main_file = os.path.join(folder, 'all_valid.txt')
+          if os.path.exists(main_file):
+              size_mb = os.path.getsize(main_file) / (1024 * 1024)
+              if size_mb > 95:
+                  print(f'⚠️ Файл слишком большой ({size_mb:.2f} MB). Режем!')
+                  with open(main_file, 'r', encoding='utf-8') as f:
+                      lines = f.readlines()
+                  mid = len(lines) // 2
+                  with open(os.path.join(folder, 'all_valid_part1.txt'), 'w') as f1: f1.writelines(lines[:mid])
+                  with open(os.path.join(folder, 'all_valid_part2.txt'), 'w') as f2: f2.writelines(lines[mid:])
+                  os.remove(main_file)
+          "
+
+          # Добавляем ПРИНУДИТЕЛЬНО (-f), игнорируя любые .gitignore
+          git add -f v2ray_config_collector/data/validated/*.txt
+          
           if ! git diff --cached --quiet; then
-            git commit -m "Update: fresh configs 💋🍀"
+            git commit -m "🚀 Завод выдал свежую базу 💋🍀"
             git push origin main
           fi
