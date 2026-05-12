@@ -5,6 +5,10 @@ on:
     - cron: '0 */6 * * *' # Автозапуск каждые 6 часов
   workflow_dispatch:      # Кнопка ручного запуска
 
+# Та самая переменная, чтобы не было предупреждений в конце парсинга
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -41,7 +45,7 @@ jobs:
           folder = 'v2ray_config_collector/data/validated'
           main_file = os.path.join(folder, 'all_valid.txt')
           
-          # 1. Если парсер разбил всё на части (как на скрине 850) и удалил оригинал:
+          # 1. Если парсер разбил всё на части и удалил оригинал:
           part1 = os.path.join(folder, 'all_valid_part1.txt')
           if os.path.exists(part1) and not os.path.exists(main_file):
               os.rename(part1, main_file)
@@ -55,7 +59,7 @@ jobs:
                   with open(main_file, 'r', encoding='utf-8') as f:
                       lines = f.readlines()
                   
-                  # Оставляем 350к строк (~60-70МБ), чтобы и Гитхаб пропустил, и Throne летал
+                  # Оставляем 350к строк, чтобы и Гитхаб пропустил, и Throne летал
                   limit = 350000 
                   with open(main_file, 'w', encoding='utf-8') as f:
                       f.writelines(lines[:limit])
