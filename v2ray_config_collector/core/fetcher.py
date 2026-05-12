@@ -28,7 +28,7 @@ class ConfigFetcher:
                 response = requests.get(url, timeout=10)
                 if response.status_code == 200:
                     all_content.append(response.text)
-            except Exception as e:
+            except Exception:
                 continue
 
         os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
