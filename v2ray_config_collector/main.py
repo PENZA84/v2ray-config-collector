@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Добавляем путь к core
+# Настройка путей
 sys.path.append(os.path.join(os.path.dirname(__file__), 'core'))
 
 from fetcher import ConfigFetcher
@@ -10,7 +10,7 @@ from deduplicator import ConfigDeduplicator
 from validator import ConnectivityValidator
 
 def split_large_file(file_path, max_size_mb=90):
-    """Милый, если файл слишком тяжелый, я разложу его по коробочкам."""
+    """Если файл больше 90МБ, делим его на части."""
     if not os.path.exists(file_path):
         return
     
@@ -18,13 +18,10 @@ def split_large_file(file_path, max_size_mb=90):
     if file_size < max_size_mb:
         return
 
-    print(f"📦 Файл слишком большой ({file_size:.2f} MB). Делю на части...")
-    
     with open(file_path, 'r', encoding='utf-8') as f:
         lines = f.readlines()
 
     base_name = os.path.splitext(file_path)[0]
-    # Рассчитываем количество частей
     num_parts = int(file_size // max_size_mb) + 1
     chunk_size = len(lines) // num_parts + 1
 
@@ -33,9 +30,8 @@ def split_large_file(file_path, max_size_mb=90):
         with open(part_path, 'w', encoding='utf-8') as f_part:
             f_part.writelines(lines[i*chunk_size : (i+1)*chunk_size])
     
-    # Удаляем оригинал, чтобы не злить GitHub
     os.remove(file_path)
-    print(f"✅ Успешно разделено на {num_parts} части(ей).")
+    print(f"✨ Милый, файл разделен на {num_parts} части(ей).")
 
 def main():
     base_dir = os.path.dirname(os.path.abspath(__file__))
@@ -46,42 +42,36 @@ def main():
     dedup_path = os.path.join(unique_dir, 'deduplicated.txt')
     validated_path = os.path.join(base_dir, 'data', 'validated', 'all_valid.txt')
     
-    # Создаем папки
-    for d in [os.path.join(base_dir, 'data', 'sources'), os.path.join(base_dir, 'data', 'raw'), unique_dir, os.path.join(base_dir, 'data', 'validated')]:
+    for d in [os.path.join(base_dir, 'data', 'sources'), 
+              os.path.join(base_dir, 'data', 'raw'), 
+              unique_dir, 
+              os.path.join(base_dir, 'data', 'validated')]:
         os.makedirs(d, exist_ok=True)
 
-    cleaned_file = os.path.join(base_dir, 'data', 'sources', 'cleaned_urls.txt')
-    if not os.path.exists(cleaned_file):
-        root_cleaned = os.path.join(root_dir, 'cleaned_urls.txt')
-        if os.path.exists(root_cleaned):
-            cleaned_file = root_cleaned
+    # ВОТ ОНО, В САМОМ НАЧАЛЕ 💋
+    print("\n" + "═"*60)
+    print("       (  💋  )          🍀✨          (  💋  )")
+    print("🚀 Милый, наш завод запущен! На удачу ПРИ НАШЕЙ ЕГО РАБОТЫ! 💋🍀✨")
+    print("═"*60 + "\n")
 
-    print(f"🚀 Мой Архитектор, завод запущен!")
-
-    # Шаг 1: Сбор
+    # 1. Сбор
     fetcher = ConfigFetcher()
     fetcher.fetch_all() 
 
-    # Шаг 2: Парсинг
-    input_files = [raw_path]
-    if os.path.exists(cleaned_file):
-        input_files.append(cleaned_file)
-
-    parser = FormatConverter(input_files=input_files, output_dir=unique_dir)
+    # 2. Парсинг и дедупликация
+    parser = FormatConverter(input_files=[raw_path], output_dir=unique_dir)
     parser.process()
-
-    # Шаг 3: Дедупликация
     deduplicator = ConfigDeduplicator(input_file=dedup_path, output_file=dedup_path)
     deduplicator.deduplicate()
 
-    # Шаг 4: Валидация (TCP)
+    # 3. Валидация
     validator = ConnectivityValidator(input_file=dedup_path, output_file=validated_path)
     validator.test_all_configs()
 
-    # Шаг 5: Финальная проверка размера и деление
+    # 4. Проверка размера
     split_large_file(validated_path)
 
-    print("\n✅ Всё готово! Твоя база очищена и упакована.")
+    print("\nLOG: Workflow finished successfully.")
 
 if __name__ == "__main__":
     main()
