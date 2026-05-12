@@ -1,104 +1,80 @@
-name: 🧹 Сортировка и очистка источников
+name: Source Cleaner
 
 on:
-  workflow_dispatch: # Запускаешь сам кнопкой Run workflow
+  workflow_dispatch:
 
 jobs:
-  sort_sources:
+  clean:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4 # Node 24 ready
+      - name: Checkout
+        uses: actions/checkout@v4
 
-      - name: Set up Python
+      - name: Setup Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
 
-      - name: Install dependencies
+      - name: Install
         run: pip install requests
 
-      - name: 🔄 Умная сортировка: Живое в sources, дубли в архив
+      - name: Sort and Clean
         run: |
           python <<EOF
           import requests
           from concurrent.futures import ThreadPoolExecutor
           import os
 
-          # ТВОИ ПРАВИЛЬНЫЕ ПУТИ
           SRC = "v2ray_config_collector/data/sources/sources.txt"
           ARCHIVE = "cleaned_urls.txt"
 
           def is_alive(url):
               try:
-                  # Проверяем на "живость" (статус 200 и наличие контента)
-                  r = requests.get(url, timeout=7, stream=True, headers={'User-Agent': 'Mozilla/5.0'})
-                  if r.status_code == 200:
-                      return True
+                  r = requests.get(url, timeout=5, stream=True, headers={'User-Agent': 'Mozilla/5.0'})
+                  return r.status_code == 200
               except:
-                  pass
-              return False
-
-          # 1. Загружаем архив (черный список), чтобы знать, что мы уже видели
-          archive_set = set()
-          if os.path.exists(ARCHIVE):
-              with open(ARCHIVE, "r", encoding="utf-8") as f:
-                  archive_set = set(line.strip() for line in f if line.strip())
+                  return False
 
           if os.path.exists(SRC):
               with open(SRC, "r", encoding="utf-8") as f:
-                  # Читаем все строки из sources.txt
                   input_urls = [line.strip() for line in f if line.strip()]
               
-              print(f"📡 Анализирую {len(input_urls)} ссылок...")
-              
-              to_stay_in_sources = [] # Сюда только новые живые оригиналы
-              to_move_to_archive = [] # Сюда мертвые и любые дубли
-              
-              # Сет для отслеживания уникальности внутри текущего запуска
-              seen_this_run = set()
+              archive_set = set()
+              if os.path.exists(ARCHIVE):
+                  with open(ARCHIVE, "r", encoding="utf-8") as f:
+                      archive_set = set(line.strip() for line in f if line.strip())
+
+              to_stay = []
+              to_archive = []
+              seen = set()
 
               for url in input_urls:
-                  # Правило 1: Если ссылка уже в архиве — переносим в архив (как дубль/старье)
-                  if url in archive_set:
-                      to_move_to_archive.append(url)
+                  if url in archive_set or url in seen:
+                      to_archive.append(url)
                       continue
-                  
-                  # Правило 2: Если такая же ссылка уже встретилась в этом списке — в архив (дубль)
-                  if url in seen_this_run:
-                      to_move_to_archive.append(url)
-                      continue
-
-                  # Правило 3: Проверяем на живучесть
                   if is_alive(url):
-                      # Если живая и новая — оставляем в sources.txt для завода
-                      to_stay_in_sources.append(url)
-                      seen_this_run.add(url)
+                      to_stay.append(url)
+                      seen.add(url)
                   else:
-                      # Мертвая — отправляем в архив
-                      to_move_to_archive.append(url)
+                      to_archive.append(url)
 
-              # Обновляем sources.txt — теперь тут только свежее рабочее топливо (без дублей!)
               with open(SRC, "w", encoding="utf-8") as f:
-                  for url in to_stay_in_sources:
+                  for url in to_stay:
                       f.write(url + "\n")
               
-              # Дописываем мусор и все повторы в архив (cleaned_urls.txt)
-              if to_move_to_archive:
-                  with open(ARCHIVE, "a", encoding="utf-8") as f:
-                      for url in to_move_to_archive:
-                          f.write(url + "\n")
-
-              print(f"✅ В sources.txt ОСТАЛОСЬ уникальных живых: {len(to_stay_in_sources)}")
-              print(f"📦 В архив (cleaned_urls.txt) ПЕРЕНЕСЕНО: {len(to_move_to_archive)}")
+              with open(ARCHIVE, "a", encoding="utf-8") as f:
+                  for url in to_archive:
+                      f.write(url + "\n")
           EOF
 
-      - name: Commit and Push
+      - name: Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add .
           if ! git diff --cached --quiet; then
-            git commit -m "🧹 Порядок наведен: одна ссылка — один шанс! 💋🍀"
+            git commit -m "🧹 Чистка базы выполнена 💋🍀"
             git push origin main
           fi
