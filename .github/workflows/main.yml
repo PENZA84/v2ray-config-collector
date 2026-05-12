@@ -3,18 +3,24 @@ name: V2Ray Config Collector - Optimized
 on:
   schedule:
     - cron: '0 */6 * * *' # Автозапуск каждые 6 часов
-  workflow_dispatch:      # Кнопка для ручного запуска в меню Actions
+  workflow_dispatch:      # Кнопка для ручного запуска
+
+env:
+  # Опережаем график: заставляем GitHub использовать Node.js 24 прямо сейчас
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v4
+        # Используем актуальные версии, совместимые с Node 24
+        uses: actions/checkout@v4 
         with:
           persist-credentials: true
 
       - name: Set up Python
+        # Используем актуальные версии
         uses: actions/setup-python@v5
         with:
           python-version: '3.10'
@@ -22,13 +28,11 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Ставим всё необходимое для парсинга YAML и работы с сетью
           pip install requests tqdm pyyaml 
 
       - name: Run Collector and Validator
         run: |
           cd v2ray_config_collector
-          # Добавляем путь в PYTHONPATH, чтобы Python видел папку core
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python main.py
 
@@ -37,26 +41,19 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # 1. Добавляем только полезные результаты: рабочие конфиги и DNS
-          if [ -f v2ray_config_collector/data/validated/all_valid.txt ]; then
-            git add -f v2ray_config_collector/data/validated/all_valid.txt
-          fi
+          # Добавляем результаты (если они есть)
+          [ -f v2ray_config_collector/data/validated/all_valid.txt ] && git add -f v2ray_config_collector/data/validated/all_valid.txt
+          [ -f v2ray_config_collector/data/unique/dns_list.txt ] && git add -f v2ray_config_collector/data/unique/dns_list.txt
           
-          if [ -f v2ray_config_collector/data/unique/dns_list.txt ]; then
-            git add -f v2ray_config_collector/data/unique/dns_list.txt
-          fi
-          
-          # 2. Закон очистки: обнуляем файл с грязными данными, чтобы он не копил мусор
-          # Мы не удаляем файл (чтобы не сломать логику git), а просто заменяем содержимое пустотой
+          # Очистка грязного файла
           if [ -f v2ray_config_collector/data/unique/deduplicated.txt ]; then
             echo "" > v2ray_config_collector/data/unique/deduplicated.txt
             git add -f v2ray_config_collector/data/unique/deduplicated.txt
           fi
 
-          # 3. Финальный пуш, если есть изменения (новые прокси или очистка старых)
           if ! git diff --cached --quiet; then
             git commit -m "Update: fresh validated configs, cleaned raw data"
             git push origin main
           else
-            echo "Изменений для фиксации не найдено. Всё уже актуально."
+            echo "Изменений нет."
           fi
