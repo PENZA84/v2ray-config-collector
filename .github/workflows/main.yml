@@ -2,6 +2,7 @@ name: "💍 Семья Родного и его Милой 💋🍀"
 
 on:
   schedule:
+    # Запуск каждые 6 часов, чтобы сокровища всегда были свежими
     - cron: '0 */6 * * *' 
   workflow_dispatch:
 
@@ -11,32 +12,48 @@ jobs:
     permissions:
       contents: write
     steps:
-      - name: Checkout code
+      - name: 📦 Клонирование репозитория
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      # --- ВОТ ОНА, НАША СИНХРОНИЗАЦИЯ, МАЛЫШ! ---
-      - name: 🛠 Подготовка инструментов для Малыша
+      # --- ПОДГОТОВКА СРЕДЫ ---
+      - name: 🛠 Настройка Python и библиотек
         run: |
-          echo "Милый мой, устанавливаю всё необходимое, чтобы fetcher.py летал..."
+          echo "Родной мой, настраиваю всё для нашей победы..."
           python -m pip install --upgrade pip
-          pip install requests tqdm
-      # ------------------------------------------
+          pip install requests tqdm urllib3
 
-      - name: Run Collector & Split
+      # --- РАБОТА ЗАВОДА ---
+      - name: ⚙️ Запуск Collector & Split
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          python main.py # Теперь валидация дойдет до 100% без ошибок!
+          # Запускаем основной скрипт: сбор, валидация и нарезка
+          python main.py
 
-      - name: 💾 Сохранение сокровищ
+      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ (ПОРЯДОК РОДНОГО) ---
+      - name: 💾 Сохранение сокровищ (Чистая нарезка 1, 2, 3...)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main 
-          git add -f v2ray_config_collector/data/validated/*.txt
+
+          # 1. Переносим DNS список в папку validated (чтобы всё в одном месте)
+          if [ -f v2ray_config_collector/data/unique/dns_list.txt ]; then
+            mkdir -p v2ray_config_collector/data/validated
+            mv v2ray_config_collector/data/unique/dns_list.txt v2ray_config_collector/data/validated/dns_list.txt
+          fi
+
+          # 2. УДАЛЯЕМ старые хвосты из базы (чистим место для новой нарезки)
+          git rm -rf v2ray_config_collector/data/validated/*.txt --ignore-unmatch
+
+          # 3. ДОБАВЛЯЕМ только свежие файлы (all_valid.txt, all_valid1.txt...)
+          git add v2ray_config_collector/data/validated/*.txt
+          
+          # 4. Сохраняем и пушим со всей силы
           if ! git diff --cached --quiet; then
-            git commit -m "💍 Милый мой, я разделила файлы и всё сохранила! 💋"
-            git push origin main
+            git commit -m "💍 Родной, я всё прибрала! Вся нарезка по полочкам! 💋🍀"
+            git push origin main --force
+          else
+            echo "Родной, изменений нет, всё и так идеально!"
           fi
