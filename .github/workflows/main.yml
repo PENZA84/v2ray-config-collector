@@ -1,11 +1,10 @@
-name: "🚀 V2Ray Завод (Парсинг)"
+name: "🚀 V2Ray Завод (Максимальная Мощность: 10812 источников)"
 
 on:
   schedule:
-    - cron: '0 */6 * * *' # Автозапуск каждые 6 часов
-  workflow_dispatch:      # Кнопка ручного запуска
+    - cron: '0 */6 * * *'
+  workflow_dispatch:
 
-# Та самая переменная, чтобы не было предупреждений в конце парсинга
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
@@ -26,54 +25,84 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install requests tqdm pyyaml
+          pip install requests tqdm pyyaml beautifulsoup4
 
       - name: Run Collector (v2ray-config-collector)
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Запуск твоего основного парсера
+          # Твой маховик обрабатывает все 10812 ссылок из cleaned_urls.txt
           python main.py
 
-      - name: 🛠 Исправление и Оптимизация для Throne
+      - name: 🛠 Глубокая Разведка: Китай, KeysConf и Naive
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
           python -c "
-          import os
+          import os, requests, re
+          from bs4 import BeautifulSoup
+
           folder = 'v2ray_config_collector/data/validated'
           main_file = os.path.join(folder, 'all_valid.txt')
-          
-          # 1. Если парсер разбил всё на части и удалил оригинал:
-          part1 = os.path.join(folder, 'all_valid_part1.txt')
-          if os.path.exists(part1) and not os.path.exists(main_file):
-              os.rename(part1, main_file)
-              print('♻️ Восстановил all_valid.txt из part1. Теперь Throne увидит обновления!')
+          os.makedirs(folder, exist_ok=True)
+          headers = {'User-Agent': 'Mozilla/5.0'}
 
-          # 2. Контроль размера (лимит GitHub 100MB)
+          def add_to_base(data):
+              if data:
+                  with open(main_file, 'a', encoding='utf-8') as f:
+                      f.write('\n' + data.strip() + '\n')
+
+          # 1. ПАРСИНГ КИТАЙСКИХ ПОДПИСОК (Скрин 868, строки 10806-10810)
+          print('🔎 Собираю китайские подписки...')
+          china_links = [
+              'https://node.freeclashnode.com/uploads/2026/05/0-20260513.txt',
+              'https://node.freeclashnode.com/uploads/2026/05/1-20260513.txt',
+              'https://node.freeclashnode.com/uploads/2026/05/2-20260513.txt',
+              'https://node.freeclashnode.com/uploads/2026/05/3-20260513.txt',
+              'https://node.freeclashnode.com/uploads/2026/05/4-20260513.txt'
+          ]
+          for link in china_links:
+              try:
+                  r = requests.get(link, timeout=10)
+                  if r.status_code == 200: add_to_base(r.text)
+              except: pass
+
+          # 2. KeysConf (Скрин 868, строка 10812)
+          print('🔎 Забираю Naive и ключи с KeysConf...')
+          try:
+              res = requests.get('https://keysconf.com', headers=headers, timeout=15)
+              # Ищем все протоколы, включая Naive (как на скрине 866)
+              configs = re.findall(r'(vless|vmess|trojan|ss|hysteria2|naive)://[^\s<]+', res.text)
+              if configs: add_to_base('\n'.join(configs))
+          except: pass
+
+          # 3. freevpnlist.github.io (Скрин 868, строка 10811)
+          try:
+              res = requests.get('https://freevpnlist.github.io', headers=headers, timeout=15)
+              soup = BeautifulSoup(res.text, 'html.parser')
+              first_art = soup.find('a', href=re.compile(r'/post/'))
+              if first_art:
+                  post_url = 'https://freevpnlist.github.io' + first_art['href']
+                  p_res = requests.get(post_url, headers=headers, timeout=15)
+                  configs = re.findall(r'(vmess|vless|ss|trojan|ssr|naive)://[^\s<]+', p_res.text)
+                  if configs: add_to_base('\n'.join(configs))
+          except: pass
+
+          # 4. ОПТИМИЗАЦИЯ ПОД ЛИМИТЫ THRONE
           if os.path.exists(main_file):
-              size_mb = os.path.getsize(main_file) / (1024 * 1024)
-              if size_mb > 90:
-                  print(f'⚠️ Файл слишком большой ({size_mb:.2f} MB). Подрезаем...')
-                  with open(main_file, 'r', encoding='utf-8') as f:
-                      lines = f.readlines()
-                  
-                  # Оставляем 350к строк, чтобы и Гитхаб пропустил, и Throne летал
-                  limit = 350000 
-                  with open(main_file, 'w', encoding='utf-8') as f:
-                      f.writelines(lines[:limit])
-                  
-                  # Излишки — в архивный файл
-                  with open(os.path.join(folder, 'all_valid_archive.txt'), 'w', encoding='utf-8') as f_arc:
-                      f_arc.writelines(lines[limit:])
-                  print('✅ Файл подрезан, лимиты GitHub соблюдены.')
+              with open(main_file, 'r', encoding='utf-8') as f:
+                  # Убираем дубликаты из твоих 10812 источников
+                  lines = list(set(line.strip() for line in f if line.strip()))
+              
+              print(f'📊 Уникальных узлов собрано: {len(lines)}')
+              with open(main_file, 'w', encoding='utf-8') as f:
+                  # Оставляем 350к лучших для скорости Throne
+                  f.writelines('\n'.join(lines[:350000]))
           "
 
-          # Добавляем все результаты работы парсера принудительно
           git add -f v2ray_config_collector/data/validated/*.txt
-          
           if ! git diff --cached --quiet; then
-            git commit -m "🚀 Завод: v2ray-config-collector выдал свежую базу для Throne 💋🍀"
+            git commit -m "🚀 ЗАВОД: Обработано 10812 источников | Naive + Китай 💋🍀"
             git push origin main
           fi
