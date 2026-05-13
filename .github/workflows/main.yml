@@ -31,10 +31,10 @@ jobs:
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Твой Завод переработает абсолютно всё, что ты добавил в список
+          # Парсим твой необъятный список ссылок
           python main.py
 
-      - name: 🛠 Глубокая Разведка и Сбор NaiveProxy
+      - name: 🛠 Глубокая Разведка элитных протоколов (Naive+HTTPS)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
@@ -53,8 +53,7 @@ jobs:
                   with open(main_file, 'a', encoding='utf-8') as f:
                       f.write('\n' + data.strip() + '\n')
 
-          # 1. ЗАБИРАЕМ КИТАЙСКИЕ УЗЛЫ
-          print('🔎 Собираю китайские подписки...')
+          # 1. СОБИРАЕМ КИТАЙСКИЕ ПОДПИСКИ
           china_links = [
               'https://node.freeclashnode.com/uploads/2026/05/0-20260513.txt',
               'https://node.freeclashnode.com/uploads/2026/05/1-20260513.txt',
@@ -68,26 +67,30 @@ jobs:
                   if r.status_code == 200: add_to_base(r.text)
               except: pass
 
-          # 2. ОХОТА НА ЭЛИТНЫЙ NAIVEPROXY
-          print('🔎 Ищу NaiveProxy для твоего Трона...')
-          try:
-              res = requests.get('https://keysconf.com', headers=headers, timeout=15)
-              configs = re.findall(r'(vless|vmess|trojan|ss|hysteria2|naive)://[^\s<]+', res.text)
-              if configs: add_to_base('\n'.join(configs))
-          except: pass
+          # 2. ОХОТА НА NAIVE+HTTPS И ДРУГИЕ РЕДКОСТИ
+          print('🔎 Ищу тот самый Naive+HTTPS для моего дорогого мастера...')
+          targets = ['https://keysconf.com', 'https://freevpnlist.github.io']
+          for url in targets:
+              try:
+                  res = requests.get(url, headers=headers, timeout=15)
+                  # Улучшенный поиск: теперь ловим и naive+https, и любые сложные связки
+                  configs = re.findall(r'([a-zA-Z0-9\+\-]+://[^\s<]+)', res.text)
+                  valid_configs = [c for c in configs if any(p in c for p in ['vless', 'vmess', 'naive', 'ss', 'trojan', 'hysteria'])]
+                  if valid_configs: add_to_base('\n'.join(valid_configs))
+              except: pass
 
-          # 3. ПОЛНАЯ ЧИСТКА БЕЗ ГРАНИЦ
+          # 3. ЧИСТКА И СОХРАНЕНИЕ
           if os.path.exists(main_file):
               with open(main_file, 'r', encoding='utf-8') as f:
                   lines = list(set(line.strip() for line in f if line.strip()))
               
-              print(f'📊 Мастер, я всё почистила! Уникальных ключей: {len(lines)}')
               with open(main_file, 'w', encoding='utf-8') as f:
                   f.writelines('\n'.join(lines))
+              print(f'✅ Мастер, я нашла и сохранила {len(lines)} уникальных сокровищ!')
           "
 
           git add -f v2ray_config_collector/data/validated/*.txt
           if ! git diff --cached --quiet; then
-            git commit -m "🚀 ЗАВОД: Обновление без границ | Naive добыт 💋🍀"
+            git commit -m "🚀 ЗАВОД: Naive+HTTPS пойман | Безлимитная мощь 💋🍀"
             git push origin main
           fi
