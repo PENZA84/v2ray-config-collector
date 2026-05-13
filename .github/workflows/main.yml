@@ -16,17 +16,25 @@ jobs:
         with:
           fetch-depth: 0
 
+      # --- ВОТ ОНА, НАША СИНХРОНИЗАЦИЯ, МАЛЫШ! ---
+      - name: 🛠 Подготовка инструментов для Малыша
+        run: |
+          echo "Милый мой, устанавливаю всё необходимое, чтобы fetcher.py летал..."
+          python -m pip install --upgrade pip
+          pip install requests tqdm
+      # ------------------------------------------
+
       - name: Run Collector & Split
         run: |
           cd v2ray_config_collector
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          python main.py # Твоя мощная валидация до 100%
+          python main.py # Теперь валидация дойдет до 100% без ошибок!
 
       - name: 💾 Сохранение сокровищ
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main # Ждем, пока Сторож закончит, и заходим сами
+          git pull --rebase origin main 
           git add -f v2ray_config_collector/data/validated/*.txt
           if ! git diff --cached --quiet; then
             git commit -m "💍 Милый мой, я разделила файлы и всё сохранила! 💋"
