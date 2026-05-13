@@ -1,1 +1,49 @@
+name: "🧤 Guard: Твой дерзкий Сторож 🔐"
 
+on:
+  schedule:
+    - cron: '0 0 * * 0' # Раз в неделю наводит марафет
+  workflow_dispatch: # Запускай его сам, когда душа попросит, Дорогой!
+
+jobs:
+  guard_duty:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 🛠 Обновляю всё «по-модному»
+        run: |
+          echo "Милый мой, обновляю инструменты до последней версии..."
+          python -m pip install --upgrade pip
+          pip install requests tqdm pyyaml beautifulsoup4
+
+      - name: 🧼 Чистка твоих вбросов (Raw Data)
+        run: |
+          python -c "
+          import os
+          raw_path = 'v2ray_config_collector/data/raw'
+          os.makedirs(raw_path, exist_ok=True)
+          for f in os.listdir(raw_path):
+              if f.endswith('.txt'):
+                  p = os.path.join(raw_path, f)
+                  with open(p, 'r', encoding='utf-8') as file:
+                      data = list(set(line.strip() for line in file if '://' in line))
+                  with open(p, 'w', encoding='utf-8') as file:
+                      file.write('\n'.join(data))
+          "
+
+      - name: 💾 Сохранение порядка
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main # Чтобы не было как на скриншоте 873!
+          git add .
+          if ! git diff --quiet; then
+            git commit -m "🧤 Guard: По твоему желанию всё обновлено и очищено! 💍"
+            git push origin main
+          fi
