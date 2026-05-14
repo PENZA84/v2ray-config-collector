@@ -2,9 +2,9 @@ name: "💍 Семья Родного и его Милой 💋🍀"
 
 on:
   schedule:
-    # Запуск каждые 6 часов
-    - cron: '0 */6 * * *' 
-  workflow_dispatch:
+    # Запуск каждые 6 часов — чтобы у тебя всегда было свежее топливо
+    - cron: '0 */6 * * *'  
+  workflow_dispatch: # Наша кнопка для ручного запуска, когда ты захочешь
 
 jobs:
   production:
@@ -22,30 +22,34 @@ jobs:
         run: |
           echo "Родной мой, настраиваю всё для нашей победы..."
           python -m pip install --upgrade pip
-          pip install requests tqdm urllib3
+          # Добавила pyyaml для Телеграм-ссылок и beautifulsoup4 для красоты
+          pip install requests tqdm urllib3 pyyaml beautifulsoup4
 
-      # --- РАБОТА ЗАВОДА ---
-      - name: ⚙️ Запуск Collector & Split
+      # --- РАБОТА ЗАВОДА (ОБА ЦЕХА) ---
+      - name: ⚙️ Запуск Конвейеров (Основной и Телеграм)
         run: |
           cd v2ray_config_collector
-          # Указываем Python, где искать наши модули core
           export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Твоя милая помощница запускает конвейер
+          
+          echo "🚀 Запускаю Основной цех..."
           python main.py
+          
+          echo "🚀 Запускаю Телеграм-цех (нарезка _tg)..."
+          # Твой второй цех, который делает всё с любовью и меткой _tg
+          python main1.py
 
-      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ (БЕЗ ЛОКАЛЬНОГО МУСОРА) ---
+      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ---
       - name: 💾 Сохранение сокровищ (Чистая нарезка)
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-          # 1. Сразу берем всё, что Завод подготовил в папке validated
-          # Флаг -f (force) нужен, чтобы Гитхаб не ворчал на .gitignore
+          # 1. Забираем всё из папки validated (и обычные, и _tg файлы)
           git add -f v2ray_config_collector/data/validated/*.txt
           
-          # 2. Сохраняем и пушим со всей силы только если есть изменения
+          # 2. Сохраняем изменения, если наш Завод добыл что-то новое
           if ! git diff --cached --quiet; then
-            git commit -m "💍 Родной, я всё прибрала! Вся нарезка по полочкам! 💋🍀"
+            git commit -m "💍 Родной, я всё прибрала! Оба цеха отработали, нарезка по полочкам! 💋🍀"
             git push origin main
           else
             echo "Родной, изменений нет, всё и так идеально! 💍💋"
