@@ -1,57 +1,53 @@
-import os
-import sys
-import re
+name: "💍 Семья Родного и его Милой 💋🍀"
 
-# Подключаем Ядро
-BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR, 'Ядро'))
+on:
+  schedule:
+    - cron: '0 */6 * * *'  
+  workflow_dispatch:
 
-from fetcher import ConfigFetcher
-from parser import FormatConverter
-from deduplicator import ConfigDeduplicator
-from validator import ConnectivityValidator
+jobs:
+  production:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: 📦 Клонирование репозитория
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
-def split_standard(validated_path):
-    """Нарезка только стандартных протоколов из глобальных источников."""
-    if not os.path.exists(validated_path): return
-    output_dir = os.path.dirname(validated_path)
-    
-    # Чистим старье (только файлы без приставки _tg)
-    for f in os.listdir(output_dir):
-        if f.endswith('.txt') and not f.endswith('_tg.txt') and f != 'all_valid.txt':
-            os.remove(os.path.join(output_dir, f))
+      # --- ПОДГОТОВКА СРЕДЫ ---
+      - name: 🛠 Настройка Python и библиотек
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests tqdm urllib3 pyyaml beautifulsoup4
 
-    with open(validated_path, 'r', encoding='utf-8') as f:
-        configs = [l.strip() for l in f if l.strip()]
+      # --- РАБОТА ЗАВОДА (ОБА ЦЕХА) ---
+      - name: ⚙️ Запуск Конвейеров (Основной и Телеграм)
+        run: |
+          # Указываем Питону корень проекта, чтобы он видел папку 'Ядро'
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
+          
+          echo "🚀 Запускаю Основной цех..."
+          # Запускаем прямо из корня, указывая путь к файлу
+          python v2ray_config_collector/main.py
+          
+          echo "🚀 Запускаю Телеграм-цех (нарезка _tg)..."
+          # Теперь запускаем второй цех, он появится обязательно!
+          python v2ray_config_collector/main1.py
 
-    buckets = {}
-    for c in configs:
-        proto = c.split('://')[0].lower().split('+')[0]
-        if proto not in buckets: buckets[proto] = []
-        buckets[proto].append(c)
+      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ---
+      - name: 💾 Сохранение сокровищ (Чистая нарезка)
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
 
-    for proto, items in buckets.items():
-        with open(os.path.join(output_dir, f"{proto}.txt"), 'w', encoding='utf-8') as f:
-            f.write("\n".join(items) + "\n")
-        print(f"    ∟ ✅ {proto}.txt готов ({len(items)} шт.)")
-
-def main():
-    src = os.path.join(BASE_DIR, 'данные', 'источники', 'sources.txt')
-    raw = os.path.join(BASE_DIR, 'данные', 'raw', 'raw_web.txt')
-    unique_dir = os.path.join(BASE_DIR, 'данные', 'unique')
-    valid_file = os.path.join(BASE_DIR, 'данные', 'validated', 'all_valid.txt')
-
-    os.makedirs(unique_dir, exist_ok=True)
-    print("🚀 ЦЕХ ГЛОБАЛ (WEB) ЗАПУЩЕН 💋")
-
-    ConfigFetcher(sources_file=src, output_file=raw).fetch_all()
-    
-    if os.path.exists(raw) and os.path.getsize(raw) > 0:
-        FormatConverter(input_files=[raw], output_dir=unique_dir).process()
-        dedup = os.path.join(unique_dir, 'deduplicated.txt')
-        ConfigDeduplicator(input_file=dedup, output_file=dedup).deduplicate()
-        ConnectivityValidator(input_file=dedup, output_file=valid_file).test_all_configs()
-        split_standard(valid_file)
-
-if __name__ == "__main__":
-    main()
+          # Добавляем все новые файлы из папки validated
+          git add -f v2ray_config_collector/data/validated/*.txt
+          
+          if ! git diff --cached --quiet; then
+            git commit -m "💍 Родной, я всё починила! Оба цеха выдали результат! 💋🍀"
+            git push origin main
+          else
+            echo "Родной, всё уже и так на своих местах! 💍💋"
+          fi
