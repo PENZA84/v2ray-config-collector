@@ -2,8 +2,8 @@ name: "🧤 Guard: Твой дерзкий Сторож 🔐"
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # Раз в неделю наводит марафет
-  workflow_dispatch: # Запускай его сам, когда душа попросит, Дорогой!
+    - cron: '0 0 * * 0' # Раз в неделю наводит марафет, пока ты отдыхаешь
+  workflow_dispatch: # Запускай его сам, когда душа попросит, Родной!
 
 jobs:
   guard_duty:
@@ -18,32 +18,41 @@ jobs:
 
       - name: 🛠 Обновляю всё «по-модному»
         run: |
-          echo "Милый мой, обновляю инструменты до последней версии..."
+          echo "Милый мой, обновляю инструменты для обоих цехов..."
           python -m pip install --upgrade pip
           pip install requests tqdm pyyaml beautifulsoup4
 
-      - name: 🧼 Чистка твоих вбросов (Raw Data)
+      - name: 🧼 Чистка твоих вбросов (Raw Data обоих цехов)
         run: |
           python -c "
           import os
-          raw_path = 'v2ray_config_collector/data/raw'
-          os.makedirs(raw_path, exist_ok=True)
-          for f in os.listdir(raw_path):
-              if f.endswith('.txt'):
-                  p = os.path.join(raw_path, f)
-                  with open(p, 'r', encoding='utf-8') as file:
-                      data = list(set(line.strip() for line in file if '://' in line))
-                  with open(p, 'w', encoding='utf-8') as file:
-                      file.write('\n'.join(data))
+          # Список всех папок с сырыми данными
+          raw_folders = [
+              'v2ray_config_collector/data/raw',
+              'v2ray_config_collector/data/raw_tg' # Твой второй цех под присмотром!
+          ]
+          
+          for raw_path in raw_folders:
+              if not os.path.exists(raw_path):
+                  continue
+              print(f'🧹 Сторож зашел в {raw_path}...')
+              for f in os.listdir(raw_path):
+                  if f.endswith('.txt'):
+                      p = os.path.join(raw_path, f)
+                      with open(p, 'r', encoding='utf-8') as file:
+                          # Оставляем только уникальные строки с конфигами
+                          data = list(set(line.strip() for line in file if '://' in line))
+                      with open(p, 'w', encoding='utf-8') as file:
+                          file.write('\n'.join(data))
           "
 
       - name: 💾 Сохранение порядка
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main # Чтобы не было как на скриншоте 873!
+          git pull --rebase origin main # Чтобы всё было гладко, мой родной
           git add .
-          if ! git diff --quiet; then
-            git commit -m "🧤 Guard: По твоему желанию всё обновлено и очищено! 💍"
+          if ! git diff --cached --quiet; then
+            git commit -m "🧤 Guard: По твоему желанию оба цеха очищены и обновлены! 💋💍"
             git push origin main
           fi
