@@ -1,8 +1,9 @@
 import os
 import sys
 import re
+import shutil
 
-# Определяем корень как место, где лежит этот скрипт (v2ray_config_collector)
+# Устанавливаем базу относительно этого скрипта
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'core'))
 
@@ -12,14 +13,20 @@ try:
     from deduplicator import ConfigDeduplicator
     from validator import ConnectivityValidator
 except ImportError as e:
-    print(f"❌ Ошибка импорта: {e}. Проверь, что папка 'core' на месте.")
+    print(f"❌ Ошибка импорта: {e}")
 
 def split_by_protocols(validated_path):
-    """Нарезка проверенных конфигов по протоколам (vless, vmess и т.д.)"""
+    """Нарезка конфигов. Чистим папку перед созданием новых файлов."""
     if not os.path.exists(validated_path):
         return
     
     output_dir = os.path.dirname(validated_path)
+    
+    # УДАЛЯЕМ старые файлы протоколов, чтобы нарезка была свежей
+    for f in os.listdir(output_dir):
+        if f.endswith('.txt') and f != 'all_valid.txt':
+            os.remove(os.path.join(output_dir, f))
+
     with open(validated_path, 'r', encoding='utf-8') as f:
         configs = [line.strip() for line in f if line.strip()]
 
@@ -29,7 +36,6 @@ def split_by_protocols(validated_path):
     for config in configs:
         match = re.match(proto_pattern, config)
         if match:
-            # vless+reality -> vless
             proto = match.group(1).lower().split('+')[0]
             if proto not in buckets: buckets[proto] = []
             buckets[proto].append(config)
@@ -42,56 +48,46 @@ def split_by_protocols(validated_path):
         print(f"    ∟ ✅ {proto_name}.txt готов ({len(items)} шт.)")
 
 def main():
-    # ПУТИ ДЛЯ ГИТХАБА (Никакой воды, только структура репо)
-    # Твой файл со ссылками: v2ray_config_collector/data/sources/sources.txt
+    # ПУТИ ДЛЯ ГИТХАБА (всё внутри структуры репо)
     sources_path = os.path.join(BASE_DIR, 'data', 'sources', 'sources.txt')
-    
-    # Временные пути для работы конвейера на Гитхабе
     raw_path = os.path.join(BASE_DIR, 'data', 'raw', 'raw_configs.txt')
     unique_dir = os.path.join(BASE_DIR, 'data', 'unique')
     dedup_path = os.path.join(unique_dir, 'deduplicated.txt')
     validated_path = os.path.join(BASE_DIR, 'data', 'validated', 'all_valid.txt')
     
-    # Создаем папки прямо в облаке GitHub Actions
+    # Создаем структуру папок на лету
     for folder in [os.path.dirname(raw_path), unique_dir, os.path.dirname(validated_path)]:
         os.makedirs(folder, exist_ok=True)
 
-    print("\n" + "═"*60)
-    print("🚀 ЗАВОД PENZA84: ГИТХАБ-КОНВЕЙЕР ЗАПУЩЕН 💋🍀✨")
-    print("═"*60 + "\n")
+    print("\n🚀 ЗАВОД PENZA84: ГИТХАБ-КОНВЕЙЕР ЗАПУЩЕН 💋🍀")
 
-    # Проверяем, положил ли ты ссылки в sources.txt
     if not os.path.exists(sources_path):
-        print(f"❌ Родной, я не вижу твоих ссылок в {sources_path}")
+        print(f"❌ Родной, я не вижу источников в {sources_path}")
         return
 
-    # Шаг 1: Сбор (Fetcher берет ссылки из sources.txt)
-    print(f"📥 Шаг 1: Собираю мясо из источников...")
+    # 1. Сбор
     fetcher = ConfigFetcher(sources_file=sources_path, output_file=raw_path)
     fetcher.fetch_all() 
 
     if not os.path.exists(raw_path) or os.path.getsize(raw_path) == 0:
-        print("⚠️ Ничего не скачалось. Проверь ссылки в sources.txt")
+        print("⚠️ Пусто в баке. Проверь sources.txt")
         return
 
-    # Шаг 2: Чистка
-    print("🧹 Шаг 2: Парсинг и удаление дублей...")
+    # 2. Обработка
     parser = FormatConverter(input_files=[raw_path], output_dir=unique_dir)
     parser.process()
     
     deduplicator = ConfigDeduplicator(input_file=dedup_path, output_file=dedup_path)
     deduplicator.deduplicate()
 
-    # Шаг 3: Проверка
-    print("⚡ Шаг 3: Валидация (проверяю на годность)...")
+    # 3. Валидация
     validator = ConnectivityValidator(input_file=dedup_path, output_file=validated_path)
     validator.test_all_configs()
 
-    # Шаг 4: Нарезка
-    print("✂️ Шаг 4: Раскладываю по файлам протоколов...")
+    # 4. Нарезка
     split_by_protocols(validated_path)
 
-    print("\n🍀 Родной, Завод на Гитхабе всё исполнил! 💋💍")
+    print("\n🍀 Родной, всё готово! 💋💍")
 
 if __name__ == "__main__":
     main()
