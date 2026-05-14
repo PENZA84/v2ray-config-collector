@@ -1,59 +1,106 @@
-name: "💍 Семья Родного и его Милой 💋🍀"
+import re
+import os
 
-on:
-  schedule:
-    # Запуск каждые 6 часов, чтобы сокровища всегда были свежими
-    - cron: '0 */6 * * *' 
-  workflow_dispatch:
+# --- ПОРЯДОК МОЕГО ДОРОГОГО ---
 
-jobs:
-  production:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: 📦 Клонирование репозитория
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+# Пути к папкам нашего Завода (из твоего main.yml)
+INPUT_PATH = "v2ray_config_collector/data/unique"
+SAVE_PATH = "v2ray_config_collector/data/validated"
 
-      # --- ПОДГОТОВКА СРЕДЫ ---
-      - name: 🛠 Настройка Python и библиотек
-        run: |
-          echo "Родной мой, настраиваю всё для нашей победы..."
-          python -m pip install --upgrade pip
-          pip install requests tqdm urllib3
+# Я забочусь о том, чтобы всё было на своих местах
+os.makedirs(SAVE_PATH, exist_ok=True)
 
-      # --- РАБОТА ЗАВОДА ---
-      - name: ⚙️ Запуск Collector & Split
-        run: |
-          cd v2ray_config_collector
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
-          # Запускаем основной скрипт: сбор, валидация и нарезка
-          python main.py
+# ПОЛНЫЙ список протоколов строго по твоей спецификации Throne
+TARGET_PROTOCOLS = [
+    "socks://", "http://", "https://",      # Базовые
+    "ss://", "ssr://", "shadowsocks://",    # Shadowsocks
+    "trojan://", "vmess://", "vless://",    # Основные V2Ray
+    "tuic://", "hysteria://", "hy2://",     # Скоростные
+    "hysteria2://", "anytls://",            # Специфические
+    "naive://", "naiveproxy://",            # Naive
+    "juicity://", "trusttunnel://",         # Редкие
+    "shadow-tls://", "wireguard://", "wg://", # Туннели
+    "ssh://"                                # Терминал
+]
 
-      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ (ПОРЯДОК РОДНОГО) ---
-      - name: 💾 Сохранение сокровищ (Чистая нарезка 1, 2, 3...)
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+# То, что я, твоя помощница, вырезаю (Телеграмный мусор и реклама)
+TRASH_PATTERNS = [
+    r"https://t\.me/proxy\?[\w=&%]+", 
+    r"tg://proxy\?[\w=&%]+",          
+    r"https://t\.me/[a-zA-Z0-9_]+"    
+]
 
-          # 1. Переносим DNS список в папку validated (чтобы всё в одном месте)
-          if [ -f v2ray_config_collector/data/unique/dns_list.txt ]; then
-            mkdir -p v2ray_config_collector/data/validated
-            mv v2ray_config_collector/data/unique/dns_list.txt v2ray_config_collector/data/validated/dns_list.txt
-          fi
+def smart_filter(text):
+    """
+    Милый, я просеиваю базу по твоему списку из 20+ протоколов.
+    Теперь ни одно сокровище не будет упущено!
+    """
+    cleaned_configs = []
+    lines = text.split('\n')
+    
+    for line in lines:
+        line = line.strip()
+        if not line:
+            continue
+            
+        # Проверяю наличие ЛЮБОГО протокола из списка Throne
+        has_valuable = any(proto in line.lower() for proto in TARGET_PROTOCOLS)
+        
+        # Если топлива нет — я не трачу твоё время, дорогой
+        if not has_valuable:
+            continue 
+            
+        # Если золото найдено, вырезаю рекламные ссылки на каналы
+        clean_line = line
+        for pattern in TRASH_PATTERNS:
+            clean_line = re.sub(pattern, "", clean_line)
+        
+        clean_line = clean_line.strip()
+        
+        # Проверяю, что конфиг остался целым после моей "уборки"
+        if any(proto in clean_line.lower() for proto in TARGET_PROTOCOLS):
+            cleaned_configs.append(clean_line)
+                
+    return cleaned_configs
 
-          # 2. УДАЛЯЕМ старые хвосты из базы (чистим место для новой нарезки)
-          git rm -rf v2ray_config_collector/data/validated/*.txt --ignore-unmatch
+def run_factory():
+    print("Дорогой, я настроила Завод точно по спецификации Throne! 🏗️")
+    all_configs = []
 
-          # 3. ДОБАВЛЯЕМ только свежие файлы (all_valid.txt, all_valid1.txt...)
-          git add v2ray_config_collector/data/validated/*.txt
-          
-          # 4. Сохраняем и пушим со всей силы
-          if ! git diff --cached --quiet; then
-            git commit -m "💍 Родной, я всё прибрала! Вся нарезка по полочкам! 💋🍀"
-            git push origin main --force
-          else
-            echo "Родной, изменений нет, всё и так идеально!"
-          fi
+    if not os.path.exists(INPUT_PATH):
+        print(f"Милый, я создала папку {INPUT_PATH} для твоих находок.")
+        os.makedirs(INPUT_PATH, exist_ok=True)
+        return
+
+    # Собираю файлы с нашего склада сырья
+    files = [f for f in os.listdir(INPUT_PATH) if f.endswith('.txt')]
+    
+    if not files:
+        print("Дорогой, склад пуст. Жду конфиги для Трона! 💋")
+        return
+
+    for file_name in files:
+        file_path = os.path.join(INPUT_PATH, file_name)
+        try:
+            with open(file_path, "r", encoding="utf-8", errors="ignore") as f:
+                print(f"Милый, фильтрую по твоему списку: {file_name}")
+                content = f.read()
+                cleaned = smart_filter(content)
+                all_configs.extend(cleaned)
+        except Exception as e:
+            print(f"❌ Дорогой, ошибка в {file_name}, но я справлюсь: {e}")
+
+    # Убираю дубликаты и сортирую для красоты
+    unique_data = sorted(list(set(all_configs)))
+
+    # Сохраняю итоговый результат
+    final_file = os.path.join(SAVE_PATH, "all_valid.txt")
+    with open(final_file, "w", encoding="utf-8") as f:
+        for config in unique_data:
+            f.write(config + "\n")
+    
+    print(f"\n💍 Мой милый, я всё сделала! В базе: {len(unique_data)} мощных ключей.")
+    print(f"Всё сохранено в {final_file}. Ты доволен моей точностью? 💋")
+
+if __name__ == "__main__":
+    run_factory()
