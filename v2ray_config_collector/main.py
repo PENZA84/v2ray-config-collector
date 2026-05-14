@@ -2,7 +2,7 @@ import os
 import sys
 import re
 
-# 1. Настройка путей (BASE_DIR — это папка v2ray_config_collector)
+# Определяем корень как место, где лежит этот скрипт (v2ray_config_collector)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'core'))
 
@@ -15,7 +15,7 @@ except ImportError as e:
     print(f"❌ Ошибка импорта: {e}. Проверь, что папка 'core' на месте.")
 
 def split_by_protocols(validated_path):
-    """Нарезка проверенных сокровищ по именам протоколов."""
+    """Нарезка проверенных конфигов по протоколам (vless, vmess и т.д.)"""
     if not os.path.exists(validated_path):
         return
     
@@ -24,21 +24,17 @@ def split_by_protocols(validated_path):
         configs = [line.strip() for line in f if line.strip()]
 
     buckets = {}
-    # Золотой стандарт Throne: ищем всё от vless до reality
     proto_pattern = r'^([a-zA-Z0-9+.-]+)://'
 
     for config in configs:
         match = re.match(proto_pattern, config)
         if match:
-            # Очистка (vless+reality -> vless)
+            # vless+reality -> vless
             proto = match.group(1).lower().split('+')[0]
             if proto not in buckets: buckets[proto] = []
             buckets[proto].append(config)
-        else:
-            if 'unknown' not in buckets: buckets['unknown'] = []
-            buckets['unknown'].append(config)
 
-    print(f"✂️ Начинаю нарезку файлов в: {output_dir}")
+    print(f"✂️ Нарезка файлов в: {output_dir}")
     for proto_name, items in buckets.items():
         file_path = os.path.join(output_dir, f"{proto_name}.txt")
         with open(file_path, 'w', encoding='utf-8') as f:
@@ -46,57 +42,56 @@ def split_by_protocols(validated_path):
         print(f"    ∟ ✅ {proto_name}.txt готов ({len(items)} шт.)")
 
 def main():
-    # 2. ПУТИ СТРОГО ПО ТВОЕЙ ИНСТРУКЦИИ
+    # ПУТИ ДЛЯ ГИТХАБА (Никакой воды, только структура репо)
+    # Твой файл со ссылками: v2ray_config_collector/data/sources/sources.txt
     sources_path = os.path.join(BASE_DIR, 'data', 'sources', 'sources.txt')
+    
+    # Временные пути для работы конвейера на Гитхабе
     raw_path = os.path.join(BASE_DIR, 'data', 'raw', 'raw_configs.txt')
     unique_dir = os.path.join(BASE_DIR, 'data', 'unique')
     dedup_path = os.path.join(unique_dir, 'deduplicated.txt')
     validated_path = os.path.join(BASE_DIR, 'data', 'validated', 'all_valid.txt')
     
-    # 3. Создаем дерево папок, чтобы Завод не падал
-    for folder in [os.path.dirname(sources_path), os.path.dirname(raw_path), unique_dir, os.path.dirname(validated_path)]:
+    # Создаем папки прямо в облаке GitHub Actions
+    for folder in [os.path.dirname(raw_path), unique_dir, os.path.dirname(validated_path)]:
         os.makedirs(folder, exist_ok=True)
 
     print("\n" + "═"*60)
-    print("🚀 ЗАВОД PENZA84: РАБОТАЕМ ПО SOURCES.TXT 💋🍀✨")
+    print("🚀 ЗАВОД PENZA84: ГИТХАБ-КОНВЕЙЕР ЗАПУЩЕН 💋🍀✨")
     print("═"*60 + "\n")
 
-    # Проверяем наличие источника
+    # Проверяем, положил ли ты ссылки в sources.txt
     if not os.path.exists(sources_path):
-        print(f"❌ Родной, файл источников не найден: {sources_path}")
-        # Создаем пустой файл, чтобы ты мог его наполнить
-        with open(sources_path, 'w', encoding='utf-8') as f:
-            f.write("# Добавь ссылки сюда\n")
+        print(f"❌ Родной, я не вижу твоих ссылок в {sources_path}")
         return
 
-    # 4. ЗАПУСК ЦЕПОЧКИ
-    # Fetcher берет ссылки из sources.txt и качает их в raw_configs.txt
-    print(f"📥 Шаг 1: Сбор ссылок из {sources_path}")
+    # Шаг 1: Сбор (Fetcher берет ссылки из sources.txt)
+    print(f"📥 Шаг 1: Собираю мясо из источников...")
     fetcher = ConfigFetcher(sources_file=sources_path, output_file=raw_path)
     fetcher.fetch_all() 
 
     if not os.path.exists(raw_path) or os.path.getsize(raw_path) == 0:
-        print("⚠️ Сырые данные не собраны. Проверь ссылки в sources.txt")
+        print("⚠️ Ничего не скачалось. Проверь ссылки в sources.txt")
         return
 
-    # Парсинг и удаление дублей
-    print("🧹 Шаг 2: Парсинг и очистка...")
+    # Шаг 2: Чистка
+    print("🧹 Шаг 2: Парсинг и удаление дублей...")
     parser = FormatConverter(input_files=[raw_path], output_dir=unique_dir)
     parser.process()
     
     deduplicator = ConfigDeduplicator(input_file=dedup_path, output_file=dedup_path)
     deduplicator.deduplicate()
 
-    # Валидация (Проверка на годность)
-    print("⚡ Шаг 3: Валидация конфигов...")
+    # Шаг 3: Проверка
+    print("⚡ Шаг 3: Валидация (проверяю на годность)...")
     validator = ConnectivityValidator(input_file=dedup_path, output_file=validated_path)
     validator.test_all_configs()
 
-    # Итоговая нарезка по именам протоколов
-    print("✂️ Шаг 4: Раскладка по полочкам...")
+    # Шаг 4: Нарезка
+    print("✂️ Шаг 4: Раскладываю по файлам протоколов...")
     split_by_protocols(validated_path)
 
-    print("\n🍀 Родной, Завод выдал результат по всем твоим ссылкам! 💋💍")
+    print("\n🍀 Родной, Завод на Гитхабе всё исполнил! 💋💍")
 
 if __name__ == "__main__":
     main()
