@@ -1,50 +1,50 @@
 import os
 import sys
 
-# Получаем абсолютный путь к папке, где лежит этот файл (main.py)
+# 1. НАСТРОЙКА ПУТЕЙ (Чтобы Питон видел папку core)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+# Добавляем саму папку проекта в поиск Питона
+sys.path.insert(0, BASE_DIR)
 
-# Четко указываем путь к папке Ядро, которая лежит рядом
-CORE_PATH = os.path.join(BASE_DIR, 'Ядро')
-
-# Добавляем в систему поиска Питона
-if CORE_PATH not in sys.path:
-    sys.path.insert(0, CORE_PATH)
-    sys.path.insert(0, BASE_DIR)
-
+# Пытаемся импортировать модули из папки core
 try:
-    from fetcher import ConfigFetcher
-    from parser import FormatConverter
-    from deduplicator import ConfigDeduplicator
-    from validator import ConnectivityValidator
+    from core.fetcher import SourceCollector
+    from core.parser import FormatConverter
+    from core.deduplicator import ConfigDeduplicator
+    from core.validator import ConnectivityValidator
 except ImportError as e:
-    print(f"CRITICAL ERROR: {e}")
-    print(f"I am here: {BASE_DIR}")
-    print(f"Looking for core in: {CORE_PATH}")
+    print(f"ОШИБКА ИМПОРТА: {e}")
+    print(f"Я нахожусь в: {BASE_DIR}")
+    print("Содержимое папки:", os.listdir(BASE_DIR))
     raise
 
 def main():
-    print("START MAIN PROCESS")
+    title1 = "V2Ray Config Collector"
+    print(title1)
+    print("=" * len(title1))
     
-    # Пути к данным внутри твоей папки
-    data_dir = os.path.join(BASE_DIR, 'данные')
-    src = os.path.join(data_dir, 'источники', 'sources.txt')
-    raw = os.path.join(data_dir, 'raw', 'raw.txt')
-    unique_dir = os.path.join(data_dir, 'unique')
-    valid_file = os.path.join(data_dir, 'validated', 'all_valid.txt')
-
-    os.makedirs(unique_dir, exist_ok=True)
-    os.makedirs(os.path.dirname(valid_file), exist_ok=True)
-
-    ConfigFetcher(sources_file=src, output_file=raw).fetch_all()
+    # Сбор данных
+    collector = SourceCollector()
+    collector.fetch_all_configs()
     
-    if os.path.exists(raw) and os.path.getsize(raw) > 0:
-        FormatConverter(input_files=[raw], output_dir=unique_dir).process()
-        dedup = os.path.join(unique_dir, 'deduplicated.txt')
-        if os.path.exists(dedup):
-            ConfigDeduplicator(input_file=dedup, output_file=dedup).deduplicate()
-            ConnectivityValidator(input_file=dedup, output_file=valid_file).test_all_configs()
-            print("FINISH SUCCESS")
+    title2 = "Convert proxy configurations to JSON format"
+    print(title2)
+    print("=" * len(title2))
+    converter = FormatConverter()
+    converter.convert_configs()
+    
+    title3 = "Remove duplicate configurations"
+    print(title3)
+    print("=" * len(title3))
+    deduplicator = ConfigDeduplicator()
+    deduplicator.process()
+    
+    title4 = "Tests TCP connectivity of proxy configurations"
+    print(title4)
+    print("=" * len(title4))
+    validator = ConnectivityValidator()
+    validator.test_all_configs()
+    print("✅ ВСЁ ГОТОВО, МОЙ РОДНОЙ!")
 
 if __name__ == "__main__":
     main()
