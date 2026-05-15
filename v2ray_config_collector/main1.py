@@ -2,7 +2,11 @@ import os
 import sys
 
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-sys.path.append(os.path.join(BASE_DIR, 'Ядро'))
+CORE_PATH = os.path.join(BASE_DIR, 'Ядро')
+
+if CORE_PATH not in sys.path:
+    sys.path.insert(0, CORE_PATH)
+    sys.path.insert(0, BASE_DIR)
 
 try:
     from fetcher import ConfigFetcher
@@ -10,11 +14,7 @@ try:
     from deduplicator import ConfigDeduplicator
     from validator import ConnectivityValidator
 except ImportError:
-    sys.path.append(os.path.join(os.getcwd(), 'v2ray_config_collector', 'Ядро'))
-    from fetcher import ConfigFetcher
-    from parser import FormatConverter
-    from deduplicator import ConfigDeduplicator
-    from validator import ConnectivityValidator
+    raise
 
 def split_telegram(valid_file):
     if not os.path.exists(valid_file): return
