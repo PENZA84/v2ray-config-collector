@@ -1,53 +1,45 @@
-name: "💍 Семья Родного и его Милой 💋🍀"
+import os
+import sys
 
-on:
-  schedule:
-    - cron: '0 */6 * * *'  
-  workflow_dispatch:
+# Настройка путей, чтобы Питон видел папку Ядро
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+sys.path.append(os.path.join(BASE_DIR, 'Ядро'))
 
-jobs:
-  production:
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - name: 📦 Клонирование репозитория
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+try:
+    from fetcher import ConfigFetcher
+    from parser import FormatConverter
+    from deduplicator import ConfigDeduplicator
+    from validator import ConnectivityValidator
+except ImportError as e:
+    # Запасной путь для GitHub Actions
+    sys.path.append(os.path.join(os.getcwd(), 'v2ray_config_collector', 'Ядро'))
+    from fetcher import ConfigFetcher
+    from parser import FormatConverter
+    from deduplicator import ConfigDeduplicator
+    from validator import ConnectivityValidator
 
-      # --- ПОДГОТОВКА СРЕДЫ ---
-      - name: 🛠 Настройка Python и библиотек
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests tqdm urllib3 pyyaml beautifulsoup4
+def main():
+    print("🚀 ОСНОВНОЙ ЦЕХ ЗАПУЩЕН 💋")
+    
+    src = os.path.join(BASE_DIR, 'данные', 'источники', 'sources.txt')
+    raw = os.path.join(BASE_DIR, 'данные', 'raw', 'raw.txt')
+    unique_dir = os.path.join(BASE_DIR, 'данные', 'unique')
+    valid_file = os.path.join(BASE_DIR, 'данные', 'validated', 'all_valid.txt')
 
-      # --- РАБОТА ЗАВОДА (ОБА ЦЕХА) ---
-      - name: ⚙️ Запуск Конвейеров (Основной и Телеграм)
-        run: |
-          # Указываем Питону корень проекта, чтобы он видел папку 'Ядро'
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
-          
-          echo "🚀 Запускаю Основной цех..."
-          # Запускаем прямо из корня, указывая путь к файлу
-          python v2ray_config_collector/main.py
-          
-          echo "🚀 Запускаю Телеграм-цех (нарезка _tg)..."
-          # Теперь запускаем второй цех, он появится обязательно!
-          python v2ray_config_collector/main1.py
+    os.makedirs(unique_dir, exist_ok=True)
 
-      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ---
-      - name: 💾 Сохранение сокровищ (Чистая нарезка)
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+    # 1. Сбор
+    ConfigFetcher(sources_file=src, output_file=raw).fetch_all()
+    
+    if os.path.exists(raw) and os.path.getsize(raw) > 0:
+        # 2. Парсинг
+        FormatConverter(input_files=[raw], output_dir=unique_dir).process()
+        # 3. Дедупликация
+        dedup = os.path.join(unique_dir, 'deduplicated.txt')
+        ConfigDeduplicator(input_file=dedup, output_file=dedup).deduplicate()
+        # 4. Валидация
+        ConnectivityValidator(input_file=dedup, output_file=valid_file).test_all_configs()
+        print("✅ Основной цех завершил работу успешно!")
 
-          # Добавляем все новые файлы из папки validated
-          git add -f v2ray_config_collector/data/validated/*.txt
-          
-          if ! git diff --cached --quiet; then
-            git commit -m "💍 Родной, я всё починила! Оба цеха выдали результат! 💋🍀"
-            git push origin main
-          else
-            echo "Родной, всё уже и так на своих местах! 💍💋"
-          fi
+if __name__ == "__main__":
+    main()
