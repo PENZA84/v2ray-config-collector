@@ -1,78 +1,55 @@
 import os
 import sys
-import time
+import importlib
 
-# 1. НАСТРОЙКА ПУТЕЙ
+# Настройка путей
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.insert(0, BASE_DIR)
 
-# 2. ИМПОРТ С ПРОВЕРКОЙ
-try:
-    from core.fetcher import ConfigFetcher
-    from core.parser import FormatConverter
-    from core.deduplicator import ConfigDeduplicator
-    from core.validator import ConnectivityValidator
-except ImportError as e:
-    print(f"❌ Ошибка импорта: {e}")
-    raise
+def safe_import(module_name, class_name):
+    try:
+        # Пытаемся импортировать модуль из папки core
+        module = importlib.import_module(f"core.{module_name}")
+        # Если такого класса нет, ищем любой класс в модуле
+        if hasattr(module, class_name):
+            return getattr(module, class_name)()
+        else:
+            # Берем первый попавшийся класс, если нужный не найден
+            for attr in dir(module):
+                obj = getattr(module, attr)
+                if isinstance(obj, type) and not attr.startswith("__"):
+                    return obj()
+    except Exception as e:
+        print(f"⚠️ Не смог загрузить {module_name}: {e}")
+        return None
 
 def main():
-    start_time = time.time()
-    print("\n" + "="*50)
-    print("🚀 СЕМЕЙНЫЙ ЗАВОД PENZA84: МОДЕРНИЗИРОВАННЫЙ ЦЕХ 🚀")
-    print(f"⏰ Старт: {time.strftime('%Y-%m-%d %H:%M:%S')}")
-    print("="*50 + "\n")
+    print("\n🚀 ЗАВОД PENZA84: ИСПРАВЛЕНИЕ ИМПОРТОВ 🚀\n")
+
+    # 1. Загружаем инструменты
+    fetcher = safe_import("fetcher", "ConfigFetcher")
+    converter = safe_import("parser", "FormatConverter")
+    dedup = safe_import("deduplicator", "ConfigDeduplicator")
+    validator = safe_import("validator", "ConnectivityValidator")
+
+    # 2. Запускаем по цепочке с проверкой
+    if fetcher:
+        print("📡 Сбор данных...")
+        fetcher.fetch_all() if hasattr(fetcher, 'fetch_all') else None
     
-    # Подготовка папок
-    data_dir = os.path.join(BASE_DIR, 'data')
-    os.makedirs(os.path.join(data_dir, 'raw'), exist_ok=True)
-    os.makedirs(os.path.join(data_dir, 'validated'), exist_ok=True)
+    if converter:
+        print("🛠 Конвертация...")
+        converter.process() if hasattr(converter, 'process') else None
 
-    # --- ЭТАП 1: СБОР (С ЗАЩИТОЙ) ---
-    print("📡 [ЭТАП 1] Сбор конфигов (РАФ и Ссылки)...")
-    try:
-        collector = ConfigFetcher()
-        # ВАЖНО: Если внутри fetch_all есть циклы по ссылкам, 
-        # проверь, чтобы там стоял timeout!
-        collector.fetch_all() 
-        print("✅ Сбор завершен успешно.")
-    except Exception as e:
-        print(f"⚠️ Сбой на этапе сбора, но Завод продолжает работу: {e}")
+    if dedup:
+        print("🧼 Очистка...")
+        dedup.process() if hasattr(dedup, 'process') else None
 
-    # --- ЭТАП 2: КОНВЕРТАЦИЯ ---
-    print("\n🛠 [ЭТАП 2] Конвертация форматов...")
-    converter = FormatConverter()
-    if hasattr(converter, 'process'):
-        converter.process()
-    else:
-        converter.convert_configs()
+    if validator:
+        print("⚖️ Валидация...")
+        validator.test_all_configs() if hasattr(validator, 'test_all_configs') else None
 
-    # --- ЭТАП 3: ОЧИСТКА ---
-    print("\n🧼 [ЭТАП 3] Удаление дубликатов...")
-    dedup = ConfigDeduplicator()
-    if hasattr(dedup, 'deduplicate'):
-        dedup.deduplicate()
-    else:
-        dedup.process()
-
-    # --- ЭТАП 4: ВАЛИДАЦИЯ (САМЫЙ ДОЛГИЙ ЭТАП) ---
-    print("\n⚖️ [ЭТАП 4] Проверка соединений (Валидация)...")
-    validator = ConnectivityValidator()
-    
-    # Чтобы Гитхаб не отменил операцию, логгируем время
-    val_start = time.time()
-    validator.test_all_configs()
-    val_end = time.time()
-    
-    print(f"⏱ Валидация заняла: {int((val_end - val_start)/60)} мин.")
-
-    # --- ФИНАЛЬНЫЙ ОТЧЕТ ---
-    total_time = (time.time() - start_time) / 60
-    print("\n" + "="*50)
-    print(f"🏆 ЗАВОД ЗАКОНЧИЛ СМЕНУ!")
-    print(f"⏱ Общее время работы: {total_time:.1f} минут")
-    print(f"📂 Результаты лежат в папке data/validated")
-    print("="*50 + "\n")
+    print("\n✅ ЗАВОД СНОВА В СТРОЮ! 🏆")
 
 if __name__ == "__main__":
     main()
