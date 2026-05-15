@@ -1,7 +1,7 @@
 import os
 import sys
 
-# Настройка путей, чтобы Питон видел папку Ядро
+# Настройка путей
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 sys.path.append(os.path.join(BASE_DIR, 'Ядро'))
 
@@ -10,7 +10,7 @@ try:
     from parser import FormatConverter
     from deduplicator import ConfigDeduplicator
     from validator import ConnectivityValidator
-except ImportError as e:
+except ImportError:
     # Запасной путь для GitHub Actions
     sys.path.append(os.path.join(os.getcwd(), 'v2ray_config_collector', 'Ядро'))
     from fetcher import ConfigFetcher
@@ -19,14 +19,15 @@ except ImportError as e:
     from validator import ConnectivityValidator
 
 def main():
-    print("🚀 ОСНОВНОЙ ЦЕХ ЗАПУЩЕН 💋")
+    print("START MAIN PROCESS")
     
     src = os.path.join(BASE_DIR, 'данные', 'источники', 'sources.txt')
     raw = os.path.join(BASE_DIR, 'данные', 'raw', 'raw.txt')
     unique_dir = os.path.join(BASE_DIR, 'данные', 'unique')
     valid_file = os.path.join(BASE_DIR, 'данные', 'validated', 'all_valid.txt')
 
-    os.makedirs(unique_dir, exist_ok=True)
+    if not os.path.exists(unique_dir):
+        os.makedirs(unique_dir, exist_ok=True)
 
     # 1. Сбор
     ConfigFetcher(sources_file=src, output_file=raw).fetch_all()
@@ -39,7 +40,7 @@ def main():
         ConfigDeduplicator(input_file=dedup, output_file=dedup).deduplicate()
         # 4. Валидация
         ConnectivityValidator(input_file=dedup, output_file=valid_file).test_all_configs()
-        print("✅ Основной цех завершил работу успешно!")
+        print("FINISH SUCCESS")
 
 if __name__ == "__main__":
     main()
