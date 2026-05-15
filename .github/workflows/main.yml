@@ -1,53 +1,38 @@
-name: "💍 Семья Родного и его Милой 💋🍀"
+name: 🏆 Глобальный Завод PENZA84 🏆
 
 on:
-  schedule:
-    - cron: '0 */6 * * *'  
+  push:
+    branches: [ main ]
   workflow_dispatch:
 
 jobs:
   production:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
-      - name: 📦 Клонирование репозитория
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
+      - name: 📂 Копируем код из репозитория
+        uses: actions/checkout@v3
 
-      # --- ПОДГОТОВКА СРЕДЫ ---
-      - name: 🛠 Настройка Python и библиотек
+      - name: 🐍 Устанавливаем Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: 📦 УСТАНОВКА БИБЛИОТЕК (YAML, tqdm, requests)
         run: |
           python -m pip install --upgrade pip
-          pip install requests tqdm urllib3 pyyaml beautifulsoup4
+          pip install pyyaml requests tqdm urllib3
+          # Теперь YAML точно будет на месте!
 
-      # --- РАБОТА ЗАВОДА (ОБА ЦЕХА) ---
-      - name: ⚙️ Запуск Конвейеров (Основной и Телеграм)
+      - name: 🚀 ЗАПУСК ОСНОВНОГО ЦЕХА
         run: |
-          # Указываем Питону корень проекта, чтобы он видел папку 'Ядро'
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
-          
-          echo "🚀 Запускаю Основной цех..."
-          # Запускаем прямо из корня, указывая путь к файлу
+          # Добавляем путь, чтобы Python видел папку core
+          export PYTHONPATH=$PYTHONPATH:$(pwd)
           python v2ray_config_collector/main.py
-          
-          echo "🚀 Запускаю Телеграм-цех (нарезка _tg)..."
-          # Теперь запускаем второй цех, он появится обязательно!
-          python v2ray_config_collector/main1.py
 
-      # --- СОХРАНЕНИЕ РЕЗУЛЬТАТОВ ---
-      - name: 💾 Сохранение сокровищ (Чистая нарезка)
+      - name: 💾 СОХРАНЕНИЕ РЕЗУЛЬТАТОВ
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-          # Добавляем все новые файлы из папки validated
-          git add -f v2ray_config_collector/data/validated/*.txt
-          
-          if ! git diff --cached --quiet; then
-            git commit -m "💍 Родной, я всё починила! Оба цеха выдали результат! 💋🍀"
-            git push origin main
-          else
-            echo "Родной, всё уже и так на своих местах! 💍💋"
-          fi
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add data/
+          git commit -m "📦 Обновление базы: $(date)" || echo "Нет изменений"
+          git push
