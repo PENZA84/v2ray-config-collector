@@ -1,31 +1,37 @@
 import os
 import sys
 
-# Настройка путей специально под твою структуру GitHub
+# Получаем абсолютный путь к папке, где лежит этот файл (main.py)
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-# Добавляем путь к папке Ядро, которая лежит рядом с main.py
-sys.path.append(os.path.join(BASE_DIR, 'Ядро'))
+
+# Четко указываем путь к папке Ядро, которая лежит рядом
+CORE_PATH = os.path.join(BASE_DIR, 'Ядро')
+
+# Добавляем в систему поиска Питона
+if CORE_PATH not in sys.path:
+    sys.path.insert(0, CORE_PATH)
+    sys.path.insert(0, BASE_DIR)
 
 try:
     from fetcher import ConfigFetcher
     from parser import FormatConverter
     from deduplicator import ConfigDeduplicator
     from validator import ConnectivityValidator
-except ImportError:
-    # Если запуск идет из корня репозитория
-    sys.path.append(os.path.join(os.getcwd(), 'v2ray_config_collector', 'Ядро'))
-    from fetcher import ConfigFetcher
-    from parser import FormatConverter
-    from deduplicator import ConfigDeduplicator
-    from validator import ConnectivityValidator
+except ImportError as e:
+    print(f"CRITICAL ERROR: {e}")
+    print(f"I am here: {BASE_DIR}")
+    print(f"Looking for core in: {CORE_PATH}")
+    raise
 
 def main():
     print("START MAIN PROCESS")
-    # Пути к данным внутри твоей папки v2ray_config_collector
-    src = os.path.join(BASE_DIR, 'данные', 'источники', 'sources.txt')
-    raw = os.path.join(BASE_DIR, 'данные', 'raw', 'raw.txt')
-    unique_dir = os.path.join(BASE_DIR, 'данные', 'unique')
-    valid_file = os.path.join(BASE_DIR, 'данные', 'validated', 'all_valid.txt')
+    
+    # Пути к данным внутри твоей папки
+    data_dir = os.path.join(BASE_DIR, 'данные')
+    src = os.path.join(data_dir, 'источники', 'sources.txt')
+    raw = os.path.join(data_dir, 'raw', 'raw.txt')
+    unique_dir = os.path.join(data_dir, 'unique')
+    valid_file = os.path.join(data_dir, 'validated', 'all_valid.txt')
 
     os.makedirs(unique_dir, exist_ok=True)
     os.makedirs(os.path.dirname(valid_file), exist_ok=True)
