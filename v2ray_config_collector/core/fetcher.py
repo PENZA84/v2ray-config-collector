@@ -1,74 +1,64 @@
 import os
-import requests
 import re
-import base64
-import urllib3
 
-# Тишина в доме — залог спокойствия
-urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
+def sort_to_shelves(found_links_list):
+    print("🧼 Завод PENZA84: Начинаю сортировку найденных сокровищ...")
+    
+    # --- НАШИ ПОЛОЧКИ (Пути к твоим файлам) ---
+    base_data_path = "v2ray_config_collector/data/sources"
+    os.makedirs(base_data_path, exist_ok=True)
+    
+    # Основной список (для сайтов и подписок)
+    main_sources = os.path.join(base_data_path, "sources.txt")
+    # Список для Телеграма и быстрых каналов
+    tg_sources = os.path.join(base_data_path, "sources1.txt")
+    
+    # Списки для проверки дубликатов (чтобы не записывать одно и то же)
+    existing_main = set()
+    if os.path.exists(main_sources):
+        with open(main_sources, 'r') as f: existing_main = set(line.strip() for line in f)
+            
+    existing_tg = set()
+    if os.path.exists(tg_sources):
+        with open(tg_sources, 'r') as f: existing_tg = set(line.strip() for line in f)
 
-class ConfigFetcher:
-    def __init__(self):
-        # Определяем пути к твоим полочкам
-        self.base_path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.data_dir = os.path.join(self.base_path, 'data', 'sources')
-        
-        # Твои два главных склада
-        self.main_storage = os.path.join(self.data_dir, 'sources.txt')   # ОСНОВНОЙ (сайты, RAW)
-        self.tg_storage = os.path.join(self.data_dir, 'sources1.txt')   # ТЕЛЕГРАМ / БЫСТРЫЕ
-        
-        os.makedirs(self.data_dir, exist_ok=True)
-        self.headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Chrome/120.0.0.0'}
+    new_tg_count = 0
+    new_main_count = 0
 
-    def sort_and_save(self, link):
-        """Метод, который отвечает за раскладку по полочкам"""
+    for link in found_links_list:
         link = link.strip()
-        if not link: return
+        if not link or link.startswith('#'): continue
 
-        # Правило для Телеграма — на полочку sources1.txt
+        # 1. ПОЛОЧКА ТЕЛЕГРАМА (для sources1.txt)
         if "t.me" in link or "telegram.me" in link:
-            target = self.tg_storage
-            label = "📱 Телеграм"
-        # Все остальное (RAW, GitHub, сайты) — на основную полочку sources.txt
+            if link not in existing_tg:
+                with open(tg_sources, "a", encoding="utf-8") as f:
+                    f.write(link + "\n")
+                existing_tg.add(link)
+                new_tg_count += 1
+                
+        # 2. ПОЛОЧКА RAW И САЙТОВ (для sources.txt)
         else:
-            target = self.main_storage
-            label = "🌐 Основной"
+            # Если это GitHub, сразу делаем его RAW (как мы договаривались)
+            if "github.com" in link and "/blob/" in link:
+                link = link.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
+            
+            if link not in existing_main:
+                with open(main_sources, "a", encoding="utf-8") as f:
+                    f.write(link + "\n")
+                existing_main.add(link)
+                new_main_count += 1
 
-        # Проверяем, нет ли уже такой ссылки, чтобы не дублировать
-        existing = []
-        if os.path.exists(target):
-            with open(target, 'r', encoding='utf-8') as f:
-                existing = f.read().splitlines()
+    print(f"✅ Сортировка окончена, мой дорогой!")
+    print(f"📥 В sources1.txt (Telegram) добавлено: {new_tg_count}")
+    print(f"📥 В sources.txt (RAW/Сайты) добавлено: {new_main_count} 💋")
 
-        if link not in existing:
-            with open(target, 'a', encoding='utf-8') as f:
-                f.write(link + "\n")
-            print(f"✅ {label} разложен: {link}")
-
-    def fetch_all(self):
-        """Основной процесс сбора и анализа"""
-        print(f"🏗️ ЗАВОД PENZA84: Начинаю глубокую сортировку...")
-        
-        # Здесь логика обхода твоих 5000+ ссылок из существующих файлов
-        # Если в процессе обхода (например, в README) находится новая ссылка:
-        # Мы вызываем self.sort_and_save(new_link)
-        
-        # Пример работы (имитация нахождения ссылок в README):
-        found_in_readme = [
-            "https://t.me/new_proxy_channel",
-            "https://raw.githubusercontent.com/user/config/main/sub.txt"
-        ]
-        
-        for found_link in found_in_readme:
-            self.sort_and_save(found_link)
-
-    def _decode_if_base64(self, data):
-        """Магия декодирования для 'мяса' конфигов"""
-        try:
-            s = data.strip()
-            s += '=' * (-len(s) % 4)
-            return base64.b64decode(s).decode('utf-8')
-        except:
-            return data
-
-if
+# Пример вызова (Завод нашел ссылки в README и передает их сюда)
+if __name__ == "__main__":
+    # Сюда попадут те ссылки, которые вытащил Граббер
+    found_from_readme = [
+        "https://t.me/new_channel", 
+        "https://github.com/user/repo/blob/main/config.txt",
+        "https://v2raya.com/sub"
+    ]
+    sort_to_shelves(found_from_readme)
