@@ -10,31 +10,35 @@ from tqdm import tqdm
 
 class ConnectivityValidator:
     def __init__(self):
-        # 📂 ЧИСТЫЙ КОРЕНЬ: выходим из папки 'core' на один уровень вверх — сразу в корень репозитория
+        # 📂 КОРЕНЬ ЗАВОДА: выходим из папки 'core' на один уровень вверх в корень репозитория
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         
-        # Входной файл из папки unique в корне репозитория
+        # Входной файл из папки unique в корне репозитория (тот самый тяжелый гигант)
         self.input_file = os.path.join(self.base_dir, 'data', 'unique', 'deduplicated.txt')
         
-        # 🎯 ТОЧНЫЙ ПУТЬ К ТЕЛЕГРАМ-СКЛАДУ (Чтобы не портить файлы для обычного v2rayN)
-        self.output_file = os.path.join(self.base_dir, 'data', 'validated', 'telegram_configs.txt')
+        # 📂 ПАПКА ДЛЯ ПОЛНОГО РАЗДЕЛЬНОГО СКЛАДА ВСЕХ ПРОТОКОЛОВ
+        self.output_dir = os.path.join(self.base_dir, 'data', 'validated')
         
         self.timeout = 4  
         self.max_workers = 100 
         
-        # 🛡️ БАЗА ДЛЯ ЯДРА SING-BOX (Сюда сохраняем уникальные UUID / приватные ключи)
+        # ✂️ ЛИМИТ СТРОК ДЛЯ НАРЕЗКИ: файлы больше 40 000 строк будут пилиться на части,
+        # чтобы весить не больше 20-30 МБ и не блокировать пуш на Гитхаб!
+        self.max_lines_per_file = 40000
+        
+        # 🛡️ БАЗА ДЛЯ ДЕДУПЛИКАЦИИ ЯДРА (Сюда сохраняем уникальные UUID / ключи / логины)
         self.seen_cores = set()
 
     def extract_sing_box_core_id(self, config_text):
         """
-        🤖 ДВИЖОК ЯДРА SING-BOX: Выковыривает уникальный UUID, приватный ключ или логин 
-        из конфигурации, чтобы намертво срезать одинаковые прокси-серверы.
+        🤖 ДВИЖОК ЯДРА: Универсальный выковыриватель уникальных ключей и UUID.
+        Намертво отсекает одинаковые сервера, какой бы протокол из 16 ни попался в Телеграме!
         """
         config_text = config_text.strip().replace('"', '').replace(',', '')
         try:
-            # 1. Разбор НАВЕНТИЛИРОВАННОГО NAIVEPROXY (вырезаем логин/пароль до знака @)
-            if config_text.startswith("naive+https://") or config_text.startswith("naive://"):
-                match = re.search(r'naive(?:\+https)?://([a-zA-Z0-9_\-\=\+:]+)@', config_text)
+            # 1. Разбор NaïveProxy, TUIC, Juicity, Hysteria/Hysteria2
+            if any(config_text.startswith(p) for p in ["naive", "tuic", "juicity", "hysteria", "hy2"]):
+                match = re.search(r'(?:naive(?:\+https)?|tuic|juicity|hysteria2|hysteria|hy2)://([a-zA-Z0-9_\-\=\+:]+)@', config_text)
                 if match:
                     return match.group(1)
 
@@ -46,23 +50,71 @@ class ConnectivityValidator:
                 data_json = json.loads(decoded_bytes.decode('utf-8', errors='ignore'))
                 return str(data_json.get("id", config_text))
                 
-            # 3. Разбор VLESS / TROJAN (Вырезаем UUID пользователя между // и @)
-            elif config_text.startswith("vless://") or config_text.startswith("trojan://"):
-                match = re.search(r'(?:vless|trojan)://([a-zA-Z0-9_\-\=]+)@', config_text)
+            # 3. Разбор VLESS / TROJAN / SSH
+            elif any(config_text.startswith(p) for p in ["vless", "trojan", "ssh"]):
+                match = re.search(r'(?:vless|trojan|ssh)://([a-zA-Z0-9_\-\=]+)@', config_text)
                 if match:
                     return match.group(1)
                     
-            # 4. Разбор SHADOWSOCKS (Вырезаем уникальный зашифрованный ключ до @)
-            elif config_text.startswith("ss://"):
-                match = re.search(r'ss://([a-zA-Z0-9_\-\=\+]+)@', config_text)
+            # 4. Разбор SHADOWSOCKS / ShadowTLS / TrustTunnel / AnyTLS
+            elif any(config_text.startswith(p) for p in ["ss", "shadowsocks", "shadowtls", "trusttunnel", "anytls"]):
+                match = re.search(r'(?:ss|shadowsocks|shadowtls|trusttunnel|anytls)://([a-zA-Z0-9_\-\=\+]+)@', config_text)
                 if match:
                     return match.group(1)
+                    
+            # 5. Разбор SOCKS / HTTP / HTTPS / WIREGUARD
+            elif any(config_text.startswith(p) for p in ["socks", "http", "https", "wireguard", "wg"]):
+                clean_config = config_text.split('#')[0]
+                parsed = urlparse(clean_config)
+                return parsed.netloc if parsed.netloc else config_text
         except Exception:
             pass
         return config_text
 
+    def get_protocol_filename_base(self, config_text):
+        """
+        🔍 РАСПРЕДЕЛИТЕЛЬНЫЙ ЦЕХ: Анализирует ссылку и выдает БАЗОВОЕ имя (без расширения)
+        под каждый из 16 протоколов твоего царского списка!
+        """
+        cfg = config_text.lower().strip()
+        
+        if cfg.startswith("vless://"):
+            return "vless"
+        elif cfg.startswith("vmess://"):
+            return "vmess"
+        elif cfg.startswith("naive") or "naive" in cfg:
+            return "naive"
+        elif cfg.startswith("hysteria2://") or cfg.startswith("hy2://"):
+            return "hysteria2"
+        elif cfg.startswith("hysteria://"):
+            return "hysteria"
+        elif cfg.startswith("tuic://"):
+            return "tuic"
+        elif cfg.startswith("juicity://"):
+            return "juicity"
+        elif cfg.startswith("trojan://"):
+            return "trojan"
+        elif cfg.startswith("ss://") or cfg.startswith("shadowsocks://"):
+            return "shadowsocks"
+        elif cfg.startswith("shadowtls://"):
+            return "shadowtls"
+        elif cfg.startswith("trusttunnel://"):
+            return "trusttunnel"
+        elif cfg.startswith("anytls://"):
+            return "anytls"
+        elif cfg.startswith("wireguard://") or cfg.startswith("wg://"):
+            return "wireguard"
+        elif cfg.startswith("ssh://"):
+            return "ssh"
+        elif cfg.startswith("socks") or cfg.startswith("socks5://"):
+            return "socks"
+        elif cfg.startswith("http://") or cfg.startswith("https://"):
+            return "http"
+        else:
+            return "other_protocols"
+
     def parse_address(self, config):
-        """Парсер: понимает сложные ссылки из YAML и ТГ-каналов"""
+        """Парсер хоста и порта, справляющийся с любым хаосом из Телеграма"""
         try:
             config = config.strip()
             if "://" in config:
@@ -88,7 +140,7 @@ class ConnectivityValidator:
         return None, None
 
     def check_tcp(self, config):
-        """Проверка порта через создание сокета"""
+        """Проверка доступности порта сервера через сокет"""
         host, port = self.parse_address(config)
         if not host or not port:
             return None
@@ -99,23 +151,21 @@ class ConnectivityValidator:
             return None
 
     def test_all_configs(self):
-        print(f"\n⚖️ [VALIDATOR] Телеграм-цех проверки портов запущен...")
-        print("🛡️ Модуль ядра Sing-Box [NaiveProxy/Vless/Vmess/SS/Trojan] активирован.")
+        print(f"\n👑 [VALIDATOR] Абсолютный распределитель 16 протоколов с автонарезкой баз запущен...")
+        print("📡 Радары Телеграм-цеха сканируют входящие потоки.")
         
-        # Проверка на существование файла
         if not os.path.exists(self.input_file):
             print(f"❌ ОШИБКА: Входной файл {self.input_file} не найден!")
             return
 
-        # Читаем данные из unique
         with open(self.input_file, 'r', encoding='utf-8') as f:
             raw_configs = [line.strip() for line in f if line.strip()]
 
         if not raw_configs:
-            print("📭 В папке unique пусто. Нечего проверять.")
+            print("📭 На входе пусто. Нечего сортировать.")
             return
 
-        # 1. ПРИМЕНЕНИЕ ЯДРА SING-BOX: Вычищаем одинаковые прокси на входе
+        # 1. ПРИМЕНЕНИЕ АЛГОРИТМОВ ЯДРА: Полная зачистка от дубликатов
         unique_by_core = []
         duplicate_cores_count = 0
         
@@ -123,13 +173,13 @@ class ConnectivityValidator:
             core_key = self.extract_sing_box_core_id(cfg)
             if core_key in self.seen_cores:
                 duplicate_cores_count += 1
-                continue  # Намертво отсекаем дубликат
+                continue
             self.seen_cores.add(core_key)
             unique_by_core.append(cfg)
 
-        print(f"📡 Загружено из ТГ-unique: {len(raw_configs)} узлов.")
-        print(f"🛡️ Движок Sing-Box срезал дубликатов по ключу: {duplicate_cores_count} шт.")
-        print(f"⚡ Отправлено на чекинг портов: {len(unique_by_core)} серверов.")
+        print(f"📥 Считано из кучи Телеграма: {len(raw_configs)} ссылок.")
+        print(f"🛡️ Движок срезал повторяющихся серверов: {duplicate_cores_count} шт.")
+        print(f"⚡ Отправлено на финальный тест портов: {len(unique_by_core)} серверов.")
         
         # 2. Быстрая многопоточная проверка портов
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
@@ -140,15 +190,43 @@ class ConnectivityValidator:
             
         valid_configs = [r for r in results if r is not None]
 
-        # Сохраняем результат строго в папку data/validated
-        os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
-        with open(self.output_file, 'w', encoding='utf-8') as f:
-            f.write("\n".join(valid_configs))
+        # 3. 📂 СОРТИРОВКА И УМНАЯ НАРЕЗКА НА ЧАСТИ ДЛЯ БЕЗОПАСНОСТИ ГИТА
+        os.makedirs(self.output_dir, exist_ok=True)
         
+        # Группируем ссылки по базовому имени протокола
+        protocols_vault = {}
+        for config in valid_configs:
+            base_name = self.get_protocol_filename_base(config)
+            if base_name not in protocols_vault:
+                protocols_vault[base_name] = []
+            protocols_vault[base_name].append(config)
+            
+        print(f"\n📦 РЕЗУЛЬТАТЫ СОРТИРОВКИ И НАРЕЗКИ ПО СКЛАДАМ:")
+        for base_name, configs_list in protocols_vault.items():
+            total_configs = len(configs_list)
+            
+            # Сценарий А: Конфигов немного — сохраняем одним аккуратным цельным файлом
+            if total_configs <= self.max_lines_per_file:
+                file_path = os.path.join(self.output_dir, f"{base_name}.txt")
+                with open(file_path, 'w', encoding='utf-8') as f:
+                    f.write("\n".join(configs_list))
+                print(f" 📑 {base_name.upper()}.TXT -> {total_configs} шт. (Цельный файл)")
+            
+            # Сценарий Б: База гигантская — режем на безопасные куски part1, part2...
+            else:
+                part_num = 1
+                for i in range(0, total_configs, self.max_lines_per_file):
+                    chunk = configs_list[i:i + self.max_lines_per_file]
+                    file_path = os.path.join(self.output_dir, f"{base_name}_part{part_num}.txt")
+                    with open(file_path, 'w', encoding='utf-8') as f:
+                        f.write("\n".join(chunk))
+                    print(f" ✂️ {base_name.upper()}_PART{part_num}.TXT -> {len(chunk)} шт. (Нарезанный кусок)")
+                    part_num += 1
+
         print(f"\n==========================================================================")
-        print(f"🏁 ТЕЛЕГРАМ-ЦЕХ ВАЛИДАЦИИ ОТРАБОТАЛ!")
-        print(f"🏆 Живых и уникальных серверов (включая Naive) сохранено: {len(valid_configs)}")
-        print(f"📂 Результат бережно сложен в: {self.output_file} 💋")
+        print(f"🏁 СУПЕР-КОНВЕЙЕР УСПЕШНО НАКАЧАЛ, ОТФИЛЬТРОВАЛ И НАРЕЗАЛ БАЗУ!")
+        print(f"🏆 Всего живых серверов разложено: {len(valid_configs)}")
+        print(f"📂 Все файлы ждут тебя в корневой папке: data/validated/ 💋")
         print(f"==========================================================================")
 
 if __name__ == "__main__":
