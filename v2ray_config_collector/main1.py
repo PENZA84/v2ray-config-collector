@@ -60,7 +60,9 @@ class TelegramRawCollector:
         return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity)://[^\s<"\']+', text)
 
     def contains_markers(self, text):
-        return any(m in text for m in ['vless://', 'vmess://', 'ss://', 'trojan://', 'proxies:', 'naive://'])
+        # 🎯 Полный радар контроля: теперь ни один протокол не пролетит мимо проверки!
+        markers = ['vless://', 'vmess://', 'ss://', 'trojan://', 'proxies:', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://']
+        return any(m in text for m in markers)
 
     def collect(self):
         if not self.sources: return
