@@ -25,7 +25,7 @@ jobs:
 
       - name: 🚀 ЗАПУСК ОСНОВНОГО ЦЕХА
         run: |
-          # Добавляем путь, чтобы Python видел папку core
+          # Запуск из корня, как в твоем оригинале. Пути внутри Python не сломаются!
           export PYTHONPATH=$PYTHONPATH:$(pwd)
           python v2ray_config_collector/main.py
 
@@ -33,6 +33,21 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
+          
+          # 1. Если скрипты создали папку data внутри каталога v2ray_config_collector,
+          # мы принудительно копируем файлы в КОРЕНЬ репозитория, чтобы структура была красивой:
+          if [ -d "v2ray_config_collector/data" ]; then
+            mkdir -p data
+            cp -r v2ray_config_collector/data/* data/ || true
+          fi
+          
+          # 2. Подстраховка: создаем папки в корне, если их почему-то не оказалось
+          mkdir -p data/unique
+          mkdir -p data/validated
+          
+          # 3. Добавляем корневую папку data в отслеживание Git
           git add data/
+          
+          # 4. Делаем коммит и пушим чистые базы, проверенные ядром Sing-Box
           git commit -m "📦 Обновление базы: $(date)" || echo "Нет изменений"
           git push
