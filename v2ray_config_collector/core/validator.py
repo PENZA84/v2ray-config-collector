@@ -16,8 +16,8 @@ class ConnectivityValidator:
         # Входной файл из папки unique в корне репозитория
         self.input_file = os.path.join(self.base_dir, 'data', 'unique', 'deduplicated.txt')
         
-        # Точный путь для сохранения: папка data/validated прямо в корне репозитория
-        self.output_file = os.path.join(self.base_dir, 'data', 'validated', 'validated_configs.txt')
+        # 🎯 ТОЧНЫЙ ПУТЬ К ТЕЛЕГРАМ-СКЛАДУ (Чтобы не портить файлы для обычного v2rayN)
+        self.output_file = os.path.join(self.base_dir, 'data', 'validated', 'telegram_configs.txt')
         
         self.timeout = 4  
         self.max_workers = 100 
@@ -27,26 +27,32 @@ class ConnectivityValidator:
 
     def extract_sing_box_core_id(self, config_text):
         """
-        🤖 ДВИЖОК ЯДРА SING-BOX: Выковыривает уникальный UUID или приватный ключ 
+        🤖 ДВИЖОК ЯДРА SING-BOX: Выковыривает уникальный UUID, приватный ключ или логин 
         из конфигурации, чтобы намертво срезать одинаковые прокси-серверы.
         """
         config_text = config_text.strip().replace('"', '').replace(',', '')
         try:
-            # 1. Разбор VMESS (Декодируем Base64 и вытаскиваем уникальный "id" из ядра)
-            if config_text.startswith("vmess://"):
+            # 1. Разбор НАВЕНТИЛИРОВАННОГО NAIVEPROXY (вырезаем логин/пароль до знака @)
+            if config_text.startswith("naive+https://") or config_text.startswith("naive://"):
+                match = re.search(r'naive(?:\+https)?://([a-zA-Z0-9_\-\=\+:]+)@', config_text)
+                if match:
+                    return match.group(1)
+
+            # 2. Разбор VMESS (Декодируем Base64 и вытаскиваем уникальный "id")
+            elif config_text.startswith("vmess://"):
                 raw_b64 = config_text.replace("vmess://", "")
                 raw_b64 += "=" * ((4 - len(raw_b64) % 4) % 4)  # Фикс паддинга Base64
                 decoded_bytes = base64.b64decode(raw_b64)
                 data_json = json.loads(decoded_bytes.decode('utf-8', errors='ignore'))
                 return str(data_json.get("id", config_text))
                 
-            # 2. Разбор VLESS / TROJAN (Вырезаем UUID пользователя между // и @)
+            # 3. Разбор VLESS / TROJAN (Вырезаем UUID пользователя между // и @)
             elif config_text.startswith("vless://") or config_text.startswith("trojan://"):
                 match = re.search(r'(?:vless|trojan)://([a-zA-Z0-9_\-\=]+)@', config_text)
                 if match:
                     return match.group(1)
                     
-            # 3. Разбор SHADOWSOCKS (Вырезаем уникальный зашифрованный ключ до @)
+            # 4. Разбор SHADOWSOCKS (Вырезаем уникальный зашифрованный ключ до @)
             elif config_text.startswith("ss://"):
                 match = re.search(r'ss://([a-zA-Z0-9_\-\=\+]+)@', config_text)
                 if match:
@@ -93,13 +99,12 @@ class ConnectivityValidator:
             return None
 
     def test_all_configs(self):
-        print(f"\n⚖️ [VALIDATOR] Цех проверки портов запущен...")
-        print("🛡️ Модуль фильтрации ядра Sing-Box [Vless/Vmess/SS/Trojan] успешно активирован.")
+        print(f"\n⚖️ [VALIDATOR] Телеграм-цех проверки портов запущен...")
+        print("🛡️ Модуль ядра Sing-Box [NaiveProxy/Vless/Vmess/SS/Trojan] активирован.")
         
         # Проверка на существование файла
         if not os.path.exists(self.input_file):
             print(f"❌ ОШИБКА: Входной файл {self.input_file} не найден!")
-            print(f"💡 Убедись, что Дедупликатор отработал и создал его.")
             return
 
         # Читаем данные из unique
@@ -118,15 +123,15 @@ class ConnectivityValidator:
             core_key = self.extract_sing_box_core_id(cfg)
             if core_key in self.seen_cores:
                 duplicate_cores_count += 1
-                continue  # Намертво отсекаем дубликат, не пингуя порт
+                continue  # Намертво отсекаем дубликат
             self.seen_cores.add(core_key)
             unique_by_core.append(cfg)
 
-        print(f"📡 Всего загружено из data/unique: {len(raw_configs)} узлов.")
-        print(f"🛡️ Движок Sing-Box вырезал дубликатов по UUID: {duplicate_cores_count} шт.")
-        print(f"⚡ Отправлено на чекинг портов: {len(unique_by_core)} уникальных серверов.")
+        print(f"📡 Загружено из ТГ-unique: {len(raw_configs)} узлов.")
+        print(f"🛡️ Движок Sing-Box срезал дубликатов по ключу: {duplicate_cores_count} шт.")
+        print(f"⚡ Отправлено на чекинг портов: {len(unique_by_core)} серверов.")
         
-        # 2. Быстрая многопоточная проверка портов через ThreadPoolExecutor
+        # 2. Быстрая многопоточная проверка портов
         with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
             results = list(tqdm(executor.map(self.check_tcp, unique_by_core), 
                                 total=len(unique_by_core), 
@@ -135,15 +140,14 @@ class ConnectivityValidator:
             
         valid_configs = [r for r in results if r is not None]
 
-        # Сохраняем результат строго в папку data/validated в корне репозитория
+        # Сохраняем результат строго в папку data/validated
         os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
         with open(self.output_file, 'w', encoding='utf-8') as f:
             f.write("\n".join(valid_configs))
         
         print(f"\n==========================================================================")
-        print(f"🏁 ГЛОБАЛЬНЫЙ ЗАВОД: ЦЕХ ВАЛИДАЦИИ ОТРАБОТАЛ УСПЕШНО!")
-        print(f"🏆 Живых и уникальных серверов сохранено: {len(valid_configs)}")
-        print(f"🛡️ Из базы вычищено дублей ядра Sing-Box: {duplicate_cores_count}")
+        print(f"🏁 ТЕЛЕГРАМ-ЦЕХ ВАЛИДАЦИИ ОТРАБОТАЛ!")
+        print(f"🏆 Живых и уникальных серверов (включая Naive) сохранено: {len(valid_configs)}")
         print(f"📂 Результат бережно сложен в: {self.output_file} 💋")
         print(f"==========================================================================")
 
