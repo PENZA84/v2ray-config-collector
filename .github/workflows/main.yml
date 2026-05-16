@@ -1,4 +1,4 @@
-name: 🏆 Глобальный Завод PENZA84 🏆
+name: 🏆 Глобальный Завод PENZA84 (Раздельный Сбор) 🏆
 
 on:
   push:
@@ -17,37 +17,42 @@ jobs:
         with:
           python-version: '3.10'
 
-      - name: 📦 УСТАНОВКА БИБЛИОТЕК (YAML, tqdm, requests)
+      - name: 📦 УСТАНОВКА БИБЛИОТЕК (YAML, tqdm, requests, bs4)
         run: |
           python -m pip install --upgrade pip
-          pip install pyyaml requests tqdm urllib3
-          # Теперь YAML точно будет на месте!
+          pip install pyyaml requests tqdm urllib3 beautifulsoup4
+          # Все библиотеки для обоих цехов на месте!
 
-      - name: 🚀 ЗАПУСК ОСНОВНОГО ЦЕХА
+      - name: 🚀 ЗАПУСК БАЗОВОГО ЦЕХА (Для v2rayN)
         run: |
-          # Запуск из корня, как в твоем оригинале. Пути внутри Python не сломаются!
-          export PYTHONPATH=$PYTHONPATH:$(pwd)
+          echo "📡 Запуск первого цеха... Собираем чистые конфиги для v2rayN"
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
           python v2ray_config_collector/main.py
 
-      - name: 💾 СОХРАНЕНИЕ РЕЗУЛЬТАТОВ
+      - name: 🚀 ЗАПУСК ТЕЛЕГРАМ-ЦЕХА (В отдельный файл)
+        run: |
+          echo "📡 Запуск Телеграм-цеха... Собираем ТГ-базу"
+          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
+          python v2ray_config_collector/main1.py
+
+      - name: 💾 РАЗДЕЛЬНОЕ СОХРАНЕНИЕ РЕЗУЛЬТАТОВ
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
           
-          # 1. Если скрипты создали папку data внутри каталога v2ray_config_collector,
-          # мы принудительно копируем файлы в КОРЕНЬ репозитория, чтобы структура была красивой:
+          # 1. Забираем результаты работы обоих скриптов и переносим в корень репозитория
           if [ -d "v2ray_config_collector/data" ]; then
             mkdir -p data
             cp -r v2ray_config_collector/data/* data/ || true
           fi
           
-          # 2. Подстраховка: создаем папки в корне, если их почему-то не оказалось
+          # 2. Железная подстраховка структуры папок для Гита
           mkdir -p data/unique
           mkdir -p data/validated
           
-          # 3. Добавляем корневую папку data в отслеживание Git
+          # 3. Добавляем всю папку data, где теперь лежат ДВА РАЗНЫХ файла
           git add data/
           
-          # 4. Делаем коммит и пушим чистые базы, проверенные ядром Sing-Box
-          git commit -m "📦 Обновление базы: $(date)" || echo "Нет изменений"
+          # 4. Пушим раздельную базу на Гитхаб!
+          git commit -m "📦 База разделена! Копии для v2rayN и ТГ сохранены отдельно: $(date)" || echo "Нет изменений"
           git push
