@@ -3920,7 +3920,6 @@ https://raw.githubusercontent.com/theGreatPeter/v2rayNodes/main/nodes.txt
 https://raw.githubusercontent.com/10ium/free-config/refs/heads/main/HighSpeed.txt
 https://raw.githubusercontent.com/leon4rdo78/IPextract/main/archiveorg/20240729_181108/proxies_part_9.txt
 https://raw.githubusercontent.com/asgharkapk/Sub-Config-Extractor/refs/heads/main/output_configs/surfboard/hamedp-71_openproxylist.yaml
-https://zfjvpn.gitbook.io/123
 https://raw.githubusercontent.com/asgharkapk/Sub-Config-Extractor/refs/heads/main/output_configs/v2ray/Surfboardv2ray_ipv6.yaml
 https://raw.githubusercontent.com/asgharkapk/Sub-Config-Extractor/refs/heads/main/output_configs/v2ray/trojanvmess.pages.dev/cmcm_b64.yaml
 https://raw.githubusercontent.com/mjschwenne/pollux/main/eval/json-repo-count.txt
