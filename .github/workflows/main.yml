@@ -1,58 +1,59 @@
-name: 🏆 Глобальный Завод PENZA84 (Раздельный Сбор) 🏆
+name: Глобальный Завод PENZA84 (Раздельный Сбор)
 
 on:
-  push:
-    branches: [ main ]
-  workflow_dispatch:
+  schedule:
+    - cron: '0 */4 * * *' # Автозапуск каждые 4 часа
+  workflow_dispatch: # Кнопка ручного запуска
+
+permissions:
+  contents: write # Даем Гитхабу железные права на запись файлов!
 
 jobs:
   production:
+    name: производство
     runs-on: ubuntu-latest
+
     steps:
-      - name: 📂 Копируем код из репозитория
-        uses: actions/checkout@v3
-
-      - name: 🐍 Устанавливаем Python
-        uses: actions/setup-python@v4
+      - name: 📥 Копируем код из репозитория
+        uses: actions/checkout@v4
         with:
-          python-version: '3.10'
+          persist-credentials: true
 
-      - name: 📦 УСТАНОВКА БИБЛИОТЕК (YAML, tqdm, requests, bs4)
-        run: |
-          python -m pip install --upgrade pip
-          pip install pyyaml requests tqdm urllib3 beautifulsoup4
-          # Все библиотеки для обоих цехов на месте!
+      - name: 🐍 Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-python: '3.10'
+          cache: 'pip'
 
-      - name: 🚀 ЗАПУСК БАЗОВОГО ЦЕХА (Для v2rayN)
+      - name: 📦 Установка библиотек (Зависимостей Завода)
         run: |
-          echo "📡 Запуск первого цеха... Собираем чистые конфиги для v2rayN"
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
+          pip install requests beautifulsoup4 pyyaml
+
+      - name: 📡 ЗАПУСК БАЗОВОГО ЦЕХА (для v2rayN)
+        run: |
+          echo "📡 Запуск первого цеха... Собираем чистые конфиги для v2rayN из sources.txt"
           python v2ray_config_collector/main.py
 
-      - name: 🚀 ЗАПУСК ТЕЛЕГРАМ-ЦЕХА (В отдельный файл)
+      - name: 📡 ЗАПУСК ТЕЛЕГРАМ-ЦЕХА (в отдельный файл)
         run: |
-          echo "📡 Запуск Телеграм-цеха... Собираем ТГ-базу"
-          export PYTHONPATH=$PYTHONPATH:$(pwd)/v2ray_config_collector
+          echo "📡 Запуск Телеграм-цеха... Собираем базу ТГ из sources1.txt"
           python v2ray_config_collector/main1.py
 
-      - name: 💾 РАЗДЕЛЬНОЕ СОХРАНЕНИЕ РЕЗУЛЬТАТОВ
+      - name: 💾 РАЗДЕЛЬНОЕ ХРАНЕНИЕ РЕЗУЛЬТАТОВ (Бронебойный Пуш)
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
+          git config --local user.name "GitHub Action Robot"
           
-          # 1. Забираем результаты работы обоих скриптов и переносим в корень репозитория
-          if [ -d "v2ray_config_collector/data" ]; then
-            mkdir -p data
-            cp -r v2ray_config_collector/data/* data/ || true
+          # Добавляем все измененные и новые файлы протоколов
+          git add data/unique/*.txt
+          
+          # Проверяем, есть ли вообще изменения, чтобы Гитхаб не ругался на пустой коммит
+          if git diff --cached --quiet; then
+            echo "📊 Изменений нет, склад уже забит свежими конфигами."
+          else
+            git commit -m "📦 База разделена! Копии для v2rayN и Telegram сохранены отдельно: $(date -u +'%d.%m.%Y %H:%M:%S') UTC"
+            
+            # Бронебойный пуш с подтягиванием изменений, если ветка обновилась
+            git pull --rebase origin main
+            git push origin main
           fi
-          
-          # 2. Железная подстраховка структуры папок для Гита
-          mkdir -p data/unique
-          mkdir -p data/validated
-          
-          # 3. Добавляем всю папку data, где теперь лежат ДВА РАЗНЫХ файла
-          git add data/
-          
-          # 4. Пушим раздельную базу на Гитхаб!
-          git commit -m "📦 База разделена! Копии для v2rayN и ТГ сохранены отдельно: $(date)" || echo "Нет изменений"
-          git push
