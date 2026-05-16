@@ -4708,3 +4708,4 @@ https://raw.githubusercontent.com/asgharkapk/Sub-Config-Extractor/refs/heads/mai
 https://raw.githubusercontent.com/giromo/Collector/main/Sub11.txt
 https://raw.githubusercontent.com/AmirrezaFarnamTaheri/ConfigStream/main/sources/backup_dynamic/batch_6.txt
 https://www.v2nodes.com/subscriptions/country/all/?key=ECF3E8A3D71F168
+https://v2rayshare.net/f/freenode
