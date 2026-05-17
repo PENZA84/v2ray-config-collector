@@ -13,7 +13,7 @@ class MainRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 40  # Твой лимит 40 МБ
+        self.max_file_size_mb = 40  # Лимит 40 МБ
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -37,13 +37,13 @@ class MainRawCollector:
                     port = p.get('port')
                     uuid = p.get('uuid') or p.get('password')
                     if not server or not port: continue
+                    
                     if p_type == 'vless':
                         link = f"vless://{uuid}@{server}:{port}?type={p.get('network', 'tcp')}"
                         if p.get('tls'): link += "&security=tls"
                         extracted.append(f"{link}#{name}")
                     elif p_type == 'vmess':
                         v_json = {"v": "2", "ps": name, "add": server, "port": str(port), "id": uuid, "aid": "0", "net": p.get('network', 'tcp'), "type": "none", "host": "", "path": "", "tls": "tls" if p.get('tls') else ""}
-                        # ТУТ ИСПРАВЛЕНО: Строго vmess:// вместо vless://
                         extracted.append(f"vmess://{base64.b64encode(json.dumps(v_json).encode('utf-8')).decode('utf-8')}")
                     elif p_type == 'trojan':
                         extracted.append(f"trojan://{uuid}@{server}:{port}#{name}")
@@ -51,6 +51,9 @@ class MainRawCollector:
                         cipher = p.get('cipher', 'aes-256-gcm')
                         user_info = base64.b64encode(f"{cipher}:{uuid}".encode('utf-8')).decode('utf-8')
                         extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
+                    elif p_type in ['tuic', 'hysteria2', 'hy2', 'naive', 'juicity']:
+                        proto_name = 'hysteria2' if p_type == 'hy2' else p_type
+                        extracted.append(f"{proto_name}://{uuid}@{server}:{port}#{name}")
                 except Exception: continue
         except Exception: pass
         return extracted
@@ -60,7 +63,7 @@ class MainRawCollector:
         return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity)://[^\s<"\']+', text)
 
     def split_and_save_file(self, prefix, base_name, lines):
-        if not lines: return  # Если прокси нет — пустой файл не создаем, чтобы гитхаб не тупил при скачивании
+        if not lines: return  
         full_base_name = f"{prefix}{base_name}"
         
         if os.path.exists(self.output_dir):
@@ -86,7 +89,6 @@ class MainRawCollector:
         if current_chunk:
             parts.append(current_chunk)
 
-        # ТУТ ИСПРАВЛЕНО: Строго один пробел перед цифрой (vless.txt, vless 1.txt, vless 2.txt)
         for idx, chunk_lines in enumerate(parts):
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}.txt")
@@ -121,6 +123,7 @@ class MainRawCollector:
             clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('', 'deduplicated', clean)
+            
             for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
