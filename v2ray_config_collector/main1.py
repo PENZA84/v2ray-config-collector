@@ -13,7 +13,7 @@ class TelegramRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 45 # Строго держим куски до 45 Мегабайт
+        self.max_file_size_mb = 40 # С запасом по 40 МБ
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -61,7 +61,7 @@ class TelegramRawCollector:
         return any(m in text for m in markers)
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """✂️ Нарезка прокси на лету с гордой приставкой ТГ (ТГvless1.txt, ТГvless2.txt)"""
+        """✂️ Создание цепочки файлов ТГvless1.txt, ТГvless2.txt на лету"""
         if not lines: return
         
         full_base_name = f"{prefix}{base_name}"
@@ -82,7 +82,7 @@ class TelegramRawCollector:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}{current_part}.txt")
                 with open(part_file, 'w', encoding='utf-8') as pf:
                     pf.write("\n".join(current_lines))
-                print(f"📦 [ТГ-Цех] Достигнут лимит! Создан: {full_base_name}{current_part}.txt")
+                print(f"📦 [ТГ-Цех] Создан кусок: {full_base_name}{current_part}.txt")
                 current_part += 1
                 current_lines = [line]
                 current_size = len(line_bytes)
@@ -136,7 +136,6 @@ class TelegramRawCollector:
             clean = list(set([l.strip() for l in collected if l.strip()]))
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # Читаем старую ТГ-базу, чтобы не потерять прошлые накопления
             existing = []
             if os.path.exists(self.output_dir):
                 for f in sorted(os.listdir(self.output_dir)):
@@ -148,16 +147,15 @@ class TelegramRawCollector:
             
             total = list(set(existing + clean))
             
-            # Сохраняем общий котел ТГ-Цех под именем ТГdeduplicated1.txt
+            # Сохраняем ТГ базы только с номерами и меткой ТГ
             self.split_and_save_file('ТГ', 'deduplicated', total)
 
-            # Нарезаем индивидуальные протоколы ТГ-Цех с приставкой ТГ (ТГvless1.txt, ТГnaive1.txt)
             protocols = ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']
             for proto in protocols:
                 proto_lines = [l for l in total if l.lower().startswith(f"{proto}://")]
                 self.split_and_save_file('ТГ', proto, proto_lines)
                 
-            print(f"🏁 [main1.py] ТГ-Цех отработал! Все базы нарезаны с меткой ТГ!")
+            print(f"🏁 [main1.py] ТГ-Цех отработал успешно!")
 
 if __name__ == "__main__":
     TelegramRawCollector().collect()
