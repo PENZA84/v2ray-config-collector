@@ -25,7 +25,8 @@ class TelegramRawCollector:
         return links
 
     def process_content(self, text):
-        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity)://[^\s<"\']+', text)
+        # ТУТ ПОЛНЫЙ СПИСОК ДЛЯ ВЫТАСКИВАНИЯ ССЫЛОК ИЗ ТЕЛЕГРАМА
+        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity|socks5|socks4|socks|http|https|shadowtls|wireguard|wg|ssh|anytls|trusttunnel)://[^\s<"\']+', text)
 
     def split_and_save_file(self, prefix, base_name, lines):
         if not lines: return
@@ -76,7 +77,8 @@ class TelegramRawCollector:
                     collected.extend(self.process_content(content))
                     continue
                 
-                protocols_to_check = ['vless://', 'vmess://', 'ss://', 'trojan://', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://']
+                # ТУТ ТЕПЕРЬ СТОИТ ПОЛНЫЙ ПЕРЕЧЕНЬ ДЛЯ КОНТРОЛЯ СТРАНИЦ ТГ
+                protocols_to_check = ['vless://', 'vmess://', 'ss://', 'trojan://', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://', 'socks5://', 'socks4://', 'socks://', 'http://', 'https://', 'shadowtls://', 'wireguard://', 'wg://', 'ssh://', 'anytls://', 'trusttunnel://']
                 if any(m in content for m in protocols_to_check):
                     collected.extend(self.process_content(content))
             except: continue
@@ -86,7 +88,8 @@ class TelegramRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('ТГ ', 'deduplicated', clean)
             
-            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']:
+            # Нарезаем ТГ-файлы абсолютно под каждый протокол из списка Throne
+            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('ТГ ', proto, proto_lines)
