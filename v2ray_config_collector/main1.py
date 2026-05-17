@@ -54,7 +54,6 @@ class TelegramRawCollector:
         if current_chunk:
             parts.append(current_chunk)
 
-        # ТУТ ИСПРАВЛЕНО: Нарезка ТГ строго через один пробел (ТГ vless.txt, ТГ vless 1.txt...)
         for idx, chunk_lines in enumerate(parts):
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}.txt")
@@ -76,14 +75,17 @@ class TelegramRawCollector:
                 if url.endswith('.txt') or '://' in content[:200]:
                     collected.extend(self.process_content(content))
                     continue
-                if any(m in content for m in ['vless://', 'vmess://', 'ss://']):
+                
+                protocols_to_check = ['vless://', 'vmess://', 'ss://', 'trojan://', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://']
+                if any(m in content for m in protocols_to_check):
                     collected.extend(self.process_content(content))
             except: continue
 
         if collected:
             clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
             os.makedirs(self.output_dir, exist_ok=True)
-            self.split_and_save_file('ТГ ', 'deduplicated', clean)  # "ТГ " с одним пробелом
+            self.split_and_save_file('ТГ ', 'deduplicated', clean)
+            
             for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
