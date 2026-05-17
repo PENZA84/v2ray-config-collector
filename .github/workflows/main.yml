@@ -37,25 +37,33 @@ jobs:
         run: |
           python v2ray_config_collector/main1.py
 
-      - name: 💾 РАЗДЕЛЬНОЕ ХРАНЕНИЕ РЕЗУЛЬТАТОВ (Чистый Пуш пронумерованных и ТГ баз)
+      - name: 💾 РАЗДЕЛЬНОЕ ХРАНЕНИЕ РЕЗУЛЬТАТОВ (Жесткая зачистка старых баз и пуш цепочек)
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
           
           git config --global http.postBuffer 2097152000
           
-          # 🚨 Подчищаем старые тяжелые нераспиленные файлы из индекса Git (если они там висели)
-          git rm --cached data/unique/deduplicated.txt || true
-          git rm --cached data/unique/vless.txt || true
-          git rm --cached data/unique/vmess.txt || true
+          # 🔥 ЖЕСТКО УДАЛЯЕМ СТАРЫЕ ТЯЖЕЛЫЕ ФАЙЛЫ ИЗ РЕПОЗИТОРИЯ (чтобы не было ошибок со скринов)
+          # Удаляем файлы без цифр из отслеживания Git и физически
+          git rm -f data/unique/deduplicated.txt || true
+          git rm -f data/unique/vless.txt || true
+          git rm -f data/unique/vmess.txt || true
+          git rm -f data/unique/ss.txt || true
+          git rm -f data/unique/trojan.txt || true
+          git rm -f data/unique/naive.txt || true
+          git rm -f data/unique/hy2.txt || true
+          git rm -f data/unique/hysteria2.txt || true
+          git rm -f data/unique/juicity.txt || true
+          git rm -f data/unique/tuic.txt || true
           
-          # Забираем на склад абсолютно ВСЕ новые легкие файлы (и базовые, и ТГ!)
+          # Добавляем абсолютно все новые нарезанные цепочки
           git add data/unique/*.txt
 
           if git diff --cached --quiet; then
-            echo "📊 На складе идеальный порядок, новых изменений нет."
+            echo "📊 Изменений нет, все цепочки в порядке."
           else
-            git commit -m "📦 Конвейер PENZA84: Базы нарезаны! Созданы vless1.txt и ТГvless1.txt без превышения лимитов!"
+            git commit -m "📦 Конвейер PENZA84: Полный переход на легкие цепочки vless1.txt и ТГvless1.txt!"
             git pull --rebase origin main
             git push origin main
           fi
