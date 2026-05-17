@@ -6,7 +6,7 @@ on:
   workflow_dispatch: # Кнопка ручного запуска
 
 permissions:
-  contents: write # Железные права на запись и пуш файлов в репозиторий
+  contents: write # Права на запись результатов на склад
 
 jobs:
   production:
@@ -22,7 +22,7 @@ jobs:
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10' # ИСПРАВЛЕНО: Теперь без опечаток, встанет ровно!
+          python-version: '3.10'
           cache: 'pip'
 
       - name: 📦 Установка библиотек (Зависимостей Завода)
@@ -44,16 +44,24 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
           
-          # Берем в охапку все наши файлы протоколов из папки unique
+          # 🔥 РАСШИРЕНИЕ БУФЕРА GIT ДО 2 ГИГАБАЙТ (Чтобы не было ошибки HTTP 408)
+          git config --global http.postBuffer 2097152000
+          git config --global http.maxRequestSize 2097152000
+          git config --global ssh.postBuffer 2097152000
+          
+          # Отключаем таймауты и проверку медленного интернета на серверах GitHub
+          git config --global http.lowSpeedLimit 0
+          git config --global http.lowSpeedTime 999999
+          
+          # Добавляем обновленные файлы
           git add data/unique/*.txt
           
-          # Проверяем, изменилось ли что-то, чтобы не делать пустых коммитов
           if git diff --cached --quiet; then
-            echo "📊 Свежих изменений нет, все файлы на складе актуальны."
+            echo "📊 Изменений нет, база уже актуальна."
           else
-            git commit -m "📦 База разделена! Копии для v2rayN и Telegram сохранены отдельно: $(date -u +'%d.%m.%Y %H:%M:%S') UTC"
+            git commit -m "📦 База разделена! Добавлено огромное обновление конфигов: $(date -u +'%d.%m.%Y %H:%M:%S') UTC"
             
-            # Подтягиваем возможные изменения из ветки и пушим со 100% силой
+            # Тянем изменения и пушим с расширенным буфером
             git pull --rebase origin main
             git push origin main
           fi
