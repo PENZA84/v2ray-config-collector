@@ -16,6 +16,8 @@ jobs:
     steps:
       - name: 📥 Копируем код
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # Скачиваем всю историю, чтобы Гитхаб не путался при слиянии
 
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
@@ -40,18 +42,26 @@ jobs:
       - name: 📡 ТЕЛЕГРАМ-ЦЕХ
         run: python v2ray_config_collector/main1.py
 
-      - name: 💾 Сохранение результатов с твоим точным комментарием
+      - name: 💾 Сохранение результатов с защитой от конфликтов
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
           
-          # Кавычки защищают файлы с пробелами при отправке
+          # Берем свежие изменения с сервера, если они появились за время работы скрипта
+          git fetch origin main
+          
+          # Кавычки защищают файлы с пробелами при добавлении в репозиторий
           git add "data/unique/*.txt"
           
           if git diff --cached --quiet; then
             echo "📊 Изменений нет."
           else
+            # Создаем коммит с твоим точным комментарием
             git commit -m "📦 Конвейер PENZA84: полный переход на легкие цепочки Гитхаб и Телеграмм"
-            git pull --rebase origin main
+            
+            # Перебазируем изменения. Если на сервере кто-то обновил файлы, флаг -X theirs отдаст приоритет нашей сборке
+            git pull --rebase -X theirs origin main
+            
+            # Заливаем готовый результат на Гитхаб
             git push origin main
           fi
