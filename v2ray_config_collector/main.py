@@ -51,7 +51,7 @@ class MainRawCollector:
                         cipher = p.get('cipher', 'aes-256-gcm')
                         user_info = base64.b64encode(f"{cipher}:{uuid}".encode('utf-8')).decode('utf-8')
                         extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
-                    elif p_type in ['tuic', 'hysteria2', 'hy2', 'naive', 'juicity']:
+                    elif p_type in ['tuic', 'hysteria2', 'hy2', 'naive', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
                         proto_name = 'hysteria2' if p_type == 'hy2' else p_type
                         extracted.append(f"{proto_name}://{uuid}@{server}:{port}#{name}")
                 except Exception: continue
@@ -60,7 +60,8 @@ class MainRawCollector:
 
     def process_content(self, text):
         if 'proxies:' in text: return self.parse_clash_yaml(text)
-        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity)://[^\s<"\']+', text)
+        # ТУТ ДОБАВЛЕНЫ АБСОЛЮТНО ВСЕ ПРОТОКОЛЫ ДЛЯ ПОИСКА ССЫЛОК НА САЙТАХ
+        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity|socks5|socks4|socks|http|https|shadowtls|wireguard|wg|ssh|anytls|trusttunnel)://[^\s<"\']+', text)
 
     def split_and_save_file(self, prefix, base_name, lines):
         if not lines: return  
@@ -124,7 +125,8 @@ class MainRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('', 'deduplicated', clean)
             
-            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']:
+            # ТУТ ТЕПЕРЬ ПОЛНЫЙ ЦИКЛ НАФАСОВКИ НА ВСЕ ПРОТОКОЛЫ
+            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('', proto, proto_lines)
