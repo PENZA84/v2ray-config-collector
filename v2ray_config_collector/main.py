@@ -13,7 +13,7 @@ class MainRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 45  # Лимит куска для GitHub
+        self.max_file_size_mb = 40  # Режем с запасом по 40 МБ
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -64,12 +64,12 @@ class MainRawCollector:
         return any(m in text for m in ['vless://', 'vmess://', 'ss://', 'trojan://', 'proxies:', 'naive://'])
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """✂️ Создание пронумерованных файлов на лету без промежуточного монстра"""
+        """✂️ Создание файлов цепочкой на лету (например, vless1.txt, vless2.txt)"""
         if not lines: return
         
         full_base_name = f"{prefix}{base_name}"
         
-        # Зачищаем старые файлы этого типа на складе
+        # Полностью зачищаем старые пронумерованные файлы этого типа перед перезаписью
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
                 if re.match(r'^' + re.escape(full_base_name) + r'\d+\.txt$', f):
@@ -143,7 +143,7 @@ class MainRawCollector:
             clean = list(set([l.strip() for l in collected if l.strip()]))
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # Собираем старые данные из существующих deduplicated файлов Базового Цеха
+            # Собираем старую базу из существующих файлов deduplicatedX.txt
             existing = []
             if os.path.exists(self.output_dir):
                 for f in sorted(os.listdir(self.output_dir)):
@@ -154,10 +154,10 @@ class MainRawCollector:
                         except: pass
 
             total = list(set(existing + clean))
-            # Сохраняем общий котел Базового Цеха с пустым префиксом
+            
+            # Сохраняем общий котел и раскидываем по протоколам (только с номерами!)
             self.split_and_save_file('', 'deduplicated', total)
             
-            # Раскидываем по протоколам Базового Цеха
             protocols = ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity']
             for proto in protocols:
                 proto_lines = [l for l in total if l.lower().startswith(f"{proto}://")]
