@@ -2,8 +2,8 @@ name: Глобальный Завод PENZA84 (Раздельный Сбор)
 
 on:
   schedule:
-    - cron: '0 */4 * * *' # Автозапуск каждые 4 часа
-  workflow_dispatch: # Кнопка ручного запуска
+    - cron: '0 */4 * * *'
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -14,10 +14,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: 📥 Копируем код из репозитория
+      - name: 📥 Копируем код
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
 
       - name: 🐍 Установка Python
         uses: actions/setup-python@v5
@@ -25,45 +23,35 @@ jobs:
           python-version: '3.10'
           cache: 'pip'
 
-      - name: 📦 Установка библиотек (Зависимостей Завода)
-        run: |
-          pip install requests beautifulsoup4 pyyaml
+      - name: 📦 Библиотеки
+        run: pip install requests beautifulsoup4 pyyaml
 
-      - name: 📡 ЗАПУСК БАЗОВОГО ЦЕХА (для v2rayN)
+      - name: 🧹 Очистка старых файлов перед новой сборкой
         run: |
-          python v2ray_config_collector/main.py
+          if [ -d "data/unique" ]; then
+            git rm -rf "data/unique/*.txt" || true
+            rm -rf data/unique/*.txt
+          fi
+          mkdir -p data/unique
 
-      - name: 📡 ЗАПУСК ТЕЛЕГРАМ-ЦЕХА (в отдельный файл)
-        run: |
-          python v2ray_config_collector/main1.py
+      - name: 📡 БАЗОВЫЙ ЦЕХ
+        run: python v2ray_config_collector/main.py
 
-      - name: 💾 РАЗДЕЛЬНОЕ ХРАНЕНИЕ РЕЗУЛЬТАТОВ (Жесткая зачистка старых баз и пуш цепочек)
+      - name: 📡 ТЕЛЕГРАМ-ЦЕХ
+        run: python v2ray_config_collector/main1.py
+
+      - name: 💾 Сохранение результатов с твоим точным комментарием
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
           
-          git config --global http.postBuffer 2097152000
+          # Кавычки защищают файлы с пробелами при отправке
+          git add "data/unique/*.txt"
           
-          # 🔥 ЖЕСТКО УДАЛЯЕМ СТАРЫЕ ТЯЖЕЛЫЕ ФАЙЛЫ ИЗ РЕПОЗИТОРИЯ (чтобы не было ошибок со скринов)
-          # Удаляем файлы без цифр из отслеживания Git и физически
-          git rm -f data/unique/deduplicated.txt || true
-          git rm -f data/unique/vless.txt || true
-          git rm -f data/unique/vmess.txt || true
-          git rm -f data/unique/ss.txt || true
-          git rm -f data/unique/trojan.txt || true
-          git rm -f data/unique/naive.txt || true
-          git rm -f data/unique/hy2.txt || true
-          git rm -f data/unique/hysteria2.txt || true
-          git rm -f data/unique/juicity.txt || true
-          git rm -f data/unique/tuic.txt || true
-          
-          # Добавляем абсолютно все новые нарезанные цепочки
-          git add data/unique/*.txt
-
           if git diff --cached --quiet; then
-            echo "📊 Изменений нет, все цепочки в порядке."
+            echo "📊 Изменений нет."
           else
-            git commit -m "📦 Конвейер PENZA84: Полный переход на легкие цепочки vless1.txt и ТГvless1.txt!"
+            git commit -m "📦 Конвейер PENZA84: полный переход на легкие цепочки Гитхаб и Телеграмм"
             git pull --rebase origin main
             git push origin main
           fi
