@@ -13,7 +13,7 @@ class MainRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 40  # Лимит 40 МБ
+        self.max_file_size_mb = 40  # ОСТАВИЛА КАК ТЫ СКАЗАЛ - ЛИМИТ СТАРЫЙ 40 МБ!
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -60,8 +60,21 @@ class MainRawCollector:
 
     def process_content(self, text):
         if 'proxies:' in text: return self.parse_clash_yaml(text)
-        # ТУТ ДОБАВЛЕНЫ АБСОЛЮТНО ВСЕ ПРОТОКОЛЫ ДЛЯ ПОИСКА ССЫЛОК НА САЙТАХ
-        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity|socks5|socks4|socks|http|https|shadowtls|wireguard|wg|ssh|anytls|trusttunnel)://[^\s<"\']+', text)
+        
+        # Фикс сортировки протоколов (длинные впереди, чтобы "ss" не ломал "shadowtls" и "ssh")
+        # Символы в конце [^\s<"'\],]+ убирают запятые, из-за которых ломался vless
+        pattern = r'(?:shadowtls|trusttunnel|hysteria2|wireguard|juicity|socks5|socks4|anytls|vmess|vless|trojan|naive|socks|https|http|tuic|hy2|ssh|wg|ss)://[^\s<"'\],]+'
+        found = re.findall(pattern, text)
+        
+        clean_found = []
+        for link in found:
+            link = link.rstrip('.') # Убираем точку на конце, если она зацепилась со страницы
+            # Выкидываем строки, куда случайно попали технические заголовки
+            if any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,']):
+                continue
+            clean_found.append(link)
+            
+        return clean_found
 
     def split_and_save_file(self, prefix, base_name, lines):
         if not lines: return  
@@ -125,8 +138,7 @@ class MainRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('', 'deduplicated', clean)
             
-            # ТУТ ТЕПЕРЬ ПОЛНЫЙ ЦИКЛ НАФАСОВКИ НА ВСЕ ПРОТОКОЛЫ
-            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
+            for proto in ['shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('', proto, proto_lines)
