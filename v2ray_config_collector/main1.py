@@ -25,8 +25,7 @@ class TelegramRawCollector:
         return links
 
     def process_content(self, text):
-        # ТУТ ПОЛНЫЙ СПИСОК ДЛЯ ВЫТАСКИВАНИЯ ССЫЛОК ИЗ ТЕЛЕГРАМА
-        return re.findall(r'(?:vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity|socks5|socks4|socks|http|https|shadowtls|wireguard|wg|ssh|anytls|trusttunnel)://[^\s<"\']+', text)
+        return re.findall(r'(?:naive\+https|vless|vmess|ss|trojan|naive|hysteria2|hy2|tuic|juicity|socks5|socks4|socks|http|https|shadowtls|wireguard|wg|ssh|anytls|trusttunnel)://[^\s<"\']+', text)
 
     def split_and_save_file(self, prefix, base_name, lines):
         if not lines: return
@@ -44,7 +43,7 @@ class TelegramRawCollector:
         max_bytes = self.max_file_size_mb * 1024 * 1024
 
         for line in lines:
-            line_bytes = (line + "\n").encode('utf-8')
+            line_bytes = (line + "\n").encode('utf-8")
             if current_size + len(line_bytes) > max_bytes and current_chunk:
                 parts.append(current_chunk)
                 current_chunk = [line]
@@ -61,24 +60,23 @@ class TelegramRawCollector:
             else:
                 part_file = os.path.join(self.output_dir, f"{full_base_name} {idx}.txt")
             
-            with open(part_file, 'w', encoding='utf-8') as pf:
+            with open(part_file, 'w', encoding='utf-8") as pf:
                 pf.write("\n".join(chunk_lines))
 
     def collect(self):
         if not self.sources: return
         collected = []
-        headers = {'User-Agent': 'Mozilla/5.0'}
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
         for url in self.sources:
             try:
-                res = requests.get(url, headers=headers, timeout=5)
+                res = requests.get(url, headers=headers, timeout=10)
                 if res.status_code != 200: continue
                 content = res.text
                 if url.endswith('.txt') or '://' in content[:200]:
                     collected.extend(self.process_content(content))
                     continue
                 
-                # ТУТ ТЕПЕРЬ СТОИТ ПОЛНЫЙ ПЕРЕЧЕНЬ ДЛЯ КОНТРОЛЯ СТРАНИЦ ТГ
-                protocols_to_check = ['vless://', 'vmess://', 'ss://', 'trojan://', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://', 'socks5://', 'socks4://', 'socks://', 'http://', 'https://', 'shadowtls://', 'wireguard://', 'wg://', 'ssh://', 'anytls://', 'trusttunnel://']
+                protocols_to_check = ['naive+https://', 'vless://', 'vmess://', 'ss://', 'trojan://', 'naive://', 'hysteria2://', 'hy2://', 'tuic://', 'juicity://', 'socks5://', 'socks4://', 'socks://', 'http://', 'https://', 'shadowtls://', 'wireguard://', 'wg://', 'ssh://', 'anytls://', 'trusttunnel://']
                 if any(m in content for m in protocols_to_check):
                     collected.extend(self.process_content(content))
             except: continue
@@ -88,8 +86,7 @@ class TelegramRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('ТГ ', 'deduplicated', clean)
             
-            # Нарезаем ТГ-файлы абсолютно под каждый протокол из списка Throne
-            for proto in ['vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
+            for proto in ['naive+https', 'vless', 'vmess', 'ss', 'trojan', 'naive', 'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('ТГ ', proto, proto_lines)
