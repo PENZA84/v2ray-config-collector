@@ -7,6 +7,9 @@ on:
     - cron: '*/30 * * * *'
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   bazovyy_tsekh:
     name: базовый_цех
@@ -24,11 +27,19 @@ jobs:
 
       - name: Копируем код
         uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
 
       - name: Установка зависимостей
         run: |
           python -m pip install --upgrade pip
-          pip install requests pyyaml beautifulsoup4
+          pip install requests pyyaml beautifulsoup4 python-dotenv
+
+      - name: Очистка старых файлов
+        run: |
+          rm -rf data/unique/* || true
+          mkdir -p data/unique
+          echo "✅ Старые файлы удалены, папка готова"
 
       - name: Запуск основного сбора
         run: python v2ray_config_collector/main.py
@@ -36,8 +47,27 @@ jobs:
       - name: Запуск Телеграм-сбора
         run: python v2ray_config_collector/main1.py
 
-      - name: Сохранение результатов
+      - name: 🧪 Проверка работоспособности всех собранных конфигов
+        run: python v2ray_config_collector/validator.py
+
+      - name: Сохранение в репозиторий
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action Robot"
+          git add data/unique/*.txt data/validated/*.txt
+          if git diff --cached --quiet; then
+            echo "ℹ️ Изменений нет, ничего не сохраняем"
+          else
+            git commit -m "📦 Обновление + проверка: $(date +'%d.%m.%Y %H:%M')"
+            git pull --rebase -X theirs origin main
+            git push origin main
+            echo "✅ Файлы сохранены в репозиторий"
+          fi
+
+      - name: Сохранение в архив (для скачивания)
         uses: actions/upload-artifact@v5
         with:
           name: результаты
-          path: data/unique/
+          path: |
+            data/unique/
+            data/validated/
