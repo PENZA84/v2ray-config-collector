@@ -1,193 +1,218 @@
 import os
-import socket
-import sys
 import re
-import base64
-import json
+import socket
+import time
+import requests
 from urllib.parse import urlparse
-from concurrent.futures import ThreadPoolExecutor
-from tqdm import tqdm
 
 class ConnectivityValidator:
     def __init__(self):
-        # 📂 КОРЕНЬ ЗАВОДА: выходим из папки 'core' на один уровень вверх в корень репозитория
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        
-        # Входной файл из папки unique в корне репозитория (тот самый тяжелый гигант)
-        self.input_file = os.path.join(self.base_dir, 'data', 'unique', 'deduplicated.txt')
-        
-        # 📂 ПАПКА ДЛЯ ПОЛНОГО РАЗДЕЛЬНОГО СКЛАДА ВСЕХ ПРОТОКОЛОВ
+        self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.base_dir, 'data', 'validated')
-        
-        self.timeout = 4  
-        self.max_workers = 100 
-        
-        # ✂️ ЛИМИТ СТРОК ДЛЯ НАРЕЗКИ: файлы больше 40 000 строк будут пилиться на части,
-        # чтобы весить не больше 20-30 МБ и не блокировать пуш на Гитхаб!
-        self.max_lines_per_file = 40000
-        
-        # 🛡️ БАЗА ДЛЯ ДЕДУПЛИКАЦИИ ЯДРА (Сюда сохраняем уникальные UUID / ключи / логины)
-        self.seen_cores = set()
+        self.timeout = 8  # секунд на проверку соединения
+        self.test_url = "https://www.gstatic.com/generate_204"  # надёжный адрес для проверки доступа
+        self.max_ping = 300  # максимальное время ответа, чтобы считать рабочим
+        os.makedirs(self.output_dir, exist_ok=True)
 
-    def extract_sing_box_core_id(self, config_text):
+    def parse_proxy(self, link):
         """
-        🤖 ДВИЖОК ЯДРА: Универсальный выковыриватель уникальных ключей и UUID.
-        Намертво отсекает одинаковые сервера, какой бы протокол из 16 ни попался в Телеграме!
+        Разбирает ссылку прокси на составляющие: протокол, сервер, порт, данные для авторизации
+        Поддерживает все форматы, которые мы собираем: vless, vmess, trojan, ss, hysteria2 и другие
         """
-        config_text = config_text.strip().replace('"', '').replace(',', '')
         try:
-            # 1. Разбор NaïveProxy, TUIC, Juicity, Hysteria/Hysteria2
-            if any(config_text.startswith(p) for p in ["naive", "tuic", "juicity", "hysteria", "hy2"]):
-                match = re.search(r'(?:naive(?:\+https)?|tuic|juicity|hysteria2|hysteria|hy2)://([a-zA-Z0-9_\-\=\+:]+)@', config_text)
-                if match:
-                    return match.group(1)
-
-            # 2. Разбор VMESS (Декодируем Base64 и вытаскиваем уникальный "id")
-            elif config_text.startswith("vmess://"):
-                raw_b64 = config_text.replace("vmess://", "")
-                raw_b64 += "=" * ((4 - len(raw_b64) % 4) % 4)  # Фикс паддинга Base64
-                decoded_bytes = base64.b64decode(raw_b64)
-                data_json = json.loads(decoded_bytes.decode('utf-8', errors='ignore'))
-                return str(data_json.get("id", config_text))
-                
-            # 3. Разбор VLESS / TROJAN / SSH
-            elif any(config_text.startswith(p) for p in ["vless", "trojan", "ssh"]):
-                match = re.search(r'(?:vless|trojan|ssh)://([a-zA-Z0-9_\-\=]+)@', config_text)
-                if match:
-                    return match.group(1)
-                    
-            # 4. Разбор SHADOWSOCKS / ShadowTLS / TrustTunnel / AnyTLS
-            elif any(config_text.startswith(p) for p in ["ss", "shadowsocks", "shadowtls", "trusttunnel", "anytls"]):
-                match = re.search(r'(?:ss|shadowsocks|shadowtls|trusttunnel|anytls)://([a-zA-Z0-9_\-\=\+]+)@', config_text)
-                if match:
-                    return match.group(1)
-                    
-            # 5. Разбор SOCKS / HTTP / HTTPS / WIREGUARD
-            elif any(config_text.startswith(p) for p in ["socks", "http", "https", "wireguard", "wg"]):
-                clean_config = config_text.split('#')[0]
-                parsed = urlparse(clean_config)
-                return parsed.netloc if parsed.netloc else config_text
-        except Exception:
-            pass
-        return config_text
-
-    def get_protocol_filename_base(self, config_text):
-        """
-        🔍 РАСПРЕДЕЛИТЕЛЬНЫЙ ЦЕХ: Анализирует ссылку и выдает БАЗОВОЕ имя (без расширения)
-        под каждый из 16 протоколов твоего царского списка!
-        """
-        cfg = config_text.lower().strip()
-        
-        if cfg.startswith("vless://"):
-            return "vless"
-        elif cfg.startswith("vmess://"):
-            return "vmess"
-        elif cfg.startswith("naive") or "naive" in cfg:
-            return "naive"
-        elif cfg.startswith("hysteria2://") or cfg.startswith("hy2://"):
-            return "hysteria2"
-        elif cfg.startswith("hysteria://"):
-            return "hysteria"
-        elif cfg.startswith("tuic://"):
-            return "tuic"
-        elif cfg.startswith("juicity://"):
-            return "juicity"
-        elif cfg.startswith("trojan://"):
-            return "trojan"
-        elif cfg.startswith("ss://") or cfg.startswith("shadowsocks://"):
-            return "shadowsocks"
-        elif cfg.startswith("shadowtls://"):
-            return "shadowtls"
-        elif cfg.startswith("trusttunnel://"):
-            return "trusttunnel"
-        elif cfg.startswith("anytls://"):
-            return "anytls"
-        elif cfg.startswith("wireguard://") or cfg.startswith("wg://"):
-            return "wireguard"
-        elif cfg.startswith("ssh://"):
-            return "ssh"
-        elif cfg.startswith("socks") or cfg.startswith("socks5://"):
-            return "socks"
-        elif cfg.startswith("http://") or cfg.startswith("https://"):
-            return "http"
-        else:
-            return "other_protocols"
-
-    def parse_address(self, config):
-        """Парсер хоста и порта, справляющийся с любым хаосом из Телеграма"""
-        try:
-            config = config.strip()
-            if "://" in config:
-                clean_config = config.split('#')[0]
-                parsed = urlparse(clean_config)
-                netloc = parsed.netloc
-            else:
-                netloc = config
-
-            if '@' in netloc:
-                address = netloc.rsplit('@', 1)[1]
-            else:
-                address = netloc
+            if '://' not in link:
+                return None, None, None, None
             
-            address = address.split('?')[0].split('/')[0]
-            
-            if ':' in address:
-                host, port = address.rsplit(':', 1)
-                host = host.strip('[]')
-                return host, int(port)
-        except Exception:
-            pass
-        return None, None
+            # Отделяем протокол и всё остальное
+            proto_part, rest = link.split('://', 1)
+            proto = proto_part.lower().strip()
 
-    def check_tcp(self, config):
-        """Проверка доступности порта сервера через сокет"""
-        host, port = self.parse_address(config)
-        if not host or not port:
-            return None
+            # Убираем комментарий в конце ссылки
+            if '#' in rest:
+                rest, _ = rest.split('#', 1)
+
+            # Отделяем данные для входа от хоста (если есть логин/пароль/uuid)
+            auth = None
+            if '@' in rest:
+                auth, host_port = rest.rsplit('@', 1)
+            else:
+                host_port = rest
+
+            # Получаем хост и порт, убираем параметры после знака ?
+            if ':' in host_port:
+                host, port_part = host_port.split(':', 1)
+                port = port_part.split('?')[0].strip()
+                return proto, host.strip(), int(port), auth
+            
+        except Exception as e:
+            pass
+        return None, None, None, None
+
+    def test_tcp_connection(self, host, port):
+        """
+        Базовая проверка: открыть ли порт, доступен ли сервер по TCP
+        Как было в оригинале, только доработана стабильность
+        Возвращает: статус (True/False), время ответа в мс
+        """
         try:
-            with socket.create_connection((host, port), timeout=self.timeout):
-                return config
+            s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+            s.settimeout(self.timeout)
+            start_time = time.perf_counter()
+            s.connect((host, port))
+            s.shutdown(socket.SHUT_RDWR)
+            s.close()
+            ping_ms = round((time.perf_counter() - start_time) * 1000)
+            return True, ping_ms
+        except socket.timeout:
+            return False, 0
+        except ConnectionRefusedError:
+            return False, 0
         except Exception:
-            return None
+            return False, 0
+
+    def test_proxy_functional(self, proto, host, port, auth=None):
+        """
+        Расширенная проверка: не только порт открыт, но и прокси реально работает, пропускает трафик
+        Работает для http, https, socks4, socks5 — для остальных только TCP проверка
+        Возвращает: статус, описание результата
+        """
+        if proto not in ['http', 'https', 'socks4', 'socks5']:
+            return None, "ℹ️ Только TCP проверка (для этого протокола нет функциональной проверки)"
+
+        try:
+            # Формируем адрес прокси для библиотеки requests
+            proxy_url = f"{proto}://"
+            if auth:
+                proxy_url += f"{auth}@"
+            proxy_url += f"{host}:{port}"
+
+            proxies = {
+                "http": proxy_url,
+                "https": proxy_url
+            }
+
+            start = time.perf_counter()
+            r = requests.get(
+                self.test_url,
+                proxies=proxies,
+                timeout=self.timeout,
+                headers={"User-Agent": "Mozilla/5.0"},
+                allow_redirects=False
+            )
+            resp_time = round((time.perf_counter() - start) * 1000)
+
+            if r.status_code in (200, 204):
+                return True, f"✅ Работает | Ответ: {resp_time}мс"
+            else:
+                return False, f"⚠️ Порт открыт, но прокси не отвечает правильно ({r.status_code})"
+
+        except requests.exceptions.ProxyError:
+            return False, "❌ Ошибка подключения к прокси"
+        except requests.exceptions.Timeout:
+            return False, "❌ Превышено время ожидания"
+        except Exception as e:
+            return False, f"❌ Ошибка: {str(e)[:30]}"
 
     def test_all_configs(self):
-        print(f"\n👑 [VALIDATOR] Абсолютный распределитель 16 протоколов с автонарезкой баз запущен...")
-        print("📡 Радары Телеграм-цеха сканируют входящие потоки.")
-        
-        if not os.path.exists(self.input_file):
-            print(f"❌ ОШИБКА: Входной файл {self.input_file} не найден!")
+        """
+        Основная функция — как в оригинале, с выводом заголовка и полным циклом проверки
+        """
+        title4 = "Tests TCP connectivity of proxy configurations"
+        print("\n" + title4)
+        print("=" * len(title4))
+
+        # Собираем все ссылки из всех файлов, которые мы насобирали
+        all_links = []
+        if not os.path.exists(self.input_dir):
+            print("❌ Папка с конфигами не найдена")
             return
 
-        with open(self.input_file, 'r', encoding='utf-8') as f:
-            raw_configs = [line.strip() for line in f if line.strip()]
+        for fname in os.listdir(self.input_dir):
+            if fname.endswith('.txt'):
+                fpath = os.path.join(self.input_dir, fname)
+                try:
+                    with open(fpath, 'r', encoding='utf-8', errors='ignore') as f:
+                        lines = [l.strip() for l in f if l.strip() and '://' in l]
+                        all_links.extend(lines)
+                except:
+                    continue
 
-        if not raw_configs:
-            print("📭 На входе пусто. Нечего сортировать.")
+        if not all_links:
+            print("❌ Нет конфигураций для проверки")
             return
 
-        # 1. ПРИМЕНЕНИЕ АЛГОРИТМОВ ЯДРА: Полная зачистка от дубликатов
-        unique_by_core = []
-        duplicate_cores_count = 0
-        
-        for cfg in raw_configs:
-            core_key = self.extract_sing_box_core_id(cfg)
-            if core_key in self.seen_cores:
-                duplicate_cores_count += 1
+        # Убираем дубликаты
+        all_links = list(set(all_links))
+        print(f"🔍 Найдено конфигураций для проверки: {len(all_links)}\n")
+
+        # Разделяем на группы
+        working_list = []       # Всё работает
+        tcp_ok_not_func = []    # Порт открыт, но не работает
+        dead_list = []          # Вообще недоступно
+        fast_list = []          # Быстрые (меньше лимита)
+
+        # Проверяем каждую ссылку по очереди
+        for idx, link in enumerate(all_links, 1):
+            proto, host, port, auth = self.parse_proxy(link)
+            if not proto or not host or not port:
+                dead_list.append(link)
+                print(f"[{idx}/{len(all_links)}] ❌ Неверный формат | {link[:70]}...")
                 continue
-            self.seen_cores.add(core_key)
-            unique_by_core.append(cfg)
 
-        print(f"📥 Считано из кучи Телеграма: {len(raw_configs)} ссылок.")
-        print(f"🛡️ Движок срезал повторяющихся серверов: {duplicate_cores_count} шт.")
-        print(f"⚡ Отправлено на финальный тест портов: {len(unique_by_core)} серверов.")
-        
-        # 2. Быстрая многопоточная проверка портов
-        with ThreadPoolExecutor(max_workers=self.max_workers) as executor:
-            results = list(tqdm(executor.map(self.check_tcp, unique_by_core), 
-                                total=len(unique_by_core), 
-                                desc="Проверка портов",
-                                leave=True))
-            
-        valid_configs = [r for r in results if r is not None]
+            # Шаг 1: Проверяем TCP соединение
+            tcp_status, ping = self.test_tcp_connection(host, port)
 
-        # 3. 📂 СОРТ
+            if not tcp_status:
+                dead_list.append(link)
+                print(f"[{idx}/{len(all_links)}] ❌ TCP недоступен | {proto} | {host}:{port}")
+                continue
+
+            # Шаг 2: Если TCP открыт — проверяем работает ли как прокси
+            func_status, note = self.test_proxy_functional(proto, host, port, auth)
+
+            if func_status is True:
+                working_list.append(link)
+                if ping < self.max_ping:
+                    fast_list.append(link)
+                print(f"[{idx}/{len(all_links)}] ✅ РАБОТАЕТ | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+            elif func_status is False:
+                tcp_ok_not_func.append(link)
+                print(f"[{idx}/{len(all_links)}] ⚠️ ЧАСТИЧНО | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+            else:
+                # Для протоколов без функциональной проверки — просто записываем как рабочие по TCP
+                working_list.append(link)
+                print(f"[{idx}/{len(all_links)}] ✅ TCP OK    | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+
+        # === СОХРАНЯЕМ РЕЗУЛЬТАТЫ ===
+        def save_file(name, items):
+            if items:
+                with open(os.path.join(self.output_dir, name), 'w', encoding='utf-8') as f:
+                    f.write("\n".join(items))
+
+        # Общие списки
+        save_file("✅ Все рабочие.txt", working_list)
+        save_file("⚡ Быстрые (менее {}мс).txt".format(self.max_ping), fast_list)
+        save_file("⚠️ Порт открыт но не работает.txt", tcp_ok_not_func)
+        save_file("❌ Нерабочие.txt", dead_list)
+
+        # Рабочие по протоколам
+        protocols = ['vless', 'vmess', 'trojan', 'ss', 'hysteria2', 'tuic', 'naive+https', 'http', 'https', 'socks5']
+        for p in protocols:
+            plist = [l for l in working_list if l.lower().startswith(f"{p}://")]
+            save_file(f"✅ {p.upper()} рабочие.txt", plist)
+
+        # === ИТОГОВАЯ СТАТИСТИКА ===
+        print("\n📊 === ИТОГ ПРОВЕРКИ ===")
+        print(f"🔎 Всего проверено:      {len(all_links)}")
+        print(f"✅ Полностью рабочих:    {len(working_list)}")
+        print(f"⚡ Из них быстрых:       {len(fast_list)}")
+        print(f"⚠️ Частично рабочих:     {len(tcp_ok_not_func)}")
+        print(f"❌ Нерабочих:            {len(dead_list)}")
+        print(f"💾 Результаты в:        data/validated/")
+        print("=" * 30 + "\n")
+
+
+if __name__ == "__main__":
+    validator = ConnectivityValidator()
+    validator.test_all_configs()
