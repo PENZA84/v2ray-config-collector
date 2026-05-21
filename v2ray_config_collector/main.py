@@ -13,7 +13,7 @@ class MainRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 40  # ОСТАВИЛА КАК ТЫ СКАЗАЛ - ЛИМИТ СТАРЫЙ 40 МБ!
+        self.max_file_size_mb = 40  # Лимит оставлен 40 МБ
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -51,7 +51,7 @@ class MainRawCollector:
                         cipher = p.get('cipher', 'aes-256-gcm')
                         user_info = base64.b64encode(f"{cipher}:{uuid}".encode('utf-8')).decode('utf-8')
                         extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
-                    elif p_type in ['tuic', 'hysteria2', 'hy2', 'naive', 'juicity', 'socks5', 'socks4', 'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 'ssh', 'anytls', 'trusttunnel']:
+                    elif p_type in ['tuic', 'hysteria2', 'hy2', 'naive', 'naive+https', 'http', 'https', 'juicity', 'socks5', 'socks4', 'anytls', 'shadowtls', 'wireguard', 'wg', 'ssh', 'trusttunnel']:
                         proto_name = 'hysteria2' if p_type == 'hy2' else p_type
                         extracted.append(f"{proto_name}://{uuid}@{server}:{port}#{name}")
                 except Exception: continue
@@ -61,15 +61,13 @@ class MainRawCollector:
     def process_content(self, text):
         if 'proxies:' in text: return self.parse_clash_yaml(text)
         
-        # Фикс сортировки протоколов (длинные впереди, чтобы "ss" не ломал "shadowtls" и "ssh")
-        # Символы в конце [^\s<"'\],]+ убирают запятые, из-за которых ломался vless
-        pattern = r'(?:shadowtls|trusttunnel|hysteria2|wireguard|juicity|socks5|socks4|anytls|vmess|vless|trojan|naive|socks|https|http|tuic|hy2|ssh|wg|ss)://[^\s<"'\],]+'
+        # ДОБАВИЛ: naive+https в начало списка, чтобы корректно находило
+        pattern = r'(?:naive\+https|shadowtls|trusttunnel|hysteria2|wireguard|juicity|socks5|socks4|anytls|vmess|vless|trojan|naive|socks|https|http|tuic|hy2|ssh|wg|ss)://[^\s<"'\],]+'
         found = re.findall(pattern, text)
         
         clean_found = []
         for link in found:
-            link = link.rstrip('.') # Убираем точку на конце, если она зацепилась со страницы
-            # Выкидываем строки, куда случайно попали технические заголовки
+            link = link.rstrip('.')
             if any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,']):
                 continue
             clean_found.append(link)
@@ -138,7 +136,8 @@ class MainRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('', 'deduplicated', clean)
             
-            for proto in ['shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss']:
+            # ДОБАВИЛ: naive+https в список для отдельного сохранения
+            for proto in ['naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('', proto, proto_lines)
