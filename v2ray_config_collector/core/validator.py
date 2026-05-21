@@ -190,45 +190,4 @@ class ConnectivityValidator:
             
         valid_configs = [r for r in results if r is not None]
 
-        # 3. 📂 СОРТИРОВКА И УМНАЯ НАРЕЗКА НА ЧАСТИ ДЛЯ БЕЗОПАСНОСТИ ГИТА
-        os.makedirs(self.output_dir, exist_ok=True)
-        
-        # Группируем ссылки по базовому имени протокола
-        protocols_vault = {}
-        for config in valid_configs:
-            base_name = self.get_protocol_filename_base(config)
-            if base_name not in protocols_vault:
-                protocols_vault[base_name] = []
-            protocols_vault[base_name].append(config)
-            
-        print(f"\n📦 РЕЗУЛЬТАТЫ СОРТИРОВКИ И НАРЕЗКИ ПО СКЛАДАМ:")
-        for base_name, configs_list in protocols_vault.items():
-            total_configs = len(configs_list)
-            
-            # Сценарий А: Конфигов немного — сохраняем одним аккуратным цельным файлом
-            if total_configs <= self.max_lines_per_file:
-                file_path = os.path.join(self.output_dir, f"{base_name}.txt")
-                with open(file_path, 'w', encoding='utf-8') as f:
-                    f.write("\n".join(configs_list))
-                print(f" 📑 {base_name.upper()}.TXT -> {total_configs} шт. (Цельный файл)")
-            
-            # Сценарий Б: База гигантская — режем на безопасные куски part1, part2...
-            else:
-                part_num = 1
-                for i in range(0, total_configs, self.max_lines_per_file):
-                    chunk = configs_list[i:i + self.max_lines_per_file]
-                    file_path = os.path.join(self.output_dir, f"{base_name}_part{part_num}.txt")
-                    with open(file_path, 'w', encoding='utf-8') as f:
-                        f.write("\n".join(chunk))
-                    print(f" ✂️ {base_name.upper()}_PART{part_num}.TXT -> {len(chunk)} шт. (Нарезанный кусок)")
-                    part_num += 1
-
-        print(f"\n==========================================================================")
-        print(f"🏁 СУПЕР-КОНВЕЙЕР УСПЕШНО НАКАЧАЛ, ОТФИЛЬТРОВАЛ И НАРЕЗАЛ БАЗУ!")
-        print(f"🏆 Всего живых серверов разложено: {len(valid_configs)}")
-        print(f"📂 Все файлы ждут тебя в корневой папке: data/validated/ 💋")
-        print(f"==========================================================================")
-
-if __name__ == "__main__":
-    validator = ConnectivityValidator()
-    validator.test_all_configs()
+        # 3. 📂 СОРТ
