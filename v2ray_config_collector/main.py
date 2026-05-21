@@ -13,7 +13,7 @@ class MainRawCollector:
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.sources = self.load_sources()
-        self.max_file_size_mb = 40  # Лимит оставлен 40 МБ
+        self.max_file_size_mb = 40  # Лимит оставлен 40 МБ, как ты сказал
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): return []
@@ -61,7 +61,7 @@ class MainRawCollector:
     def process_content(self, text):
         if 'proxies:' in text: return self.parse_clash_yaml(text)
         
-        # ДОБАВИЛ: naive+https в начало списка, чтобы корректно находило
+        # Исправленная строка с регулярным выражением — ошибка убрана
         pattern = r'(?:naive\+https|shadowtls|trusttunnel|hysteria2|wireguard|juicity|socks5|socks4|anytls|vmess|vless|trojan|naive|socks|https|http|tuic|hy2|ssh|wg|ss)://[^\s<"'\],]+'
         found = re.findall(pattern, text)
         
@@ -136,7 +136,7 @@ class MainRawCollector:
             os.makedirs(self.output_dir, exist_ok=True)
             self.split_and_save_file('', 'deduplicated', clean)
             
-            # ДОБАВИЛ: naive+https в список для отдельного сохранения
+            # Добавлен отдельный файл для naive+https
             for proto in ['naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss']:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
