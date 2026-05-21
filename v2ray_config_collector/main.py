@@ -89,7 +89,7 @@ class MainRawCollector:
         max_bytes = self.max_file_size_mb * 1024 * 1024
 
         for line in lines:
-            line_bytes = (line + "\n").encode('utf-8")
+            line_bytes = (line + "\n").encode('utf-8')
             if current_size + len(line_bytes) > max_bytes and current_chunk:
                 parts.append(current_chunk)
                 current_chunk = [line]
@@ -106,7 +106,7 @@ class MainRawCollector:
             else:
                 part_file = os.path.join(self.output_dir, f"{full_base_name} {idx}.txt")
             
-            with open(part_file, 'w', encoding='utf-8") as pf:
+            with open(part_file, 'w', encoding='utf-8') as pf:
                 pf.write("\n".join(chunk_lines))
 
     def collect(self):
