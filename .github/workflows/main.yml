@@ -48,7 +48,7 @@ jobs:
         run: python v2ray_config_collector/main1.py
 
       - name: 🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА (твоё ядро, без изменений!)
-        run: python v2ray_config_collector/validator.py
+        run: python v2ray_config_collector/core/validator.py
 
       - name: 💾 Сохранение ВСЕГО в репозиторий
         run: |
