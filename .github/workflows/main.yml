@@ -1,67 +1,42 @@
-name: Глобальный Завод PENZA84 (Раздельный Сбор)
+name: производство
 
 on:
+  push:
+    branches: [ main, master ]
   schedule:
-    - cron: '0 */4 * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
-permissions:
-  contents: write
-
 jobs:
-  production:
-    name: производство
+  базовый_цех:
     runs-on: ubuntu-latest
-
     steps:
-      - name: 📥 Копируем код
-        uses: actions/checkout@v4
+      - name: Установка Node.js
+        uses: actions/setup-node@v4
         with:
-          fetch-depth: 0  # Скачиваем всю историю, чтобы Гитхаб не путался при слиянии
+          node-version: 24
 
-      - name: 🐍 Установка Python
-        uses: actions/setup-python@v5
+      - name: Установка Python
+        uses: actions/setup-python@v6
         with:
-          python-version: '3.10'
-          cache: 'pip'
+          python-version: '3.12'
 
-      - name: 📦 Библиотеки
-        run: pip install requests beautifulsoup4 pyyaml
+      - name: Копируем код
+        uses: actions/checkout@v5
 
-      - name: 🧹 Очистка старых файлов перед новой сборкой
+      - name: Установка зависимостей
         run: |
-          if [ -d "data/unique" ]; then
-            git rm -rf "data/unique/*.txt" || true
-            rm -rf data/unique/*.txt
-          fi
-          mkdir -p data/unique
+          python -m pip install --upgrade pip
+          pip install requests pyyaml beautifulsoup4
 
-      - name: 📡 БАЗОВЫЙ ЦЕХ
+      - name: Запуск основного сбора
         run: python v2ray_config_collector/main.py
 
-      - name: 📡 ТЕЛЕГРАМ-ЦЕХ
+      - name: Запуск Телеграм-сбора
         run: python v2ray_config_collector/main1.py
 
-      - name: 💾 Сохранение результатов с защитой от конфликтов
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action Robot"
-          
-          # Берем свежие изменения с сервера, если они появились за время работы скрипта
-          git fetch origin main
-          
-          # Кавычки защищают файлы с пробелами при добавлении в репозиторий
-          git add "data/unique/*.txt"
-          
-          if git diff --cached --quiet; then
-            echo "📊 Изменений нет."
-          else
-            # Создаем коммит с твоим точным комментарием
-            git commit -m "📦 Конвейер PENZA84: полный переход на легкие цепочки Гитхаб и Телеграмм"
-            
-            # Перебазируем изменения. Если на сервере кто-то обновил файлы, флаг -X theirs отдаст приоритет нашей сборке
-            git pull --rebase -X theirs origin main
-            
-            # Заливаем готовый результат на Гитхаб
-            git push origin main
-          fi
+      - name: Сохранение результатов
+        uses: actions/upload-artifact@v5
+        with:
+          name: результаты
+          path: data/unique/
