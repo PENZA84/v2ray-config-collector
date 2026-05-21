@@ -30,44 +30,44 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Установка зависимостей
+      - name: 📦 Установка ВСЕХ зависимостей (для твоего валидатора тоже!)
         run: |
           python -m pip install --upgrade pip
-          pip install requests pyyaml beautifulsoup4 python-dotenv
+          pip install requests pyyaml beautifulsoup4 python-dotenv tqdm
 
-      - name: Очистка старых файлов
+      - name: 🧹 Очистка старых результатов
         run: |
-          rm -rf data/unique/* || true
-          mkdir -p data/unique
-          echo "✅ Старые файлы удалены, папка готова"
+          rm -rf data/unique/* data/validated/* || true
+          mkdir -p data/unique data/validated
+          echo "✅ Папки подготовлены"
 
-      - name: Запуск основного сбора
+      - name: ⚙️ Запуск основного сбора
         run: python v2ray_config_collector/main.py
 
-      - name: Запуск Телеграм-сбора
+      - name: ⚙️ Запуск Телеграм-сбора
         run: python v2ray_config_collector/main1.py
 
-      - name: 🧪 Проверка работоспособности всех собранных конфигов
+      - name: 🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА (твоё ядро, без изменений!)
         run: python v2ray_config_collector/validator.py
 
-      - name: Сохранение в репозиторий
+      - name: 💾 Сохранение ВСЕГО в репозиторий
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
           git add data/unique/*.txt data/validated/*.txt
           if git diff --cached --quiet; then
-            echo "ℹ️ Изменений нет, ничего не сохраняем"
+            echo "ℹ️ Изменений нет — всё уже актуально"
           else
-            git commit -m "📦 Обновление + проверка: $(date +'%d.%m.%Y %H:%M')"
+            git commit -m "🏆 Обновлено + проверено: $(date +'%d.%m.%Y %H:%M') | Живых: $(grep -c '' data/validated/*.txt || echo 0)"
             git pull --rebase -X theirs origin main
             git push origin main
-            echo "✅ Файлы сохранены в репозиторий"
+            echo "✅ Все файлы сохранены в репозиторий"
           fi
 
-      - name: Сохранение в архив (для скачивания)
+      - name: 📥 Сохранение архива для скачивания
         uses: actions/upload-artifact@v5
         with:
-          name: результаты
+          name: ПОЛНЫЙ_РЕЗУЛЬТАТ
           path: |
             data/unique/
             data/validated/
