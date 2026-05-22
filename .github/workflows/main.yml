@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 */6 * * *'
   workflow_dispatch:
 
 permissions:
@@ -54,11 +54,11 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
-          git add data/unique/*.txt data/validated/*.txt
+          git add data/unique/ data/validated/ || true
           if git diff --cached --quiet; then
             echo "ℹ️ Изменений нет — всё уже актуально"
           else
-            git commit -m "🏆 Обновлено + проверено: $(date +'%d.%m.%Y %H:%M') | Живых: $(grep -c '' data/validated/*.txt || echo 0)"
+            git commit -m "🏆 Обновлено + проверено: $(date +'%d.%m.%Y %H:%M') | Живых: $(find data/validated -type f -name '*.txt' -exec grep -c '' {} + | awk '{sum += $1} END {print sum}')" || true
             git pull --rebase -X theirs origin main
             git push origin main
             echo "✅ Все файлы сохранены в репозиторий"
