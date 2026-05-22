@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: '*/30 * * * *'
   workflow_dispatch:
 
 permissions:
@@ -30,39 +30,45 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: 📦 Установка ВСЕХ зависимостей (для твоего валидатора тоже!)
+      - name: 📦 Установка ВСЕХ зависимостей
         run: |
           python -m pip install --upgrade pip
           pip install requests pyyaml beautifulsoup4 python-dotenv tqdm
+        shell: bash -e -x  # ✅ ВКЛЮЧИЛА ОТОБРАЖЕНИЕ ВСЕХ КОМАНД
 
       - name: 🧹 Очистка старых результатов
         run: |
           rm -rf data/unique/* data/validated/* || true
           mkdir -p data/unique data/validated
           echo "✅ Папки подготовлены"
+        shell: bash -e -x  # ✅ ВСЕ ДЕЙСТВИЯ КАК НА ЛАДОНИ
 
       - name: ⚙️ Запуск основного сбора
-        run: python v2ray_config_collector/main.py
+        run: python -u v2ray_config_collector/main.py  # ✅ ДОБАВИЛА -u — вывод БУФЕРИЗАЦИИ НЕТ, ВИДНО ВСЁ СРАЗУ
+        shell: bash -e -x
 
       - name: ⚙️ Запуск Телеграм-сбора
-        run: python v2ray_config_collector/main1.py
+        run: python -u v2ray_config_collector/main1.py  # ✅ ТОЖЕ САМОЕ — ВЫВОД ПОЛНОСТЬЮ
+        shell: bash -e -x
 
-      - name: 🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА (твоё ядро, без изменений!)
-        run: python v2ray_config_collector/core/validator.py
+      - name: 🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА
+        run: python -u v2ray_config_collector/core/validator.py  # ✅ И ЗДЕСЬ ВСЁ ВИДНО ДО СТРОЧКИ
+        shell: bash -e -x
 
       - name: 💾 Сохранение ВСЕГО в репозиторий
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
-          git add data/unique/ data/validated/ || true
+          git add data/unique/ data/validated/
           if git diff --cached --quiet; then
             echo "ℹ️ Изменений нет — всё уже актуально"
           else
-            git commit -m "🏆 Обновлено + проверено: $(date +'%d.%m.%Y %H:%M') | Живых: $(find data/validated -type f -name '*.txt' -exec grep -c '' {} + | awk '{sum += $1} END {print sum}')" || true
+            git commit -m "🏆 Обновлено + проверено: $(date +'%d.%m.%Y %H:%M')"
             git pull --rebase -X theirs origin main
             git push origin main
             echo "✅ Все файлы сохранены в репозиторий"
           fi
+        shell: bash -e -x
 
       - name: 📥 Сохранение архива для скачивания
         uses: actions/upload-artifact@v5
