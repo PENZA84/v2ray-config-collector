@@ -34,26 +34,36 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install requests pyyaml beautifulsoup4 python-dotenv tqdm
-        shell: bash -e -x  # ✅ ВКЛЮЧИЛА ОТОБРАЖЕНИЕ ВСЕХ КОМАНД
+        shell: bash
+        env:
+          SHELLOPTS: xtrace  # ✅ Правильный способ показать все команды
 
       - name: 🧹 Очистка старых результатов
         run: |
           rm -rf data/unique/* data/validated/* || true
           mkdir -p data/unique data/validated
           echo "✅ Папки подготовлены"
-        shell: bash -e -x  # ✅ ВСЕ ДЕЙСТВИЯ КАК НА ЛАДОНИ
+        shell: bash
+        env:
+          SHELLOPTS: xtrace
 
       - name: ⚙️ Запуск основного сбора
-        run: python -u v2ray_config_collector/main.py  # ✅ ДОБАВИЛА -u — вывод БУФЕРИЗАЦИИ НЕТ, ВИДНО ВСЁ СРАЗУ
-        shell: bash -e -x
+        run: python -u v2ray_config_collector/main.py  # ✅ -u = вывод сразу, без буфера
+        shell: bash
+        env:
+          SHELLOPTS: xtrace
 
       - name: ⚙️ Запуск Телеграм-сбора
-        run: python -u v2ray_config_collector/main1.py  # ✅ ТОЖЕ САМОЕ — ВЫВОД ПОЛНОСТЬЮ
-        shell: bash -e -x
+        run: python -u v2ray_config_collector/main1.py
+        shell: bash
+        env:
+          SHELLOPTS: xtrace
 
       - name: 🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА
-        run: python -u v2ray_config_collector/core/validator.py  # ✅ И ЗДЕСЬ ВСЁ ВИДНО ДО СТРОЧКИ
-        shell: bash -e -x
+        run: python -u v2ray_config_collector/core/validator.py
+        shell: bash
+        env:
+          SHELLOPTS: xtrace
 
       - name: 💾 Сохранение ВСЕГО в репозиторий
         run: |
@@ -68,7 +78,9 @@ jobs:
             git push origin main
             echo "✅ Все файлы сохранены в репозиторий"
           fi
-        shell: bash -e -x
+        shell: bash
+        env:
+          SHELLOPTS: xtrace
 
       - name: 📥 Сохранение архива для скачивания
         uses: actions/upload-artifact@v5
