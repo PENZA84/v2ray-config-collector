@@ -2,55 +2,83 @@ import os
 
 class ConfigDeduplicator:
     def __init__(self):
-        # Пути к твоим сокровищам
+        # Путь к твоей любимой папке unique (Скриншот 1228)
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-        self.raw_dir = os.path.join(self.base_dir, 'data', 'raw')
-        
-        # ОТКУДА берем (Телеграм)
-        self.tg_file = os.path.join(self.raw_dir, 'telegram_configs.txt')
-        
-        # КУДА сохраняем (Твой основной склад)
-        self.output_file = os.path.join(self.base_dir, 'data', 'unique', 'deduplicated.txt')
+        self.unique_dir = os.path.join(self.base_dir, 'data', 'unique')
+
+    def _extract_core_link(self, link):
+        """Умная фильтрация: выделение ядра прокси до знака '#' 
+        чтобы убрать одинаковые ключи с разными именами каналов"""
+        if '#' in link:
+            return link.split('#')[0].strip()
+        return link.strip()
+
+    def process_file(self, file_path):
+        """Очистка конкретного файла от дубликатов"""
+        try:
+            with open(file_path, 'r', encoding='utf-8') as f:
+                lines = f.readlines()
+            
+            initial_count = len(lines)
+            if initial_count == 0:
+                return
+
+            seen_cores = set()
+            unique_configs = []
+
+            # Удаляем скрытые дубликаты
+            for line in lines:
+                cleaned = line.strip()
+                if not cleaned or '://' not in cleaned:
+                    continue
+                
+                core = self._extract_core_link(cleaned)
+                if core not in seen_cores:
+                    seen_cores.add(core)
+                    unique_configs.append(cleaned)
+
+            # Идеальная сортировка для красоты
+            unique_configs.sort()
+
+            # Перезаписываем этот же файл чистым результатом
+            with open(file_path, 'w', encoding='utf-8') as f:
+                f.write("\n".join(unique_configs))
+
+            removed = initial_count - len(unique_configs)
+            filename = os.path.basename(file_path)
+            print(f"[INFO] [DEDUP] Файл {filename} очищен. Удалено дублей: {removed}. Осталось: {len(unique_configs)}")
+
+        except Exception as e:
+            print(f"[ERROR] [DEDUP] Ошибка при обработке файла {os.path.basename(file_path)}: {e}")
 
     def process(self):
-        """Чистим Телеграм и собираем всё в папку unique"""
-        print(f"🧹 [DEDUP] Начинаю генерацию уникальной базы...")
+        """Поиск и очистка ВСЕХ файлов по отдельности в папке unique"""
+        print("[INFO] [DEDUP] Запуск раздельной дедупликации базы данных...")
         
-        all_configs = []
-        
-        # 1. Собираем конфиги из Телеграма, если файл есть
-        if os.path.exists(self.tg_file):
-            try:
-                with open(self.tg_file, 'r', encoding='utf-8') as f:
-                    all_configs.extend(f.readlines())
-                print(f"📥 Из Телеграма загружено строк: {len(all_configs)}")
-            except Exception as e:
-                print(f"⚠️ Ошибка чтения Телеграма: {e}")
-
-        # 2. Можно добавить сбор из других файлов в raw, если они там есть
-        # (Например, то что напарсил parser.py)
-
-        if not all_configs:
-            print("📭 Нечего чистить, исходные файлы пусты.")
+        if not os.path.exists(self.unique_dir):
+            print(f"[INFO] [DEDUP] Папка {self.unique_dir} не найдена. Ожидание коллектора.")
             return
 
-        # 3. Твоя фирменная чистка дублей
-        initial_count = len(all_configs)
-        unique_configs = sorted(list(set([c.strip() for c in all_configs if c.strip()])))
-        
-        # 4. Сохраняем результат в папку unique
         try:
-            os.makedirs(os.path.dirname(self.output_file), exist_ok=True)
-            with open(self.output_file, 'w', encoding='utf-8') as f:
-                f.write("\n".join(unique_configs))
+            files_to_process = [f for f in os.listdir(self.unique_dir) if f.endswith('.txt')]
             
-            removed = initial_count - len(unique_configs)
-            print(f"✨ ОЧИСТКА ЗАВЕРШЕНА!")
-            print(f"🗑 Удалено дублей: {removed}")
-            print(f"💎 Сохранено в data/unique/deduplicated.txt: {len(unique_configs)}")
+            if not files_to_process:
+                print("[INFO] [DEDUP] Текстовые файлы для очистки в unique не обнаружены.")
+                return
+
+            # Чистим каждый файл-протокол по отдельности!
+            for filename in files_to_process:
+                file_path = os.path.join(self.unique_dir, filename)
+                self.process_file(file_path)
+                
+            print("[INFO] [DEDUP] Все раздельные файлы успешно дедуплицированы.")
+
         except Exception as e:
-            print(f"⚠️ Ошибка записи в unique: {e}")
+            print(f"[ERROR] [DEDUP] Критическая ошибка при сканировании папки unique: {e}")
 
     def deduplicate(self):
-        """Для совместимости с вызовом из main.py"""
+        """Интерфейс для вызова из главного скрипта main.py"""
         self.process()
+
+if __name__ == "__main__":
+    ConfigDeduplicator().process()
