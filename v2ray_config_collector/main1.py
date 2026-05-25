@@ -1,37 +1,35 @@
 import os
 import re
 import requests
-import yaml
-import json
-import base64
-from bs4 import BeautifulSoup
-from urllib.parse import urljoin
+from urllib.parse import urlparse, parse_qs
 
 class TelegramRawCollector:
     def __init__(self):
-        # Определение базовых путей проекта
+        # Строгая привязка к твоей рабочей структуре папок
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.max_file_size_mb = 40
         
-        # Список поддерживаемых протоколов (собраны в одном месте для надежности)
+        # Полный эталонный список протоколов ядра Throne (Nekoray)
         self.protocols = [
-            'naive+https', 'vless', 'vmess', 'ss', 'trojan', 'naive', 
-            'hysteria2', 'hy2', 'tuic', 'juicity', 'socks5', 'socks4', 
-            'socks', 'http', 'https', 'shadowtls', 'wireguard', 'wg', 
-            'ssh', 'anytls', 'trusttunnel'
+            'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
+            'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
+            'anytls', 'naive', 'naive+https', 'juicity', 'trusttunnel', 
+            'shadowtls', 'wireguard', 'wg', 'ssh'
         ]
         
-        # Компилируем регулярное выражение один раз для высокой скорости работы
+        # Регулярное выражение для поиска стандартных прокси-ссылок
         proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
         self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
         
-        # Загрузка источников
+        # Регулярное выражение для извлечения скрытых Socks/HTTP из t.me/proxy
+        self.tg_proxy_pattern = re.compile(r'(?:https://t\.me/proxy\?[^\s<"\']+)|(?:tg://proxy\?[^\s<"\']*)')
+        
         self.sources = self.load_sources()
 
     def load_sources(self):
-        """Загрузка ссылок на источники из файла источников"""
+        """Загрузка пула каналов из файла sources1.txt"""
         if not os.path.exists(self.sources_file): 
             return []
         links = []
@@ -43,16 +41,44 @@ class TelegramRawCollector:
         return links
 
     def process_content(self, text):
-        """Поиск всех конфигураций прокси в тексте, включая сложные параметры"""
-        return self.regex_pattern.findall(text)
+        """Парсинг контента: собирает готовые профили + пересобирает Socks/HTTP под Throne"""
+        extracted = []
+        
+        # 1. Сбор стандартных профилей (vless, vmess, trojan, ss и др.)
+        found_profiles = self.regex_pattern.findall(text)
+        for link in found_profiles:
+            link = link.strip().rstrip('.')
+            if any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,']):
+                continue
+            extracted.append(link)
+        
+        # 2. Выковыривание Socks5/HTTP параметров из ссылок и конвертация в формат Throne
+        clean_text = text.replace('&amp;', '&')
+        tg_proxies = self.tg_proxy_pattern.findall(clean_text)
+        
+        for tg_url in tg_proxies:
+            try:
+                parsed = urlparse(tg_url)
+                query = parse_qs(parsed.query)
+                
+                server = query.get('server', [None])[0]
+                port = query.get('port', [None])[0]
+                
+                if server and port:
+                    # Генерируем чистый Socks5 и HTTP формат, который Throne с лёгкостью импортирует
+                    extracted.append(f"socks5://{server}:{port}#TG_Socks")
+                    extracted.append(f"http://{server}:{port}#TG_HTTP")
+            except:
+                continue
+                
+        return extracted
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """Разбивка файлов по 40 МБ и сохранение с префиксом 'ТГ '"""
+        """Нарезка файлов по 40 МБ с префиксом 'ТГ '"""
         if not lines: 
             return
         full_base_name = f"{prefix}{base_name}"
         
-        # Очистка старых файлов перед записью новых
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
                 if f == f"{full_base_name}.txt" or re.match(r'^' + re.escape(full_base_name) + r'\s+\d+\.txt$', f):
@@ -78,7 +104,6 @@ class TelegramRawCollector:
         if current_chunk:
             parts.append(current_chunk)
 
-        # Запись чанков в файлы
         for idx, chunk_lines in enumerate(parts):
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}.txt")
@@ -89,7 +114,7 @@ class TelegramRawCollector:
                 pf.write("\n".join(chunk_lines))
 
     def collect(self):
-        """Основной метод сбора и фильтрации прокси-конфигов"""
+        """Основной цикл сбора конфигураций из пулов Телеграма"""
         if not self.sources: 
             return
         collected = []
@@ -102,32 +127,25 @@ class TelegramRawCollector:
                 res = requests.get(url, headers=headers, timeout=10)
                 if res.status_code != 200: 
                     continue
-                content = res.text
-                
-                # Если прямая ссылка на txt или контент сразу начинается с прокси
-                if url.endswith('.txt') or '://' in content[:200]:
-                    collected.extend(self.process_content(content))
-                    continue
-                
-                # Проверка наличия любого из поддерживаемых протоколов в теле ответа
-                if any(f"{proto}://" in content for proto in self.protocols):
-                    collected.extend(self.process_content(content))
+                collected.extend(self.process_content(res.text))
             except: 
                 continue
 
         if collected:
-            # Очистка строк от пробелов и удаление дубликатов
-            clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
+            # Чистим дубликаты на этапе сбора
+            clean = list(set([l.strip() for l in collected if l.strip()]))
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # Сохранение общего дедуплицированного файла
+            # 1. Создаём общий файл для последующей умной дедупликации (ТГ deduplicated.txt)
             self.split_and_save_file('ТГ ', 'deduplicated', clean)
             
-            # Сортировка и сохранение отдельно по каждому протоколу
+            # 2. Раскладываем конфигурации строго по отдельным файлам-протоколам Throne
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('ТГ ', proto, proto_lines)
+                    
+            print("[INFO] [TG_MAIN] Всеядный сбор под ядро Throne успешно завершен.")
 
 if __name__ == "__main__":
     TelegramRawCollector().collect()
