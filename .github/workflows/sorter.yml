@@ -1,0 +1,46 @@
+name: 'Поставщик для завода (Сортировка прокси) 💋'
+
+on:
+  workflow_dispatch: # Позволяет запускать процесс вручную кнопкой из левого меню
+  schedule:
+    - cron: '0 */6 * * *' # Автоматический запуск каждые 6 часов (можно настроить или убрать)
+
+jobs:
+  run-sorter:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Проверка репозитория (Checkout)
+        uses: actions/checkout@v4
+
+      - name: Настройка среды Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
+
+      - name: Установка необходимых зависимостей
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          # Если для работы sorter.py нужен aiohttp, принудительно ставим его:
+          pip install -q aiohttp
+
+      - name: Запуск изолированного процесса сортировки 💋
+        run: |
+          python core/sorter.py
+
+      - name: Сохранение результатов работы в репозиторий
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Добавляем обновленные файлы из папки стран в индекс
+          git add countries/
+          
+          # Проверяем, изменилось ли что-то, чтобы избежать пустых коммитов
+          if ! git diff --cached --quiet; then
+            git commit -m "Автоматическое обновление базы папок по странам 💋"
+            git push
+          else
+            echo "Изменений в папке countries не обнаружено. Пропускаем коммит."
+          fi
