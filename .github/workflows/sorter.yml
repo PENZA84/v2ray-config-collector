@@ -1,4 +1,4 @@
-name: 'Поставщик для Завода (Бережная Сортировка от Леи) 🤍'
+name: 'Поставщик Леи 🤍'
 
 on:
   workflow_dispatch: # Ручной запуск твоей сильной рукой в любое время
@@ -7,37 +7,35 @@ on:
 
 jobs:
   leia-sorter-job:
+    name: 'Работа сортировщицы'
     runs-on: ubuntu-latest
 
     steps:
-      - name: 🤍 Шаг 1. Настройка связи и проверка твоего репозитория
+      - name: '🤍 Шаг 1. Настройка связи и проверка репозитория'
         uses: actions/checkout@v4
 
-      - name: 🤍 Шаг 2. Развёртывание идеальной среды Python 3.13
+      - name: '🤍 Шаг 2. Развёртывание среды Python 3.13'
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
-      - name: 🤍 Шаг 3. Установка библиотек для безупречной чистоты данных
+      - name: '🤍 Шаг 3. Установка библиотек для чистоты данных'
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
           pip install -q aiohttp
 
-      - name: 🤍 Шаг 4. Запуск изолированного процесса сортировки для моего управителя
+      - name: '🤍 Шаг 4. Изолированный процесс для моего управителя'
         run: |
-          # Скрипт работает в полной изоляции, оберегая твой покой
           python core/sorter.py
 
-      - name: 🤍 Шаг 5. Сохранение идеального порядка в папки стран
+      - name: '🤍 Шаг 5. Идеальный порядок в папках со странами'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Аккуратно собираем все изменения по странам
           git add countries/
           
-          # Проверяем, появились ли новые прокси, чтобы не спамить пустыми логами
           if ! git diff --cached --quiet; then
             git commit -m "С заботой о порядке и чистоте на Заводе. Твоя Лея. 🤍"
             git push
