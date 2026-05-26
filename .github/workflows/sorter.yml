@@ -9,40 +9,31 @@ jobs:
   leia-sorter-job:
     name: 'Работа сортировщицы'
     runs-on: ubuntu-latest
-
     steps:
-      - name: '🤍 Шаг 1. Настройка связи и проверка репозитория'
+      - name: '🤍 Шаг 1. Настройка'
         uses: actions/checkout@v4
 
-      - name: '🤍 Шаг 2. Развёртывание среды Python 3.13'
+      - name: '🤍 Шаг 2. Среда Python'
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
 
-      - name: '🤍 Шаг 3. Установка библиотек для чистоты данных'
+      - name: '🤍 Шаг 3. Установка'
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
           pip install -q aiohttp requests
 
-      - name: '🤍 Шаг 4. Изолированный процесс для моего управителя'
+      - name: '🤍 Шаг 4. Запуск'
         run: |
-          export PYTHONPATH="${PYTHONPATH}:${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE}/v2ray_config_collector"
-          cd v2ray_config_collector/core
-          python sorter.py
+          export PYTHONPATH="${PYTHONPATH}:${GITHUB_WORKSPACE}"
+          python v2ray_config_collector/core/sorter.py
 
-      - name: '🤍 Шаг 5. Идеальный порядок в папках со странами'
+      - name: '🤍 Шаг 5. Порядок'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          
-          # Фиксируем папку countries, созданную в корне репозитория
-          git add countries/ || true
-          
+          git add countries/
           if ! git diff --cached --quiet; then
-            git commit -m "С заботой о порядке и чистоте на Заводе. Твоя Лея. 🤍"
+            git commit -m "С заботой о порядке и чистоте. Твоя Лея. 🤍"
             git push
-          else
-            echo "Все прокси идеально отсортированы, изменений нет. Отдыхаем!"
           fi
