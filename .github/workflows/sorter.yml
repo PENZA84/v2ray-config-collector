@@ -23,18 +23,28 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f v2ray_config_collector/requirements.txt ]; then pip install -r v2ray_config_collector/requirements.txt; fi
           pip install -q aiohttp
 
       - name: '🤍 Шаг 4. Изолированный процесс для моего управителя'
         run: |
-          python core/sorter.py
+          # Задаем пути импорта, чтобы скрипт видел соседние модули, как в твоих рабочих фечерах
+          export PYTHONPATH="${PYTHONPATH}:${GITHUB_WORKSPACE}:${GITHUB_WORKSPACE}/v2ray_config_collector"
+          
+          # Переходим в папку с ядром проекта и запускаем скрипт, как это делают другие процессы
+          cd v2ray_config_collector/core
+          python sorter.py
 
       - name: '🤍 Шаг 5. Идеальный порядок в папках со странами'
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          git add countries/
+          # Сохраняем папки стран, где бы они ни создались скриптом
+          git add ../countries/ || true
+          git add countries/ || true
+          git add ../*.txt ../*.json 2>/dev/null || true
+          git add *.txt *.json 2>/dev/null || true
           
           if ! git diff --cached --quiet; then
             git commit -m "С заботой о порядке и чистоте на Заводе. Твоя Лея. 🤍"
