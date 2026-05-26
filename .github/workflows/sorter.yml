@@ -1,39 +1,26 @@
 name: 'Поставщик Леи 🤍'
-
 on:
   workflow_dispatch:
   schedule:
     - cron: '0 */6 * * *'
-
 jobs:
   leia-sorter-job:
-    name: 'Работа сортировщицы'
     runs-on: ubuntu-latest
     steps:
-      - name: '🤍 Шаг 1. Настройка'
-        uses: actions/checkout@v4
-
-      - name: '🤍 Шаг 2. Среда Python'
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.13'
-
-      - name: '🤍 Шаг 3. Установка'
-        run: |
-          python -m pip install --upgrade pip
-          pip install -q aiohttp requests
-
-      - name: '🤍 Шаг 4. Запуск'
-        run: |
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: {python-version: '3.13'}
+      - run: |
+          pip install aiohttp
           cd v2ray_config_collector/core
           python -u sorter.py
-
-      - name: '🤍 Шаг 5. Порядок'
-        run: |
+      - run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add countries/
+          # Удаляем старые огромные файлы, чтобы они не мешали
+          find countries/ -name "*.txt" -size +95M -delete
+          git add countries/ ip_cache.json
           if ! git diff --cached --quiet; then
-            git commit -m "С заботой о порядке и чистоте. Твоя Лея. 🤍"
+            git commit -m "Сортировка: данные нарезаны для GitHub. 🤍"
             git push
           fi
