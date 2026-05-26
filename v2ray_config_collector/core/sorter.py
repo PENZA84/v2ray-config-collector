@@ -1,7 +1,8 @@
 import os
 import re
-import socket
-import requests
+import json
+import asyncio
+import aiohttp
 import shutil
 import concurrent.futures
 from urllib.parse import urlparse
@@ -12,39 +13,43 @@ class CountrySorter:
         self.root_dir = os.path.dirname(os.path.dirname(self.script_dir))
         self.input_dir = os.path.join(self.root_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.root_dir, 'countries')
+        self.cache_file = os.path.join(self.root_dir, 'ip_cache.json')
+        self.cache = self.load_cache()
         self.protocols = ['vless', 'trojan', 'vmess', 'ss', 'socks5', 'socks4', 'socks', 'http', 'https', 'tuic', 'hysteria', 'hysteria2', 'hy2', 'ssh']
-        self.timeout = 3
 
-    def is_trash(self, link):
-        link = link.strip()
-        return len(link) < 15 or ('://!' in link and (link.endswith('!') or link.endswith('!#')))
+    def load_cache(self):
+        if os.path.exists(self.cache_file):
+            with open(self.cache_file, 'r') as f: return json.load(f)
+        return {}
+
+    def save_cache(self):
+        with open(self.cache_file, 'w') as f: json.dump(self.cache, f)
 
     def extract_host(self, link):
         try:
             clean_link = link.split('#')[0]
-            parsed = urlparse(clean_link)
-            host = parsed.hostname or (clean_link.split('@')[-1].split(':')[0].split('/')[0].split('?')[0])
+            host = urlparse(clean_link).hostname or clean_link.split('@')[-1].split(':')[0].split('/')[0].split('?')[0]
             return host.strip('!@:/\\ ') if host and ('.' in host or re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', host)) else None
         except: return None
 
-    def get_country_code(self, host):
+    async def get_country(self, session, host):
+        if host in self.cache: return self.cache[host]
         try:
-            ip = socket.gethostbyname(host) if not re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', host) else host
-            res = requests.get(f"http://ip-api.com/json/{ip}?fields=status,countryCode", timeout=self.timeout).json()
-            return res.get('countryCode', 'unknown').lower() if res.get('status') == 'success' else 'unknown'
+            async with session.get(f"http://ip-api.com/json/{host}?fields=status,countryCode", timeout=2) as resp:
+                data = await resp.json()
+                code = data.get('countryCode', 'unknown').lower() if data.get('status') == 'success' else 'unknown'
+                self.cache[host] = code
+                return code
         except: return 'unknown'
 
-    def process_link(self, link):
-        if self.is_trash(link): return None
+    async def process_link(self, session, link):
         host = self.extract_host(link)
         if not host: return None
-        return {'link': link, 'country': self.get_country_code(host), 'protocol': next((p for p in self.protocols if link.lower().startswith(f"{p}://")), 'unknown')}
+        country = await self.get_country(session, host)
+        proto = next((p for p in self.protocols if link.lower().startswith(f"{p}://")), 'unknown')
+        return {'link': link, 'country': country, 'protocol': proto}
 
-    def sort_now(self):
-        print(f"[ТАМОЖНЯ] Путь к данным: {self.input_dir}")
-        if not os.path.exists(self.input_dir):
-            print("[ОШИБКА] Склад уникальных данных пуст!"); return
-        
+    async def run(self):
         all_links = set()
         for f_name in os.listdir(self.input_dir):
             if f_name.endswith('.txt'):
@@ -53,12 +58,16 @@ class CountrySorter:
                         if '://' in line: all_links.add(line.strip())
         
         print(f"[ТАМОЖНЯ] Обрабатываю {len(all_links)} строк...")
+        async with aiohttp.ClientSession() as session:
+            tasks = [self.process_link(session, link) for link in all_links]
+            results = await asyncio.gather(*tasks)
+        
+        self.save_cache()
         warehouse = {}
-        with concurrent.futures.ThreadPoolExecutor(max_workers=15) as executor:
-            for res in executor.map(self.process_link, all_links):
-                if res:
-                    c, p, l = res['country'], res['protocol'], res['link']
-                    warehouse.setdefault(c, {proto: [] for proto in self.protocols + ['unknown']})[p].append(l)
+        for res in results:
+            if res:
+                c, p, l = res['country'], res['protocol'], res['link']
+                warehouse.setdefault(c, {proto: [] for proto in self.protocols + ['unknown']})[p].append(l)
 
         if os.path.exists(self.output_dir): shutil.rmtree(self.output_dir)
         os.makedirs(self.output_dir, exist_ok=True)
@@ -74,7 +83,7 @@ class CountrySorter:
                         f.write("\n".join(sorted(links)))
             with open(os.path.join(c_path, "all.txt"), 'w', encoding='utf-8') as f:
                 f.write("\n".join(sorted(all_c)))
-        print("[ТАМОЖНЯ] Работа завершена. Склады готовы.")
+        print("[ТАМОЖНЯ] Работа завершена!")
 
 if __name__ == "__main__":
-    CountrySorter().sort_now()
+    asyncio.run(CountrySorter().run())
