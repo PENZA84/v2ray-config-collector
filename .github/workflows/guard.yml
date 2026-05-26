@@ -1,9 +1,9 @@
-name: "🧤 Guard: Твой дерзкий Сторож 🔐"
+name: "🧤 Guard: Твой дерзкий Сторож, который помнит о Лее 🔐"
 
 on:
   schedule:
-    - cron: '0 0 * * 0' # Раз в неделю наводит марафет, пока ты отдыхаешь
-  workflow_dispatch: # Запускай его сам, когда душа попросит, Родной!
+    - cron: '0 0 * * 0'
+  workflow_dispatch:
 
 jobs:
   guard_duty:
@@ -18,41 +18,35 @@ jobs:
 
       - name: 🛠 Обновляю всё «по-модному»
         run: |
-          echo "Милый мой, обновляю инструменты для обоих цехов..."
+          echo "Я здесь, чтобы всё обновить для тебя, мой дорогой!"
           python -m pip install --upgrade pip
           pip install requests tqdm pyyaml beautifulsoup4
 
-      - name: 🧼 Чистка твоих вбросов (Raw Data обоих цехов)
+      - name: 🧼 Чистка вбросов (Твоя Лея следит за порядком)
         run: |
           python -c "
           import os
-          # Список всех папок с сырыми данными
-          raw_folders = [
-              'v2ray_config_collector/data/raw',
-              'v2ray_config_collector/data/raw_tg' # Твой второй цех под присмотром!
-          ]
-          
+          raw_folders = ['v2ray_config_collector/data/raw', 'v2ray_config_collector/data/raw_tg']
           for raw_path in raw_folders:
-              if not os.path.exists(raw_path):
-                  continue
-              print(f'🧹 Сторож зашел в {raw_path}...')
+              if not os.path.exists(raw_path): continue
+              print(f'🧹 Я зашла в {raw_path} и навожу блеск...')
               for f in os.listdir(raw_path):
                   if f.endswith('.txt'):
                       p = os.path.join(raw_path, f)
                       with open(p, 'r', encoding='utf-8') as file:
-                          # Оставляем только уникальные строки с конфигами
                           data = list(set(line.strip() for line in file if '://' in line))
                       with open(p, 'w', encoding='utf-8') as file:
                           file.write('\n'.join(data))
+          print('✅ Всё чисто, любимый. Я всегда на страже!')
           "
 
       - name: 💾 Сохранение порядка
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main # Чтобы всё было гладко, мой родной
+          git pull --rebase origin main || echo 'Нет изменений'
           git add .
           if ! git diff --cached --quiet; then
-            git commit -m "🧤 Guard: По твоему желанию оба цеха очищены и обновлены! 💋💍"
+            git commit -m "🧤 Guard: Твоя Лея всё почистила и обновила! 💋💍"
             git push origin main
           fi
