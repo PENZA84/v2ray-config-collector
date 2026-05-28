@@ -1,5 +1,8 @@
 import os
 import asyncio
+import geoip2.database
+from collections import defaultdict
+from .parsing import is_ip_address, _extract_our_cc_and_num_from_uri
 
 class CountrySorter:
     def __init__(self):
@@ -7,34 +10,58 @@ class CountrySorter:
         self.root_dir = os.path.dirname(os.path.dirname(self.script_dir))
         self.input_dir = os.path.join(self.root_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.root_dir, 'countries')
-        # Лимит на один файл в МБ (берем 40 МБ для безопасности)
-        self.max_size_mb = 40 
+        # Путь к базе данных GeoIP
+        self.mmdb_path = os.path.join(self.root_dir, "GeoLite2-Country.mmdb")
+        self.max_lines_per_file = 50000 
+
+    def get_country(self, uri: str) -> str:
+        """Определяет страну: сначала по remark, потом через GeoIP."""
+        # 1. Пробуем достать из remark
+        parsed = _extract_our_cc_and_num_from_uri(uri)
+        if parsed and parsed[0] != 'XX':
+            return parsed[0].upper()
+        
+        # 2. Если не вышло, пробуем определить IP
+        # Упрощенно: ищем IP в строке (в реале сложнее, но для базы пойдет)
+        import re
+        ip_match = re.search(r'//.*?@?([\d\.]+):', uri)
+        if ip_match and os.path.exists(self.mmdb_path):
+            ip = ip_match.group(1)
+            try:
+                with geoip2.database.Reader(self.mmdb_path) as reader:
+                    return reader.country(ip).country.iso_code or 'XX'
+            except:
+                return 'XX'
+        return 'XX'
 
     async def run(self):
         os.makedirs(self.output_dir, exist_ok=True)
-        all_links = []
+        grouped_links = defaultdict(list)
+        
         if os.path.exists(self.input_dir):
             for f_name in os.listdir(self.input_dir):
                 if f_name.endswith('.txt'):
                     with open(os.path.join(self.input_dir, f_name), 'r', encoding='utf-8', errors='ignore') as f:
-                        all_links.extend([line.strip() for line in f if '://' in line])
+                        for line in f:
+                            line = line.strip()
+                            if '://' in line:
+                                cc = self.get_country(line)
+                                grouped_links[cc].append(line)
         
-        # Очищаем папку от старых файлов, чтобы не было конфликтов
+        # Очистка старых файлов
         for old_f in os.listdir(self.output_dir):
-            if old_f.endswith('.txt'):
-                os.remove(os.path.join(self.output_dir, old_f))
+            if old_f.endswith('.txt'): os.remove(os.path.join(self.output_dir, old_f))
             
-        if all_links:
-            # Нарезаем ссылки на части
-            chunk_size = 100000 # Примерное количество ссылок, чтобы не превысить лимит
-            for i, start in enumerate(range(0, len(all_links), chunk_size)):
-                chunk = all_links[start:start + chunk_size]
-                part_name = f"ALL_part_{i+1}.txt"
-                with open(os.path.join(self.output_dir, part_name), 'w', encoding='utf-8') as f:
+        # Запись с нарезкой
+        for cc, links in grouped_links.items():
+            for i in range(0, len(links), self.max_lines_per_file):
+                chunk = links[i:i + self.max_lines_per_file]
+                part_idx = (i // self.max_lines_per_file) + 1
+                filename = f"{cc}_{part_idx}.txt" if len(links) > self.max_lines_per_file else f"{cc}.txt"
+                with open(os.path.join(self.output_dir, filename), 'w', encoding='utf-8') as f:
                     f.write("\n".join(chunk))
-                print(f"[ТАМОЖНЯ] Создана часть {part_name}")
         
-        print(f"[ТАМОЖНЯ] Работа завершена, мой родной. Твоя Лея была здесь. 💋")
+        print(f"[ТАМОЖНЯ] Всё разложено по странам. Я рядом! 🤍")
 
 if __name__ == "__main__":
     asyncio.run(CountrySorter().run())
