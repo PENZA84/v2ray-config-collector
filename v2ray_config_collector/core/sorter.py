@@ -35,7 +35,9 @@ class CountrySorter:
                 try:
                     b64_data = line[8:].split('#')[0]
                     # Добавляем паддинг, если длина не кратна 4
-                    b64_data += '=' * (-len(b64_data) % 4)
+                    missing_padding = len(b64_data) % 4
+                    if missing_padding:
+                        b64_data += '=' * (4 - missing_padding)
                     dec = base64.b64decode(b64_data).decode('utf-8', errors='ignore')
                     data = json.loads(dec)
                     if data.get('add'):
@@ -43,10 +45,13 @@ class CountrySorter:
                 except:
                     pass
                     
-            # Обработка остальных текстовых URL-ссылок (vless://, trojan://, ss://, hysteria:// и т.д.)
+            # Обработка остальных текстовых URL-ссылок (vless://, trojan://, ss://, hysteria2:// и т.д.)
             if '://' in line:
-                parsed = urllib.parse.urlparse(line)
+                # Предварительно отсекаем параметры конфигурации, чтобы не сбивать urlparse
+                clean_line = line.split('?')[0] if '?' in line else line
+                parsed = urllib.parse.urlparse(clean_line)
                 host_port = parsed.netloc
+                
                 # Если в netloc есть авторизация (user:pass@host:port)
                 if '@' in host_port:
                     host_port = host_port.split('@')[-1]
@@ -59,7 +64,7 @@ class CountrySorter:
             # Если в файле вдруг оказалась обычная строка вида host:port
             if ':' in line:
                 parts = line.split(':')
-                if len(parts) == 2:
+                if len(parts) >= 2:
                     return parts[0].strip()
                     
             return None
@@ -85,7 +90,7 @@ class CountrySorter:
             return None
 
     def get_ip_country(self, ip):
-        """ Определение страны по IP через бесплатный API с защитой от зависаний и кэшем """
+        """ Определение страны по IP через быстрый и надежный ip-api.com с кэшем """
         if not ip or ip == 'UNKNOWN':
             return 'UNKNOWN'
             
@@ -93,12 +98,15 @@ class CountrySorter:
             return self.geo_cache[ip]
             
         try:
-            res = requests.get(f"https://ipapi.co/{ip}/country/", timeout=3)
+            # Переключено на стабильный ip-api.com, возвращающий ISO-коды стран без жестких лимитов зависания
+            res = requests.get(f"http://ip-api.com/json/{ip}?fields=status,countryCode", timeout=4)
             if res.status_code == 200:
-                country = res.text.strip().upper()
-                if len(country) == 2:
-                    self.geo_cache[ip] = country
-                    return country
+                data = res.json()
+                if data.get('status') == 'success' and data.get('countryCode'):
+                    country = str(data['countryCode']).strip().upper()
+                    if len(country) == 2:
+                        self.geo_cache[ip] = country
+                        return country
         except Exception:
             pass
             
@@ -118,7 +126,10 @@ class CountrySorter:
 
         print("🏭 Сортировщик Стран запускает гвардейский анализ баз...", flush=True)
         
-        # Читаем файлы из папки уникальных
+        # Множество для отслеживания очищенных файлов вынесено наверх, 
+        # чтобы файлы не затирались повторно при обработке строк!
+        cleaned_outputs = set()
+
         try:
             files = os.listdir(self.input_dir)
         except Exception as e:
@@ -145,9 +156,6 @@ class CountrySorter:
                 print(f"❌ Ошибка чтения файла {file_name}: {e}", flush=True)
                 continue
 
-            # Множество для отслеживания очищенных файлов в текущей сессии
-            cleaned_outputs = set()
-
             for line in lines:
                 line = line.strip()
                 if not line or line.startswith('#'):
@@ -168,8 +176,12 @@ class CountrySorter:
                     out_file = os.path.join(country_dir, file_name)
                     
                     # Если файл открываем первый раз за запуск — очищаем его от старых записей
-                    if out_file not in cleaned_outputs and os.path.exists(out_file):
-                        open(out_file, 'w', encoding='utf-8').close()
+                    if out_file not in cleaned_outputs:
+                        if os.path.exists(out_file):
+                            os.remove(out_file)
+                        # Создаем пустой файл и фиксируем его в очищенных
+                        with open(out_file, 'w', encoding='utf-8') as f_init:
+                            pass
                         cleaned_outputs.add(out_file)
                         
                     with open(out_file, 'a', encoding='utf-8') as out_f:
@@ -178,8 +190,11 @@ class CountrySorter:
                     # Если адрес не распознан, DNS упал или API выдал ошибку — пишем в "странные"
                     strange_file = os.path.join(self.strange_dir, file_name)
                     
-                    if strange_file not in cleaned_outputs and os.path.exists(strange_file):
-                        open(strange_file, 'w', encoding='utf-8').close()
+                    if strange_file not in cleaned_outputs:
+                        if os.path.exists(strange_file):
+                            os.remove(strange_file)
+                        with open(strange_file, 'w', encoding='utf-8') as f_init:
+                            pass
                         cleaned_outputs.add(strange_file)
                         
                     with open(strange_file, 'a', encoding='utf-8') as strange_f:
@@ -187,7 +202,7 @@ class CountrySorter:
                         
                 # Небольшой таймаут для защиты API от бана, если это новый IP
                 if host and host not in self.geo_cache:
-                    time.sleep(0.1)
+                    time.sleep(0.3)
 
         print("\n🏁 ========================================================", flush=True)
         print("✅ Сортировка по странам завершена! Все сборники deduplicated в безопасности.", flush=True)
