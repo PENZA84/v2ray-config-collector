@@ -1,9 +1,16 @@
 import os
 import re
 import socket
+import sys
 import time
 import requests
 from urllib.parse import urlparse
+
+# Интегрируем tqdm для красивого прогресс-бара, если он доступен в системе
+try:
+    from tqdm import tqdm
+except ImportError:
+    tqdm = None
 
 class ConnectivityValidator:
     def __init__(self):
@@ -45,7 +52,7 @@ class ConnectivityValidator:
                 port = port_part.split('?')[0].strip()
                 return proto, host.strip(), int(port), auth
             
-        except Exception as e:
+        except Exception:
             pass
         return None, None, None, None
 
@@ -119,8 +126,9 @@ class ConnectivityValidator:
         Основная функция — как в оригинале, с выводом заголовка и полным циклом проверки
         """
         title4 = "Tests TCP connectivity of proxy configurations"
-        print("\n" + title4)
-        print("=" * len(title4))
+        print("\n" + "=" * len(title4))
+        print(title4)
+        print("=" * len(title4) + "\n")
 
         # Собираем все ссылки из всех файлов, которые мы насобирали
         all_links = []
@@ -135,7 +143,7 @@ class ConnectivityValidator:
                     with open(fpath, 'r', encoding='utf-8', errors='ignore') as f:
                         lines = [l.strip() for l in f if l.strip() and '://' in l]
                         all_links.extend(lines)
-                except:
+                except Exception:
                     continue
 
         if not all_links:
@@ -144,7 +152,7 @@ class ConnectivityValidator:
 
         # Убираем дубликаты
         all_links = list(set(all_links))
-        print(f"🔍 Найдено конфигураций для проверки: {len(all_links)}\n")
+        print(f"🔍 Найдено уникальных конфигураций для проверки: {len(all_links)}\n")
 
         # Разделяем на группы
         working_list = []       # Всё работает
@@ -152,12 +160,21 @@ class ConnectivityValidator:
         dead_list = []          # Вообще недоступно
         fast_list = []          # Быстрые (меньше лимита)
 
+        # Обертка в прогресс-бар tqdm для красивого отображения в GitHub Actions
+        iterable = enumerate(all_links, 1)
+        if tqdm:
+            # Настраиваем бар: вывод в stdout, чтобы логи не ломались в облаке
+            progress_bar = tqdm(iterable, total=len(all_links), desc="⚡ Валидация прокси", file=sys.stdout, leave=True)
+        else:
+            progress_bar = iterable
+
         # Проверяем каждую ссылку по очереди
-        for idx, link in enumerate(all_links, 1):
+        for idx, link in progress_bar:
             proto, host, port, auth = self.parse_proxy(link)
             if not proto or not host or not port:
                 dead_list.append(link)
-                print(f"[{idx}/{len(all_links)}] ❌ Неверный формат | {link[:70]}...")
+                if not tqdm:
+                    print(f"[{idx}/{len(all_links)}] ❌ Неверный формат | {link[:70]}...")
                 continue
 
             # Шаг 1: Проверяем TCP соединение
@@ -165,7 +182,8 @@ class ConnectivityValidator:
 
             if not tcp_status:
                 dead_list.append(link)
-                print(f"[{idx}/{len(all_links)}] ❌ TCP недоступен | {proto} | {host}:{port}")
+                if not tqdm:
+                    print(f"[{idx}/{len(all_links)}] ❌ TCP недоступен | {proto} | {host}:{port}")
                 continue
 
             # Шаг 2: Если TCP открыт — проверяем работает ли как прокси
@@ -175,14 +193,17 @@ class ConnectivityValidator:
                 working_list.append(link)
                 if ping < self.max_ping:
                     fast_list.append(link)
-                print(f"[{idx}/{len(all_links)}] ✅ РАБОТАЕТ | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+                if not tqdm:
+                    print(f"[{idx}/{len(all_links)}] ✅ РАБОТАЕТ | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
             elif func_status is False:
                 tcp_ok_not_func.append(link)
-                print(f"[{idx}/{len(all_links)}] ⚠️ ЧАСТИЧНО | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+                if not tqdm:
+                    print(f"[{idx}/{len(all_links)}] ⚠️ ЧАСТИЧНО | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
             else:
                 # Для протоколов без функциональной проверки — просто записываем как рабочие по TCP
                 working_list.append(link)
-                print(f"[{idx}/{len(all_links)}] ✅ TCP OK    | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
+                if not tqdm:
+                    print(f"[{idx}/{len(all_links)}] ✅ TCP OK    | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
 
         # === СОХРАНЯЕМ РЕЗУЛЬТАТЫ ===
         def save_file(name, items):
@@ -203,15 +224,14 @@ class ConnectivityValidator:
             save_file(f"✅ {p.upper()} рабочие.txt", plist)
 
         # === ИТОГОВАЯ СТАТИСТИКА ===
-        print("\n📊 === ИТОГ ПРОВЕРКИ ===")
+        print("\n📊 === ИТОГ ПРОВЕРКИ ЦЕХА ===")
         print(f"🔎 Всего проверено:      {len(all_links)}")
-        print(f"✅ Полностью рабочих:    {len(working_list)}")
-        print(f"⚡ Из них быстрых:       {len(fast_list)}")
-        print(f"⚠️ Частично рабочих:     {len(tcp_ok_not_func)}")
-        print(f"❌ Нерабочих:            {len(dead_list)}")
-        print(f"💾 Результаты в:        data/validated/")
+        print(f"✅ Полностью рабочих:    {len(working_list)} 🤍")
+        print(f"⚡ Из них быстрых:       {len(fast_list)} 🔥")
+        print(f"⚠️ Частично рабочих:     {len(tcp_ok_not_func)} ✨")
+        print(f"❌ Нерабочих:            {len(dead_list)} 💤")
+        print(f"💾 Результаты бережно сохранены в: data/validated/")
         print("=" * 30 + "\n")
-
 
 if __name__ == "__main__":
     validator = ConnectivityValidator()
