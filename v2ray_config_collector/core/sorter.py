@@ -1,60 +1,77 @@
 import os
-import asyncio
 import re
-from collections import defaultdict
-
-def extract_cc(uri):
-    """Вытаскивает код страны из тега #CC_ или по знакам в ссылке"""
-    match = re.search(r'#([A-Z]{2})_', uri)
-    if match:
-        return match.group(1).upper()
-    return 'UNKNOWN'
 
 class CountrySorter:
     def __init__(self):
-        self.script_dir = os.path.dirname(os.path.abspath(__file__))
-        self.root_dir = os.path.dirname(os.path.dirname(self.script_dir))
-        self.input_dir = os.path.join(self.root_dir, 'data', 'unique')
-        self.output_dir = os.path.join(self.root_dir, 'countries')
-        # Лимит строк в одном файле, чтобы размер гарантированно не превышал ~50-85 МБ
-        self.max_lines_per_file = 200000 
-
-    async def run(self):
+        # Папка, где лежат файлы стран для Н
+        self.output_dir = "v2ray_config_collector/countries"
         os.makedirs(self.output_dir, exist_ok=True)
-        grouped = defaultdict(list)
         
-        # Читаем входные данные
-        if os.path.exists(self.input_dir):
-            for f_name in os.listdir(self.input_dir):
-                if f_name.endswith('.txt'):
-                    with open(os.path.join(self.input_dir, f_name), 'r', encoding='utf-8', errors='ignore') as f:
-                        for line in f:
-                            line = line.strip()
-                            if '://' in line:
-                                cc = extract_cc(line)
-                                grouped[cc].append(line)
+        # Протоколы для Трона (ИГНОРИРУЕМ их тут, так как они уже есть в папке уникальный)
+        self.proxy_protocols = re.compile(r'^(socks[45]?|https?|ssh)://', re.IGNORECASE)
         
-        # Записываем отсортированные данные с защитой от превышения размера
-        for cc, links in grouped.items():
-            total_links = len(links)
-            
-            if total_links <= self.max_lines_per_file:
-                # Если файл небольшой, пишем как обычно
-                path = os.path.join(self.output_dir, f"{cc}.txt")
-                with open(path, 'w', encoding='utf-8') as f:
-                    f.write("\n".join(links))
+        # Протоколы для Н (vless, vmess, trojan, ss и т.д.) — их раскладываем по странам
+        self.v2ray_protocols = re.compile(r'^(vless|vmess|trojan|ss|ssr|tuic|hysteria[2]?|v2ray)://', re.IGNORECASE)
+
+    def sort_line(self, line):
+        """
+        Четкая фильтрация: прокси пропускаем (они уже в своей папке), v2ray — в страны.
+        """
+        clean_line = line.strip()
+        if not clean_line or "://" not in clean_line:
+            return None, None
+
+        # 1. Если это прокси для Трона — просто пропускаем, не пишем в страны
+        if self.proxy_protocols.match(clean_line):
+            return None, None
+
+        # 2. Если это конфиг для Н — бережно отправляем в файл нужной страны
+        if self.v2ray_protocols.match(clean_line):
+            match = re.search(r'#([A-Z]{2})(?:_|$)', clean_line)
+            if match:
+                country_code = match.group(1).upper()
+                file_name = f"{country_code}.txt"
             else:
-                # Если ссылок слишком много (как в UNKNOWN), бьем их на части
-                print(f"[ЗАВОД] Файл {cc}.txt слишком большой ({total_links} строк). Разделяем на части...")
-                part_num = 1
-                for i in range(0, total_links, self.max_lines_per_file):
-                    chunk = links[i:i + self.max_lines_per_file]
-                    path = os.path.join(self.output_dir, f"{cc}_{part_num}.txt")
-                    with open(path, 'w', encoding='utf-8') as f:
-                        f.write("\n".join(chunk))
-                    part_num += 1
-        
-        print(f"[ЗАВОД] Сортировка завершена! Все файлы адаптированы под лимиты GitHub.")
+                file_name = "UNKNOWN.txt"
+                
+            return os.path.join(self.output_dir, file_name), clean_line
+
+        return None, None
+
+    def process_raw_data(self, input_file_path):
+        """
+        Чтение сырого файла и чистая сортировка только для Н
+        """
+        if not os.path.exists(input_file_path):
+            print(f"⚠️ Файл {input_file_path} не найден.")
+            return
+
+        print(f"🏭 Сортировщик зашел в цех: {input_file_path}...")
+        file_buffers = {}
+
+        with open(input_file_path, "r", encoding="utf-8") as f:
+            for line in f:
+                target_file, sorted_line = self.sort_line(line)
+                if target_file and sorted_line:
+                    if target_file not in file_buffers:
+                        file_buffers[target_file] = set()
+                    file_buffers[target_file].add(sorted_line)
+
+        # Записываем только v2ray-конфиги по странам
+        for file_path, lines in file_buffers.items():
+            existing_lines = set()
+            if os.path.exists(file_path):
+                with open(file_path, "r", encoding="utf-8") as f:
+                    existing_lines = set(l.strip() for l in f if l.strip())
+            
+            all_lines = sorted(list(existing_lines.union(lines)))
+
+            with open(file_path, "w", encoding="utf-8") as f:
+                for l in all_lines:
+                    f.write(l + "\n")
+                    
+        print(f"✅ Чистая сортировка для Н завершена! Прокси Трона защищены от дублирования.")
 
 if __name__ == "__main__":
-    asyncio.run(CountrySorter().run())
+    sorter = CountrySorter()
+    sorter.process_raw_data("v2ray_config_collector/data/raw/raw_configs.txt")
