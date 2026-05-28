@@ -1,5 +1,7 @@
 import os
 import re
+import sys
+import time
 import requests
 from urllib.parse import urlparse, parse_qs
 
@@ -115,37 +117,75 @@ class TelegramRawCollector:
 
     def collect(self):
         """Основной цикл сбора конфигураций из пулов Телеграма"""
+        # Включаем моментальный вывод строк в консоль GitHub без задержек буфера
+        sys.stdout.reconfigure(line_buffering=True)
+
         if not self.sources: 
+            print("⚠️ Список источников в sources1.txt пуст или файл не найден.", flush=True)
             return
+            
+        print(f"🏭 Телеграм-Цех Завода запускает сбор (Всего источников: {len(self.sources)})...", flush=True)
+        
         collected = []
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
         }
         
+        start_time = time.time()
+        processed_channels = 0
+        
         for url in self.sources:
+            processed_channels += 1
             try:
                 res = requests.get(url, headers=headers, timeout=10)
                 if res.status_code != 200: 
                     continue
-                collected.extend(self.process_content(res.text))
+                
+                # Собираем данные с канала
+                new_configs = self.process_content(res.text)
+                collected.extend(new_configs)
+                
+                # Каждые 5 каналов выводим живой прогресс и скорость сбора
+                if processed_channels % 5 == 0 or processed_channels == len(self.sources):
+                    elapsed = time.time() - start_time
+                    speed = int(len(collected) / elapsed) if elapsed > 0 else 0
+                    print(f"📊 [Прогресс ТГ] Обработано каналов: {processed_channels}/{len(self.sources)} | "
+                          f"Собрано строк: {len(collected)} | "
+                          f"Скорость сбора: {speed} ссылок/сек", flush=True)
             except: 
                 continue
 
         if collected:
-            # Чистим дубликаты на этапе сбора
+            total_raw = len(collected)
+            print("\n⚙️ Запуск фильтрации дубликатов внутри Телеграм-потока...", flush=True)
+            
+            # Чистим дубликаты на этапе сбора и считаем их количество
             clean = list(set([l.strip() for l in collected if l.strip()]))
+            duplicate_count = total_raw - len(clean)
+            
+            print(f"🗑️ Из ТГ-потока успешно отфильтровано дубликатов: {duplicate_count}", flush=True)
+            print(f"💎 Чистых уникальных конфигураций подготовлено: {len(clean)}", flush=True)
+            
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # 1. Создаём общий файл для последующей умной дедупликации (ТГ deduplicated.txt)
+            # 1. Создаём общий файл для последующей дедупликации (ТГ deduplicated.txt)
+            print("📦 Сохраняем общий файл ТГ deduplicated...", flush=True)
             self.split_and_save_file('ТГ ', 'deduplicated', clean)
             
             # 2. Раскладываем конфигурации строго по отдельным файлам-протоколам Throne
+            print("🗂️ Распределяем уникальные данные по файлам протоколов Throne...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('ТГ ', proto, proto_lines)
                     
-            print("[INFO] [TG_MAIN] Всеядный сбор под ядро Throne успешно завершен.")
+            total_time = time.time() - start_time
+            print("\n🏁 ========================================================", flush=True)
+            print(f"[INFO] [TG_MAIN] Всеядный сбор под ядро Throne успешно завершен за {total_time:.2f} сек!", flush=True)
+            print(f"✅ Итог: обработано {processed_channels} ТГ-источников, файлы с префиксом 'ТГ ' обновлены.", flush=True)
+            print("============================================================", flush=True)
+        else:
+            print("❌ ТГ-сбор завершен, но ни одной конфигурации найти не удалось.", flush=True)
 
 if __name__ == "__main__":
     TelegramRawCollector().collect()
