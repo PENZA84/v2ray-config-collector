@@ -6,11 +6,11 @@ try:
     import yaml
     YAML_READY = True
 except ImportError:
-    YAML_READY = False
+    path = False
 
 class FormatParser:
     def __init__(self):
-        # Строгая привязка к нашей идеальной структуре
+        # Строгая привязка к нашей идеальной структуре Завода
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.max_file_size_mb = 40
@@ -71,9 +71,14 @@ class FormatParser:
         # Проверяем, существует ли папка, перед очисткой старых файлов этого протокола
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
+                # ЖЕЛЕЗОБЕТОННЫЙ ЩИТ: Парсер никогда не имеет права удалять или трогать файлы сборников!
+                if 'deduplicated' in f.lower():
+                    continue
                 if f == f"{base_name}.txt" or re.match(r'^' + re.escape(base_name) + r'\s+\d+\.txt$', f):
-                    try: os.remove(os.path.join(self.output_dir, f))
-                    except: pass
+                    try: 
+                        os.remove(os.path.join(self.output_dir, f))
+                    except: 
+                        pass
 
         parts = []
         current_chunk = []
@@ -110,7 +115,7 @@ class FormatParser:
         decoded_text = self.decode_base64_content(raw_text)
         
         configs = []
-        # 1. Извлекаем стандартные ссылки
+        # 1. Извлекаем стандартные ссылки (теперь отлично выгребает из HTML после кнопок)
         configs.extend(self.regex_pattern.findall(decoded_text))
         
         # 2. Если внутри YAML (Clash), вытаскиваем прокси оттуда
@@ -120,7 +125,7 @@ class FormatParser:
         if not configs:
             return
 
-        # Чистим дубликаты
+        # Чистим дубликаты на этапе предварительной раскладки
         clean_configs = list(set([c.strip() for c in configs if c.strip()]))
         os.makedirs(self.output_dir, exist_ok=True)
 
