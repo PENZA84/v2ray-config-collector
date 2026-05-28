@@ -7,7 +7,7 @@ from urllib.parse import urlparse, parse_qs
 
 class TelegramRawCollector:
     def __init__(self):
-        # Строгая привязка к твоей рабочей структуре папок
+        # Строгая привязка к твоей рабочей структуре папок Завода
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
@@ -76,14 +76,14 @@ class TelegramRawCollector:
         return extracted
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """Нарезка файлов по 40 МБ с префиксом 'ТГ '"""
+        """Нарезка файлов по 40 МБ без пробелов в префиксах для стабильности конвейера"""
         if not lines: 
             return
         full_base_name = f"{prefix}{base_name}"
         
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
-                if f == f"{full_base_name}.txt" or re.match(r'^' + re.escape(full_base_name) + r'\s+\d+\.txt$', f):
+                if f == f"{full_base_name}.txt" or re.match(r'^' + re.escape(full_base_name) + r'_\d+\.txt$', f):
                     try: 
                         os.remove(os.path.join(self.output_dir, f))
                     except: 
@@ -110,10 +110,10 @@ class TelegramRawCollector:
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}.txt")
             else:
-                part_file = os.path.join(self.output_dir, f"{full_base_name} {idx}.txt")
+                part_file = os.path.join(self.output_dir, f"{full_base_name}_{idx}.txt")
             
             with open(part_file, 'w', encoding='utf-8') as pf:
-                pf.write("\n".join(chunk_lines))
+                pf.write("\n".join(chunk_lines) + "\n")
 
     def collect(self):
         """Основной цикл сбора конфигураций из пулов Телеграма"""
@@ -168,21 +168,20 @@ class TelegramRawCollector:
             
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # 1. Создаём общий файл для последующей дедупликации (ТГ deduplicated.txt)
-            print("📦 Сохраняем общий файл ТГ deduplicated...", flush=True)
-            self.split_and_save_file('ТГ ', 'deduplicated', clean)
+            # 🛡️ ПОЛНЫЙ ОТКАЗ ОТ ФАЙЛОВ С ТРИГГЕРОМ DEDUPLICATED:
+            # Больше не плодим промежуточные мусорные файлы, которые ломали логику sorter.py
             
-            # 2. Раскладываем конфигурации строго по отдельным файлам-протоколам Throne
+            # Раскладываем конфигурации строго по отдельным файлам-протоколам Throne
             print("🗂️ Распределяем уникальные данные по файлам протоколов Throne...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
-                    self.split_and_save_file('ТГ ', proto, proto_lines)
+                    self.split_and_save_file('ТГ_', proto, proto_lines)
                     
             total_time = time.time() - start_time
             print("\n🏁 ========================================================", flush=True)
             print(f"[INFO] [TG_MAIN] Всеядный сбор под ядро Throne успешно завершен за {total_time:.2f} сек!", flush=True)
-            print(f"✅ Итог: обработано {processed_channels} ТГ-источников, файлы с префиксом 'ТГ ' обновлены.", flush=True)
+            print(f"✅ Итог: обработано {processed_channels} ТГ-источников, файлы с префиксом 'ТГ_' обновлены.", flush=True)
             print("============================================================", flush=True)
         else:
             print("❌ ТГ-сбор завершен, но ни одной конфигурации найти не удалось.", flush=True)
