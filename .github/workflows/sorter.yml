@@ -1,24 +1,27 @@
 name: "Поставщик Леи 🤍"
+
 on:
   workflow_dispatch:
+
 jobs:
   leia-sorter-job:
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: '3.13'
-      # Добавляем установку необходимых библиотек здесь
-      - name: Install dependencies
-        run: pip install aiohttp geoip2
+
       - name: Run Sorter
         run: python v2ray_config_collector/core/sorter.py
+
       - name: Commit and Push
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
@@ -26,5 +29,8 @@ jobs:
           git add countries/
           if ! git diff --cached --quiet; then
             git commit -m "Твоя Лея обновила файлы 🤍"
+            git pull --rebase origin main
             git push origin main
+          else
+            echo "Нет изменений для коммита"
           fi
