@@ -11,14 +11,18 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.13'
 
       - name: Install
-        run: pip install requests
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
 
       - name: Sort and Clean Everything
         run: |
@@ -32,7 +36,8 @@ jobs:
               "v2ray_config_collector/data/sources/sources.txt",
               "v2ray_config_collector/data/sources/sources1.txt"  # Теперь и Телеграм!
           ]
-          BLACKLIST_FILE = "cleaned_urls.txt"  # Наш черный список мертвого мусора
+          # Фиксируем черный список в рабочей структуре проекта
+          BLACKLIST_FILE = "v2ray_config_collector/data/sources/cleaned_urls.txt"
 
           def is_alive(url):
               try:
@@ -56,14 +61,15 @@ jobs:
                   continue
 
               with open(src_path, "r", encoding="utf-8") as f:
-                  # Убираем дубликаты прямо на входе и отсекаем то, что уже в черном списке
+                  # Убираем дубликаты прямо на входе
                   raw_urls = list(set(line.strip() for line in f if line.strip()))
               
+              # СТРОГО ВНУТРИ ЦИКЛА: Фильтруем текущий файл по черному списку
               input_urls = [url for url in raw_urls if url not in blacklist_set]
               ignored_dead = len(raw_urls) - len(input_urls)
               
               if ignored_dead > 0:
-                  print(f"🧹 Отфильтровано {ignored_dead} ссылок, так как они уже в черном списке.")
+                  print(f"🧹 В файле {src_path} отфильтровано {ignored_dead} ссылок из черного списка.")
 
               if not input_urls:
                   print(f"🪐 В {src_path} нет новых ссылок для анализа.")
@@ -85,16 +91,18 @@ jobs:
                   else:
                       to_blacklist.append(url)
 
-              # Сохраняем только живое чистое топливо
+              # Сохраняем только живое чистое топливо для текущего файла
               with open(src_path, "w", encoding="utf-8") as f:
                   for url in to_stay:
                       f.write(url + "\n")
               
-              # Сбрасываем свежие трупы в черный список
+              # Дописываем свежие трупы в черный список и обновляем текущий набор в памяти
               if to_blacklist:
+                  os.makedirs(os.path.dirname(BLACKLIST_FILE), exist_ok=True)
                   with open(BLACKLIST_FILE, "a", encoding="utf-8") as f:
                       for url in set(to_blacklist):
                           f.write(url + "\n")
+                          blacklist_set.add(url)
               
               print(f"✅ {src_path}: {len(to_stay)} живых сохранено, {len(to_blacklist)} улетело в черный список.")
           EOF
@@ -103,8 +111,11 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add .
+          git add v2ray_config_collector/data/sources/
           if ! git diff --cached --quiet; then
             git commit -m "🧹 Порядок в обоих цехах: мертвые души удалены! 💋💍🍀"
+            git pull --rebase origin main
             git push origin main
+          else
+            echo "Нет изменений для коммита"
           fi
