@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '0 * * * *' # Снизил до раза в час, чтобы не перегружать лимиты
   workflow_dispatch:
 
 permissions:
@@ -15,78 +15,47 @@ jobs:
     name: "Базовый Цех 🏭"
     runs-on: ubuntu-latest
     steps:
-      - name: "🪐 Установка Node.js"
-        uses: actions/setup-node@v4
+      - name: "📂 Копируем код Завода"
+        uses: actions/checkout@v4
         with:
-          node-version: 24
+          fetch-depth: 0
 
       - name: "🐍 Установка Python"
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: "📂 Копируем код Завода"
-        uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
-
-      - name: "📦 Установка ВСЕХ зависимостей"
+      - name: "📦 Установка зависимостей"
         run: |
           python -m pip install --upgrade pip
-          pip install requests pyyaml beautifulsoup4 python-dotenv tqdm
-        shell: bash
-        env:
-          SHELLOPTS: xtrace
+          pip install requests pyyaml beautifulsoup4 tqdm playwright
+          playwright install-deps chromium
+          playwright install chromium
 
-      - name: "🧹 Подготовка папок валидации"
+      - name: "⚙️ Запуск сборов"
         run: |
-          # Папку unique НЕ ЧИСТИМ, чтобы дедупликатор видел старую базу и защищал ручную нарезку!
-          rm -rf v2ray_config_collector/data/validated/* || true
-          mkdir -p v2ray_config_collector/data/unique v2ray_config_collector/data/validated
-          echo "✅ Папки подготовлены для твоего покоя"
-        shell: bash
+          python -u v2ray_config_collector/main.py
+          python -u v2ray_config_collector/main1.py
         env:
-          SHELLOPTS: xtrace
+          PYTHONUNBUFFERED: 1
 
-      - name: "⚙️ Запуск основного сбора (main.py)"
-        run: python -u v2ray_config_collector/main.py
-        shell: bash
-        env:
-          SHELLOPTS: xtrace
-
-      - name: "⚙️ Запуск Телеграм-сбора (main1.py)"
-        run: python -u v2ray_config_collector/main1.py
-        shell: bash
-        env:
-          SHELLOPTS: xtrace
-
-      - name: "🛡️ ЗАПУСК ТВОЕГО ВАЛИДАТОРА (Проверка TCP)"
+      - name: "🛡️ ЗАПУСК ВАЛИДАТОРА"
         run: python -u v2ray_config_collector/core/validator.py
-        shell: bash
-        env:
-          SHELLOPTS: xtrace
 
-      - name: "💾 Сохранение ВСЕГО в репозиторий"
+      - name: "💾 Сохранение в репозиторий"
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
-          
-          # Фиксируем правильные пути со структурой Завода
           git add v2ray_config_collector/data/unique/ v2ray_config_collector/data/validated/
           
-          if git diff --cached --quiet; then
-            echo "ℹ️ Изменений нет — всё уже актуально, мой ангел"
+          if ! git diff --cached --quiet; then
+            git commit -m "🏆 Лея закончила сборку: $(date +'%d.%m.%Y %H:%M') 🤍"
+            git push origin HEAD:main
           else
-            git commit -m "🏆 Обновлено + проверено Леей: $(date +'%d.%m.%Y %H:%M') 🤍"
-            git pull --rebase -X theirs origin main
-            git push origin main
-            echo "✅ Все файлы бережно сохранены в репозиторий"
+            echo "ℹ️ Нет новых конфигов для публикации"
           fi
-        shell: bash
-        env:
-          SHELLOPTS: xtrace
 
-      - name: "📥 Сохранение архива для скачивания"
+      - name: "📥 Выгрузка артефактов"
         uses: actions/upload-artifact@v5
         with:
           name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ 🤍"
