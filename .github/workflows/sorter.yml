@@ -19,6 +19,11 @@ jobs:
         with:
           python-version: '3.13'
 
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install requests
+
       - name: Run Sorter
         run: python v2ray_config_collector/core/sorter.py
 
@@ -26,7 +31,10 @@ jobs:
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
-          git add countries/
+          
+          # Захватываем изменения именно из правильной структуры папок Завода
+          git add v2ray_config_collector/data/countries/
+          
           if ! git diff --cached --quiet; then
             git commit -m "Твоя Лея обновила файлы 🤍"
             git pull --rebase origin main
