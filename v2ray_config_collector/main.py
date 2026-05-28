@@ -1,5 +1,7 @@
 import os
 import re
+import sys
+import time
 import requests
 import yaml
 import json
@@ -154,48 +156,87 @@ class MainRawCollector:
 
     def collect(self):
         """Основной цикл сбора конфигураций"""
+        # Принудительно включаем моментальный вывод строк в консоль GitHub Actions
+        sys.stdout.reconfigure(line_buffering=True)
+
         if not self.sources: 
+            print("⚠️ Список источников в sources.txt пуст или файл не найден.", flush=True)
             return
+            
+        print(f"🏭 Основной Цех Завода запускает всеядный сбор (Всего главных источников: {len(self.sources)})...", flush=True)
+        
         collected = []
         headers = {
             'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
         }
         
+        start_time = time.time()
+        processed_sources = 0
+
         for url in self.sources:
+            processed_sources += 1
             try:
                 res = requests.get(url, headers=headers, timeout=10)
                 if res.status_code != 200: 
                     continue
                 content = res.text
                 
+                # 1. Если это прямая ссылка на файл или готовый поток конфигов
                 if url.endswith('.txt') or url.endswith('.yaml') or '://' in content[:200]:
-                    collected.extend(self.process_content(content))
-                    continue
+                    parsed_links = self.process_content(content)
+                    collected.extend(parsed_links)
                 
-                soup = BeautifulSoup(content, 'html.parser')
-                links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
-                
-                for sub_url in list(set(links))[:8]:
-                    try:
-                        s_res = requests.get(sub_url, headers=headers, timeout=10)
-                        if s_res.status_code == 200: 
-                            collected.extend(self.process_content(s_res.text))
-                    except: 
-                        continue
+                # 2. Если это веб-страница, парсим ссылки на подписки через BeautifulSoup
+                else:
+                    soup = BeautifulSoup(content, 'html.parser')
+                    links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
+                    
+                    for sub_url in list(set(links))[:8]:
+                        try:
+                            s_res = requests.get(sub_url, headers=headers, timeout=10)
+                            if s_res.status_code == 200: 
+                                collected.extend(self.process_content(s_res.text))
+                        except: 
+                            continue
+
+                # Каждые 3 источника выдаем живой прогресс, скорость и объем накопленных данных
+                if processed_sources % 3 == 0 or processed_sources == len(self.sources):
+                    elapsed = time.time() - start_time
+                    speed = int(len(collected) / elapsed) if elapsed > 0 else 0
+                    print(f"📊 [Прогресс Завода] Пройдено источников: {processed_sources}/{len(self.sources)} | "
+                          f"Собрано сырых строк: {len(collected)} | "
+                          f"Скорость конвейера: {speed} ссылок/сек", flush=True)
             except: 
                 continue
 
         if collected:
+            total_raw = len(collected)
+            print("\n⚙️ Запуск глобальной очистки и распределения по ядрам...", flush=True)
+            
+            # Фильтруем дубликаты и мусорные строки
             clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
+            duplicate_count = total_raw - len(clean)
+            
+            print(f"🗑️ Всего из основного потока отфильтровано дубликатов: {duplicate_count}", flush=True)
+            print(f"💎 Чистых уникальных данных подготовлено: {len(clean)}", flush=True)
+            
             os.makedirs(self.output_dir, exist_ok=True)
             
             # Внимание! Больше не пишем общий deduplicated.txt скопом!
             # Раскладываем 5000+ источников строго по отдельным файлам-протоколам без префикса
+            print("🗂️ Распределяем чистые уникальные данные по цехам протоколов Трона...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('', proto, proto_lines)
-            print("[INFO] [MAIN] Основной сбор по протоколам успешно завершен.")
+                    
+            total_time = time.time() - start_time
+            print("\n🏁 ========================================================", flush=True)
+            print(f"[INFO] [MAIN] Основной сбор по протоколам успешно завершен за {total_time:.2f} сек!", flush=True)
+            print(f"✅ Итог: все файлы протоколов Трона в папке 'unique' полностью обновлены.", flush=True)
+            print("============================================================", flush=True)
+        else:
+            print("❌ Сбор завершен. Потоковые источники не выдали ни одной конфигурации.", flush=True)
 
 if __name__ == "__main__":
     MainRawCollector().collect()
