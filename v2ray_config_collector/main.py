@@ -58,7 +58,10 @@ class MainRawCollector:
                     name = str(p.get('name', 'Proxy')).replace(' ', '_')
                     server = p.get('server')
                     port = p.get('port')
-                    uuid = p.get('uuid') or p.get('password')
+                    
+                    # Защита от числовых паролей/UUID без кавычек в YAML
+                    raw_uuid = p.get('uuid') or p.get('password')
+                    uuid = str(raw_uuid) if raw_uuid is not None else None
                     
                     if not server or not port: 
                         continue
@@ -76,27 +79,28 @@ class MainRawCollector:
 
                     param_str = f"?{urlencode(params)}" if params else ""
 
-                    if p_type == 'vless':
+                    if p_type == 'vless' and uuid:
                         extracted.append(f"vless://{uuid}@{server}:{port}{param_str}#{name}")
-                    elif p_type == 'vmess':
+                    elif p_type == 'vmess' and uuid:
                         v_json = {
                             "v": "2", "ps": name, "add": str(server), "port": str(port), 
-                            "id": str(uuid), "aid": "0", "net": p.get('network', 'tcp'), 
+                            "id": uuid, "aid": "0", "net": p.get('network', 'tcp'), 
                             "type": "none", "host": p.get('servername', ''), 
                             "path": p.get('ws-opts', {}).get('path', '') if isinstance(p.get('ws-opts'), dict) else '', 
                             "tls": "tls" if p.get('tls') else ""
                         }
                         encoded = base64.b64encode(json.dumps(v_json).encode('utf-8')).decode('utf-8')
                         extracted.append(f"vmess://{encoded}")
-                    elif p_type == 'trojan':
+                    elif p_type == 'trojan' and uuid:
                         extracted.append(f"trojan://{uuid}@{server}:{port}{param_str}#{name}")
-                    elif p_type == 'ss':
+                    elif p_type == 'ss' and uuid:
                         cipher = p.get('cipher', 'aes-256-gcm')
                         user_info = base64.b64encode(f"{cipher}:{uuid}".encode('utf-8')).decode('utf-8')
                         extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
                     elif p_type in self.protocols or f"{p_type}" in ['hy2']:
                         proto_name = 'hysteria2' if p_type == 'hy2' else p_type
-                        extracted.append(f"{proto_name}://{uuid}@{server}:{port}#{name}")
+                        user_part = f"{uuid}@" if uuid else ""
+                        extracted.append(f"{proto_name}://{user_part}{server}:{port}#{name}")
                 except Exception: 
                     continue
         except Exception: 
@@ -118,14 +122,14 @@ class MainRawCollector:
         return clean_found
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """Сохранение раздельных файлов по 40МБ без создания лишнего мусора"""
+        """Сохранение раздельных файлов по 40МБ без пробелов в именах деталей"""
         if not lines: 
             return  
         full_base_name = f"{prefix}{base_name}"
         
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
-                if f == f"{full_base_name}.txt" or re.match(r'^' + re.escape(full_base_name) + r'\s+\d+\.txt$', f):
+                if f == f"{full_base_name}.txt" or re.match(r'^' + re.escape(full_base_name) + r'_\d+\.txt$', f):
                     try: os.remove(os.path.join(self.output_dir, f))
                     except: pass
 
@@ -150,9 +154,9 @@ class MainRawCollector:
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{full_base_name}.txt")
             else:
-                part_file = os.path.join(self.output_dir, f"{full_base_name} {idx}.txt")
+                part_file = os.path.join(self.output_dir, f"{full_base_name}_{idx}.txt")
             with open(part_file, 'w', encoding='utf-8') as pf:
-                pf.write("\n".join(chunk_lines))
+                pf.write("\n".join(chunk_lines) + "\n")
 
     def collect(self):
         """Основной цикл сбора конфигураций"""
@@ -213,7 +217,7 @@ class MainRawCollector:
             total_raw = len(collected)
             print("\n⚙️ Запуск глобальной очистки и распределения по ядрам...", flush=True)
             
-            # Фильтруем дубликаты и мусорные строки
+            # Наш главный фильтр первичных дубликатов
             clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
             duplicate_count = total_raw - len(clean)
             
@@ -222,8 +226,7 @@ class MainRawCollector:
             
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # Внимание! Больше не пишем общий deduplicated.txt скопом!
-            # Раскладываем 5000+ источников строго по отдельным файлам-протоколам без префикса
+            # Раскладываем данные строго по отдельным файлам-протоколам Трона без префикса
             print("🗂️ Распределяем чистые уникальные данные по цехам протоколов Трона...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
