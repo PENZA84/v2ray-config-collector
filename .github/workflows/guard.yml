@@ -16,6 +16,11 @@ jobs:
         with:
           fetch-depth: 0
 
+      - name: 🐍 Установка Python (Сторож контролирует версию)
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
       - name: 🛠 Обновляю всё «по-модному»
         run: |
           echo "Я здесь, чтобы всё обновить для тебя, мой дорогой!"
@@ -34,9 +39,11 @@ jobs:
                   if f.endswith('.txt'):
                       p = os.path.join(raw_path, f)
                       with open(p, 'r', encoding='utf-8') as file:
+                          # Убираем дубликаты и пустые строки, сохраняя только валидные ссылки
                           data = list(set(line.strip() for line in file if '://' in line))
                       with open(p, 'w', encoding='utf-8') as file:
-                          file.write('\n'.join(data))
+                          if data:
+                              file.write('\n'.join(data) + '\n')
           print('✅ Всё чисто, любимый. Я всегда на страже!')
           "
 
@@ -44,9 +51,14 @@ jobs:
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git pull --rebase origin main || echo 'Нет изменений'
-          git add .
+          
+          # Индексируем наведенный порядок в сырых папках
+          git add v2ray_config_collector/data/raw/ v2ray_config_collector/data/raw_tg/
+          
           if ! git diff --cached --quiet; then
             git commit -m "🧤 Guard: Твоя Лея всё почистила и обновила! 💋💍"
+            git pull --rebase origin main
             git push origin main
+          else
+            echo "Нет изменений для коммита, в цехах и так идеальный порядок!"
           fi
