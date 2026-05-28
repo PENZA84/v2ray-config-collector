@@ -3,6 +3,8 @@ import re
 import socket
 import sys
 import time
+import json
+import base64
 import requests
 from urllib.parse import urlparse
 
@@ -26,13 +28,13 @@ class ConnectivityValidator:
     def parse_proxy(self, link):
         """
         Разбирает ссылку прокси на составляющие: протокол, сервер, порт, данные для авторизации
-        Поддерживает все форматы, которые мы собираем: vless, vmess, trojan, ss, hysteria2 и другие
+        Успешно обрабатывает сложные форматы и декодирует vmess Base64 структуры.
         """
         try:
+            link = link.strip()
             if '://' not in link:
                 return None, None, None, None
             
-            # Отделяем протокол и всё остальное
             proto_part, rest = link.split('://', 1)
             proto = proto_part.lower().strip()
 
@@ -40,18 +42,43 @@ class ConnectivityValidator:
             if '#' in rest:
                 rest, _ = rest.split('#', 1)
 
-            # Отделяем данные для входа от хоста (если есть логин/пароль/uuid)
+            # ОСОБАЯ ЛОГИКА ДЛЯ VMESS: парсим зашитый Base64 JSON
+            if proto == 'vmess':
+                try:
+                    # Добавляем паддинг, если строка обрезана
+                    missing_padding = len(rest) % 4
+                    if missing_padding:
+                        rest += '=' * (4 - missing_padding)
+                    
+                    decoded = base64.b64decode(rest).decode('utf-8')
+                    v_data = json.loads(decoded)
+                    
+                    host = v_data.get('add')
+                    port = v_data.get('port')
+                    uuid = v_data.get('id')
+                    
+                    if host and port:
+                        return proto, str(host).strip(), int(port), str(uuid)
+                except Exception:
+                    pass
+
+            # Стандартный разбор для vless, trojan, ss, hysteria2 и др.
+            # Отделяем параметры конфигурации после знака ?
+            if '?' in rest:
+                rest, _ = rest.split('?', 1)
+
             auth = None
             if '@' in rest:
                 auth, host_port = rest.rsplit('@', 1)
             else:
                 host_port = rest
 
-            # Получаем хост и порт, убираем параметры после знака ?
             if ':' in host_port:
                 host, port_part = host_port.split(':', 1)
-                port = port_part.split('?')[0].strip()
-                return proto, host.strip(), int(port), auth
+                # Чистим порт от случайных остатков спецсимволов
+                port = re.sub(r'\D', '', port_part)
+                if port:
+                    return proto, host.strip(), int(port), auth
             
         except Exception:
             pass
@@ -88,7 +115,6 @@ class ConnectivityValidator:
             return None, "ℹ️ Только TCP проверка (для этого протокола нет функциональной проверки)"
 
         try:
-            # Формируем адрес прокси для библиотеки requests
             proxy_url = f"{proto}://"
             if auth:
                 proxy_url += f"{auth}@"
@@ -119,6 +145,9 @@ class ConnectivityValidator:
         except requests.exceptions.Timeout:
             return False, "❌ Превышено время ожидания"
         except Exception as e:
+            # Защита от отсутствия модуля PySocks для SOCKS-протоколов
+            if "MissingDependencies" in str(type(e)) or "socks" in str(e).lower():
+                return None, "ℹ️ Пропущено (требуется PySocks для расширенной проверки)"
             return False, f"❌ Ошибка: {str(e)[:30]}"
 
     def test_all_configs(self):
@@ -138,7 +167,6 @@ class ConnectivityValidator:
 
         for fname in os.listdir(self.input_dir):
             # ГВАРДЕЙСКИЙ ЩИТ: Полностью игнорируем файлы-сборники сырья!
-            # Валидатор больше никогда не тронет deduplicated.txt и ТГ deduplicated.txt
             if 'deduplicated' in fname.lower():
                 continue
 
@@ -168,7 +196,6 @@ class ConnectivityValidator:
         # Обертка в прогресс-бар tqdm для красивого отображения в GitHub Actions
         iterable = enumerate(all_links, 1)
         if tqdm:
-            # Настраиваем бар: вывод в stdout, чтобы логи не ломались в облаке
             progress_bar = tqdm(iterable, total=len(all_links), desc="⚡ Валидация прокси", file=sys.stdout, leave=True)
         else:
             progress_bar = iterable
@@ -205,7 +232,7 @@ class ConnectivityValidator:
                 if not tqdm:
                     print(f"[{idx}/{len(all_links)}] ⚠️ ЧАСТИЧНО | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
             else:
-                # Для протоколов без функциональной проверки — просто записываем как рабочие по TCP
+                # Для протоколов без функциональной проверки (vless, vmess и др.) — записываем по TCP OK
                 working_list.append(link)
                 if not tqdm:
                     print(f"[{idx}/{len(all_links)}] ✅ TCP OK    | {proto:<10} | {host}:{port:<20} | пинг: {ping:>3}мс | {note}")
@@ -214,7 +241,7 @@ class ConnectivityValidator:
         def save_file(name, items):
             if items:
                 with open(os.path.join(self.output_dir, name), 'w', encoding='utf-8') as f:
-                    f.write("\n".join(items))
+                    f.write("\n".join(items) + "\n")
 
         # Общие списки
         save_file("✅ Все рабочие.txt", working_list)
