@@ -21,12 +21,12 @@ jobs:
           node-version: 24
 
       - name: "🐍 Установка Python"
-        uses: actions/setup-python@v6
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
       - name: "📂 Копируем код Завода"
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
@@ -38,10 +38,11 @@ jobs:
         env:
           SHELLOPTS: xtrace
 
-      - name: "🧹 Очистка старых результатов"
+      - name: "🧹 Подготовка папок валидации"
         run: |
-          rm -rf data/unique/* data/validated/* || true
-          mkdir -p data/unique data/validated
+          # Папку unique НЕ ЧИСТИМ, чтобы дедупликатор видел старую базу и защищал ручную нарезку!
+          rm -rf v2ray_config_collector/data/validated/* || true
+          mkdir -p v2ray_config_collector/data/unique v2ray_config_collector/data/validated
           echo "✅ Папки подготовлены для твоего покоя"
         shell: bash
         env:
@@ -69,7 +70,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
-          git add data/unique/ data/validated/
+          
+          # Фиксируем правильные пути со структурой Завода
+          git add v2ray_config_collector/data/unique/ v2ray_config_collector/data/validated/
+          
           if git diff --cached --quiet; then
             echo "ℹ️ Изменений нет — всё уже актуально, мой ангел"
           else
@@ -87,5 +91,5 @@ jobs:
         with:
           name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ 🤍"
           path: |
-            data/unique/
-            data/validated/
+            v2ray_config_collector/data/unique/
+            v2ray_config_collector/data/validated/
