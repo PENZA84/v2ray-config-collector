@@ -1,112 +1,107 @@
 import os
 import re
+import sys
+import time
+import requests
 
 class CountrySorter:
     def __init__(self):
-        # Базовая папка проекта
-        self.base_dir = "v2ray_config_collector"
+        # Строгая привязка к твоей структуре папок Завода
+        self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
+        self.output_dir = os.path.join(self.base_dir, 'data', 'countries')
+        self.strange_dir = os.path.join(self.output_dir, 'странные')
         
-        # Папка, где будут лежать файлы стран для Н
-        self.output_dir = os.path.join(self.base_dir, "countries")
-        os.makedirs(self.output_dir, exist_ok=True)
+        # Регулярка для поиска кодов стран или IP-адресов для определения гео
+        self.ip_pattern = re.compile(r'(?:\d{1,3}\.){3}\d{1,3}')
         
-        # Протоколы для Трона (пропускаем их, они собираются в папке уникальных данных)
-        self.proxy_protocols = re.compile(r'^(socks[45]?|https?|ssh)://', re.IGNORECASE)
-        
-        # Протоколы для Н (vless, vmess, trojan, ss и т.д.) — раскладываем по странам
-        self.v2ray_protocols = re.compile(r'^(vless|vmess|trojan|ss|ssr|tuic|hysteria[2]?|v2ray)://', re.IGNORECASE)
-
-    def sort_line(self, line):
-        """
-        Четкая сортировка одной строки по правилам Завода для Н и Трона.
-        """
-        clean_line = line.strip()
-        if not clean_line or "://" not in clean_line:
-            return None, None
-
-        # 1. Если это прокси для Трона — просто пропускаем
-        if self.proxy_protocols.match(clean_line):
-            return None, None
-
-        # 2. Если это конфиг для Н — отправляем в файл нужной страны
-        if self.v2ray_protocols.match(clean_line):
-            match = re.search(r'#([A-Z]{2})(?:_|$)', clean_line)
-            if match:
-                country_code = match.group(1).upper()
-                file_name = f"{country_code}.txt"
-            else:
-                file_name = "UNKNOWN.txt"
-                
-            return os.path.join(self.output_dir, file_name), clean_line
-
-        return None, None
-
-    def find_input_file(self, default_path):
-        """
-        Умный поиск сырого файла по разным цехам Завода, если дефолтный путь пуст.
-        """
-        # Список возможных путей для проверки
-        possible_paths = [
-            default_path,
-            "raw_configs.txt",
-            os.path.join(self.base_dir, "raw_configs.txt"),
-            "v2ray_config_collector/data/raw_configs.txt",
-            "data/raw/raw_configs.txt"
+        # Список протоколов, которые мы ищем в файлах
+        self.protocols = [
+            'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
+            'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2'
         ]
-        
-        for path in possible_paths:
-            if os.path.exists(path) and os.path.getsize(path) > 0:
-                return path
-                
-        return None
 
-    def process_raw_data(self, default_input_path):
-        """
-        Чтение сырого файла, автопоиск путей и чистая сортировка только для Н
-        """
-        # Ищем, в какой цех парсер положил свежее топливо
-        input_file_path = self.find_input_file(default_input_path)
+    def get_ip_country(self, ip):
+        """Определение страны по IP через бесплатный API (с защитой от зависаний)"""
+        try:
+            res = requests.get(f"https://ipapi.co/{ip}/country/", timeout=3)
+            if res.status_code == 200 and len(res.text.strip()) == 2:
+                return res.text.strip().upper()
+        except:
+            pass
+        return 'UNKNOWN'
+
+    def process_sorting(self):
+        """Основной цикл сортировки прокси по странам с гвардейским фильтром файлов"""
+        sys.stdout.reconfigure(line_buffering=True)
         
-        if not input_file_path:
-            print(f"⚠️ Скрипт обошел все цеха, но файл с сырыми конфигами не найден.")
-            print("📁 Вот что сейчас находится в текущей рабочей директории экшена:")
-            for root, dirs, files in os.walk("."):
-                # Показываем структуру папок, глубоко не зарываясь
-                level = root.replace(".", "").count(os.sep)
-                if level < 3:
-                    indent = " " * 4 * level
-                    print(f"{indent}📂 {os.path.basename(root)}/")
-                    for f in files:
-                        print(f"{indent}    📄 {f}")
+        if not os.path.exists(self.input_dir):
+            print(f"⚠️ Папка с входными данными не найдена: {self.input_dir}", flush=True)
             return
 
-        print(f"🏭 Сортировщик успешно зашел в цех: {input_file_path}...")
-        file_buffers = {}
+        os.makedirs(self.output_dir, exist_ok=True)
+        os.makedirs(self.strange_dir, exist_ok=True)
 
-        with open(input_file_path, "r", encoding="utf-8") as f:
-            for line in f:
-                target_file, sorted_line = self.sort_line(line)
-                if target_file and sorted_line:
-                    if target_file not in file_buffers:
-                        file_buffers[target_file] = set()
-                    file_buffers[target_file].add(sorted_line)
+        print("🏭 Сортировщик Стран запускает гвардейский анализ баз...", flush=True)
+        
+        # Читаем файлы из папки уникальных
+        files = os.listdir(self.input_dir)
+        
+        for file_name in files:
+            # ГВАРДЕЙСКИЙ ЩИТ: Полностью игнорируем любые файлы-сборники!
+            # Больше ни deduplicated.txt, ни ТГ deduplicated.txt сюда не пролезут!
+            if 'deduplicated' in file_name.lower():
+                print(f"🛡️ Сортировщик обошел стороной файл-сборник: {file_name}", flush=True)
+                continue
+                
+            if not file_name.endswith('.txt'):
+                continue
 
-        # Записываем отфильтрованные данные v2ray по странам
-        for file_path, lines in file_buffers.items():
-            existing_lines = set()
-            if os.path.exists(file_path):
-                with open(file_path, "r", encoding="utf-8") as f:
-                    existing_lines = set(l.strip() for l in f if l.strip())
-            
-            all_lines = sorted(list(existing_lines.union(lines)))
+            file_path = os.path.join(self.input_dir, file_name)
+            print(f"🔎 Обработка файла протокола: {file_name}...", flush=True)
 
-            with open(file_path, "w", encoding="utf-8") as f:
-                for l in all_lines:
-                    f.write(l + "\n")
+            try:
+                with open(file_path, 'r', encoding='utf-8') as f:
+                    lines = f.readlines()
+            except Exception as e:
+                print(f"❌ Ошибка чтения файла {file_name}: {e}", flush=True)
+                continue
+
+            for line in lines:
+                line = line.strip()
+                if not line or line.startswith('#'):
+                    continue
+
+                # Ищем IP адрес в строке конфигурации
+                ip_match = self.ip_pattern.search(line)
+                
+                if ip_match:
+                    ip = ip_match.group(0)
+                    # Определяем страну
+                    country = self.get_ip_country(ip)
                     
-        print(f"✅ Чистая сортировка для Н на основе {input_file_path} успешно завершена!")
+                    if country and country != 'UNKNOWN':
+                        country_dir = os.path.join(self.output_dir, country)
+                        os.makedirs(country_dir, exist_ok=True)
+                        
+                        # Сохраняем в папку конкретной страны
+                        out_file = os.path.join(country_dir, file_name)
+                        with open(out_file, 'a', encoding='utf-8') as out_f:
+                            out_f.write(line + '\n')
+                    else:
+                        # Если страна не определилась — отправляем в странные
+                        strange_file = os.path.join(self.strange_dir, file_name)
+                        with open(strange_file, 'a', encoding='utf-8') as strange_f:
+                            strange_f.write(line + '\n')
+                else:
+                    # Если в строке вообще нет IP (какой-то левый текст или битая ссылка) — в странные
+                    strange_file = os.path.join(self.strange_dir, file_name)
+                    with open(strange_file, 'a', encoding='utf-8') as strange_f:
+                        strange_f.write(line + '\n')
+
+        print("\n🏁 ========================================================", flush=True)
+        print("✅ Сортировка по странам завершена! Все сборники deduplicated в безопасности.", flush=True)
+        print("============================================================", flush=True)
 
 if __name__ == "__main__":
-    sorter = CountrySorter()
-    # Стартовый дефолтный путь
-    sorter.process_raw_data("v2ray_config_collector/data/raw/raw_configs.txt")
+    CountrySorter().process_sorting()
