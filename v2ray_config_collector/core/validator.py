@@ -14,6 +14,7 @@ except ImportError:
 
 class ConnectivityValidator:
     def __init__(self):
+        # Строгая привязка к нашей единой структуре папок Завода
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.base_dir, 'data', 'validated')
@@ -58,8 +59,7 @@ class ConnectivityValidator:
 
     def test_tcp_connection(self, host, port):
         """
-        Базовая проверка: открыть ли порт, доступен ли сервер по TCP
-        Как было в оригинале, только доработана стабильность
+        Базовая проверка: открыт ли порт, доступен ли сервер по TCP
         Возвращает: статус (True/False), время ответа в мс
         """
         try:
@@ -123,7 +123,7 @@ class ConnectivityValidator:
 
     def test_all_configs(self):
         """
-        Основная функция — как в оригинале, с выводом заголовка и полным циклом проверки
+        Основная функция валидации с гвардейской защитой от файлов-сборников
         """
         title4 = "Tests TCP connectivity of proxy configurations"
         print("\n" + "=" * len(title4))
@@ -137,6 +137,11 @@ class ConnectivityValidator:
             return
 
         for fname in os.listdir(self.input_dir):
+            # ГВАРДЕЙСКИЙ ЩИТ: Полностью игнорируем файлы-сборники сырья!
+            # Валидатор больше никогда не тронет deduplicated.txt и ТГ deduplicated.txt
+            if 'deduplicated' in fname.lower():
+                continue
+
             if fname.endswith('.txt'):
                 fpath = os.path.join(self.input_dir, fname)
                 try:
@@ -147,7 +152,7 @@ class ConnectivityValidator:
                     continue
 
         if not all_links:
-            print("❌ Нет конфигураций для проверки")
+            print("❌ Нет конфигураций для проверки (сборники deduplicated под защитой)")
             return
 
         # Убираем дубликаты
