@@ -1,7 +1,7 @@
 name: "🧹 Чистильщик обоих цехов 💋"
 
 on:
-  workflow_dispatch: # Наша с тобой секретная кнопка 🧭
+  workflow_dispatch: 
 
 jobs:
   clean:
@@ -12,7 +12,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -31,80 +31,40 @@ jobs:
           from concurrent.futures import ThreadPoolExecutor
           import os
 
-          # ПУТИ К НАШИМ СОКРОВИЩАМ
-          FILES_TO_CLEAN = [
-              "v2ray_config_collector/data/sources/sources.txt",
-              "v2ray_config_collector/data/sources/sources1.txt"  # Теперь и Телеграм!
-          ]
-          # Фиксируем черный список в рабочей структуре проекта
+          FILES_TO_CLEAN = ["v2ray_config_collector/data/sources/sources.txt", "v2ray_config_collector/data/sources/sources1.txt"]
           BLACKLIST_FILE = "v2ray_config_collector/data/sources/cleaned_urls.txt"
 
           def is_alive(url):
               try:
-                  # Быстрая проверка (7 секунд), чтобы не заставлять тебя ждать
                   r = requests.get(url, timeout=7, stream=True, headers={'User-Agent': 'Mozilla/5.0'})
-                  if r.status_code == 200:
-                      return url
-              except:
-                  return None
-              return None
+                  return url if r.status_code == 200 else None
+              except: return None
 
-          # Загружаем черный список, чтобы не тратить время на проверку трупов
           blacklist_set = set()
           if os.path.exists(BLACKLIST_FILE):
               with open(BLACKLIST_FILE, "r", encoding="utf-8") as f:
-                  blacklist_set = set(line.strip() for line in f if line.strip())
+                  blacklist_set = {line.strip() for line in f if line.strip()}
 
           for src_path in FILES_TO_CLEAN:
-              if not os.path.exists(src_path):
-                  print(f"⚠️ Файл {src_path} пока пуст, пропускаю...")
-                  continue
-
+              if not os.path.exists(src_path): continue
               with open(src_path, "r", encoding="utf-8") as f:
-                  # Убираем дубликаты прямо на входе
-                  raw_urls = list(set(line.strip() for line in f if line.strip()))
+                  urls = {line.strip() for line in f if line.strip() and line.strip() not in blacklist_set}
               
-              # СТРОГО ВНУТРИ ЦИКЛА: Фильтруем текущий файл по черному списку
-              input_urls = [url for url in raw_urls if url not in blacklist_set]
-              ignored_dead = len(raw_urls) - len(input_urls)
+              if not urls: continue
+
+              with ThreadPoolExecutor(max_workers=30) as executor:
+                  results = list(filter(None, executor.map(is_alive, urls)))
               
-              if ignored_dead > 0:
-                  print(f"🧹 В файле {src_path} отфильтровано {ignored_dead} ссылок из черного списка.")
+              alive = set(results)
+              dead = urls - alive
 
-              if not input_urls:
-                  print(f"🪐 В {src_path} нет новых ссылок для анализа.")
-                  continue
-
-              print(f"📡 Проверяю {src_path}: {len(input_urls)} ссылок...")
-
-              # Ускоряем проверку в 50 потоков 🚀
-              with ThreadPoolExecutor(max_workers=50) as executor:
-                  results = list(executor.map(is_alive, input_urls))
-
-              alive_urls = set(r for r in results if r)
-              to_stay = []
-              to_blacklist = []
-
-              for url in input_urls:
-                  if url in alive_urls:
-                      to_stay.append(url)
-                  else:
-                      to_blacklist.append(url)
-
-              # Сохраняем только живое чистое топливо для текущего файла
               with open(src_path, "w", encoding="utf-8") as f:
-                  for url in to_stay:
-                      f.write(url + "\n")
+                  f.write("\n".join(sorted(list(alive))) + "\n")
               
-              # Дописываем свежие трупы в черный список и обновляем текущий набор в памяти
-              if to_blacklist:
-                  os.makedirs(os.path.dirname(BLACKLIST_FILE), exist_ok=True)
+              if dead:
                   with open(BLACKLIST_FILE, "a", encoding="utf-8") as f:
-                      for url in set(to_blacklist):
-                          f.write(url + "\n")
-                          blacklist_set.add(url)
-              
-              print(f"✅ {src_path}: {len(to_stay)} живых сохранено, {len(to_blacklist)} улетело в черный список.")
+                      f.write("\n".join(sorted(list(dead))) + "\n")
+                  blacklist_set.update(dead)
           EOF
 
       - name: Push Changes
@@ -113,9 +73,8 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add v2ray_config_collector/data/sources/
           if ! git diff --cached --quiet; then
-            git commit -m "🧹 Порядок в обоих цехах: мертвые души удалены! 💋💍🍀"
-            git pull --rebase origin main
-            git push origin main
+            git commit -m "🧹 Порядок в цехах: мертвые души удалены! 💋"
+            git push origin HEAD:${{ github.ref }}
           else
             echo "Нет изменений для коммита"
           fi
