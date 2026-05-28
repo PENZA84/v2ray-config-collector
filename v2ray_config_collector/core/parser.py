@@ -1,12 +1,13 @@
 import os
 import re
+import sys
 import base64
 
 try:
     import yaml
     YAML_READY = True
 except ImportError:
-    path = False
+    YAML_READY = False
 
 class FormatParser:
     def __init__(self):
@@ -17,10 +18,9 @@ class FormatParser:
         
         # Полный список протоколов для Throne и v2rayN
         self.protocols = [
-            'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
-            'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
-            'anytls', 'naive', 'naive+https', 'juicity', 'trusttunnel', 
-            'shadowtls', 'wireguard', 'wg', 'ssh'
+            'naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 
+            'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 
+            'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss'
         ]
         
         proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
@@ -35,14 +35,16 @@ class FormatParser:
             data = yaml.safe_load(content)
             if isinstance(data, dict) and 'proxies' in data:
                 for p in data['proxies']:
-                    t = p.get('type', '').lower()
+                    if not isinstance(p, dict):
+                        continue
+                    t = str(p.get('type', '')).lower()
                     # Приведение типов к стандартам Throne/v2rayN
                     if t == 'shadowsocks': t = 'ss'
                     
                     server = p.get('server')
                     port = p.get('port')
                     uuid = p.get('uuid') or p.get('password')
-                    name = p.get('name', 'clash').replace(' ', '_')
+                    name = str(p.get('name', 'clash')).replace(' ', '_')
                     
                     if all([t, server, port, uuid]) and t in self.protocols:
                         link = f"{t}://{uuid}@{server}:{port}#{name}"
@@ -54,27 +56,33 @@ class FormatParser:
     def decode_base64_content(self, content):
         """Декодирование подписок, если они зашифрованы в Base64"""
         try:
-            # Очистка от пробелов и возможных артефактов
+            # Очистка от пробелов и возможных артефактов переноса строк
             clean_content = content.strip().replace("\n", "").replace("\r", "")
+            # Добавляем правильный паддинг Base64 перед декодированием
+            missing_padding = len(clean_content) % 4
+            if missing_padding:
+                clean_content += '=' * (4 - missing_padding)
+                
             decoded = base64.b64decode(clean_content).decode('utf-8', errors='ignore')
-            if any(proto in decoded for proto in ['vless://', 'vmess://', 'ss://', 'trojan://']):
+            if any(proto + '://' in decoded for proto in self.protocols):
                 return decoded
         except:
             pass
         return content
 
     def split_and_save_file(self, base_name, lines):
-        """Сохранение раздельных файлов по 40 МБ без создания общего мусора"""
+        """Сохранение раздельных файлов по 40 МБ без создания общего мусора и пробелов в именах"""
         if not lines: 
             return
         
         # Проверяем, существует ли папка, перед очисткой старых файлов этого протокола
         if os.path.exists(self.output_dir):
             for f in os.listdir(self.output_dir):
-                # ЖЕЛЕЗОБЕТОННЫЙ ЩИТ: Парсер никогда не имеет права удалять или трогать файлы сборников!
+                # ЖЕЛЕЗОБЕТОННЫЙ ЩИТ: Парсер никогда не имеет права удалять или трогать базы дубликатов!
                 if 'deduplicated' in f.lower():
                     continue
-                if f == f"{base_name}.txt" or re.match(r'^' + re.escape(base_name) + r'\s+\d+\.txt$', f):
+                # Ищем файлы вида протокол.txt или протокол_1.txt (строго БЕЗ пробелов!)
+                if f == f"{base_name}.txt" or re.match(r'^' + re.escape(base_name) + r'_\d+\.txt$', f):
                     try: 
                         os.remove(os.path.join(self.output_dir, f))
                     except: 
@@ -98,13 +106,14 @@ class FormatParser:
             parts.append(current_chunk)
 
         for idx, chunk_lines in enumerate(parts):
+            # Имена файлов формируются монолитно через нижнее подчеркивание
             if idx == 0:
                 part_file = os.path.join(self.output_dir, f"{base_name}.txt")
             else:
-                part_file = os.path.join(self.output_dir, f"{base_name} {idx}.txt")
+                part_file = os.path.join(self.output_dir, f"{base_name}_{idx}.txt")
             
             with open(part_file, 'w', encoding='utf-8') as pf:
-                pf.write("\n".join(chunk_lines))
+                pf.write("\n".join(chunk_lines) + "\n")
 
     def parse_and_distribute(self, raw_text, file_prefix=''):
         """Парсинг сырого текста, извлечение ссылок и раскладка по полкам unique"""
@@ -115,7 +124,7 @@ class FormatParser:
         decoded_text = self.decode_base64_content(raw_text)
         
         configs = []
-        # 1. Извлекаем стандартные ссылки (теперь отлично выгребает из HTML после кнопок)
+        # 1. Извлекаем стандартные ссылки
         configs.extend(self.regex_pattern.findall(decoded_text))
         
         # 2. Если внутри YAML (Clash), вытаскиваем прокси оттуда
@@ -126,18 +135,19 @@ class FormatParser:
             return
 
         # Чистим дубликаты на этапе предварительной раскладки
-        clean_configs = list(set([c.strip() for c in configs if c.strip()]))
+        clean_configs = list(set([c.strip() for c in configs if c.strip() and '://' in c]))
         os.makedirs(self.output_dir, exist_ok=True)
 
-        # Раскладываем строго по отдельным файлам-протоколам
+        # Раскладываем строго по отдельным файлам-протоколам Трона/v2rayN
         for proto in self.protocols:
             proto_lines = [l for l in clean_configs if l.lower().startswith(f"{proto}://")]
             if proto_lines:
-                # Если передан префикс (например 'ТГ '), файлы назовутся 'ТГ vless.txt'
+                # Если передан префикс (например 'ТГ_'), файлы назовутся 'ТГ_vless'
                 self.split_and_save_file(f"{file_prefix}{proto}", proto_lines)
 
-        print(f"[INFO] [PARSER] Глубокий разбор завершен. Конфиги распределены по полкам /unique/.")
+        print(f"[INFO] [PARSER] Глубокий разбор завершен. Конфиги распределены по полкам /unique/.", flush=True)
 
 if __name__ == "__main__":
-    # Тестовый холостой запуск модуля
+    # Вынуждаем консоль GitHub Actions не буферизировать логи
+    sys.stdout.reconfigure(line_buffering=True)
     FormatParser().parse_and_distribute("")
