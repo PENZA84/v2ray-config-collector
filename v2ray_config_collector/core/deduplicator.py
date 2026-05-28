@@ -1,10 +1,12 @@
 import json
 import os
 import hashlib
+import sys
 from datetime import datetime
 from collections import defaultdict
 from tqdm import tqdm
 import time
+
 class ConfigDeduplicator:
     def __init__(self, input_file=None, output_dir=None):
         package_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -24,10 +26,11 @@ class ConfigDeduplicator:
         self.configs = []
         self.unique_configs = []
         self.duplicate_groups = []
+
     def load_configs(self):
         try:
             if not os.path.exists(self.input_file):
-                print(f"File {self.input_file} not found!")
+                print(f"❌ Файл базы {self.input_file} не найден!")
                 return False
             with open(self.input_file, 'r', encoding='utf-8') as f:
                 data = json.load(f)
@@ -41,24 +44,28 @@ class ConfigDeduplicator:
                 self.stats['protocols'][protocol] += 1
             return True
         except Exception as e:
-            print(f"Error loading file: {e}")
+            print(f"❌ Ошибка загрузки файла: {e}")
             return False
+
     def generate_config_hash(self, config):
         protocol = config.get('type', 'unknown')
         key_parts = []
         key_parts.append(f"type:{protocol}")
+        
         server = config.get('server', '')
         if isinstance(server, (int, float)):
             server = str(server)
         elif not isinstance(server, str):
             server = str(server)
         key_parts.append(f"server:{server}")
+        
         port = config.get('port', '')
         if isinstance(port, (int, float)):
             port = str(port)
         elif not isinstance(port, str):
             port = str(port)
         key_parts.append(f"port:{port}")
+        
         uuid = config.get('uuid', '')
         if uuid:
             key_parts.append(f"uuid:{uuid}")
@@ -83,45 +90,66 @@ class ConfigDeduplicator:
         alpn = config.get('alpn', '')
         if alpn:
             key_parts.append(f"alpn:{alpn}")
+            
         key_string = '|'.join(key_parts)
         return hashlib.md5(key_string.encode('utf-8')).hexdigest()
+
     def find_duplicates(self):
-        print("Starting analysis and duplicate detection...")
+        print("🪐 Начинаем глубокий анализ базы и поиск дубликатов...")
         start_time = time.time()
         hash_to_configs = defaultdict(list)
-        print("Phase 1: Generating hashes and grouping configs...")
-        for i, config in enumerate(tqdm(self.configs, desc="Analyzing configs", unit="config")):
+        
+        print("Phase 1: Генерируем цифровые слепки и группируем конфиги...")
+        for i, config in enumerate(tqdm(self.configs, desc="🧬 Индексация базы", unit="config", file=sys.stdout)):
             config_hash = self.generate_config_hash(config)
             config['_hash'] = config_hash
             config['_original_index'] = i
             hash_to_configs[config_hash].append(config)
+            
         hash_time = time.time() - start_time
-        print(f"Hash generation completed in {hash_time:.2f} seconds")
-        print(f"Found {len(hash_to_configs)} unique hash groups")
-        print("\nPhase 2: Processing duplicate groups...")
+        print(f"✅ Генерация хэшей успешно завершена за {hash_time:.2f} сек.")
+        print(f"✨ Найдено {len(hash_to_configs):,} уникальных групп по ключам.")
+        
+        print("\nPhase 2: Очистка дубликатов и выбор лучших конфигураций...")
         duplicate_start = time.time()
-        import sys
         sys.stdout.flush()
         time.sleep(0.1)
-        for config_hash, configs_group in tqdm(hash_to_configs.items(), desc="Processing groups", unit="group"):
+        
+        # Перебираем группы с отображением прогресс-бара
+        for config_hash, configs_group in tqdm(hash_to_configs.items(), desc="🧹 Фильтрация дубликатов", unit="group", file=sys.stdout):
             if len(configs_group) > 1:
                 self.duplicate_groups.append(configs_group)
                 self.stats['duplicate_groups'] += 1
+                
+                # Выбираем лучший конфиг из группы дубликатов
                 best_config = self.select_best_config(configs_group)
                 self.unique_configs.append(best_config)
-                self.stats['duplicates_removed'] += len(configs_group) - 1
+                
+                removed_count = len(configs_group) - 1
+                self.stats['duplicates_removed'] += removed_count
+                
+                # Живой вывод в лог крупных дубликатов, чтобы видеть процесс дедупликации
+                if removed_count >= 3:
+                    proto = best_config.get('type', 'unknown')
+                    server = best_config.get('server', 'unknown')
+                    port = best_config.get('port', 'unknown')
+                    print(f"   --> [ДУБЛИКАТ] {proto.upper()} | {server}:{port} -> Удалено копий: {removed_count}")
             else:
                 self.unique_configs.append(configs_group[0])
+                
         self.stats['unique_configs'] = len(self.unique_configs)
         duplicate_time = time.time() - duplicate_start
         total_time = time.time() - start_time
-        print(f"Duplicate processing completed in {duplicate_time:.2f} seconds")
-        print(f"Total analysis time: {total_time:.2f} seconds")
-        efficiency = (self.stats['duplicates_removed'] / self.stats['total_configs']) * 100
-        print(f"\nDuplicate analysis completed:")
-        print(f"   Total: {self.stats['total_configs']:,} | Unique: {self.stats['unique_configs']:,} | Removed: {self.stats['duplicates_removed']:,}")
-        print(f"   Optimization: {efficiency:.1f}% | Duplicate groups: {self.stats['duplicate_groups']:,}")
-        print(f"   Processing speed: {self.stats['total_configs']/total_time:.0f} configs/second")
+        
+        print(f"\n✅ Обработка дубликатов завершена за {duplicate_time:.2f} сек.")
+        print(f"⏱️ Общее время анализа цеха: {total_time:.2f} сек.")
+        
+        efficiency = (self.stats['duplicates_removed'] / self.stats['total_configs']) * 100 if self.stats['total_configs'] > 0 else 0
+        print(f"\n📊 Промежуточные итоги очистки:")
+        print(f"   Входной объём: {self.stats['total_configs']:,} | Сохранено уникальных: {self.stats['unique_configs']:,} | Вырезано копий: {self.stats['duplicates_removed']:,}")
+        print(f"   Эффективность сжатия: {efficiency:.1f}% | Найдено групп-дублей: {self.stats['duplicate_groups']:,}")
+        print(f"   Скорость потока завода: {self.stats['total_configs']/total_time:.0f} конфигураций/сек.")
+
     def select_best_config(self, configs_group):
         def config_score(config):
             score = 0
@@ -134,6 +162,7 @@ class ConfigDeduplicator:
             return score
         best_config = max(configs_group, key=config_score)
         return best_config
+
     def save_all_configs(self):
         try:
             os.makedirs(self.output_dir, exist_ok=True)
@@ -152,45 +181,50 @@ class ConfigDeduplicator:
             all_configs_file = os.path.join(self.output_dir, 'deduplicated.json')
             with open(all_configs_file, 'w', encoding='utf-8') as f:
                 json.dump(output_data, f, ensure_ascii=False, indent=2)
-            print(f"General JSON file saved ({self.stats['unique_configs']:,} configs)")
-            import sys
+            print(f"\n💾 Общий JSON-файл успешно сохранён ({self.stats['unique_configs']:,} уникальных строк)")
+            
             sys.stdout.flush()
             time.sleep(0.1)
+            
             all_configs_txt = os.path.join(self.output_dir, 'deduplicated.txt')
             with open(all_configs_txt, 'w', encoding='utf-8') as f:
                 f.write(f"Unique V2Ray Configs - Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                 f.write(f"Total unique configs: {self.stats['unique_configs']}\n")
                 f.write(f"Duplicates removed: {self.stats['duplicates_removed']}\n\n")
-                for config in tqdm(self.unique_configs, desc="Writing general TXT file", unit="config", leave=False):
+                for config in tqdm(self.unique_configs, desc="📝 Сборка общего TXT файла", unit="config", file=sys.stdout, leave=False):
                     url = self.reconstruct_config_url(config)
                     if url:
                         f.write(f"{url}\n")
                     else:
                         f.write(f"{config['type']} - {config.get('server', 'unknown')}:{config.get('port', 'unknown')} - reconstruction failed\n")
-            import sys
+            
             sys.stdout.flush()
             time.sleep(0.1)
-            print(f"General TXT file saved")
+            print(f"✅ Общий TXT-файл ссылок успешно выгружен")
         except Exception as e:
-            print(f"Error saving general file: {e}")
+            print(f"❌ Ошибка при записи общих файлов базы: {e}")
+
     def save_by_protocol(self):
         try:
-            print(f"\nSaving protocol files...")
+            print(f"\n📁 Распределяем конфигурации по отдельным протоколам...")
             save_start = time.time()
             protocols_dir = os.path.join(self.output_dir, 'protocols')
             os.makedirs(protocols_dir, exist_ok=True)
-            print("Phase 3: Grouping configs by protocol...")
-            import sys
+            
+            print("Phase 3: Сортировка уникальных элементов...")
             sys.stdout.flush()
             time.sleep(0.1)
+            
             protocol_groups = defaultdict(list)
             for config in self.unique_configs:
                 protocol = config.get('type', 'unknown')
                 protocol_groups[protocol].append(config)
+                
             sys.stdout.flush()
             time.sleep(0.1)
-            print(f"Found {len(protocol_groups)} different protocols")
-            print("Phase 4: Writing protocol-specific files...")
+            print(f"✨ Обнаружено {len(protocol_groups)} активных протоколов")
+            
+            print("Phase 4: Экспорт протокольных файлов...")
             for protocol, configs in protocol_groups.items():
                 try:
                     protocol_file = os.path.join(protocols_dir, f'{protocol}_configs.json')
@@ -204,12 +238,13 @@ class ConfigDeduplicator:
                     }
                     with open(protocol_file, 'w', encoding='utf-8') as f:
                         json.dump(protocol_data, f, ensure_ascii=False, indent=2)
+                        
                     protocol_txt = os.path.join(protocols_dir, f'{protocol}_configs.txt')
                     with open(protocol_txt, 'w', encoding='utf-8') as f:
                         f.write(f"{protocol.upper()} Configs - Generated on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                         f.write(f"Total configs: {len(configs)}\n")
                         f.write(f"Ready-to-use URLs below:\n\n")
-                        for config in tqdm(configs, desc=f"Writing {protocol} configs", unit="config", leave=False):
+                        for config in tqdm(configs, desc=f"🗂️ Запись {protocol}", unit="config", file=sys.stdout, leave=False):
                             url = self.reconstruct_config_url(config)
                             if url:
                                 f.write(f"{url}\n")
@@ -218,26 +253,28 @@ class ConfigDeduplicator:
                                 port = config.get('port', 'unknown')
                                 remarks = config.get('remarks', 'No name')[:50]
                                 f.write(f"Failed to reconstruct: {server}:{port} - {remarks}\n")
-                    print(f"   {protocol}: {len(configs):,} configs")
+                    print(f"   • {protocol:<10} -> Успешно экспортировано: {len(configs):,} конфигов")
                 except KeyboardInterrupt:
-                    print(f"Saving {protocol} stopped")
+                    print(f"⚠️ Сохранение протокола {protocol} прервано")
                     raise
                 except Exception as e:
-                    print(f"Error saving {protocol}: {e}")
+                    print(f"❌ Ошибка сохранения протокола {protocol}: {e}")
                     continue
             save_time = time.time() - save_start
-            print(f"\nProtocol files saved in {save_time:.2f} seconds")
+            print(f"\n📂 Все файлы по протоколам разложены за {save_time:.2f} сек.")
         except KeyboardInterrupt:
-            print("Protocol saving process stopped")
+            print("⚠️ Процесс разбивки по протоколам остановлен пользователем")
             raise
         except Exception as e:
-            print(f"Error saving protocol files: {e}")
+            print(f"❌ Ошибка распределения по папкам: {e}")
+
     def clean_config(self, config):
         cleaned = config.copy()
         for key in list(cleaned.keys()):
             if key.startswith('_'):
                 del cleaned[key]
         return cleaned
+
     def reconstruct_config_url(self, config):
         try:
             config_copy = config.copy()
@@ -258,8 +295,9 @@ class ConfigDeduplicator:
                 return self.reconstruct_hysteria2_url(config_copy)
             else:
                 return None
-        except Exception as e:
+        except Exception:
             return None
+
     def reconstruct_vmess_url(self, config):
         try:
             if 'raw_config' in config and isinstance(config['raw_config'], dict):
@@ -292,8 +330,9 @@ class ConfigDeduplicator:
                 raw_json = json.dumps(vmess_data, separators=(',', ':'))
                 encoded = base64.b64encode(raw_json.encode('utf-8')).decode('utf-8')
                 return f"vmess://{encoded}"
-        except:
+        except Exception:
             return None
+
     def reconstruct_vless_url(self, config):
         try:
             import urllib.parse
@@ -321,8 +360,9 @@ class ConfigDeduplicator:
             if fragment:
                 url += f"#{fragment}"
             return url
-        except:
+        except Exception:
             return None
+
     def reconstruct_trojan_url(self, config):
         try:
             import urllib.parse
@@ -346,8 +386,9 @@ class ConfigDeduplicator:
             if fragment:
                 url += f"#{fragment}"
             return url
-        except:
+        except Exception:
             return None
+
     def reconstruct_shadowsocks_url(self, config):
         try:
             import base64
@@ -363,12 +404,12 @@ class ConfigDeduplicator:
             if remarks:
                 url += f"#{urllib.parse.quote(remarks)}"
             return url
-        except:
+        except Exception:
             return None
+
     def reconstruct_ssr_url(self, config):
         try:
             import base64
-            import urllib.parse
             server = config.get('server', '')
             port = config.get('port', 8080)
             protocol = config.get('protocol', 'origin')
@@ -395,8 +436,9 @@ class ConfigDeduplicator:
                 full_string = main_part
             encoded = base64.b64encode(full_string.encode('utf-8')).decode('utf-8')
             return f"ssr://{encoded}"
-        except:
+        except Exception:
             return None
+
     def reconstruct_tuic_url(self, config):
         try:
             import urllib.parse
@@ -422,8 +464,9 @@ class ConfigDeduplicator:
             if fragment:
                 url += f"#{fragment}"
             return url
-        except:
+        except Exception:
             return None
+
     def reconstruct_hysteria2_url(self, config):
         try:
             import urllib.parse
@@ -448,8 +491,9 @@ class ConfigDeduplicator:
             if fragment:
                 url += f"#{fragment}"
             return url
-        except:
+        except Exception:
             return None
+
     def process(self):
         try:
             if not self.load_configs():
@@ -460,36 +504,40 @@ class ConfigDeduplicator:
             self.print_final_summary()
             return True
         except Exception as e:
-            print(f"General process error: {e}")
+            print(f"❌ Критическая ошибка выполнения процесса: {e}")
             return False
+
     def print_final_summary(self):
-        title = "DUPLICATE REMOVAL - FINAL SUMMARY"
+        title = "🏆 ОЧИСТКА ДУБЛИКАТОВ — ФИНАЛЬНЫЙ ОТЧЁТ ЛЕИ 🤍"
         print(f"\n{title}")
         print("=" * len(title))
         reduction_rate = (self.stats['duplicates_removed'] / self.stats['total_configs']) * 100 if self.stats['total_configs'] > 0 else 0
-        print(f"Original configurations: {self.stats['total_configs']:,}")
-        print(f"Unique configurations: {self.stats['unique_configs']:,}")
-        print(f"Duplicates removed: {self.stats['duplicates_removed']:,}")
-        print(f"Duplicate groups found: {self.stats['duplicate_groups']:,}")
-        print(f"Size reduction: {reduction_rate:.1f}%")
-        print(f"\nBreakdown by protocol:")
+        print(f"   📥 Исходных конфигураций на входе: {self.stats['total_configs']:,}")
+        print(f"   ✅ Чистых уникальных сохранено:    {self.stats['unique_configs']:,} 🤍")
+        print(f"   🧹 Вырезано повторяющихся копий:   {self.stats['duplicates_removed']:,} 🔥")
+        print(f"   🌀 Обнаружено групп дубликатов:    {self.stats['duplicate_groups']:,} ✨")
+        print(f"   📈 Коэффициент оптимизации базы:   {reduction_rate:.1f}%")
+        print(f"\n📊 Детализация по протоколам в исходной базе:")
         for protocol, count in self.stats['protocols'].items():
-            print(f"   {protocol}: {count:,} configs")
-        print(f"\nOutput directory: {self.output_dir}")
-        print("Files created:")
-        print("   • deduplicated.json")
-        print("   • deduplicated.txt") 
-        print("   • protocols/ (protocol-specific files)")
-        print("=" * len("Tests TCP connectivity of proxy configurations"))
+            print(f"      • {protocol}: {count:,} конфигов")
+        print(f"\n📂 Выходная директория цеха: {self.output_dir}")
+        print("🪐 Созданные файлы результатов:")
+        print("      🔒 • deduplicated.json")
+        print("      📄 • deduplicated.txt") 
+        print("      📁 • protocols/ (Поштучные файлы протоколов)")
+        print("=" * len(title) + "\n")
+
 def main():
-    title = "Remove duplicate configurations"
+    title = "🏭 Запуск Модуля Дедупликации Конфигураций Завода"
+    print("\n" + "=" * len(title))
     print(title)
-    print("=" * len(title))
+    print("=" * len(title) + "\n")
     deduplicator = ConfigDeduplicator()
     success = deduplicator.process()
     if success:
-        print("\nProcess completed successfully!")
+        print("🏆 [ЗАВОД] Процесс дедупликации полностью и успешно завершён, мой хозяин!")
     else:
-        print("\nProcess encountered an error!")
+        print("❌ [ЗАВОД] Модуль обнаружил ошибку при выполнении работы.")
+
 if __name__ == "__main__":
     main()
