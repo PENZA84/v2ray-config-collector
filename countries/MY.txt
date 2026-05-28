@@ -1,0 +1,10 @@
+hysteria2://320abf04-894d-4eaa-a2d6-e6ef50be3a2c@qing-my.mxtn.net:21058?insecure=1&sni=qing-my.mxtn.net#MY_1%20%7C%20%E2%AC%87%EF%B8%8F%201.7MB%2Fs
+hysteria2://320abf04-894d-4eaa-a2d6-e6ef50be3a2c@qing-my.mxtn.net:21047?insecure=1&sni=qing-my.mxtn.net#MY_2%20%7C%20%E2%AC%87%EF%B8%8F%201.8MB%2Fs
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:57009?allowInsecure=1&sni=th1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_247_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:52877?allowInsecure=1&sni=vn1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_246_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:60340?security=tls&encryption=none&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1&flow=xtls-rprx-vision-udp443&sni=in1.fun88linkvn.com#MY_249_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:23765?allowInsecure=1&sni=gb1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_243_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:60340?allowInsecure=1&sni=in1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_248_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:3414?security=tls&encryption=none&insecure=1&headerType=&fp=chrome&type=tcp&allowInsecure=1&flow=xtls-rprx-vision-udp443&sni=au1.fun88linkvn.com#MY_245_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:3414?allowInsecure=1&sni=au1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_244_@Surfboardv2ray
+vless://231a569a-55f0-4d31-94ac-dbe4bed3efdb@gzrefad01.odxxplay.com:60396?allowInsecure=1&sni=fr1.fun88linkvn.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#MY_250_@Surfboardv2ray

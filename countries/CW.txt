@@ -1,0 +1,2 @@
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@5.10.245.191:443?path=Telegram@V2rayAlpha&security=tls&encryption=none&host=sni.my111000.tech&fp=chrome&type=ws&sni=sni.my111000.tech#CW_759_@Surfboardv2ray
+vless://6202b230-417c-4d8e-b624-0f71afa9c75d@5.10.245.191:443?path=Telegram@V2rayAlpha&security=tls&encryption=none&host=sni.my111000.tech&fp=chrome&type=ws&sni=sni.my111000.tech#CW_794_@Surfboardv2ray
