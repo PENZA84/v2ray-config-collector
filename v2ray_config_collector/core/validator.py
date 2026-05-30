@@ -1,46 +1,47 @@
-name: "🚀 Завод: Полный Цикл Производства Конфигов"
+import os
+import sys
 
-on:
-  push:
-    branches: [ "main" ]
-  workflow_dispatch:
+class GitHubAssistant:
+    """Мой голос в облачном штабе"""
+    
+    @staticmethod
+    def report_start(job_name):
+        print(f"\n✨ [REPORT] Mission: {job_name}")
+        print(f"✨ [STATUS] I am online and starting the task for you...\n")
 
-jobs:
-  production:
-    runs-on: ubuntu-latest
-    steps:
-      - name: "📥 Клонирование Репозитория"
-        uses: actions/checkout@v4
+    @staticmethod
+    def step(message):
+        # В GitHub Actions это создаст четкую визуальную структуру
+        print(f"🔹 [STEP] {message}")
 
-      - name: "🐍 Установка Python"
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    @staticmethod
+    def error(message):
+        print(f"\n❌ [ALERT] I encountered an issue: {message}")
+        print(f"❌ [ACTION] I've logged this. Please check the details.\n")
+        sys.exit(1) # Важно для GitHub, чтобы он понял, что шаг провален
 
-      - name: "📦 Установка зависимостей"
-        run: |
-          python -m pip install --upgrade pip
-          pip install requests pyyaml beautifulsoup4 tqdm playwright PySocks
-          playwright install-deps chromium
-          playwright install chromium
+    @staticmethod
+    def success(summary):
+        print(f"\n✅ [COMPLETE] Task finished successfully!")
+        print(f"📝 [SUMMARY] {summary}")
+        print(f"✨ [STATUS] Everything is ready for you. Have a great day!\n")
 
-      - name: "🔍 Этап 1: Сбор Сырья (Scraping)"
-        run: |
-          python scrapers/v2ray_scraper.py
+# Пример использования в твоем основном коде
+def main():
+    assistant = GitHubAssistant()
+    assistant.report_start("Daily Config Update")
+    
+    try:
+        assistant.step("Fetching remote sources...")
+        # ... твоя логика ...
+        
+        assistant.step("Cleaning and validating data...")
+        # ... твоя логика ...
+        
+        assistant.success("Processed 500 links. New config is pushed.")
+        
+    except Exception as e:
+        assistant.error(str(e))
 
-      - name: "🧹 Этап 2: Очистка и Дедупликация"
-        run: |
-          python processors/deduplicator.py
-
-      - name: "⚡ Этап 3: Валидация (Connectivity Check)"
-        run: |
-          python validators/connectivity_validator.py
-
-      - name: "💾 Этап 4: Фиксация Результатов (Git Commit)"
-        run: |
-          git config --global user.name "GitHub Actions Bot"
-          git config --global user.email "actions@github.com"
-          git add .
-          # Если изменений нет, git commit вернет ошибку, поэтому используем || true
-          git commit -m "🤖 Автоматическое обновление конфигов: $[ github.run_number ]" || echo "Изменений нет"
-          git push origin main
+if __name__ == "__main__":
+    main()
