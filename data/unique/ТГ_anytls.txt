@@ -1,0 +1,2 @@
+anytls://1c61845e-2a5c-45ae-a34e-8968cb85cc0d@38.99.248.217:51112?security=none&amp;type=tcp&amp;alpn=h2&amp;sni=nauk.eu.cc&amp;fp=chrome&amp;idle_session_check_interval=30&amp;idle_session_timeout=30#%F0%9F%87%BA%F0%9F%87%B8US_1%7C883KB%2Fs
+anytls://c400726b-9a54-4b2f-8c34-94a7262a939b@hk01.shcdn.xyz:11101?peer=hk01.shanhai.sbs&amp;udp=1#%E9%A6%99%E6%B8%AF01
