@@ -12,14 +12,9 @@ from urllib.parse import urljoin, urlencode
 class MainRawCollector:
     def __init__(self):
         # --- ИСПРАВЛЕННАЯ НАВИГАЦИЯ ---
-        # Мы берем путь к текущему файлу и поднимаемся на ОДИН уровень вверх, 
-        # чтобы гарантированно попасть в корень репозитория.
-        # Если main.py в корне, то os.path.dirname(os.path.abspath(__file__)) вернет корень.
-        # Если main.py в папке core, то один dirname вернет корень.
         current_file_path = os.path.abspath(__file__)
         self.base_dir = os.path.dirname(current_file_path)
         
-        # Если мы обнаружили, что мы внутри папки 'core', поднимаемся еще на уровень выше к корню проекта
         if os.path.basename(self.base_dir) == 'core':
             self.base_dir = os.path.dirname(self.base_dir)
             
@@ -56,7 +51,8 @@ class MainRawCollector:
         extracted = []
         try:
             data = yaml.safe_load(yaml_text)
-            if not data or 'proxies' not not in data: 
+            # --- ИСПРАВЛЕНО ТУТ: УБРАН ДВОЙНОЙ 'not not' ---
+            if not data or 'proxies' not in data: 
                 return extracted
                 
             for p in data['proxies']:
