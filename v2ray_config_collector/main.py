@@ -11,13 +11,29 @@ from urllib.parse import urljoin, urlencode
 
 class MainRawCollector:
     def __init__(self):
-        # --- ИСПРАВЛЕННАЯ НАВИГАЦИЯ ---
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ---
+        # Получаем абсолютный путь к текущему файлу
         current_file_path = os.path.abspath(__file__)
-        self.base_dir = os.path.dirname(current_file_path)
+        # Определяем папку, где лежит скрипт
+        current_dir = os.path.dirname(current_file_path)
         
-        if os.path.basename(self.base_dir) == 'core':
+        # Логика поиска корня: если мы в v2ray_config_collector, 
+        # то корень — это папка уровнем выше.
+        # Если мы в core, то корень — это папка уровнем выше.
+        # Мы будем искать папку 'data' вверх по дереву.
+        
+        self.base_dir = current_dir
+        found_root = False
+        for _ in range(3):  # Проверяем до 3 уровней вверх
+            if os.path.exists(os.path.join(self.base_dir, 'data')):
+                found_root = True
+                break
             self.base_dir = os.path.dirname(self.base_dir)
-            
+        
+        if not found_root:
+            # Если не нашли папку data, берем текущую директорию как базу
+            self.base_dir = current_dir
+
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         # ------------------------------
@@ -51,7 +67,6 @@ class MainRawCollector:
         extracted = []
         try:
             data = yaml.safe_load(yaml_text)
-            # --- ИСПРАВЛЕНО ТУТ: УБРАН ДВОЙНОЙ 'not not' ---
             if not data or 'proxies' not in data: 
                 return extracted
                 
