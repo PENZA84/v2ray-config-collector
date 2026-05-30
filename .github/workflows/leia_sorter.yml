@@ -12,7 +12,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1 # Ускоряем, нам не нужна вся история
+          fetch-depth: 1
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -22,7 +22,6 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          # Добавь сюда библиотеки, которые использует sorter.py, если есть (например, requests)
           pip install requests
 
       - name: Run Sorter
@@ -33,12 +32,10 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # Захватываем изменения из структуры папок Завода
           git add v2ray_config_collector/data/countries/
           
           if ! git diff --cached --quiet; then
             git commit -m "Твоя Лея обновила файлы 🤍"
-            # Используем HEAD:${{ github.ref }} для безопасного пуша без ребейза
             git push origin HEAD:${{ github.ref }}
           else
             echo "Нет изменений для коммита"
