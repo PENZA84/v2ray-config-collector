@@ -7,10 +7,19 @@ from urllib.parse import urlparse, parse_qs
 
 class TelegramRawCollector:
     def __init__(self):
-        # Строгая привязка к твоей рабочей структуре папок Завода
-        self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # --- ИСПРАВЛЕННАЯ НАВИГАЦИЯ (СИНХРОНИЗАЦИЯ С ЗАВОДОМ) ---
+        # Мы используем ту же логику, что и в main.py, чтобы пути СОВПАДАЛИ.
+        current_file_path = os.path.abspath(__file__)
+        self.base_dir = os.path.dirname(current_file_path)
+        
+        # Если скрипт лежит в папке core, поднимаемся к корню проекта
+        if os.path.basename(self.base_dir) == 'core':
+            self.base_dir = os.path.dirname(self.base_dir)
+            
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
+        # -------------------------------------------------------
+
         self.max_file_size_mb = 40
         
         # Полный эталонный список протоколов ядра Throne (Nekoray)
@@ -33,6 +42,7 @@ class TelegramRawCollector:
     def load_sources(self):
         """Загрузка пула каналов из файла sources1.txt"""
         if not os.path.exists(self.sources_file): 
+            print(f"❌ ОШИБКА: Файл источников не найден: {self.sources_file}", flush=True)
             return []
         links = []
         with open(self.sources_file, 'r', encoding='utf-8') as f:
@@ -117,7 +127,6 @@ class TelegramRawCollector:
 
     def collect(self):
         """Основной цикл сбора конфигураций из пулов Телеграма"""
-        # Включаем моментальный вывод строк в консоль GitHub без задержек буфера
         sys.stdout.reconfigure(line_buffering=True)
 
         if not self.sources: 
@@ -125,6 +134,7 @@ class TelegramRawCollector:
             return
             
         print(f"🏭 Телеграм-Цех Завода запускает сбор (Всего источников: {len(self.sources)})...", flush=True)
+        print(f"📍 СКЛАД БУДЕТ ЗДЕСЬ: {self.output_dir}", flush=True)
         
         collected = []
         headers = {
@@ -141,17 +151,15 @@ class TelegramRawCollector:
                 if res.status_code != 200: 
                     continue
                 
-                # Собираем данные с канала
                 new_configs = self.process_content(res.text)
                 collected.extend(new_configs)
                 
-                # Каждые 5 каналов выводим живой прогресс и скорость сбора
                 if processed_channels % 5 == 0 or processed_channels == len(self.sources):
                     elapsed = time.time() - start_time
                     speed = int(len(collected) / elapsed) if elapsed > 0 else 0
                     print(f"📊 [Прогресс ТГ] Обработано каналов: {processed_channels}/{len(self.sources)} | "
                           f"Собрано строк: {len(collected)} | "
-                          f"Скорость сбора: {speed} ссылок/сек", flush=True)
+                          f"Скорость сбора: {speed} л/сек", flush=True)
             except: 
                 continue
 
@@ -159,7 +167,6 @@ class TelegramRawCollector:
             total_raw = len(collected)
             print("\n⚙️ Запуск фильтрации дубликатов внутри Телеграм-потока...", flush=True)
             
-            # Чистим дубликаты на этапе сбора и считаем их количество
             clean = list(set([l.strip() for l in collected if l.strip()]))
             duplicate_count = total_raw - len(clean)
             
@@ -168,10 +175,6 @@ class TelegramRawCollector:
             
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # 🛡️ ПОЛНЫЙ ОТКАЗ ОТ ФАЙЛОВ С ТРИГГЕРОМ DEDUPLICATED:
-            # Больше не плодим промежуточные мусорные файлы, которые ломали логику sorter.py
-            
-            # Раскладываем конфигурации строго по отдельным файлам-протоколам Throne
             print("🗂️ Распределяем уникальные данные по файлам протоколов Throne...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
