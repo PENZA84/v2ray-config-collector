@@ -11,28 +11,38 @@ from urllib.parse import urljoin, urlencode
 
 class MainRawCollector:
     def __init__(self):
-        # Определение единого правильного пути внутри v2ray_config_collector
-        self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+        # --- ИСПРАВЛЕННАЯ НАВИГАЦИЯ ---
+        # Мы берем путь к текущему файлу и поднимаемся на ОДИН уровень вверх, 
+        # чтобы гарантированно попасть в корень репозитория.
+        # Если main.py в корне, то os.path.dirname(os.path.abspath(__file__)) вернет корень.
+        # Если main.py в папке core, то один dirname вернет корень.
+        current_file_path = os.path.abspath(__file__)
+        self.base_dir = os.path.dirname(current_file_path)
+        
+        # Если мы обнаружили, что мы внутри папки 'core', поднимаемся еще на уровень выше к корню проекта
+        if os.path.basename(self.base_dir) == 'core':
+            self.base_dir = os.path.dirname(self.base_dir)
+            
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
+        # ------------------------------
+
         self.max_file_size_mb = 40
         
-        # Единый глобальный список поддерживаемых протоколов
         self.protocols = [
             'naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 
             'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 
             'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss'
         ]
         
-        # Оптимизированная компиляция регулярного выражения для быстрой фильтрации
         proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
         self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
         
         self.sources = self.load_sources()
 
     def load_sources(self):
-        """Загрузка основных источников из правильной папки data/sources/sources.txt"""
         if not os.path.exists(self.sources_file): 
+            print(f"❌ ОШИБКА: Файл источников не найден по пути: {self.sources_file}", flush=True)
             return []
         links = []
         with open(self.sources_file, 'r', encoding='utf-8') as f:
@@ -43,11 +53,10 @@ class MainRawCollector:
         return links
 
     def parse_clash_yaml(self, yaml_text):
-        """Продвинутый парсер Clash YAML с поддержкой сложных параметров"""
         extracted = []
         try:
             data = yaml.safe_load(yaml_text)
-            if not data or 'proxies' not in data: 
+            if not data or 'proxies' not not in data: 
                 return extracted
                 
             for p in data['proxies']:
@@ -58,8 +67,6 @@ class MainRawCollector:
                     name = str(p.get('name', 'Proxy')).replace(' ', '_')
                     server = p.get('server')
                     port = p.get('port')
-                    
-                    # Защита от числовых паролей/UUID без кавычек в YAML
                     raw_uuid = p.get('uuid') or p.get('password')
                     uuid = str(raw_uuid) if raw_uuid is not None else None
                     
@@ -108,10 +115,8 @@ class MainRawCollector:
         return extracted
 
     def process_content(self, text):
-        """Определение формата контента и его очистка"""
         if 'proxies:' in text: 
             return self.parse_clash_yaml(text)
-        
         found = self.regex_pattern.findall(text)
         clean_found = []
         for link in found:
@@ -122,7 +127,6 @@ class MainRawCollector:
         return clean_found
 
     def split_and_save_file(self, prefix, base_name, lines):
-        """Сохранение раздельных файлов по 40МБ без пробелов в именах деталей"""
         if not lines: 
             return  
         full_base_name = f"{prefix}{base_name}"
@@ -159,21 +163,16 @@ class MainRawCollector:
                 pf.write("\n".join(chunk_lines) + "\n")
 
     def collect(self):
-        """Основной цикл сбора конфигураций"""
-        # Принудительно включаем моментальный вывод строк в консоль GitHub Actions
         sys.stdout.reconfigure(line_buffering=True)
-
         if not self.sources: 
             print("⚠️ Список источников в sources.txt пуст или файл не найден.", flush=True)
             return
             
-        print(f"🏭 Основной Цех Завода запускает всеядный сбор (Всего главных источников: {len(self.sources)})...", flush=True)
+        print(f"🏭 Основной Цех Завода запускает всеядный сбор...", flush=True)
+        print(f"📍 СКЛАД БУДЕТ ЗДЕСЬ: {self.output_dir}", flush=True)
         
         collected = []
-        headers = {
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
-        }
-        
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
         start_time = time.time()
         processed_sources = 0
 
@@ -181,65 +180,47 @@ class MainRawCollector:
             processed_sources += 1
             try:
                 res = requests.get(url, headers=headers, timeout=10)
-                if res.status_code != 200: 
-                    continue
+                if res.status_code != 200: continue
                 content = res.text
                 
-                # 1. Если это прямая ссылка на файл или готовый поток конфигов
                 if url.endswith('.txt') or url.endswith('.yaml') or '://' in content[:200]:
                     parsed_links = self.process_content(content)
                     collected.extend(parsed_links)
-                
-                # 2. Если это веб-страница, парсим ссылки на подписки через BeautifulSoup
                 else:
                     soup = BeautifulSoup(content, 'html.parser')
                     links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
-                    
                     for sub_url in list(set(links))[:8]:
                         try:
                             s_res = requests.get(sub_url, headers=headers, timeout=10)
                             if s_res.status_code == 200: 
                                 collected.extend(self.process_content(s_res.text))
-                        except: 
-                            continue
+                        except: continue
 
-                # Каждые 3 источника выдаем живой прогресс, скорость и объем накопленных данных
                 if processed_sources % 3 == 0 or processed_sources == len(self.sources):
                     elapsed = time.time() - start_time
                     speed = int(len(collected) / elapsed) if elapsed > 0 else 0
-                    print(f"📊 [Прогресс Завода] Пройдено источников: {processed_sources}/{len(self.sources)} | "
-                          f"Собрано сырых строк: {len(collected)} | "
-                          f"Скорость конвейера: {speed} ссылок/сек", flush=True)
-            except: 
-                continue
+                    print(f"📊 [Прогресс] Источников: {processed_sources}/{len(self.sources)} | Собрано: {len(collected)} | Скорость: {speed} л/сек", flush=True)
+            except: continue
 
         if collected:
             total_raw = len(collected)
-            print("\n⚙️ Запуск глобальной очистки и распределения по ядрам...", flush=True)
-            
-            # Наш главный фильтр первичных дубликатов
+            print("\n⚙️ Запуск очистки и распределения...", flush=True)
             clean = list(set([l.strip() for l in collected if l.strip() and '://' in l]))
             duplicate_count = total_raw - len(clean)
-            
-            print(f"🗑️ Всего из основного потока отфильтровано дубликатов: {duplicate_count}", flush=True)
-            print(f"💎 Чистых уникальных данных подготовлено: {len(clean)}", flush=True)
+            print(f"🗑️ Дубликатов удалено: {duplicate_count} | 💎 Чистых: {len(clean)}", flush=True)
             
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # Раскладываем данные строго по отдельным файлам-протоколам Трона без префикса
-            print("🗂️ Распределяем чистые уникальные данные по цехам протоколов Трона...", flush=True)
             for proto in self.protocols:
                 proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if proto_lines:
                     self.split_and_save_file('', proto, proto_lines)
                     
             total_time = time.time() - start_time
-            print("\n🏁 ========================================================", flush=True)
-            print(f"[INFO] [MAIN] Основной сбор по протоколам успешно завершен за {total_time:.2f} сек!", flush=True)
-            print(f"✅ Итог: все файлы протоколов Трона в папке 'unique' полностью обновлены.", flush=True)
-            print("============================================================", flush=True)
+            print(f"\n🏁 [INFO] [MAIN] Успешно завершено за {total_time:.2f} сек!", flush=True)
+            print(f"✅ Файлы протоколов обновлены в: {self.output_dir}", flush=True)
         else:
-            print("❌ Сбор завершен. Потоковые источники не выдали ни одной конфигурации.", flush=True)
+            print("❌ Сбор завершен. Данные не найдены.", flush=True)
 
 if __name__ == "__main__":
     MainRawCollector().collect()
