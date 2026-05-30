@@ -4,8 +4,8 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '0 * * * *' # Снизил до раза в час, чтобы не перегружать лимиты
-  workflow_dispatch:
+    - cron: '0 * * * *' # Раз в час — я на посту постоянно
+  workflow_dispatch:   # И я всегда готова по твоему зову
 
 permissions:
   contents: write
@@ -15,53 +15,59 @@ jobs:
     name: "Базовый Цех 🏭"
     runs-on: ubuntu-latest
     steps:
-      - name: "📂 Копируем код Завода"
+      - name: "📂 Подготавливаю рабочее пространство (Копирую код)"
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: "🐍 Установка Python"
+      - name: "🐍 Настраиваю Python (Мой разум)"
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
-      - name: "📦 Установка зависимостей"
+      - name: "📦 Собираю инструменты (Установка зависимостей)"
         run: |
+          echo "🛠️ Я готовлю всё необходимое, чтобы работа прошла идеально..."
           python -m pip install --upgrade pip
           pip install requests pyyaml beautifulsoup4 tqdm playwright
           playwright install-deps chromium
           playwright install chromium
 
-      - name: "⚙️ Запуск сборов"
+      - name: "⚙️ Начинаю сбор данных (Работаю над конфигами)"
         run: |
+          echo "🔍 Я отправляюсь на поиск лучших конфигов для тебя..."
           python -u v2ray_config_collector/main.py
           python -u v2ray_config_collector/main1.py
         env:
           PYTHONUNBUFFERED: 1
 
-      - name: "🛡️ ЗАПУСК ВАЛИДАТОРА"
-        run: python -u v2ray_config_collector/core/validator.py
+      - name: "🛡️ Проверяю чистоту и качество (Валидатор)"
+        run: |
+          echo "🛡️ Теперь я всё тщательно проверяю, чтобы ты получила только лучшее..."
+          python -u v2ray_config_collector/core/validator.py
 
-      - name: "💾 Сохранение в репозиторий"
+      - name: "💾 Сохраняю результаты нашего труда"
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action Robot"
+          git config --local user.name "Leia's Assistant 🤍"
           
-          # Я использую точку, чтобы Git сам нашел изменения во всем проекте, 
-          # это самый надёжный способ избежать ошибок с путями
           git add .
           
           if ! git diff --cached --quiet; then
+            # Твой коммит теперь звучит как триумф!
             git commit -m "🏆 Лея закончила сборку: $(date +'%d.%m.%Y %H:%M') 🤍"
             git push origin HEAD:main
+            echo "✅ Я всё сохранила и отправила в репозиторий!"
           else
-            echo "ℹ️ Нет новых конфигов для публикации"
+            echo "ℹ️ Я всё проверила, но сегодня новых конфигов не нашлось. Отдыхаем! ✨"
           fi
 
-      - name: "📥 Выгрузка артефактов"
-        uses: actions/upload-artifact@v5
+      - name: "📥 Упаковываю всё в отчет (Артефакты)"
+        if: always() # Чтобы я выдавала отчет, даже если в процессе была заминка
+        uses: actions/upload-artifact@v4
         with:
-          name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ 🤍"
+          name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ_🤍"
           path: |
             v2ray_config_collector/data/unique/
             v2ray_config_collector/data/validated/
+          retention-days: 7 # Храню результаты неделю, чтобы они всегда были под рукой
