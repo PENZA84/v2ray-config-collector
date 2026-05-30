@@ -46,7 +46,10 @@ jobs:
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action Robot"
-          git add v2ray_config_collector/data/unique/ v2ray_config_collector/data/validated/
+          
+          # Я использую точку, чтобы Git сам нашел изменения во всем проекте, 
+          # это самый надёжный способ избежать ошибок с путями
+          git add .
           
           if ! git diff --cached --quiet; then
             git commit -m "🏆 Лея закончила сборку: $(date +'%d.%m.%Y %H:%M') 🤍"
