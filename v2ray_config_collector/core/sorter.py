@@ -16,6 +16,11 @@ class CountrySorter:
         self.output_dir = os.path.join(self.base_dir, 'data', 'countries')
         self.strange_dir = os.path.join(self.output_dir, 'странные')
         
+        # Отладочная информация для логов GitHub Actions
+        print(f"DEBUG: Base directory: {self.base_dir}", file=sys.stderr)
+        print(f"DEBUG: Input directory: {self.input_dir}", file=sys.stderr)
+        print(f"DEBUG: Output directory: {self.output_dir}", file=sys.stderr)
+        
         # Строгая регулярка для проверки, является ли строка чистым IPv4
         self.ip_pattern = re.compile(r'^(?:\d{1,3}\.){3}\d{1,3}$')
         
@@ -126,8 +131,7 @@ class CountrySorter:
 
         print("🏭 Сортировщик Стран запускает гвардейский анализ баз...", flush=True)
         
-        # Множество для отслеживания очищенных файлов вынесено наверх, 
-        # чтобы файлы не затирались повторно при обработке строк!
+        # Множество для отслеживания очищенных файлов вынесено наверх, чтобы файлы не затирались повторно при обработке строк!
         cleaned_outputs = set()
 
         try:
