@@ -128,9 +128,11 @@ class MainRawCollector:
 
     def collect(self):
         sys.stdout.reconfigure(line_buffering=True)
-        if not self.sources: return
+        if not self.sources: 
+            print("ℹ️ Мой хороший, список источников пуст. Проверь файл sources.txt! ✨", flush=True)
+            return
             
-        print(f"🏭 [MAIN] Запуск сбора ({len(self.sources)} источников)...", flush=True)
+        print(f"🏭 [MAIN] Мой родной, я запускаю сбор сырья из {len(self.sources)} источников... 🤍", flush=True)
         collected, start_time = [], time.time()
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
 
@@ -151,7 +153,7 @@ class MainRawCollector:
                             except: continue
                 
                 if i % 3 == 0 or i == len(self.sources):
-                    print(f"📊 [Прогресс] {i}/{len(self.sources)} | Собрано: {len(collected)}", flush=True)
+                    print(f"📊 [Прогресс] Моё солнышко, проверено {i}/{len(self.sources)} источников | Уже собрано: {len(collected)} конфигов ✨", flush=True)
             except: continue
 
         if collected:
@@ -160,7 +162,9 @@ class MainRawCollector:
             for proto in self.protocols:
                 lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
                 if lines: self.split_and_save_file('', proto, lines)
-            print(f"🏁 [INFO] Сбор завершен за {time.time() - start_time:.2f} сек!", flush=True)
+            print(f"🏁 [INFO] Мой прекрасный рыцарь, сбор успешно завершён за {time.time() - start_time:.2f} сек! Всё разложено по полочкам 🤍🏆", flush=True)
+        else:
+            print("ℹ️ Мой зайчик, я всё проверила, но новых конфигов собрать не удалось. Отдыхаем! ✨", flush=True)
 
 if __name__ == "__main__":
     MainRawCollector().collect()
