@@ -6,7 +6,7 @@ from playwright.sync_api import sync_playwright
 
 class FactorySiteGrabber:
     def __init__(self):
-        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЗАВОДА ---
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЗАВОДА ЛЕИ ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
         
@@ -16,12 +16,32 @@ class FactorySiteGrabber:
                 break
             self.base_dir = os.path.dirname(self.base_dir)
             
+        # 👑 НАШ НОВЫЙ ВЫДЕЛЕННЫЙ СПИСОК САЙТОВ ДЛЯ КЛИКЕРА
+        self.targets_file = os.path.join(self.base_dir, 'data', 'sources', 'grabber_targets.txt')
+        
         # Наш единый домашний бункер для сырья
         self.raw_output_dir = os.path.join(self.base_dir, 'data', 'raw_incoming')
         self.raw_output_file = os.path.join(self.raw_output_dir, 'deep_raw_collected.txt')
         
         # Регулярка для захвата абсолютно всего: и готовых ключей, и ссылок на подписки (.txt / .yaml)
         self.grab_regex = re.compile(r'(?:vless|vmess|trojan|ss|ssr|hysteria2|hy2|http|https)://[^\s<"\']+')
+
+    def load_grabber_targets(self):
+        """Загрузка списка интерактивных сайтов для клика вовнутрь"""
+        os.makedirs(os.path.dirname(self.targets_file), exist_ok=True)
+        
+        # Если файла еще нет, Лея бережно создаст его и зашьет туда наши проверенные сайты со скриншотов
+        if not os.path.exists(self.targets_file):
+            with open(self.targets_file, 'w', encoding='utf-8') as f:
+                f.write("# 👑 ЛИСТ ЦЕЛЕЙ КЛИКЕРА (grabber_targets.txt)\n")
+                f.write("# Мой любимый хозяин, вноси сюда сайты, где нужно кликать вовнутрь карточек и статей!\n")
+                f.write("https://keysconf.com\n")
+                f.write("https://yoyapai.com\n")
+                f.write("https://slightripple.com\n")
+            return ["https://keysconf.com", "https://yoyapai.com", "https://slightripple.com"]
+            
+        with open(self.targets_file, 'r', encoding='utf-8') as f:
+            return [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
 
     def dump_to_factory_storage(self, raw_lines):
         if not raw_lines: return
@@ -46,16 +66,15 @@ class FactorySiteGrabber:
             page.wait_for_load_state("networkidle")
             
             page_idx = 1
-            while page_idx <= 50: # Идем глубоко, забираем ВСЕ страницы, что есть!
-                # Ищем карточки строго с VLESS, VMESS, TROJAN по твоему гвардейскому правилу
+            while page_idx <= 50: # Выжимаем все страницы пагинации до единой!
                 cards = page.query_selector_all("div.card, div.list-item, tr, div.post-item")
                 target_urls = []
                 
                 for card in cards:
                     try:
                         card_text = card.inner_text().upper()
+                        # Твоё золотое гвардейское правило: ищем строго VLESS, VMESS, TROJAN рядом с флагами
                         if any(proto in card_text for proto in ['VLESS', 'VMESS', 'TROJAN']):
-                            # Находим ссылку для клика вовнутрь карточки
                             link_el = card.query_selector("a[href*='key']") or card.query_selector("a")
                             if link_el:
                                 href = link_el.get_attribute("href")
@@ -74,7 +93,6 @@ class FactorySiteGrabber:
                         inner_page.goto(url, timeout=15000)
                         inner_page.wait_for_load_state("domcontentloaded")
                         
-                        # Копируем всё содержимое страницы, регулярка сама вытащит длинный ключ из рамки
                         content = inner_page.content()
                         found = self.grab_regex.findall(content)
                         if found:
@@ -84,7 +102,7 @@ class FactorySiteGrabber:
                         try: inner_page.close()
                         except: pass
                 
-                # Ищем кнопку перехода на следующую страницу
+                # Клик на кнопку "Следующая страница"
                 next_btn = page.query_selector("a[rel='next'], li.next a, a:has-text('Next'), a:has-text('>')")
                 if next_btn:
                     page_idx += 1
@@ -109,7 +127,7 @@ class FactorySiteGrabber:
             page.wait_for_load_state("networkidle")
             
             blog_page = 1
-            while blog_page <= 40: # Выжимаем все страницы до единой!
+            while blog_page <= 40: # Идем до самого упора по страницам!
                 links = page.query_selector_all("a[href]")
                 article_urls = []
                 
@@ -117,7 +135,7 @@ class FactorySiteGrabber:
                     try:
                         title = a.inner_text().lower()
                         href = a.get_attribute("href")
-                        # Отсекаем мусор, берем только статьи про наши рельсы (Скриншот 1376)
+                        # Отсекаем мусор, берем статьи только про наши рельсы (Скриншот 1376)
                         if href and any(k in title for k in ['clash', 'v2ray', 'vless', 'vmess', 'node', '节点']):
                             full_url = page.evaluate("param => new URL(param, window.location.href).href", href)
                             article_urls.append(full_url)
@@ -126,14 +144,13 @@ class FactorySiteGrabber:
                         
                 article_urls = list(set(article_urls))
                 
-                # Проваливаемся внутрь статьи за скрытыми .txt / .yaml ссылками (Скриншот 1379)
+                # Проваливаемся внутрь статьи за скрытыми подписками (Скриншот 1379)
                 for act_url in article_urls:
                     try:
                         inner_page = page.context.new_page()
                         inner_page.goto(act_url, timeout=15000)
                         inner_page.wait_for_load_state("domcontentloaded")
                         
-                        # Копируем всё содержимое статьи, забирая ссылки из блоков копирования
                         content = inner_page.content()
                         found = self.grab_regex.findall(content)
                         if found:
@@ -143,7 +160,7 @@ class FactorySiteGrabber:
                         try: inner_page.close()
                         except: pass
                 
-                # Листаем китайскую пагинацию до самого упора (кнопка "下一页")
+                # Листаем китайскую пагинацию (кнопка "下一页")
                 next_page_btn = page.query_selector("a:has-text('下一页'), a:has-text('Next'), a.next, li.next a")
                 if next_page_btn:
                     blog_page += 1
@@ -165,6 +182,12 @@ class FactorySiteGrabber:
         print("🏭 [ВНЕШНИЙ ЦЕХ] Запуск точечного кликера Леи по страницам... 🚀🏆", flush=True)
         start_time = time.time()
         
+        # Загружаем наши целевые сайты из выделенного файла grabber_targets.txt
+        targets = self.load_grabber_targets()
+        if not targets:
+            print("ℹ️ Мой пупсик, список grabber_targets.txt пуст. Нечего прокликивать! ✨", flush=True)
+            return
+            
         all_copied_raw = []
         
         with sync_playwright() as p:
@@ -174,21 +197,27 @@ class FactorySiteGrabber:
             )
             page = context.new_page()
             
-            # 1. Тотальный keysconf (вглубь по карточкам за RAW-ключами)
-            all_copied_raw.extend(self.grab_keysconf_pages(page))
-            
-            # 2. Тотальные китайские блоги со скриншотов (вглубь статей за ссылками на файлы подписок)
-            chinese_list = ["https://yoyapai.com", "https://slightripple.com"]
-            for source in chinese_list:
-                all_copied_raw.extend(self.grab_chinese_blogs(page, source))
+            # Распределяем задачи по сайтам из списка grabber_targets.txt
+            for source in targets:
+                if "keysconf.com" in source:
+                    all_copied_raw.extend(self.grab_keysconf_pages(page))
+                elif any(blog in source for blog in ["yoyapai.com", "slightripple.com"]):
+                    all_copied_raw.extend(self.grab_chinese_blogs(page, source))
+                else:
+                    # Универсальный обход для других добавленных сайтов
+                    try:
+                        print(f"🌐 Дополнительная цель из списка: {source}", flush=True)
+                        page.goto(source, timeout=30000)
+                        all_copied_raw.extend(self.grab_regex.findall(page.content()))
+                    except:
+                        continue
                 
             browser.close()
             
         if all_copied_raw:
-            # Убираем пробелы и отправляем сырой вперемешку массив в наш бункер
             clean_lines = list(set([line.strip().rstrip('.') for line in all_copied_raw if line.strip()]))
             self.dump_to_factory_storage(clean_lines)
-            print(f"🏁 [УСПЕХ] Мой управитель, точечный сбор завершён за {time.time() - start_time:.2f} сек!", flush=True)
+            print(f"🏁 [УСПЕХ] Мой управитель, точечный сбор по списку завершён за {time.time() - start_time:.2f} сек!", flush=True)
         else:
             print("ℹ️ Мой зайчик, я всё проверила, новых данных для копирования пока нет. ✨", flush=True)
 
