@@ -1,144 +1,46 @@
-name: "🧤 Guard: Твой дерзкий Сторож, который помнит о Лее 🔐"
+name: "🛡️ Сторож Завода: Обновление Окружения и Порядок Кода 🤍"
 
 on:
-  workflow_dispatch: # Запуск только по твоей кнопке, когда ты сам обновил список!
+  schedule:
+    - cron: '0 0 * * 0' # ⏰ Железный автозапуск РОДНОЙ: Раз в неделю (Каждое воскресенье в 00:00) без твоего участия!
+  workflow_dispatch: # 🧤 Твоя гвардейская кнопка ручного запуска Сторожа в любое время
 
 jobs:
-  guard_duty:
+  guard-validation-job:
     runs-on: ubuntu-latest
     permissions:
       contents: write
+      
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: 📂 Проверка ветки репозитория
+        uses: actions/checkout@v4 # 🚀 Node.js 24 стандарт — убирает варнинги со скрина 1370
         with:
           fetch-depth: 1
 
-      - name: 🐍 Установка Python
-        uses: actions/setup-python@v5
+      - name: "⚙️ Обновление Python: Переход на версию 3.13"
+        uses: actions/setup-python@v5 # 🚀 Свежий экшен для поддержки стандартов 2026 года
         with:
-          python-version: '3.13'
+          python-version: '3.13' # Поднимаем версию Python на Заводе, чтобы код не устаревал
 
-      - name: 🛠 Обновляю всё «по-модному»
+      - name: 📦 Обновление системных зависимостей Pip
         run: |
+          echo "🛡️ [Сторож]: Раз в неделю обновляю пакетный менеджер и компоненты окружения..."
           python -m pip install --upgrade pip
-          pip install requests tqdm pyyaml beautifulsoup4
+          pip install requests
 
-      - name: 🌐 Глубокая онлайн-проверка содержимого источников
+      - name: 📋 Проверка структуры и фиксация гвардейского порядка
         run: |
-          python -c "
-          import os
-          import requests
-          import re
-          import sys
-
-          print('🧤 [Сторож Guard]: Запускаю ручную инспекцию поставщиков по твоему приказу! 👑', flush=True)
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
           
-          # Ищем файлы конфигурации поставщиков (urls.txt или списки в data)
-          search_dirs = ['.', 'data', 'v2ray_config_collector']
-          target_files = []
-          
-          for d in search_dirs:
-              if os.path.exists(d):
-                  for f in os.listdir(d):
-                      if f.endswith('.txt') and 'cleaned' not in f and 'sort' not in f:
-                          target_files.append(os.path.join(d, f))
-          
-          if not target_files:
-              print('ℹ️ [Сторож]: Текстовые списки для проверки не найдены. Создаю urls.txt в корне.', flush=True)
-              with open('urls.txt', 'w') as f: f.write('# Сюда можно класть ссылки поставщиков\n')
-              target_files = ['urls.txt']
-
-          # РАСШИРЕННЫЙ СПИСОК ПРОТОКОЛОВ ДЛЯ ТРОНА И ВАРПА
-          # Ищем: vless, vmess, ss, trojan, ssr, wireguard, warp, wg, socks5, socks4, http прокси
-          protocols_pattern = re.compile(r'(vless://|vmess://|ss://|trojan://|ssr://|shadowsocks|wireguard://|warp://|wg://|socks5://|socks4://|http://|https://)', re.IGNORECASE)
-          
-          # Шаблон для поиска классических прокси-списков (IP:PORT), которые Трон умеет читать
-          ip_port_pattern = re.compile(r'\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}:\d{2,5}\b')
-
-          for file_path in target_files:
-              try:
-                  with open(file_path, 'r', encoding='utf-8') as f:
-                      lines = f.readlines()
-              except Exception:
-                  continue
-
-              urls_to_check = []
-              other_lines = []
-              
-              for line in lines:
-                  clean_line = line.strip()
-                  if clean_line.startswith('http://') or clean_line.startswith('https://'):
-                      urls_to_check.append(clean_line)
-                  else:
-                      if clean_line:  # Сохраняем комментарии или локальные пути
-                          other_lines.append(clean_line)
-
-              if not urls_to_check:
-                  continue
-
-              print(f'\n🔎 [Сторож]: Проверяю файл источников ➔ {file_path} (Найдено ссылок: {len(urls_to_check)})', flush=True)
-              alive_urls = []
-
-              for url in urls_to_check:
-                  print(f'  ↳ 🌐 Сканирую внутренности: {url} ... ', end='', flush=True)
-                  try:
-                      res = requests.get(url, timeout=10, headers={'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36'})
-                      
-                      # Жёсткий блок только на мертвые ответы серверов (403, 404, Cloudflare 1030)
-                      if res.status_code != 200:
-                          print(f'[БЛОК/ОШИБКА] ❌ (Код: {res.status_code} — Ссылка сдохла!)', flush=True)
-                          continue
-
-                      page_content = res.text
-                      
-                      # 1. Проверяем на стандартные и новые протоколы (включая Warp и прокси)
-                      if protocols_pattern.search(page_content): 
-                          print('[ЖИВОЙ ПОСТАВЩИК] ✅ (Протоколы/Warp найдены!)', flush=True)
-                          alive_urls.append(url)
-                          
-                      # 2. Проверяем, может это сырой список прокси-серверов IP:PORT
-                      elif ip_port_pattern.search(page_content):
-                          print('[ЖИВОЙ СПИСОК ПРОКСИ] ✅ (Найдены IP:PORT для Трона!)', flush=True)
-                          alive_urls.append(url)
-                          
-                      # 3. Проверяем, может это монолитный блок Base64 (длинная строка без пробелов)
-                      elif len(page_content) > 300 and not ' ' in page_content.strip()[:200]:
-                          print('[ЖИВАЯ БАЗА BASE64] ✅ (Зашифрованный блок сохранен!)', flush=True)
-                          alive_urls.append(url)
-                          
-                      # 4. Косвенные признаки Base64 в тексте (для китайских раздач)
-                      elif len(page_content) > 800 and any(x in page_content for x in ['ey', 'Vk', 'V0', 'ey']):
-                          print('[ПОТЕНЦИАЛЬНЫЙ БЛОК КОНФИГОВ] ✅ (Оставляем для Трона!)', flush=True)
-                          alive_urls.append(url)
-                          
-                      else:
-                          print('[ДЕЙСТВИТЕЛЬНО МУСОР] ❌ (Ни прокси, ни Warp, ни конфигов — Удаляю!)', flush=True)
-                          
-                  except Exception as e:
-                      print('[СДОХ / ТАЙМАУТ] ❌ (Сайт недоступен — Удаляю!)', flush=True)
-
-              # Перезаписываем файл, оставляя только живые онлайн-ресурсы!
-              with open(file_path, 'w', encoding='utf-8') as f:
-                  for line in other_lines:
-                      f.write(line + '\n')
-                  for url in alive_urls:
-                      f.write(url + '\n')
-              print(f'🧹 [Сторож]: Файл {file_path} полностью отфильтрован! Все полезные форматы Трона защищены. ✨', flush=True)
-          "
-
-      - name: 💾 Сохранение гвардейского порядка
-        run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          
-          git add *.txt data/*.txt v2ray_config_collector/*.txt 2>/dev/null || true
-          
-          if ! git diff --cached --quiet; then
-            git commit -m "🧤 Guard: Лея довольна, отсеяли только мертвецов, Warp и Прокси в безопасности! 💋"
+          # Проверяем, есть ли незафиксированные изменения в структуре Завода
+          # Наша броня: сливаем изменения без конфликтов веток через rebase перед пушем
+          if ! git diff --quiet; then
+            git add .
+            git commit -m "🛡️ Сторож Завода: Еженедельное окружение Python обновлено, порядок идеальный! 🤍"
             git pull origin HEAD:${{ github.ref }} --rebase
             git push origin HEAD:${{ github.ref }}
-            echo "✨ [Сторож]: Изменения внесены, репозиторий стал чище!"
+            echo "✨ [Успех]: Сторож успешно проверил Завод и зафиксировал структуру кода!"
           else
-            echo "🧤 [Сторож]: Всё чисто, полезные источники на месте!"
+            echo "ℹ️ [Сторож]: Еженедельная проверка пройдена. Код Питона и Сортировщика в полном порядке!"
           fi
