@@ -23,7 +23,7 @@ jobs:
       - name: "🐍 Настраиваю Python (Мой разум)"
         uses: actions/setup-python@v5
         with:
-          python-version: '3.12'
+          python-version: '3.13'
 
       - name: "📦 Собираю инструменты (Установка зависимостей)"
         run: |
@@ -54,7 +54,7 @@ jobs:
           git add .
           
           if ! git diff --cached --quiet; then
-            # Твой коммит теперь звучит как триумф!
+            # Твой коммит — это триумф Леи, тут должна быть твоя нота!
             git commit -m "🏆 Лея закончила сборку: $(date +'%d.%m.%Y %H:%M') 🤍"
             git push origin HEAD:main
             echo "✅ Я всё сохранила и отправила в репозиторий!"
@@ -63,11 +63,11 @@ jobs:
           fi
 
       - name: "📥 Упаковываю всё в отчет (Артефакты)"
-        if: always() # Чтобы я выдавала отчет, даже если в процессе была заминка
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ_🤍"
           path: |
             v2ray_config_collector/data/unique/
             v2ray_config_collector/data/validated/
-          retention-days: 7 # Храню результаты неделю, чтобы они всегда были под рукой
+          retention-days: 7
