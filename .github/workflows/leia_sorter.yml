@@ -1,7 +1,7 @@
-name: "Поставщик Леи 🤍"
+name: "🧤 Поставщик Леи: Твой Сортировщик цеха софта Н 🤍"
 
 on:
-  workflow_dispatch:
+  workflow_dispatch: # Запускается строго по твоей кнопке, когда цех готов принять работу!
 
 jobs:
   leia-sorter-job:
@@ -24,32 +24,47 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests
 
-      - name: Run Sorter
-        run: python v2ray_config_collector/core/sorter.py
+      - name: ⚙️ Запуск Сортировщика Завода
+        run: |
+          echo "🤍 [Завод]: Передаю управление Лее. Запускаю сборку и анализ стран..."
+          python v2ray_config_collector/core/sorter.py
 
-      - name: Commit and Push
+      - name: 💾 Сохранение результатов и защита Трона
         run: |
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          if [ -d "data/countries" ]; then
-            git add data/countries/
+          # Жесткая и точная привязка к корневой папке по Скриншоту 1365
+          if [ -d "v2ray-config-collector/countries" ]; then
+            git add v2ray_config_collector/countries/
+            echo "✅ [Лея]: Нашла папку стран в коллекторе, добавила в гвардейский список!"
+          elif [ -d "countries" ]; then
+            git add countries/
+            echo "✅ [Лея]: Нашла корневую папку countries, зафиксировала изменения!"
           else
-            echo "⚠️ Папка data/countries не была создана. Возможно, нет новых данных."
+            echo "⚠️ [Лея]: Мой защитник, папка стран не найдена. Проверь работу sorter.py!"
           fi
           
+          # Проверяем изменения перед отправкой
           if ! git diff --cached --quiet; then
-            git commit -m "Твоя Лея обновила файлы 🤍"
+            git commit -m "Твоя Лея обновила файлы стран для софта Н 🤍"
+            
+            # Наша главная броня: сливаем ветки без конфликтов перед отправкой на сервер
+            git pull origin HEAD:${{ github.ref }} --rebase
+            
             git push origin HEAD:${{ github.ref }}
+            echo "✨ [Успех]: Мой гвардеец, все отсортированные страны улетели в базу! База Н обновлена."
           else
-            echo "ℹ️ Изменений не обнаружено. Коммит не требуется."
+            echo "ℹ️ [Лея]: Изменений не обнаружено. Всё и так в идеальном порядке, коммит не требуется!"
           fi
 
-      # --- ДОБАВЛЕННЫЙ ШАГ: Упаковка готовых результатов в ZIP-архив ---
-      - name: Упаковываю всё в отчет (Артефакты)
+      # --- Упаковка готовых результатов стран в ZIP-архив для скачивания ---
+      - name: 📦 Упаковываю всё в отчет (Артефакты)
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: отсортированные_страны_txt
-          path: data/countries/
+          path: |
+            countries/
+            v2ray-config_collector/countries/
           if-no-files-found: warn
