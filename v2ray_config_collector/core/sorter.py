@@ -10,7 +10,7 @@ import base64
 
 class CountrySorter:
     def __init__(self):
-        # --- МОНОЛИТНАЯ НАВИГАЦИЯ (ВСТРОЕНА) ---
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ (ЖЕСТКАЯ ПРИВЯЗКА) ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
         
@@ -97,7 +97,7 @@ class CountrySorter:
         if ip in self.geo_cache:
             return self.geo_cache[ip]
         try:
-            res = requests.get(f"http://ip-api.com/json/{ip}?fields=status,countryCode", timeout=4)
+            res = requests.get(f"http://ip-api.com/json/{ip}?fields=status,countryCode", timeout=3)
             if res.status_code == 200:
                 data = res.json()
                 if data.get('status') == 'success' and data.get('countryCode'):
@@ -152,14 +152,20 @@ class CountrySorter:
                     continue
 
                 host = self.extract_server_address(line)
-                ip = self.resolve_to_ip(host) if host else None
-                country = self.get_ip_country(ip) if ip else 'UNKNOWN'
+                
+                # Запросы к API делаем только если хост валидный, чтобы не тормозить поток
+                if host:
+                    ip = self.resolve_to_ip(host)
+                    country = self.get_ip_country(ip) if ip else 'UNKNOWN'
+                else:
+                    country = 'UNKNOWN'
                 
                 if country and country != 'UNKNOWN':
                     country_dir = os.path.join(self.output_dir, country)
                     os.makedirs(country_dir, exist_ok=True)
                     out_file = os.path.join(country_dir, file_name)
                     
+                    # Очищаем старый файл ТОЛЬКО ОДИН РАЗ при первой встрече в рамках этого запуска
                     if out_file not in cleaned_outputs:
                         if os.path.exists(out_file):
                             os.remove(out_file)
@@ -171,6 +177,8 @@ class CountrySorter:
                         out_f.write(line + '\n')
                 else:
                     strange_file = os.path.join(self.strange_dir, file_name)
+                    
+                    # Очищаем файл "странные" только один раз при первой записи
                     if strange_file not in cleaned_outputs:
                         if os.path.exists(strange_file):
                             os.remove(strange_file)
@@ -180,9 +188,11 @@ class CountrySorter:
                         
                     with open(strange_file, 'a', encoding='utf-8') as strange_f:
                         strange_f.write(line + '\n')
-                        
-                if host and host not in self.geo_cache:
-                    time.sleep(0.3)
+                
+                # Пауза перенесена в логический блок запросов и уменьшена, 
+                # чтобы скрипт не висел часами на тысячах строк
+                if host and country == 'UNKNOWN':
+                    time.sleep(0.05)
 
         print("\n🏁 ========================================================", flush=True)
         print("✅ Сортировка по странам завершена! Все сборники deduplicated в безопасности.", flush=True)
