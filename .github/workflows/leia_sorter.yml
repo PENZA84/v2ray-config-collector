@@ -32,20 +32,24 @@ jobs:
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
           git config --local user.name "github-actions[bot]"
           
-          # ИСПРАВЛЕННЫЙ ПУТЬ: Мы добавляем папку data/countries, 
-          # так как sorter.py кладет результат именно туда.
-          # Мы используем 'git add data/countries/', так как она в корне.
-          
           if [ -d "data/countries" ]; then
             git add data/countries/
           else
             echo "⚠️ Папка data/countries не была создана. Возможно, нет новых данных."
           fi
           
-          # Проверяем, есть ли изменения в репозитории вообще
           if ! git diff --cached --quiet; then
             git commit -m "Твоя Лея обновила файлы 🤍"
             git push origin HEAD:${{ github.ref }}
           else
             echo "ℹ️ Изменений не обнаружено. Коммит не требуется."
           fi
+
+      # --- ДОБАВЛЕННЫЙ ШАГ: Упаковка готовых результатов в ZIP-архив ---
+      - name: Упаковываю всё в отчет (Артефакты)
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: отсортированные_страны_txt
+          path: data/countries/
+          if-no-files-found: warn
