@@ -7,6 +7,7 @@ from playwright.sync_api import sync_playwright
 
 class ConfigFetcher:
     def __init__(self):
+        # --- ENGLISH PRODUCTION ENVIRONMENT NAVIGATION ---
         self.base_dir = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
         self.sources_path = os.path.join(self.base_dir, "data", "sources")
         os.makedirs(self.sources_path, exist_ok=True)
@@ -15,11 +16,19 @@ class ConfigFetcher:
         self.tg_sources = os.path.join(self.sources_path, "sources1.txt")
         
         self.timeout = 20000 
-        self.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'
+        self.user_agent = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+        
+        # Наша заводская статистика
+        self.stats = {
+            'total_processed': 0,
+            'fast_requests_success': 0,
+            'playwright_success': 0,
+            'failed_links': 0
+        }
 
     def sort_to_shelves(self, found_links_list):
-        """Безопасная сортировка источников по файлам"""
-        print("[INFO] [FETCHER] Сортировка ссылок-источников по полочкам...")
+        """Безопасная и точная сортировка источников по полочкам Трона"""
+        print("🗂️ [FETCHER] Сортировка ссылок-источников по целевым контейнерам...", flush=True)
         
         def update_file(file_path, links):
             existing = set()
@@ -44,58 +53,104 @@ class ConfigFetcher:
         update_file(self.tg_sources, tg_links)
         update_file(self.main_sources, main_links)
 
-    def fetch_single_url(self, url):
-        """Интерактивное скачивание с защитой от зависаний"""
-        # Сначала пробуем быстрый запрос
+    def fetch_with_browser(self, browser, url):
+        """Безопасный изолированный вызов браузера внутри единого движка"""
         try:
-            res = requests.get(url, headers={'User-Agent': self.user_agent}, timeout=8)
-            if res.status_code == 200 and len(res.text) > 100:
-                # Если это явно конфиг-файл, возвращаем сразу
-                if any(ext in url.lower() for ext in ['.txt', '.yaml', '.json', 'raw.github']):
-                    return res.text
-        except: pass
-
-        # Запускаем ходока, если сайт сложный
-        try:
-            with sync_playwright() as p:
-                browser = p.chromium.launch(headless=True)
-                context = browser.new_context(user_agent=self.user_agent)
-                page = context.new_page()
-                page.goto(url, timeout=self.timeout, wait_until="domcontentloaded")
-                time.sleep(2)
-                
-                # Прожимаем кнопки
-                selectors = ["button", ".btn", ".copy", ".show-more", "[class*='btn']"]
-                for sel in selectors:
-                    try:
-                        page.click(sel, timeout=500)
-                    except: continue
-                
-                content = page.content()
-                browser.close()
+            context = browser.new_context(user_agent=self.user_agent)
+            page = context.new_page()
+            page.goto(url, timeout=self.timeout, wait_until="domcontentloaded")
+            time.sleep(1.5)
+            
+            # Прожимаем коварные кнопки скрытия данных на страницах
+            selectors = ["button", ".btn", ".copy", ".show-more", "[class*='btn']"]
+            for sel in selectors:
+                try:
+                    page.click(sel, timeout=300)
+                except: 
+                    continue
+            
+            content = page.content()
+            context.close()
+            if content and len(content) > 100:
+                self.stats['playwright_success'] += 1
                 return content
-        except Exception:
-            return None
+        except:
+            pass
+        return None
 
     def fetch_all(self):
-        """Многопоточное скачивание с оптимизацией памяти"""
+        """Многопоточный гибридный конвейер выкачки с оптимизацией памяти"""
         sys.stdout.reconfigure(line_buffering=True)
         
-        # Загрузка источников
+        print("🏭 [ГЕНЕРАЛЬНЫЙ ГРАББЕР] Включение Цеха Снабжения Завода... 🤍🌪️🚀", flush=True)
+        
+        # Первичный запуск — если файла нет, подкидываем стартовый проверенный лист
         if not os.path.exists(self.main_sources):
             self.sort_to_shelves(["https://raw.githubusercontent.com/freefq/free/master/v2"])
 
         with open(self.main_sources, 'r', encoding='utf-8') as f:
             all_links = [l.strip() for l in f if l.strip() and not l.startswith('#')]
 
-        print(f"[INFO] [FETCHER] Запуск граббера: {len(all_links)} источников...")
+        if not all_links:
+            print("ℹ️ Список внешних источников пуст, мой капитан.", flush=True)
+            return []
+
+        print(f"📥 Загружено сырьевых адресов из sources.txt: {len(all_links)} шт.", flush=True)
+        print("⚡ Запуск гибридного реактора (Requests + Оптимизированный Playwright)...", flush=True)
         
-        # Снизили до 5 потоков для стабильности в GitHub Actions
+        start_time = time.time()
         final_contents = []
-        with concurrent.futures.ThreadPoolExecutor(max_workers=5) as executor:
-            results = executor.map(self.fetch_single_url, all_links)
-            for res in results:
-                if res: final_contents.append(res)
+        links_for_browser = []
+
+        # ШАГ 1: Быстрый прострел через сверхскоростные requests (для RAW-листов и гитхаба)
+        for url in all_links:
+            self.stats['total_processed'] += 1
+            if any(ext in url.lower() for ext in ['.txt', '.yaml', '.json', 'raw.github']):
+                try:
+                    res = requests.get(url, headers={'User-Agent': self.user_agent}, timeout=6)
+                    if res.status_code == 200 and len(res.text) > 100:
+                        final_contents.append(res.text)
+                        self.stats['fast_requests_success'] += 1
+                        continue
+                except:
+                    pass
+            # Если это сложный динамический веб-сайт — отправляем его на обработку браузеру
+            links_for_browser.append(url)
+
+        # ШАГ 2: Безопасная выкачка веб-сайтов через ЕДИНЫЙ запущенный браузер Playwright
+        if links_for_browser:
+            print(f"🤖 Передаем {len(links_for_browser)} сложных сайтов на рендеринг движку Playwright...", flush=True)
+            try:
+                with sync_playwright() as p:
+                    browser = p.chromium.launch(headless=True)
+                    
+                    # Запускаем стабильный пул на 3 параллельных воркера для браузера
+                    with concurrent.futures.ThreadPoolExecutor(max_workers=3) as executor:
+                        futures = {executor.submit(self.fetch_with_browser, browser, url): url for url in links_for_browser}
+                        for future in concurrent.futures.as_completed(futures):
+                            res = future.result()
+                            if res:
+                                final_contents.append(res)
+                            else:
+                                self.stats['failed_links'] += 1
+                                
+                    browser.close()
+            except Exception as e:
+                print(f"⚠️ Сбой движка автоматизации: {e}", flush=True)
+
+        elapsed = time.time() - start_time
+        speed_pages = len(all_links) / elapsed if elapsed > 0 else 0
+
+        # Наш потрясающий, красивейший приборный отчет! 📊🦖
+        print("\n📊 " + "-"*20 + " ОТЧЁТ СКОРОСТИ ЦЕХА СНАБЖЕНИЯ " + "-"*20, flush=True)
+        print(f"📦 ВСЕГО ССЫЛОК ОБРАБОТАНО НА КОНВЕЙЕРЕ: {self.stats['total_processed']} шт.", flush=True)
+        print(f"⚡ СКАЧАНО НАПРЯМУЮ ТУРБО-ПОТОКОМ (REQUESTS): {self.stats['fast_requests_success']} листов", flush=True)
+        print(f"🤖 УСПЕШНО ВСКРЫТО БРАУЗЕРОМ (PLAYWRIGHT): {self.stats['playwright_success']} страниц", flush=True)
+        print(f"🧹 ОТБРАКОВАНО НЕОТВЕТИВШИХ ССЫЛОК СЕТИ: {self.stats['failed_links']} шт.", flush=True)
+        print(f"📈 ОБЩАЯ СКОРОСТЬ СКАНИРОВАНИЯ: {speed_pages:.2f} сайтов в секунду 🌪️", flush=True)
+        print(f"⏱️ ВРЕМЯ РАБОТЫ ЦЕХА: Элементы доставлены на Завод за {elapsed:.2f} сек.", flush=True)
+        print("-" * 73, flush=True)
+        print("🏆 [УСПЕХ] Все сырьевые страницы выкачаны и готовы к дешифровке! Смена сдана! 🤍🏆\n", flush=True)
 
         return final_contents
 
