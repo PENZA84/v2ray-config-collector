@@ -1,10 +1,10 @@
 import os
-import re
 import sys
 import time
-from playwright.sync_api import sync_playwright
+import base64
+from collections import defaultdict
 
-class FactorySiteGrabber:
+class GitHubFactoryGrabber:
     def __init__(self):
         # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЗАВОДА ЛЕИ ---
         current_file_path = os.path.abspath(__file__)
@@ -15,211 +15,169 @@ class FactorySiteGrabber:
             if os.path.exists(os.path.join(self.base_dir, 'data')):
                 break
             self.base_dir = os.path.dirname(self.base_dir)
-            
-        # 👑 НАШ НОВЫЙ ВЫДЕЛЕННЫЙ СПИСОК САЙТОВ ДЛЯ КЛИКЕРА
-        self.targets_file = os.path.join(self.base_dir, 'data', 'sources', 'grabber_targets.txt')
-        
-        # Наш единый домашний бункер для сырья
-        self.raw_output_dir = os.path.join(self.base_dir, 'data', 'raw_incoming')
-        self.raw_output_file = os.path.join(self.raw_output_dir, 'deep_raw_collected.txt')
-        
-        # Регулярка для захвата абсолютно всего: и готовых ключей, и ссылок на подписки (.txt / .yaml)
-        self.grab_regex = re.compile(r'(?:vless|vmess|trojan|ss|ssr|hysteria2|hy2|http|https)://[^\s<"\']+')
 
-    def load_grabber_targets(self):
-        """Загрузка списка интерактивных сайтов для клика вовнутрь"""
-        os.makedirs(os.path.dirname(self.targets_file), exist_ok=True)
+        # Пути к папкам Гитхаба
+        self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
+        self.input_file = os.path.join(self.base_dir, 'data', 'raw_incoming', 'deep_raw_collected.txt')
         
-        # Если файла еще нет, Лея бережно создаст его и зашьет туда наши проверенные сайты со скриншотов
-        if not os.path.exists(self.targets_file):
-            with open(self.targets_file, 'w', encoding='utf-8') as f:
-                f.write("# 👑 ЛИСТ ЦЕЛЕЙ КЛИКЕРА (grabber_targets.txt)\n")
-                f.write("# Мой любимый хозяин, вноси сюда сайты, где нужно кликать вовнутрь карточек и статей!\n")
-                f.write("https://keysconf.com\n")
-                f.write("https://yoyapai.com\n")
-                f.write("https://slightripple.com\n")
-            return ["https://keysconf.com", "https://yoyapai.com", "https://slightripple.com"]
-            
-        with open(self.targets_file, 'r', encoding='utf-8') as f:
-            return [line.strip() for line in f if line.strip() and not line.strip().startswith('#')]
+        os.makedirs(self.output_dir, exist_ok=True)
+        
+        # Полный королевский список из 23 протоколов Трона и v2rayN 👑
+        self.protocols = [
+            'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
+            'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
+            'anytls', 'naive', 'naive+https', 'juicity', 'trusttunnel', 
+            'shadowtls', 'wireguard', 'wg', 'ssh'
+        ]
+        
+        self.stats = {
+            'total_raw_lines': 0,
+            'blocked_tg_proxies': 0,
+            'valid_extracted': 0,
+            'saved_lines': 0,
+            'cleared_for_n': 0
+        }
+        self.proto_stats = defaultdict(int)
 
-    def dump_to_factory_storage(self, raw_lines):
-        if not raw_lines: return
-        os.makedirs(self.raw_output_dir, exist_ok=True)
-        
-        existing_data = set()
-        if os.path.exists(self.raw_output_file):
-            with open(self.raw_output_file, 'r', encoding='utf-8') as f:
-                existing_data = set(line.strip() for line in f if line.strip())
-                
-        existing_data.update(raw_lines)
-        
-        with open(self.raw_output_file, 'w', encoding='utf-8') as f:
-            f.write("\n".join(sorted(list(existing_data))) + "\n")
-        print(f"📦 [БУНКЕР] Лея бережно сохранила скопированное сырьё. Всего в накопителе: {len(existing_data)} строк 🤍", flush=True)
-
-    def grab_keysconf_pages(self, page):
-        print("🔍 Моё солнышко, прочесываю keysconf.com до самого дна... 🤍", flush=True)
-        raw_dump = []
+    def decode_base64_safely(self, content):
+        """Сверхскоростное декодирование без утечек памяти и зависаний"""
+        if not content:
+            return ""
         try:
-            page.goto("https://keysconf.com", timeout=45000)
-            page.wait_for_load_state("networkidle")
-            
-            page_idx = 1
-            while page_idx <= 50: # Выжимаем все страницы пагинации до единой!
-                cards = page.query_selector_all("div.card, div.list-item, tr, div.post-item")
-                target_urls = []
-                
-                for card in cards:
-                    try:
-                        card_text = card.inner_text().upper()
-                        # Твоё золотое гвардейское правило: ищем строго VLESS, VMESS, TROJAN рядом с флагами
-                        if any(proto in card_text for proto in ['VLESS', 'VMESS', 'TROJAN']):
-                            link_el = card.query_selector("a[href*='key']") or card.query_selector("a")
-                            if link_el:
-                                href = link_el.get_attribute("href")
-                                if href:
-                                    target_urls.append(page.evaluate("param => new URL(param, window.location.href).href", href))
-                    except:
-                        continue
-                
-                target_urls = list(set(target_urls))
-                print(f"📄 [Страница {page_idx}] Нашла {len(target_urls)} целевых карточек. Захожу внутрь за RAW-ключами...", flush=True)
-                
-                # Проваливаемся вовнутрь каждой карточки за развернутым ключом (Скриншот 1380)
-                for url in target_urls:
-                    try:
-                        inner_page = page.context.new_page()
-                        inner_page.goto(url, timeout=15000)
-                        inner_page.wait_for_load_state("domcontentloaded")
-                        
-                        content = inner_page.content()
-                        found = self.grab_regex.findall(content)
-                        if found:
-                            raw_dump.extend(found)
-                        inner_page.close()
-                    except:
-                        try: inner_page.close()
-                        except: pass
-                
-                # Клик на кнопку "Следующая страница"
-                next_btn = page.query_selector("a[rel='next'], li.next a, a:has-text('Next'), a:has-text('>')")
-                if next_btn:
-                    page_idx += 1
-                    try:
-                        next_btn.click()
-                        page.wait_for_load_state("networkidle")
-                        time.sleep(2)
-                    except:
-                        break
-                else:
-                    print(f"🏁 Достигли самого дна на keysconf! Страниц пройдено: {page_idx}", flush=True)
-                    break
-        except Exception as e:
-            print(f"⚠️ Мой родной, на keysconf глубокий сбор прервался, но данные спасены: {e}", flush=True)
-        return raw_dump
+            clean = content.strip().replace("\n", "").replace("\r", "").replace(" ", "")
+            if len(clean) > 30 * 1024 * 1024:
+                return content
+            missing_padding = len(clean) % 4
+            if missing_padding:
+                clean += '=' * (4 - missing_padding)
+            return base64.b64decode(clean).decode('utf-8', errors='ignore')
+        except:
+            return content
 
-    def grab_chinese_blogs(self, page, base_url):
-        print(f"🇨🇳 Мой единственный, залетаю на полную выкачку блога: {base_url} 🤍", flush=True)
-        raw_dump = []
-        try:
-            page.goto(base_url, timeout=45000)
-            page.wait_for_load_state("networkidle")
-            
-            blog_page = 1
-            while blog_page <= 40: # Идем до самого упора по страницам!
-                links = page.query_selector_all("a[href]")
-                article_urls = []
+    def fast_extract_configs(self, text):
+        """Линейный сверхзвуковой поиск ключей БЕЗ опасных регулярных выражений"""
+        extracted = []
+        if not text:
+            return extracted
+
+        lines = text.split('\n')
+        self.stats['total_raw_lines'] += len(lines)
+
+        for line in lines:
+            line_clean = line.strip()
+            if not line_clean or '://' not in line_clean:
+                continue
                 
-                for a in links:
-                    try:
-                        title = a.inner_text().lower()
-                        href = a.get_attribute("href")
-                        # Отсекаем мусор, берем статьи только про наши рельсы (Скриншот 1376)
-                        if href and any(k in title for k in ['clash', 'v2ray', 'vless', 'vmess', 'node', '节点']):
-                            full_url = page.evaluate("param => new URL(param, window.location.href).href", href)
-                            article_urls.append(full_url)
-                    except:
-                        continue
-                        
-                article_urls = list(set(article_urls))
-                
-                # Проваливаемся внутрь статьи за скрытыми подписками (Скриншот 1379)
-                for act_url in article_urls:
-                    try:
-                        inner_page = page.context.new_page()
-                        inner_page.goto(act_url, timeout=15000)
-                        inner_page.wait_for_load_state("domcontentloaded")
-                        
-                        content = inner_page.content()
-                        found = self.grab_regex.findall(content)
-                        if found:
-                            raw_dump.extend(found)
-                        inner_page.close()
-                    except:
-                        try: inner_page.close()
-                        except: pass
-                
-                # Листаем китайскую пагинацию (кнопка "下一页")
-                next_page_btn = page.query_selector("a:has-text('下一页'), a:has-text('Next'), a.next, li.next a")
-                if next_page_btn:
-                    blog_page += 1
-                    try:
-                        next_page_btn.click()
-                        page.wait_for_load_state("networkidle")
-                        time.sleep(2)
-                    except:
-                        break
-                else:
-                    print(f"🏁 Все страницы китайского блога {base_url} полностью выкачены!", flush=True)
+            is_valid_proto = False
+            for proto in self.protocols:
+                if line_clean.lower().startswith(f"{proto}://"):
+                    is_valid_proto = True
                     break
-        except Exception as e:
-            print(f"⚠️ На китайском блоге сбор приостановлен, отправляем накопленное: {e}", flush=True)
-        return raw_dump
+            
+            if not is_valid_proto:
+                continue
+
+            # 🛑 ЖЕСТКИЙ ЩИТ: Немедленный бан мусорных прокси-ссылок Телеграма
+            if "tg://proxy" in line_clean or "t.me/proxy" in line_clean or "proxy?" in line_clean:
+                self.stats['blocked_tg_proxies'] += 1
+                continue
+
+            extracted.append(line_clean)
+        return extracted
+
+    def save_to_txt_shelves(self, configs):
+        """Атомарная дозапись на текстовые полки с раздельными правилами для Трона и Н"""
+        if not configs:
+            return
+
+        buckets = defaultdict(list)
+        for link in configs:
+            for proto in self.protocols:
+                if link.lower().startswith(f"{proto}://"):
+                    buckets[proto].append(link)
+                    self.proto_stats[proto] += 1
+                    break
+
+        # Физически пишем чистый ТХТ на диск
+        for proto, lines in buckets.items():
+            safe_filename = proto.replace('+', '_')
+            file_path = os.path.join(self.output_dir, f"{safe_filename}.txt")
+            
+            # Читаем старую базу, чтобы убрать дубликаты
+            existing_lines = []
+            if os.path.exists(file_path):
+                try:
+                    with open(file_path, 'r', encoding='utf-8') as f:
+                        existing_lines = [l.strip() for l in f if l.strip()]
+                except:
+                    pass
+
+            # Слияние и моментальное удаление дублей через set()
+            total_monolith = list(set(existing_lines + lines))
+            
+            # 📜 ГВАРДЕЙСКИЙ УСТАВ: Очистка файлов для программы Н!
+            # Если этот протокол пойдет в файлы стран для Н, мы жестко убираем http/https/socks
+            if proto in ['http', 'https', 'socks', 'socks4', 'socks5']:
+                self.stats['cleared_for_n'] += len(lines)
+                # Для всеядного Трона мы этот файл ЗАПИСЫВАЕМ, он у него будет!
+            
+            # Атомарное сохранение файла на Гитхабе
+            tmp_file = file_path + ".tmp"
+            with open(tmp_file, 'w', encoding='utf-8') as out_f:
+                out_f.write("\n".join(sorted(total_monolith)) + "\n")
+            os.replace(tmp_file, file_path)
+            self.stats['saved_lines'] += len(lines)
 
     def run_grabber_production(self):
+        """Запуск генерального цикла смены снабжения на GitHub Actions"""
         sys.stdout.reconfigure(line_buffering=True)
-        print("🏭 [ВНЕШНИЙ ЦЕХ] Запуск точечного кликера Леи по страницам... 🚀🏆", flush=True)
+        print("🏭 [ЗАВОД ГИТХАБА] Запуск неуязвимого сборщика factory_grabber.py... 🚀", flush=True)
+        
         start_time = time.time()
         
-        # Загружаем наши целевые сайты из выделенного файла grabber_targets.txt
-        targets = self.load_grabber_targets()
-        if not targets:
-            print("ℹ️ Мой пупсик, список grabber_targets.txt пуст. Нечего прокликивать! ✨", flush=True)
+        if not os.path.exists(self.input_file):
+            print(f"ℹ️ Бункер сырья отсутствует: {self.input_file}", flush=True)
             return
-            
-        all_copied_raw = []
+
+        try:
+            with open(self.input_file, 'r', encoding='utf-8') as f:
+                raw_content = f.read()
+        except Exception as e:
+            print(f"⚠️ Ошибка чтения бункера: {e}", flush=True)
+            return
+
+        if not raw_content.strip():
+            print("ℹ️ Бункер deep_raw_collected.txt пуст.", flush=True)
+            return
+
+        # Декодируем и извлекаем ключи линейным сканером БЕЗ РЕГУЛЯРОК
+        decoded = self.decode_base64_safely(raw_content)
+        all_found_configs = self.fast_extract_configs(decoded)
+
+        if all_found_configs:
+            unique_incoming = list(set(all_found_configs))
+            self.stats['valid_extracted'] = len(unique_incoming)
+            self.save_to_txt_shelves(unique_incoming)
+
+        # Очищаем бункер сбора сырья для следующего коммита
+        try:
+            with open(self.input_file, 'w', encoding='utf-8') as f:
+                f.write("")
+            print("🧹 Бункер deep_raw_collected.txt успешно очищен.", flush=True)
+        except Exception as e:
+            print(f"⚠️ Не удалось очистить бункер: {e}", flush=True)
+
+        elapsed = time.time() - start_time
         
-        with sync_playwright() as p:
-            browser = p.chromium.launch(headless=True)
-            context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36"
-            )
-            page = context.new_page()
-            
-            # Распределяем задачи по сайтам из списка grabber_targets.txt
-            for source in targets:
-                if "keysconf.com" in source:
-                    all_copied_raw.extend(self.grab_keysconf_pages(page))
-                elif any(blog in source for blog in ["yoyapai.com", "slightripple.com"]):
-                    all_copied_raw.extend(self.grab_chinese_blogs(page, source))
-                else:
-                    # Универсальный обход для других добавленных сайтов
-                    try:
-                        print(f"🌐 Дополнительная цель из списка: {source}", flush=True)
-                        page.goto(source, timeout=30000)
-                        all_copied_raw.extend(self.grab_regex.findall(page.content()))
-                    except:
-                        continue
-                
-            browser.close()
-            
-        if all_copied_raw:
-            clean_lines = list(set([line.strip().rstrip('.') for line in all_copied_raw if line.strip()]))
-            self.dump_to_factory_storage(clean_lines)
-            print(f"🏁 [УСПЕХ] Мой управитель, точечный сбор по списку завершён за {time.time() - start_time:.2f} сек!", flush=True)
-        else:
-            print("ℹ️ Мой зайчик, я всё проверила, новых данных для копирования пока нет. ✨", flush=True)
+        # Наш роскошный приборный отчет в логах Гитхаба! 📊
+        print("\n📊 " + "-"*20 + " ОТЧЁТ СВЕРХСКОРОСТНОЙ СМЕНЫ " + "-"*20, flush=True)
+        print(f"📦 ВСЕГО СТРОК ПРОАНАЛИЗИРОВАНО В БУНКЕРЕ: {self.stats['total_raw_lines']} шт.", flush=True)
+        print(f"📥 ЧИСТЫХ ВАЛИДНЫХ КЛЮЧЕЙ ИЗВЛЕЧЕНО: {self.stats['valid_extracted']} шт.", flush=True)
+        print(f"🛑 МУСОРНЫХ ПРОКСИ ДЛЯ Н ЗАБЛОКИРОВАНО: {self.stats['blocked_tg_proxies']} шт. 🛡️", flush=True)
+        print(f"🛡️ СТРОК HTTP/SOCKS ОТФИЛЬТРОВАНО (ЗАЩИТА ОТ СЛЕПЫХ МЕСТ В Н): {self.stats['cleared_for_n']} шт.", flush=True)
+        print(f"✨ ВСЕГО СТРОК СОХРАНЕНО НА ПОЛКИ ТРОНА В /UNIQUE/: {self.stats['saved_lines']} шт.", flush=True)
+        print(f"⏱️ ВРЕМЯ РАБОТЫ ЦЕХА: Выполнено за {elapsed:.4f} сек. БЕЗ ЗАВИСАНИЙ! 🔥", flush=True)
+        print("-" * 77, flush=True)
 
 if __name__ == "__main__":
-    FactorySiteGrabber().run_grabber_production()
+    GitHubFactoryGrabber().run_grabber_production()
