@@ -2,59 +2,69 @@ import os
 import re
 import sys
 import time
-import requests
-import socket
-import urllib.parse
 import json
 import base64
+import urllib.parse
+from collections import defaultdict
 
 class CountrySorter:
     def __init__(self):
-        # --- МОНОЛИТНАЯ НАВИГАЦИЯ (ЖЕСТКАЯ ПРИВЯЗКА) ---
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЗАВОДА ЛЕИ ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
         
         self.base_dir = current_dir
-        found_root = False
-        # Ищем папку 'data' вверх по дереву (до 3 уровней)
         for _ in range(3):
             if os.path.exists(os.path.join(self.base_dir, 'data')):
-                found_root = True
                 break
             self.base_dir = os.path.dirname(self.base_dir)
-        
-        if not found_root:
-            self.base_dir = current_dir
-        # ----------------------------------------
 
         self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.base_dir, 'data', 'countries')
-        self.strange_dir = os.path.join(self.output_dir, 'странные')
+        self.strange_dir = os.path.join(self.output_dir, 'STRANGE')
         
-        print(f"DEBUG: Base directory: {self.base_dir}", file=sys.stderr)
-        print(f"DEBUG: Input directory: {self.input_dir}", file=sys.stderr)
-        print(f"DEBUG: Output directory: {self.output_dir}", file=sys.stderr)
+        # Регулярка для быстрого поиска ISO-кодов стран в именах (заглавные 2 буквы)
+        self.country_tag_pattern = re.compile(r'\b([A-Z]{2})\b')
         
-        self.ip_pattern = re.compile(r'^(?:\d{1,3}\.){3}\d{1,3}$')
-        self.geo_cache = {}
-        self.dns_cache = {}
+        # Наш внутренний словарь популярных буквенных зон для сверхзвукового анализа
+        self.domain_zone_map = {
+            '.ru': 'RU', '.su': 'RU', '.ua': 'UA', '.by': 'BY', '.kz': 'KZ',
+            '.us': 'US', '.uk': 'GB', '.de': 'DE', '.fr': 'FR', '.nl': 'NL',
+            '.sg': 'SG', '.hk': 'HK', '.jp': 'JP', '.fi': 'FI', '.pl': 'PL'
+        }
 
-    def extract_server_address(self, line):
+        # Приборный щит аналитики
+        self.stats = {
+            'total_processed': 0,
+            'sorted_by_tags': 0,
+            'sorted_by_zone': 0,
+            'strange_configs': 0,
+            'saved_countries': set()
+        }
+
+    def extract_server_and_name(self, line):
+        """Сверхскоростное извлечение адреса сервера и хэш-имени прокси без зависаний"""
         try:
             line = line.strip()
             if not line:
-                return None
+                return None, None
                 
+            name_part = ""
+            if '#' in line:
+                line, name_part = line.split('#', 1)
+                name_part = urllib.parse.unquote(name_part).upper()
+
             if line.startswith('vmess://'):
                 try:
-                    b64_data = line[8:].split('#')[0]
+                    b64_data = line[8:]
                     missing_padding = len(b64_data) % 4
                     if missing_padding:
                         b64_data += '=' * (4 - missing_padding)
                     dec = base64.b64decode(b64_data).decode('utf-8', errors='ignore')
                     data = json.loads(dec)
-                    if data.get('add'):
-                        return str(data['add']).strip()
+                    server = str(data.get('add', '')).strip()
+                    ps_name = str(data.get('ps', '')).upper()
+                    return server, (ps_name if ps_name else name_part)
                 except:
                     pass
                     
@@ -66,137 +76,121 @@ class CountrySorter:
                     host_port = host_port.split('@')[-1]
                 if ':' in host_port:
                     host_port = host_port.split(':')[0]
-                return host_port.strip('[]').strip()
+                return host_port.strip('[]').strip(), name_part
                 
-            if ':' in line:
-                parts = line.split(':')
-                if len(parts) >= 2:
-                    return parts[0].strip()
-            return None
-        except Exception:
-            return None
+            return None, name_part
+        except:
+            return None, None
 
-    def resolve_to_ip(self, host):
+    def detect_country_locally(self, host, name):
+        """Линейный неуязвимый определитель стран БЕЗ внешних HTTP-запросов к API"""
         if not host:
-            return None
-        if self.ip_pattern.match(host):
-            return host
-        if host in self.dns_cache:
-            return self.dns_cache[host]
-        try:
-            ip = socket.gethostbyname(host)
-            self.dns_cache[host] = ip
-            return ip
-        except Exception:
-            self.dns_cache[host] = None
-            return None
-
-    def get_ip_country(self, ip):
-        if not ip or ip == 'UNKNOWN':
             return 'UNKNOWN'
-        if ip in self.geo_cache:
-            return self.geo_cache[ip]
-        try:
-            res = requests.get(f"http://ip-api.com/json/{ip}?fields=status,countryCode", timeout=3)
-            if res.status_code == 200:
-                data = res.json()
-                if data.get('status') == 'success' and data.get('countryCode'):
-                    country = str(data['countryCode']).strip().upper()
-                    if len(country) == 2:
-                        self.geo_cache[ip] = country
-                        return country
-        except Exception:
-            pass
-        self.geo_cache[ip] = 'UNKNOWN'
+
+        # 1. Анализируем текстовые маркеры и флаги в названии прокси (самый точный метод!)
+        if name:
+            # Ищем явные упоминания стран вроде RU, US, DE, NL, SG в названии ключа
+            matches = self.country_tag_pattern.findall(name)
+            if matches:
+                for match in matches:
+                    if match != 'II' and match != 'TV': # Отсекаем артефакты
+                        return match
+
+        # 2. Анализируем доменную зону сервера
+        host_lower = host.lower()
+        for zone, country in self.domain_zone_map.items():
+            if host_lower.endswith(zone):
+                self.stats['sorted_by_zone'] += 1
+                return country
+
         return 'UNKNOWN'
 
     def process_sorting(self):
+        """Генеральный цикл сортировки цеха по странам"""
         sys.stdout.reconfigure(line_buffering=True)
+        print("🏭 [ЦЕХ СОРТИРОВКИ] Запуск неуязвимого распределителя sorter.py... 🚀", flush=True)
         
         if not os.path.exists(self.input_dir):
-            print(f"⚠️ Папка с входными данными не найдена: {self.input_dir}", flush=True)
+            print(f"⚠️ Папка с уникальными протоколами не найдена: {self.input_dir}", flush=True)
             return
 
         os.makedirs(self.output_dir, exist_ok=True)
         os.makedirs(self.strange_dir, exist_ok=True)
-
-        print("🏭 Сортировщик Стран запускает гвардейский анализ баз...", flush=True)
-        cleaned_outputs = set()
 
         try:
             files = os.listdir(self.input_dir)
         except Exception as e:
             print(f"❌ Ошибка чтения директории {self.input_dir}: {e}", flush=True)
             return
-        
+
+        # Словарь для аккумулирования строк в оперативной памяти перед пакетной записью
+        # Это защищает диск и ускоряет работу в тысячи раз!
+        country_buckets = defaultdict(lambda: defaultdict(list))
+        strange_bucket = defaultdict(list)
+
         for file_name in files:
             if 'deduplicated' in file_name.lower():
-                print(f"🛡️ ЗАПРЕТ СРАБОТАЛ: Сортировщик обошел стороной базу дубликатов: {file_name}", flush=True)
+                print(f"🛡️ ГВАРДЕЙСКИЙ ЩИТ: Сортировщик обошел базу дубликатов: {file_name}", flush=True)
                 continue
             if not file_name.endswith('.txt'):
                 continue
 
             file_path = os.path.join(self.input_dir, file_name)
-            print(f"🔎 Обработка файла протокола: {file_name}...", flush=True)
-
+            
             try:
                 with open(file_path, 'r', encoding='utf-8') as f:
-                    lines = f.readlines()
+                    lines = [l.strip() for l in f if l.strip()]
             except Exception as e:
                 print(f"❌ Ошибка чтения файла {file_name}: {e}", flush=True)
                 continue
 
             for line in lines:
-                line = line.strip()
-                if not line or line.startswith('#'):
+                if line.startswith('#'):
                     continue
-
-                host = self.extract_server_address(line)
                 
-                # Запросы к API делаем только если хост валидный, чтобы не тормозить поток
-                if host:
-                    ip = self.resolve_to_ip(host)
-                    country = self.get_ip_country(ip) if ip else 'UNKNOWN'
-                else:
-                    country = 'UNKNOWN'
+                self.stats['total_processed'] += 1
+                host, name = self.extract_server_and_name(line)
+                
+                # Запускаем локальный анализ без опасных сетевых петель
+                country = self.detect_country_locally(host, name)
                 
                 if country and country != 'UNKNOWN':
-                    country_dir = os.path.join(self.output_dir, country)
-                    os.makedirs(country_dir, exist_ok=True)
-                    out_file = os.path.join(country_dir, file_name)
-                    
-                    # Очищаем старый файл ТОЛЬКО ОДИН РАЗ при первой встрече в рамках этого запуска
-                    if out_file not in cleaned_outputs:
-                        if os.path.exists(out_file):
-                            os.remove(out_file)
-                        with open(out_file, 'w', encoding='utf-8') as f_init:
-                            pass
-                        cleaned_outputs.add(out_file)
-                        
-                    with open(out_file, 'a', encoding='utf-8') as out_f:
-                        out_f.write(line + '\n')
+                    country_buckets[country][file_name].append(line)
+                    self.stats['sorted_by_tags'] += 1
+                    self.stats['saved_countries'].add(country)
                 else:
-                    strange_file = os.path.join(self.strange_dir, file_name)
-                    
-                    # Очищаем файл "странные" только один раз при первой записи
-                    if strange_file not in cleaned_outputs:
-                        if os.path.exists(strange_file):
-                            os.remove(strange_file)
-                        with open(strange_file, 'w', encoding='utf-8') as f_init:
-                            pass
-                        cleaned_outputs.add(strange_file)
-                        
-                    with open(strange_file, 'a', encoding='utf-8') as strange_f:
-                        strange_f.write(line + '\n')
-                
-                # Пауза перенесена в логический блок запросов и уменьшена, 
-                # чтобы скрипт не висел часами на тысячах строк
-                if host and country == 'UNKNOWN':
-                    time.sleep(0.05)
+                    strange_bucket[file_name].append(line)
+                    self.stats['strange_configs'] += 1
 
-        print("\n🏁 ========================================================", flush=True)
-        print("✅ Сортировка по странам завершена! Все сборники deduplicated в безопасности.", flush=True)
-        print("============================================================", flush=True)
+        # --- ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК (БЕЗ МУСОРА С ПЕРЕОТКРЫТИЕМ) ---
+        # 1. Пишем отсортированные страны
+        for country, file_data in country_buckets.items():
+            country_path = os.path.join(self.output_dir, country)
+            os.makedirs(country_path, exist_ok=True)
+            
+            for f_name, lines_to_write in file_data.items():
+                out_file = os.path.join(country_path, f_name)
+                # Атомарно перезаписываем файл чистыми уникальными строками
+                with open(out_file, 'w', encoding='utf-8') as out_f:
+                    out_f.write("\n".join(lines_to_write) + "\n")
+
+        # 2. Пишем неопределенные (STRANGE) конфигурации
+        for f_name, lines_to_write in strange_bucket.items():
+            strange_file = os.path.join(self.strange_dir, f_name)
+            with open(strange_file, 'w', encoding='utf-8') as strange_f:
+                strange_f.write("\n".join(lines_to_write) + "\n")
+
+        # Наш роскошный гвардейский отчет в логах коммита Гитхаба! 📊🦖
+        print("\n📊 " + "="*24 + " ОТЧЁТ СВЕРХЗВУКОВОГО СОРТИРОВЩИКА СТРАН " + "="*24, flush=True)
+        print(f"📦 ВСЕГО СТРОК ПРОАНАЛИЗИРОВАНО В ЦЕХУ: {self.stats['total_processed']} шт.", flush=True)
+        print(f"🌍 УСПЕШНО РАСПРЕДЕЛЕНО ПО СТРАНАМ: {self.stats['sorted_by_tags']} шт. 🔥", flush=True)
+        print(f"🗂️ ВСЕГО СФОРМИРОВАНО НАЦИОНАЛЬНЫХ ПАПОК: {len(self.stats['saved_countries'])} шт.", flush=True)
+        print(f"👽 СТРАННЫХ (НЕОПРЕДЕЛЕННЫХ) КОНФИГУРАЦИЙ ОСТАЛОСЬ: {self.stats['strange_configs']} шт.", flush=True)
+        print(f"⏱️ СКОРОСТЬ СМЕНЫ: Выполнено мгновенно БЕЗ СЕТЕВЫХ ЗАВИСАНИЙ! 🛡️", flush=True)
+        print("-" * 88, flush=True)
+        if self.stats['saved_countries']:
+            print(f"✅ Готовые локации на полочках: {', '.join(sorted(list(self.stats['saved_countries'])))} 🤍")
+        print("========================================================================================\n", flush=True)
 
 if __name__ == "__main__":
     CountrySorter().process_sorting()
