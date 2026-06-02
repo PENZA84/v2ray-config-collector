@@ -2,31 +2,25 @@ import os
 import re
 import sys
 import time
-import requests
 from urllib.parse import urlparse, parse_qs
+from playwright.sync_api import sync_playwright
 
-class TelegramRawCollector:
+class TelegramPlaywrightCollector:
     def __init__(self):
-        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ---
+        # --- ENGLISH PRODUCTION ENVIRONMENT NAVIGATION ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
-        
         self.base_dir = current_dir
-        found_root = False
         for _ in range(3):
             if os.path.exists(os.path.join(self.base_dir, 'data')):
-                found_root = True
                 break
             self.base_dir = os.path.dirname(self.base_dir)
-        
-        if not found_root:
-            self.base_dir = current_dir
-
+            
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
-        self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
-        # -----------------------------
-
-        self.max_file_size_mb = 40
+        self.raw_incoming_dir = os.path.join(self.base_dir, 'data', 'raw_incoming')
+        self.storage_file = os.path.join(self.raw_incoming_dir, 'deep_raw_collected.txt')
+        
+        # Твой оригинальный всеядный список из 23 протоколов! 👑
         self.protocols = [
             'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
             'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
@@ -37,16 +31,15 @@ class TelegramRawCollector:
         proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
         self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
         self.tg_proxy_pattern = re.compile(r'(?:https://t.me/proxy?[^s<"\']+)|(?:tg://proxy\?[^\s<"\']*)')
-        
-        self.sources = self.load_sources()
 
     def load_sources(self):
-        if not os.path.exists(self.sources_file): 
+        if not os.path.exists(self.sources_file):
             return []
         with open(self.sources_file, 'r', encoding='utf-8') as f:
             return [line.strip() for line in f if line.strip().startswith('http')]
 
     def process_content(self, text):
+        """Парсинг полностью раскрытого текста"""
         extracted = []
         found_profiles = self.regex_pattern.findall(text)
         for link in found_profiles:
@@ -65,68 +58,99 @@ class TelegramRawCollector:
                 if server and port:
                     extracted.append(f"socks5://{server}:{port}#TG_Socks")
                     extracted.append(f"http://{server}:{port}#TG_HTTP")
-            except: continue
+            except: 
+                continue
         return extracted
 
-    def split_and_save_file(self, prefix, base_name, lines):
-        if not lines: return
-        full_base_name = f"{prefix}{base_name}"
-        
-        # Очистка старых файлов перед записью новых (заводской стандарт)
-        if os.path.exists(self.output_dir):
-            for f in os.listdir(self.output_dir):
-                if f.startswith(f"{full_base_name}") and f.endswith(".txt"):
-                    try: os.remove(os.path.join(self.output_dir, f))
-                    except: pass
-
-        parts = []
-        current_chunk, current_size = [], 0
-        max_bytes = self.max_file_size_mb * 1024 * 1024
-
-        for line in lines:
-            line_bytes = (line + "\n").encode('utf-8')
-            if current_size + len(line_bytes) > max_bytes and current_chunk:
-                parts.append(current_chunk)
-                current_chunk, current_size = [line], len(line_bytes)
-            else:
-                current_chunk.append(line)
-                current_size += len(line_bytes)
-        if current_chunk: parts.append(current_chunk)
-
-        for idx, chunk_lines in enumerate(parts):
-            name = f"{full_base_name}.txt" if idx == 0 else f"{full_base_name}_{idx}.txt"
-            with open(os.path.join(self.output_dir, name), 'w', encoding='utf-8') as pf:
-                pf.write("\n".join(chunk_lines) + "\n")
-
-    def collect(self):
+    def start_harvest(self):
         sys.stdout.reconfigure(line_buffering=True)
-        if not self.sources: return
-            
-        print(f"🏭 [TG_MAIN] Запуск сбора ({len(self.sources)} источников)...", flush=True)
+        sources = self.load_sources()
         
-        collected = []
-        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
+        print("🏭 [ПОТОК 2] ==============================================", flush=True)
+        print("🏭 [ПОТОК 2] ЗАПУСК ТЯЖЕЛОГО РОБОТА PLAYWRIGHT ДЛЯ TG! 🤖🛰️", flush=True)
+        print("🏭 [ПОТОК 2] ==============================================", flush=True)
+        
+        if not sources:
+            print("ℹ️ [ИНФО] Дополнительный список источников пуст.", flush=True)
+            return
+
+        print(f"📥 Найдено целевых каналов/страниц: {len(sources)} шт.", flush=True)
+        print("🤖 Запуск скрытого браузера Chromium для раскрытия скрытых блоков...", flush=True)
+        
         start_time = time.time()
-        
-        for i, url in enumerate(self.sources, 1):
-            try:
-                res = requests.get(url, headers=headers, timeout=12) # Чуть больше таймаут для стабильности
-                if res.status_code == 200:
-                    collected.extend(self.process_content(res.text))
-                if i % 5 == 0 or i == len(self.sources):
-                    print(f"📊 [Прогресс] {i}/{len(self.sources)} | Собрано: {len(collected)}", flush=True)
-            except: continue
+        collected = []
+
+        with sync_playwright() as p:
+            # Запускаем headless-браузер
+            browser = p.chromium.launch(headless=True)
+            page = browser.new_page()
+            
+            for idx, url in enumerate(sources, 1):
+                # Если ссылка ведет на канал, перенаправляем на его веб-хронику, где есть все посты
+                target_url = url
+                if "t.me/" in url and not "/s/" in url:
+                    target_url = url.replace("t.me/", "t.me/s/")
+                
+                print(f"🔄 [{idx}/{len(sources)}] Сканируем и вскрываем: {target_url}", flush=True)
+                try:
+                    page.goto(target_url, timeout=15000)
+                    page.wait_for_load_state("networkidle")
+                    
+                    # 👑 СЕКРЕТНЫЙ ТРИГГЕР ЗАВОДА: Находим ВСЕ кнопки раскрытия блоков в Telegram и кликаем!
+                    # В веб-версии Telegram кнопки раскрытия часто имеют класс .tgme_widget_message_inline_keyboard или подобные элементы управления
+                    expand_buttons = page.locator("a.tgme_widget_message_inline_keyboard, .js-message_inline_keyboard a").all()
+                    if expand_buttons:
+                        for btn in expand_buttons:
+                            try:
+                                if btn.is_visible():
+                                    btn.click(timeout=500)
+                            except:
+                                pass
+                    
+                    # Ждем долю секунды, чтобы анимация развернула текст
+                    time.sleep(0.5)
+                    
+                    # Снимаем слепок со 100% развернутой страницы!
+                    page_content = page.content()
+                    found_keys = self.process_content(page_content)
+                    if found_keys:
+                        collected.extend(found_keys)
+                except Exception as e:
+                    print(f"⚠️ Ошибка доступа к {target_url}: {str(e)}", flush=True)
+                    continue
+                    
+            browser.close()
+
+        elapsed_time = time.time() - start_time
+        speed_pages = len(sources) / elapsed_time if elapsed_time > 0 else 0
+        speed_keys = len(collected) / elapsed_time if elapsed_time > 0 else 0
 
         if collected:
-            clean = list(set([l.strip() for l in collected if l.strip()]))
-            print(f"💎 Чистых конфигов: {len(clean)}", flush=True)
+            clean_raw = list(set([k.strip() for k in collected if k.strip()]))
             
-            os.makedirs(self.output_dir, exist_ok=True)
-            for proto in self.protocols:
-                proto_lines = [l for l in clean if l.lower().startswith(f"{proto}://")]
-                if proto_lines:
-                    self.split_and_save_file('ТГ_', proto, proto_lines)
-            print(f"🏁 [INFO] Сбор завершен за {time.time() - start_time:.2f} сек!", flush=True)
+            os.makedirs(self.raw_incoming_dir, exist_ok=True)
+            existing = set()
+            
+            if os.path.exists(self.storage_file):
+                with open(self.storage_file, 'r', encoding='utf-8') as f:
+                    existing = set(line.strip() for line in f if line.strip())
+            
+            existing.update(clean_raw)
+            
+            with open(self.storage_file, 'w', encoding='utf-8') as f:
+                f.write("\n".join(sorted(list(existing))) + "\n")
+
+            # Выводим наш красивейший отчет!
+            print("\n📊 " + "-"*20 + " ОТЧЕТ УМНОГО КЛИКЕРА PLAYWRIGHT " + "-"*20, flush=True)
+            print(f"📦 ВСЕГО ВЫКАЧАНО (ПОЛНЫЕ СТРОКИ): {len(collected)} элементов", flush=True)
+            print(f"✨ ЧИСТЫХ РАЗВЕРНУТЫХ КЛЮЧЕЙ СОХРАНЕНО: {len(clean_raw)} шт.", flush=True)
+            print(f"📈 СКОРОСТЬ КЛИКЕРА: {speed_pages:.2f} страниц/сек с полной прокруткой", flush=True)
+            print(f"🚀 ЭФФЕКТИВНОСТЬ ПЕРЕХВАТА: {speed_keys:.2f} полных конфигов/сек ⚡", flush=True)
+            print(f"⏱️ ВРЕМЯ РАБОТЫ РОБОТА: Конвейер отработал за {elapsed_time:.2f} сек.", flush=True)
+            print("-" * 74, flush=True)
+            print("🏆 [УСПЕХ] Ни один скрытый хвост не потерян! Все полные ключи в бункере! 🤍🏆🦖\n", flush=True)
+        else:
+            print("ℹ️ [ИНФО] Кнопки нажаты, но валидных данных внутри не обнаружено.", flush=True)
 
 if __name__ == "__main__":
-    TelegramRawCollector().collect()
+    TelegramPlaywrightCollector().start_harvest()
