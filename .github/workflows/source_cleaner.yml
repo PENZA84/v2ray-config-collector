@@ -1,7 +1,7 @@
-name: "🧹 Чистильщик обоих цехов 💋"
+name: "🧹 Чистильщик всех трёх цехов 💋"
 
 on:
-  workflow_dispatch: # 🧤 Только твой ручной запуск, никакой автоматики
+  workflow_dispatch: # 🧤 Только твой ручной запуск из интерфейса GitHub
 
 jobs:
   clean:
@@ -19,7 +19,7 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: Install
+      - name: Install Dependencies
         run: |
           python -m pip install --upgrade pip
           pip install requests
@@ -34,44 +34,92 @@ jobs:
 
           sys.stdout.reconfigure(line_buffering=True)
 
-          FILES_TO_CLEAN = ["v2ray_config_collector/data/sources/sources.txt", "v2ray_config_collector/data/sources/sources1.txt"]
+          # 📂 ПУТИ ОТКУДА БРАТЬ НА ПРОВЕРКУ (Снимок 1394)
+          BASE_SOURCES_DIR = "v2ray_config_collector/data/sources"
+          FILES_TO_CHECK = [
+              os.path.join(BASE_SOURCES_DIR, "sources.txt"),
+              os.path.join(BASE_SOURCES_DIR, "sources1.txt"),
+              os.path.join(BASE_SOURCES_DIR, "grabber_targets.txt")
+          ]
 
-          print("💋 [Завод]: Ручной запуск чистки источников...", flush=True)
+          # 🛑 КУДА СКЛАДЫВАТЬ ХЛАМ И ОШИБКИ (Снимок 1393)
+          RAW_DEAD_FILE = "v2ray_config_collector/data/raw_incoming/deep_raw_collected.txt"
 
-          def is_alive(url):
+          print("💋 [Завод]: Запуск проверки ссылок и изоляции хлама в deep_raw...", flush=True)
+
+          def check_link(url):
               try:
-                  r = requests.get(url, timeout=7, stream=True, headers={'User-Agent': 'Mozilla/5.0'})
-                  return url if r.status_code == 200 else None
-              except: return None
+                  # Чистим ссылки от мусорных токенов для GitHub Raw при проверке
+                  clean_url = url
+                  if ".txt" in url.lower() or ".yaml" in url.lower() or ".yml" in url.lower():
+                      if "raw.githubusercontent.com" in url:
+                          clean_url = url.split('?')[0]
 
-          for src_path in FILES_TO_CLEAN:
-              if not os.path.exists(src_path): continue
+                  headers = {
+                      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                  }
+                  r = requests.get(clean_url, timeout=8, stream=True, headers=headers)
+                  return (url, r.status_code)
+              except Exception as e:
+                  return (url, "TIMEOUT_OR_ERROR")
+
+          # Считываем существующий хлам, чтобы не потерять старые записи в бункере
+          existing_dead = set()
+          if os.path.exists(RAW_DEAD_FILE):
+              with open(RAW_DEAD_FILE, "r", encoding="utf-8") as f:
+                  existing_dead = {line.strip() for line in f if line.strip() and not line.startswith('#')}
+
+          new_dead_pool = set()
+
+          for src_path in FILES_TO_CHECK:
+              if not os.path.exists(src_path):
+                  print(f"⚠️ Файл источника не найден, пропускаю: {src_path}", flush=True)
+                  continue
+                  
               with open(src_path, "r", encoding="utf-8") as f:
-                  urls = {line.strip() for line in f if line.strip()}
+                  urls = [line.strip() for line in f if line.strip() and not line.startswith('#')]
               
-              if not urls: continue
+              if not urls:
+                  continue
+
+              print(f"📥 Проверяю ссылки из: {os.path.basename(src_path)} (Всего: {len(urls)})", flush=True)
 
               with ThreadPoolExecutor(max_workers=30) as executor:
-                  results = list(filter(None, executor.map(is_alive, urls)))
+                  results = list(executor.map(check_link, urls))
               
-              alive = set(results)
-              dead = urls - alive
-              
-              print(f"📂 Файл: {src_path} | Живых: {len(alive)} | В космос улетело: {len(dead)}")
+              alive_urls = []
+              for url, status in results:
+                  if status == 200:
+                      alive_urls.append(url)
+                  else:
+                      # Если ссылка выдала 403, 404 или упала — это хлам, фиксируем его
+                      print(f"   ❌ Хлам обнаружен ({status}): {url[:50]}...", flush=True)
+                      new_dead_pool.add(f"{url} | Error: {status}")
 
+              # Перезаписываем исходный файл — оставляем там ТОЛЬКО живые ссылки 200 OK
               with open(src_path, "w", encoding="utf-8") as f:
-                  if alive:
-                      f.write("\n".join(sorted(list(alive))) + "\n")
+                  if alive_urls:
+                      f.write("\n".join(sorted(alive_urls)) + "\n")
+              print(f"   ↳ Обновлено: {os.path.basename(src_path)} (Осталось живых: {len(alive_urls)})", flush=True)
+
+          # Объединяем старый хлам с новоприбывшим и сохраняем строго в deep_raw_collected.txt
+          final_dead_pool = existing_dead.union(new_dead_pool)
+          if final_dead_pool:
+              os.makedirs(os.path.dirname(RAW_DEAD_FILE), exist_ok=True)
+              with open(RAW_DEAD_FILE, "w", encoding="utf-8") as f:
+                  f.write("# БУНКЕР ОТХОДОВ И ОШИБКИ ОТСЕИВАНИЯ (403 / 404 / TIMEOUTS)\n\n")
+                  f.write("\n".join(sorted(list(final_dead_pool))) + "\n")
+              print(f"🔥 [УСПЕХ] Весь хлам ({len(new_dead_pool)} новых) бережно изолирован в бункер: {RAW_DEAD_FILE}", flush=True)
           EOF
 
       - name: Push Changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add v2ray_config_collector/data/sources/
+          git add v2ray_config_collector/data/
           if ! git diff --cached --quiet; then
-            git commit -m "🧹 Порядок в цехах: мертвые души удалены! 💋"
+            git commit -m "🧹 Порядок в трёх цехах: хлам полностью вычищен и изолирован в deep_raw! 💋"
             git push origin HEAD:${{ github.ref }}
           else
-            echo "Нет изменений для коммита"
+            echo "Нет изменений для коммита — все цеха идеально чисты!"
           fi
