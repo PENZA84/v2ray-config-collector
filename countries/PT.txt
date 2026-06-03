@@ -1,4 +1,0 @@
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@156.243.83.238:2096?path=/?Telegram@WangCai2=&security=tls&encryption=none&host=sni.jpmj.dev&type=ws&sni=sni.jpmj.dev#PT_703_@Surfboardv2ray
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@156.243.83.238:2096?path=/?Telegram@WangCai2=&security=tls&encryption=none&host=sni.jpmj.dev&type=ws&sni=sni.jpmj.dev#PT_735_@Surfboardv2ray
-vless://9cc944b9-f043-4f4c-b85f-28669ca26c0b@156.243.83.0:2095?security=none&type=httpupgrade&headerType=&path=/&host=pl.carefreemob2.com.#PT_1003_@Surfboardv2ray
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@156.243.83.238:2096?path=/?Telegram@WangCai2=&security=tls&encryption=none&host=sni.jpmj.dev&type=ws&sni=sni.jpmj.dev#PT_734_@Surfboardv2ray

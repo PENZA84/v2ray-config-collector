@@ -1,2 +1,0 @@
-hysteria2://42eda64b-ff56-4b14-b5d2-047a871680f5@yue-ng.yuetoto.net:21090?insecure=1&sni=yue-ng.yuetoto.net#NG_2%20%7C%20%E2%AC%87%EF%B8%8F%204.4MB%2Fs
-hysteria2://42eda64b-ff56-4b14-b5d2-047a871680f5@yue-ng.yuetoto.net:21070?insecure=1&sni=yue-ng.yuetoto.net#NG_1%20%7C%20%E2%AC%87%EF%B8%8F%204.8MB%2Fs

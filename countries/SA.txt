@@ -1,2 +1,0 @@
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@91.209.253.168:8880?allowInsecure=0&sni=kjgx.laoyoutiao.link&type=ws&host=kjgx.laoyoutiao.link&path=/Telegram@WangCai2#SA_speednode_0214
-vless://583ceab3-4022-4553-9158-9bedc625ad4e@91.209.253.186:8880?encryption=none&security=none&sni=Telegram-channel-WangCai2&type=ws&host=ip.langmanshanxi.top&path=%2F#SA_speednode_0113

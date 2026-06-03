@@ -1,4 +1,0 @@
-hysteria2://42eda64b-ff56-4b14-b5d2-047a871680f5@yue-th.yuetoto.net:21066?insecure=1&sni=yue-th.yuetoto.net#TH_2%20%7C%20%E2%AC%87%EF%B8%8F%202.8MB%2Fs
-hysteria2://84123645-b62d-4a3b-bd74-d58ea4023c65@th1.jueduibupao.top:30000?insecure=1&sni=th1.jueduibupao.top#TH_1%20%7C%20%E2%AC%87%EF%B8%8F%205.2MB%2Fs
-hysteria2://42eda64b-ff56-4b14-b5d2-047a871680f5@yue-th.yuetoto.net:21091?insecure=1&sni=yue-th.yuetoto.net#TH_1%20%7C%20%E2%AC%87%EF%B8%8F%202.9MB%2Fs
-trojan://PHnvNV7HGp@119.59.116.248:17159#TH_40
