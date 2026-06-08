@@ -1,0 +1,50 @@
+name: 🏭 Заводской Автономный Сортировщик (Factory Grabber)
+
+on:
+  workflow_dispatch: # 🔘 Кнопка ручного запуска в панели Actions
+  
+  schedule:
+    - cron: '0 */6 * * *' # ⏱️ Авто-запуск каждые 6 часов (можно настроить как угодно)
+    
+  push:
+    paths:
+      - 'data/raw_incoming/deep_raw_collected.txt' # 🚀 Триггер: как только в бункер упали новые данные
+
+# Даем права на запись, чтобы бот мог закоммитить очистку бункера и новые прокси
+permissions:
+  contents: write
+
+jobs:
+  run-factory-grabber:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Клонирование репозитория
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Качаем всю историю, чтобы избежать конфликтов при push
+
+      - name: 🐍 Развертывание Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: ⚙️ Запуск изолированного цеха сортировки
+        run: python factory_grabber.py
+
+      - name: 📤 Сохранение результатов и очистка бункера в Git
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          
+          # Индексируем изменения: новые файлы в unique/ и пустой deep_raw_collected.txt
+          git add data/unique/*.txt data/raw_incoming/deep_raw_collected.txt
+          
+          # Проверяем, изменилось ли что-то на самом деле (чтобы экшен не падал, если бункер был пуст)
+          if ! git diff --cached --quiet; then
+            git commit -m "🏭 Завод: Смена сдана автономно. Полки unique обновлены, бункер зачищен."
+            git push origin HEAD:${{ github.ref }}
+            echo "✅ Изменения успешно отправлены в репозиторий!"
+          else
+            echo "ℹ️ Никаких изменений не обнаружено. Бункер изначально был пуст."
+          fi
