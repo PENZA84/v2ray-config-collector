@@ -243,8 +243,6 @@ https://github.com/nikita29a/FreeProxyList/raw/refs/heads/main/mirror/8.txt
 https://github.com/nikita29a/FreeProxyList/raw/refs/heads/main/mirror/9.txt
 https://github.com/paimonhub/Paimonnode/raw/main/publish/clash.yaml
 https://github.com/paimonhub/Paimonnode/raw/main/publish/clash.yaml
-https://github.com/pog7x/vpn-configs/blob/master/githubmirror/22.txt
-https://github.com/pog7x/vpn-configs/blob/master/githubmirror/7.txt
 https://github.com/pog7x/vpn-configs/blob/master/githubmirror/7.txt
 https://github.com/sakha1370/OpenRay/raw/refs/heads/main/output/all_valid_proxies.txt
 https://github.com/sakha1370/OpenRay/raw/refs/heads/main/output/all_valid_proxies.txt
@@ -274,7 +272,6 @@ https://jiang.netlify.app
 https://jiang.netlify.app
 https://keysconf.com/
 https://keysconf.com/
-https://mix.gtptpm.workers.dev/output.?urls=https%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fproxy%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fcdn%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fcslab%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FIRDevs%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloud2%2Frefs%2Fheads%2Fmain%2Faparatapi%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fsafar724%2Frefs%2Fheads%2Fmain%2Fapi&outputFormat=base64&count=0&protocols=%5B%22all%22%5D&cloudflareOnly=false
 https://mix.gtptpm.workers.dev/output.?urls=https%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fproxy%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fcdn%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fcslab%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FIRDevs%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloud2%2Frefs%2Fheads%2Fmain%2Faparatapi%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fsafar724%2Frefs%2Fheads%2Fmain%2Fapi&outputFormat=base64&count=0&protocols=%5B%22all%22%5D&cloudflareOnly=false
 https://mojie.app/api/v1/client/subscribe?token=0ce896d17bde60480c9e1a8bb540b29e
 https://mojie.app/api/v1/client/subscribe?token=6dbf0b92279e3ca9448b883496d8870f
