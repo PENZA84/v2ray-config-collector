@@ -23,7 +23,6 @@ https://cdn.jsdelivr.net/gh/freebaipiao/freebaipiao@main/freebaipiao.yaml
 https://cdn.jsdelivr.net/gh/freebaipiao/freebaipiao@main/freebaipiaov2.txt
 https://cdn.jsdelivr.net/gh/itxve/fetch-clash-node/node/ClashNode.yaml
 https://cdn.jsdelivr.net/gh/itxve/fetch-clash-node/node/NodeFree.yaml
-https://cdn.jsdelivr.net/gh/itxve/fetch-clash-node/node/NodeShare.yaml
 https://cdn.jsdelivr.net/gh/itxve/fetch-clash-node/node/merge.yaml
 https://cdn.jsdelivr.net/gh/learnhard-cn/free_proxy_ss@main/clash/clash.provider.yaml
 https://cdn.jsdelivr.net/gh/peasoft/NoMoreWalls@master/list.txt
@@ -83,8 +82,6 @@ https://github.com/4n0nymou3/multi-proxy-config-fetcher/raw/refs/heads/main/conf
 https://github.com/Argh94/Proxy-List/blob/main/All_Config.txt
 https://github.com/Argh94/Proxy-List/blob/main/All_Config.txt
 https://github.com/Argh94/Proxy-List/blob/main/Trojan.txt
-https://github.com/Argh94/Proxy-List/blob/main/Trojan.txt
-https://github.com/Argh94/Proxy-List/blob/main/Tuic.txt
 https://github.com/Argh94/Proxy-List/blob/main/Tuic.txt
 https://github.com/Argh94/Proxy-List/raw/refs/heads/main/All_Config.txt
 https://github.com/Argh94/Proxy-List/raw/refs/heads/main/All_Config.txt
@@ -134,7 +131,6 @@ https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/proto
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vless_clash.yaml
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vmess.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vmess_clash.yaml
-https://github.com/DukeMehdi/FreeList-V2ray-Configs/blob/main/Configs/All-DukeMehdi-Configs.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_Sub.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_base64_Sub.txt
@@ -175,7 +171,6 @@ https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/M
 https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/MatinGhanbari/v2ray-configs/subscriptions/v2ray/super-sub.txt.yaml
 https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/MatinGhanbari/v2ray-configs/subscriptions/v2ray/super-sub.txt.yaml
 https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/mahdibland/SSAggregator/sub/sub_merge_base64.txt.yaml
-https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/trojanvmess.pages.dev/cmcm_b64.yaml
 https://github.com/Pawdroid/Free-servers/raw/refs/heads/main/sub
 https://github.com/Pawdroid/Free-servers/raw/refs/heads/main/sub
 https://github.com/Tenerome/v2ray/raw/main/res/23-05/2023-05-12
@@ -278,7 +273,6 @@ https://guolicheng.cfd/api/v1/client/subscribe?token=96a35a4d5c8bd511c52cbfa1bf3
 https://guolicheng.cfd/api/v1/client/subscribe?token=96a35a4d5c8bd511c52cbfa1bf3f9f5c&amp;flag=meta
 https://guolicheng.cfd/api/v1/client/subscribe?token=ef6515bb0da83bcdc986f9d046ef72ef
 https://hyperion-cs.github.io/dpi-checkers/ru/tcp-16-20/?share=Fc6YpSOg66LI6ey96pdi0jRt6HRl7FNCMWVEDEcQ8WFbRDJ8ejsAAm0
-https://hyt-allen-xu.netlify.app
 https://hyt-allen-xu.netlify.app
 https://ircfspace.github.io/tconfig/
 https://ircfspace.github.io/tconfig/
@@ -9643,7 +9637,6 @@ https://trojanvmess.pages.dev/cmcm?b64cmcm?b64
 https://v2-ray-automator.vercel.app/
 https://v2-ray-automator.vercel.app/
 https://v2.alicivil.workers.dev
-https://v2.alicivil.workers.dev/?list=us&count=300&shuffle=true&unique=false
 https://v2.alicivil.workers.dev/?list=us&count=300&shuffle=true&unique=false
 https://v2ray.neocities.org/v2ray.txt
 https://v2ray.neocities.org/v2ray.txt
