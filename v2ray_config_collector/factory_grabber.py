@@ -3,26 +3,32 @@ import sys
 import time
 import base64
 from collections import defaultdict
+from playwright.sync_api import sync_playwright
 
 class GitHubFactoryGrabber:
     def __init__(self):
-        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЗАВОДА ЛЕИ ---
+        # --- НАВИГАЦИЯ ПО НАШЕМУ ЗАВОДУ ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
         
+        # Динамический поиск корня репозитория
         self.base_dir = current_dir
         for _ in range(3):
             if os.path.exists(os.path.join(self.base_dir, 'data')):
                 break
             self.base_dir = os.path.dirname(self.base_dir)
 
-        # Пути к папкам Гитхаба
+        # ЧЁТКОЕ РАСПРЕДЕЛЕНИЕ ЦЕХОВ И НАШЕЙ ИМЕННОЙ МИШЕНИ
+        self.sources_dir = os.path.join(self.base_dir, 'data', 'sources')
+        self.targets_file = os.path.join(self.sources_dir, 'grabber_targets.txt') # СТРОГО НАШ ФАЙЛ ССЫЛОК!
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.input_file = os.path.join(self.base_dir, 'data', 'raw_incoming', 'deep_raw_collected.txt')
         
+        # Гарантируем наличие структуры папок при старте на виртуалке
         os.makedirs(self.output_dir, exist_ok=True)
+        os.makedirs(self.sources_dir, exist_ok=True)
+        os.makedirs(os.path.dirname(self.input_file), exist_ok=True)
         
-        # Полный королевский список из 23 протоколов Трона и v2rayN 👑
         self.protocols = [
             'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
             'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
@@ -35,12 +41,30 @@ class GitHubFactoryGrabber:
             'blocked_tg_proxies': 0,
             'valid_extracted': 0,
             'saved_lines': 0,
-            'cleared_for_n': 0
+            'cleared_for_n': 0,
+            'clicked_sources': 0
         }
         self.proto_stats = defaultdict(int)
 
+    def verify_factory_lanes(self):
+        """🔍 ОТК: Контроль изоляции источников"""
+        print("\n🔍 ================= [КОНТРОЛЬ ОТК НАШЕГО ЗАВОДА] =================", flush=True)
+        print(f"🏭 Корень репозитория: {self.base_dir}", flush=True)
+        print(f"📂 Общий цех источников: {self.sources_dir}", flush=True)
+        print(f"🎯 Личный рацион Граббера: {self.targets_file}", flush=True)
+        print(f"📦 Склад готовой продукции unique: {self.output_dir}", flush=True)
+        
+        # Проверяем, на месте ли именной файл Граббера
+        if os.path.exists(self.targets_file):
+            print("✅ Именной файл grabber_targets.txt ОБНАРУЖЕН и готов к производству!", flush=True)
+        else:
+            print("⚠️ ВНИМАНИЕ: grabber_targets.txt отсутствует в data/sources/! Создаю пустой бланк.", flush=True)
+            with open(self.targets_file, 'w', encoding='utf-8') as f:
+                f.write("# Добавь сюда китайские ссылки для обкликивания браузером\n")
+                
+        print("✅ ВЕРИФИКАЦИЯ ЗАВЕРШЕНА: Граббер изолирован, конфликты с майнами исключены!\n", flush=True)
+
     def decode_base64_safely(self, content):
-        """Сверхскоростное декодирование без утечек памяти и зависаний"""
         if not content:
             return ""
         try:
@@ -55,41 +79,95 @@ class GitHubFactoryGrabber:
             return content
 
     def fast_extract_configs(self, text):
-        """Линейный сверхзвуковой поиск ключей БЕЗ опасных регулярных выражений"""
         extracted = []
         if not text:
             return extracted
-
         lines = text.split('\n')
         self.stats['total_raw_lines'] += len(lines)
-
         for line in lines:
             line_clean = line.strip()
             if not line_clean or '://' not in line_clean:
                 continue
-                
             is_valid_proto = False
             for proto in self.protocols:
                 if line_clean.lower().startswith(f"{proto}://"):
                     is_valid_proto = True
                     break
-            
             if not is_valid_proto:
                 continue
-
-            # 🛑 ЖЕСТКИЙ ЩИТ: Немедленный бан мусорных прокси-ссылок Телеграма
             if "tg://proxy" in line_clean or "t.me/proxy" in line_clean or "proxy?" in line_clean:
                 self.stats['blocked_tg_proxies'] += 1
                 continue
-
             extracted.append(line_clean)
         return extracted
 
-    def save_to_txt_shelves(self, configs):
-        """Атомарная дозапись на текстовые полки с раздельными правилами для Трона и Н"""
-        if not configs:
+    def download_and_click_targets(self):
+        """Браузерный модуль: работает СТРОГО по файлу grabber_targets.txt"""
+        print(f"🌐 [Цех Кликера]: Вычитываем цели из {os.path.basename(self.targets_file)}...", flush=True)
+        
+        targets = []
+        try:
+            with open(self.targets_file, "r", encoding="utf-8") as f:
+                for line in f:
+                    line_clean = line.strip()
+                    if line_clean and not line_clean.startswith('#') and '://' in line_clean:
+                        targets.append(line_clean)
+        except Exception as e:
+            print(f"❌ Ошибка чтения файла целей: {e}", flush=True)
             return
 
+        targets = list(set(targets))
+        if not targets:
+            print("ℹ️ В grabber_targets.txt нет ссылок для обработки кликером. Смена окончена.", flush=True)
+            return
+
+        print(f"🚀 Запуск Playwright. Берем в работу {len(targets)} целевых URL!", flush=True)
+        collected_raw_data = []
+
+        with sync_playwright() as p:
+            browser = p.chromium.launch(headless=True)
+            context = browser.new_context(
+                user_agent='Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+                locale='zh-CN',
+                timezone_id='Asia/Shanghai'
+            )
+            
+            for url in targets:
+                try:
+                    print(f"🕵️‍♂️ Робот открывает цель: {url[:60]}...", flush=True)
+                    page = context.new_page()
+                    page.goto(url, timeout=45000, wait_until="networkidle")
+                    time.sleep(4)
+                    
+                    buttons = page.locator("button, a, .btn, [role='button']").all()
+                    for btn in buttons:
+                        try:
+                            text = btn.inner_text().strip()
+                            if any(x in text for x in ["复制", "获取", "Get", "Copy", "🔑", "Показать"]):
+                                print(f"  👆 Найдена кнопка [{text}] -> Кликаю!", flush=True)
+                                btn.click(timeout=3000)
+                                time.sleep(1.5)
+                        except:
+                            continue
+
+                    page_content = page.content()
+                    collected_raw_data.append(page_content)
+                    self.stats['clicked_sources'] += 1
+                    page.close()
+                except Exception as e:
+                    print(f"  ❌ Осечка на странице: {e}", flush=True)
+            
+            browser.close()
+
+        combined_raw = "\n".join(collected_raw_data)
+        if combined_raw.strip():
+            with open(self.input_file, "a", encoding="utf-8") as f:
+                f.write("\n" + combined_raw + "\n")
+            print(f"✅ Сырьё успешно упаковано в бункер. Отработано сайтов: {self.stats['clicked_sources']} шт.", flush=True)
+
+    def save_to_txt_shelves(self, configs):
+        if not configs:
+            return
         buckets = defaultdict(list)
         for link in configs:
             for proto in self.protocols:
@@ -98,59 +176,96 @@ class GitHubFactoryGrabber:
                     self.proto_stats[proto] += 1
                     break
 
-        # Физически пишем чистый ТХТ на диск
+        max_bytes_per_file = 90 * 1024 * 1024 
+
         for proto, lines in buckets.items():
-            safe_filename = proto.replace('+', '_')
-            file_path = os.path.join(self.output_dir, f"{safe_filename}.txt")
+            safe_proto = proto.replace('+', '_')
+            base_filename = f"grabber_{safe_proto}"
             
-            # Читаем старую базу, чтобы убрать дубликаты
             existing_lines = []
-            if os.path.exists(file_path):
+            main_file_path = os.path.join(self.output_dir, f"{base_filename}.txt")
+            
+            if os.path.exists(main_file_path):
                 try:
-                    with open(file_path, 'r', encoding='utf-8') as f:
-                        existing_lines = [l.strip() for l in f if l.strip()]
+                    with open(main_file_path, 'r', encoding='utf-8') as f:
+                        existing_lines.extend([l.strip() for l in f if l.strip()])
                 except:
                     pass
-
-            # Слияние и моментальное удаление дублей через set()
-            total_monolith = list(set(existing_lines + lines))
             
-            # 📜 ГВАРДЕЙСКИЙ УСТАВ: Очистка файлов для программы Н!
-            # Если этот протокол пойдет в файлы стран для Н, мы жестко убираем http/https/socks
+            chunk_idx = 1
+            while True:
+                chunk_file = os.path.join(self.output_dir, f"{base_filename}_{chunk_idx}.txt")
+                if os.path.exists(chunk_file):
+                    try:
+                        with open(chunk_file, 'r', encoding='utf-8') as f:
+                            existing_lines.extend([l.strip() for l in f if l.strip()])
+                        os.remove(chunk_file)
+                    except:
+                        pass
+                    chunk_idx += 1
+                else:
+                    break
+
+            total_monolith = list(set(existing_lines + lines))
             if proto in ['http', 'https', 'socks', 'socks4', 'socks5']:
                 self.stats['cleared_for_n'] += len(lines)
-                # Для всеядного Трона мы этот файл ЗАПИСЫВАЕМ, он у него будет!
             
-            # Атомарное сохранение файла на Гитхабе
-            tmp_file = file_path + ".tmp"
-            with open(tmp_file, 'w', encoding='utf-8') as out_f:
-                out_f.write("\n".join(sorted(total_monolith)) + "\n")
-            os.replace(tmp_file, file_path)
+            sorted_lines = sorted(total_monolith)
+            all_chunks = []
+            current_chunk = []
+            current_size = 0
+            
+            for line in sorted_lines:
+                line_str = line + "\n"
+                line_bytes = len(line_str.encode('utf-8'))
+                if current_size + line_bytes > max_bytes_per_file:
+                    all_chunks.append(current_chunk)
+                    current_chunk = [line]
+                    current_size = line_bytes
+                else:
+                    current_chunk.append(line)
+                    current_size += line_bytes
+            if current_chunk:
+                all_chunks.append(current_chunk)
+            
+            if len(all_chunks) <= 1 and all_chunks:
+                file_path = os.path.join(self.output_dir, f"{base_filename}.txt")
+                tmp_file = file_path + ".tmp"
+                with open(tmp_file, 'w', encoding='utf-8') as out_f:
+                    out_f.write("\n".join(all_chunks[0]) + "\n")
+                os.replace(tmp_file, file_path)
+            else:
+                if os.path.exists(main_file_path):
+                    try: os.remove(main_file_path)
+                    except: pass
+                for idx, chunk in enumerate(all_chunks, start=1):
+                    file_path = os.path.join(self.output_dir, f"{base_filename}_{idx}.txt")
+                    tmp_file = file_path + ".tmp"
+                    with open(tmp_file, 'w', encoding='utf-8') as out_f:
+                        out_f.write("\n".join(chunk) + "\n")
+                    os.replace(tmp_file, file_path)
+                    
             self.stats['saved_lines'] += len(lines)
 
     def run_grabber_production(self):
-        """Запуск генерального цикла смены снабжения на GitHub Actions"""
         sys.stdout.reconfigure(line_buffering=True)
-        print("🏭 [ЗАВОД ГИТХАБА] Запуск неуязвимого сборщика factory_grabber.py... 🚀", flush=True)
-        
+        print("🏭 [ЗАВОД] Запуск автономного Граббера по ЕГО ИМЕННЫМ ИСТОЧНИКАМ... 🚀", flush=True)
         start_time = time.time()
         
+        self.verify_factory_lanes()
+        self.download_and_click_targets()
+        
         if not os.path.exists(self.input_file):
-            print(f"ℹ️ Бункер сырья отсутствует: {self.input_file}", flush=True)
+            print(f"ℹ️ Бункер сырья пуст: {self.input_file}", flush=True)
             return
 
-        try:
-            with open(self.input_file, 'r', encoding='utf-8') as f:
-                raw_content = f.read()
-        except Exception as e:
-            print(f"⚠️ Ошибка чтения бункера: {e}", flush=True)
-            return
+        with open(self.input_file, 'r', encoding='utf-8') as f:
+            raw_content = f.read()
 
         if not raw_content.strip():
-            print("ℹ️ Бункер deep_raw_collected.txt пуст.", flush=True)
+            print("ℹ️ Обрабатывать нечего.")
             return
 
-        # Декодируем и извлекаем ключи линейным сканером БЕЗ РЕГУЛЯРОК
         decoded = self.decode_base64_safely(raw_content)
         all_found_configs = self.fast_extract_configs(decoded)
 
@@ -159,25 +274,21 @@ class GitHubFactoryGrabber:
             self.stats['valid_extracted'] = len(unique_incoming)
             self.save_to_txt_shelves(unique_incoming)
 
-        # Очищаем бункер сбора сырья для следующего коммита
         try:
             with open(self.input_file, 'w', encoding='utf-8') as f:
                 f.write("")
-            print("🧹 Бункер deep_raw_collected.txt успешно очищен.", flush=True)
+            print("🧹 Временный бункер сырья зачищен.")
         except Exception as e:
-            print(f"⚠️ Не удалось очистить бункер: {e}", flush=True)
+            print(f"⚠️ Ошибка зачистки бункера: {e}")
 
         elapsed = time.time() - start_time
-        
-        # Наш роскошный приборный отчет в логах Гитхаба! 📊
-        print("\n📊 " + "-"*20 + " ОТЧЁТ СВЕРХСКОРОСТНОЙ СМЕНЫ " + "-"*20, flush=True)
-        print(f"📦 ВСЕГО СТРОК ПРОАНАЛИЗИРОВАНО В БУНКЕРЕ: {self.stats['total_raw_lines']} шт.", flush=True)
-        print(f"📥 ЧИСТЫХ ВАЛИДНЫХ КЛЮЧЕЙ ИЗВЛЕЧЕНО: {self.stats['valid_extracted']} шт.", flush=True)
-        print(f"🛑 МУСОРНЫХ ПРОКСИ ДЛЯ Н ЗАБЛОКИРОВАНО: {self.stats['blocked_tg_proxies']} шт. 🛡️", flush=True)
-        print(f"🛡️ СТРОК HTTP/SOCKS ОТФИЛЬТРОВАНО (ЗАЩИТА ОТ СЛЕПЫХ МЕСТ В Н): {self.stats['cleared_for_n']} шт.", flush=True)
-        print(f"✨ ВСЕГО СТРОК СОХРАНЕНО НА ПОЛКИ ТРОНА В /UNIQUE/: {self.stats['saved_lines']} шт.", flush=True)
-        print(f"⏱️ ВРЕМЯ РАБОТЫ ЦЕХА: Выполнено за {elapsed:.4f} сек. БЕЗ ЗАВИСАНИЙ! 🔥", flush=True)
-        print("-" * 77, flush=True)
+        print("\n📊 " + "-"*20 + " ОТЧЁТ ИЗОЛИРОВАННОГО ГРАББЕРА " + "-"*20, flush=True)
+        print(f"🎯 ССЫЛОК ИЗ GRABBER_TARGETS.TXTОБРАБОТАНО: {self.stats['clicked_sources']} шт.", flush=True)
+        print(f"📦 ВСЕГО СТРОК СЫРЬЯ ПРОСКАНИРОВАНО: {self.stats['total_raw_lines']} шт.", flush=True)
+        print(f"📥 ЧИСТЫХ ПРОКСИ ИЗВЛЕЧЕНО КЛИКЕРОМ: {self.stats['valid_extracted']} шт.", flush=True)
+        print(f"✨ СОХРАНЕНО НА СКЛАД UNIQUE С ПРЕФИКСОМ GRABBER_: {self.stats['saved_lines']} шт.", flush=True)
+        print(f"⏱️ ВРЕМЯ РАБОТЫ СМЕНЫ: {elapsed:.4f} сек.", flush=True)
+        print("-" * 87, flush=True)
 
 if __name__ == "__main__":
     GitHubFactoryGrabber().run_grabber_production()
