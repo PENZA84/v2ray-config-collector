@@ -78,7 +78,6 @@ https://github.com/4n0nymou3/multi-proxy-config-fetcher/raw/main/configs/proxy_c
 https://github.com/4n0nymou3/multi-proxy-config-fetcher/raw/refs/heads/main/configs/proxy_configs.txt
 https://github.com/Argh94/Proxy-List/blob/main/All_Config.txt
 https://github.com/Argh94/Proxy-List/blob/main/All_Config.txt
-https://github.com/Argh94/Proxy-List/blob/main/Trojan.txt
 https://github.com/Argh94/Proxy-List/blob/main/Tuic.txt
 https://github.com/Argh94/Proxy-List/raw/refs/heads/main/All_Config.txt
 https://github.com/Argh94/Proxy-List/raw/refs/heads/main/All_Config.txt
@@ -166,8 +165,6 @@ https://github.com/Mr-Meshky/vify/raw/refs/heads/main/configs/vless.txt
 https://github.com/NiREvil/vless/blob/main/sub/clash-meta.yml
 https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/MatinGhanbari/v2ray-configs/subscriptions/filtered/subs/ss.txt.yaml
 https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/MatinGhanbari/v2ray-configs/subscriptions/v2ray/super-sub.txt.yaml
-https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/MatinGhanbari/v2ray-configs/subscriptions/v2ray/super-sub.txt.yaml
-https://github.com/PENZA84/Sub-Config-Extractor/blob/main/output_configs/clash/mahdibland/SSAggregator/sub/sub_merge_base64.txt.yaml
 https://github.com/Pawdroid/Free-servers/raw/refs/heads/main/sub
 https://github.com/Pawdroid/Free-servers/raw/refs/heads/main/sub
 https://github.com/Tenerome/v2ray/raw/main/res/23-05/2023-05-12
@@ -247,7 +244,6 @@ https://github.com/nikita29a/FreeProxyList/raw/refs/heads/main/mirror/9.txt
 https://github.com/paimonhub/Paimonnode/raw/main/publish/clash.yaml
 https://github.com/paimonhub/Paimonnode/raw/main/publish/clash.yaml
 https://github.com/pog7x/vpn-configs/blob/master/githubmirror/22.txt
-https://github.com/pog7x/vpn-configs/blob/master/githubmirror/22.txt
 https://github.com/pog7x/vpn-configs/blob/master/githubmirror/7.txt
 https://github.com/pog7x/vpn-configs/blob/master/githubmirror/7.txt
 https://github.com/sakha1370/OpenRay/raw/refs/heads/main/output/all_valid_proxies.txt
@@ -274,10 +270,8 @@ https://hyt-allen-xu.netlify.app
 https://ircfspace.github.io/tconfig/
 https://ircfspace.github.io/tconfig/
 https://iwxf.netlify.app
-https://iwxf.netlify.app
 https://jiang.netlify.app
 https://jiang.netlify.app
-https://jiang.netlify.app/
 https://keysconf.com/
 https://keysconf.com/
 https://mix.gtptpm.workers.dev/output.?urls=https%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fproxy%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Fcdn%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloudflarePlus%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fcslab%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FIRDevs%2Frefs%2Fheads%2Fmain%2Findex.html%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2FCloud2%2Frefs%2Fheads%2Fmain%2Faparatapi%7Chttps%3A%2F%2Fraw.githubusercontent.com%2Fdarkvpnapp%2Fsafar724%2Frefs%2Fheads%2Fmain%2Fapi&outputFormat=base64&count=0&protocols=%5B%22all%22%5D&cloudflareOnly=false
