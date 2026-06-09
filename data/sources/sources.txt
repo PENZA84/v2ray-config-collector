@@ -6901,8 +6901,6 @@ https://raw.gitmirror.com/aoguai/subscription/custom/dist/aoguai_gkd.json5
 https://raw.gitmirror.com/ripaojiedian/freenode/main/clash
 https://raw.gitmirror.com/ripaojiedian/freenode/main/sub
 https://raw.gitslow.tk/yu-steven/openit/main/Clash.yaml
-https://raw.io
-https://raw.io
 https://raw.iqiq.io/anaer/Sub/main/clash.yaml
 https://raw.staticdn.net/suiyuan8/clash/refs/heads/main/US_283vl
 https://raw.staticdn.netsuiyuan8clashrefsheadsmainUS_283vl
