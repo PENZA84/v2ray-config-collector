@@ -1,7 +1,7 @@
 name: "🧹 Чистильщик всех трёх цехов 💋"
 
 on:
-  workflow_dispatch: # 🧤 Только твой ручной запуск
+  workflow_dispatch: # 🧤 Только ручной запуск из интерфейса GitHub
 
 jobs:
   clean:
@@ -34,9 +34,9 @@ jobs:
 
           sys.stdout.reconfigure(line_buffering=True)
 
-          # ПУТИ - ОСТАВЛЯЕМ КАК ЕСТЬ (ТЫ СКАЗАЛ ОНИ ПРАВИЛЬНЫЕ)
-          BASE_SOURCES_DIR = "v2ray_config_collector/data/sources"
-          RAW_DEAD_FILE = "v2ray_config_collector/data/raw_incoming/deep_raw_collected.txt"
+          # ПУТИ ИСПРАВЛЕНЫ: Убрана приставка v2ray_config_collector/
+          BASE_SOURCES_DIR = "data/sources"
+          RAW_DEAD_FILE = "data/raw_incoming/deep_raw_collected.txt"
           
           FILES_TO_CHECK = [
               os.path.join(BASE_SOURCES_DIR, "sources.txt"),
@@ -44,19 +44,21 @@ jobs:
               os.path.join(BASE_SOURCES_DIR, "grabber_targets.txt")
           ]
 
-          print("💋 [Завод]: Запуск проверки ссылок и изоляции хлама...", flush=True)
+          print("💋 [Завод]: Запуск проверки ссылок и изоляции хлама в deep_raw...", flush=True)
 
-          # ... (твоя логика функции check_link и обработки остается БЕЗ ИЗМЕНЕНИЙ) ...
           def check_link(url):
               try:
                   clean_url = url
                   if ".txt" in url.lower() or ".yaml" in url.lower() or ".yml" in url.lower():
                       if "raw.githubusercontent.com" in url:
                           clean_url = url.split('?')[0]
-                  headers = {'User-Agent': 'Mozilla/5.0'}
+
+                  headers = {
+                      'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36'
+                  }
                   r = requests.get(clean_url, timeout=8, stream=True, headers=headers)
                   return (url, r.status_code)
-              except:
+              except Exception:
                   return (url, "TIMEOUT_OR_ERROR")
 
           existing_dead = set()
@@ -65,27 +67,43 @@ jobs:
                   existing_dead = {line.strip() for line in f if line.strip() and not line.startswith('#')}
 
           new_dead_pool = set()
+
           for src_path in FILES_TO_CHECK:
               if not os.path.exists(src_path):
+                  print(f"⚠️ Файл источника не найден, пропускаю: {src_path}", flush=True)
                   continue
+                  
               with open(src_path, "r", encoding="utf-8") as f:
                   urls = [line.strip() for line in f if line.strip() and not line.startswith('#')]
+              
+              if not urls:
+                  continue
+
+              print(f"📥 Проверяю ссылки из: {os.path.basename(src_path)} (Всего: {len(urls)})", flush=True)
+
               with ThreadPoolExecutor(max_workers=30) as executor:
                   results = list(executor.map(check_link, urls))
               
-              alive_urls = [url for url, status in results if status == 200]
+              alive_urls = []
               for url, status in results:
-                  if status != 200:
+                  if status == 200:
+                      alive_urls.append(url)
+                  else:
+                      print(f"    ❌ Хлам обнаружен ({status}): {url[:50]}...", flush=True)
                       new_dead_pool.add(f"{url} | Error: {status}")
 
               with open(src_path, "w", encoding="utf-8") as f:
-                  f.write("\n".join(sorted(alive_urls)) + "\n")
+                  if alive_urls:
+                      f.write("\n".join(sorted(alive_urls)) + "\n")
+              print(f"    ↳ Обновлено: {os.path.basename(src_path)} (Осталось живых: {len(alive_urls)})", flush=True)
 
           final_dead_pool = existing_dead.union(new_dead_pool)
           if final_dead_pool:
               os.makedirs(os.path.dirname(RAW_DEAD_FILE), exist_ok=True)
               with open(RAW_DEAD_FILE, "w", encoding="utf-8") as f:
-                  f.write("# БУНКЕР ОТХОДОВ\n\n" + "\n".join(sorted(list(final_dead_pool))) + "\n")
+                  f.write("# БУНКЕР ОТХОДОВ И ОШИБКИ ОТСЕИВАНИЯ (403 / 404 / TIMEOUTS)\n\n")
+                  f.write("\n".join(sorted(list(final_dead_pool))) + "\n")
+              print(f"🔥 [УСПЕХ] Весь хлам ({len(new_dead_pool)} новых) изолирован в: {RAW_DEAD_FILE}", flush=True)
           EOF
 
       - name: Push Changes
@@ -93,13 +111,13 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # ДОБАВЛЯЕМ ЯВНО ФАЙЛЫ, А НЕ ВСЮ ПАПКУ, ЧТОБЫ ИЗБЕЖАТЬ 128 ОШИБКИ
-          git add v2ray_config_collector/data/sources/*.txt
-          git add v2ray_config_collector/data/raw_incoming/deep_raw_collected.txt
+          # ИСПРАВЛЕННЫЕ ПУТИ ДЛЯ GIT ADD
+          git add data/sources/*.txt
+          git add data/raw_incoming/deep_raw_collected.txt
           
           if ! git diff --cached --quiet; then
             git commit -m "🧹 Порядок в трёх цехах: хлам изолирован! 💋"
             git push origin HEAD:${{ github.ref }}
           else
-            echo "Нет изменений для коммита."
+            echo "Нет изменений для коммита — все цеха идеально чисты!"
           fi
