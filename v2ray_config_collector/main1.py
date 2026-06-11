@@ -82,8 +82,11 @@ class TelegramSuperchargedGrabber:
         collected = []
 
         with sync_playwright() as p:
-            # Запуск браузера в скрытом режиме с эмуляцией реального юзера
-            browser = p.chromium.launch(headless=True)
+            # Скрытый браузер с бронебойными флагами для серверов GitHub Linux 🛡️
+            browser = p.chromium.launch(
+                headless=True,
+                args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
+            )
             context = browser.new_context(
                 user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
             )
@@ -101,13 +104,11 @@ class TelegramSuperchargedGrabber:
                     page.wait_for_load_state("networkidle")
                     
                     # 📈 ТУРБО-СКРОЛЛ ВВЕРХ: Поднимаемся по истории, чтобы загрузить старые посты!
-                    # Делаем 3 итерации подгрузки истории для максимального захвата сырья
                     for _ in range(3):
                         page.evaluate("window.scrollTo(0, 0);")
                         time.sleep(0.4)
                     
-                    # 👑 ОПЕРАЦИЯ «РАСКРЫТИЕ»: Кликаем на все текстовые кнопки расширения постов Telegram
-                    # Ищем элементы, которые содержать скрытый контент или элементы inline-клавиатур
+                    # 👑 ОПЕРАЦИЯ «РАСКРЫТИЕ»: Кликаем на все кнопки расширения постов Telegram
                     expand_selectors = [
                         "a.tgme_widget_message_inline_keyboard",
                         ".js-message_inline_keyboard a",
@@ -123,10 +124,9 @@ class TelegramSuperchargedGrabber:
                         except:
                             pass
                     
-                    # Финальная микропауза для отработки рендеринга текста
                     time.sleep(0.3)
                     
-                    # Снимаем слепок со 100% развернутой и подгруженной страницы
+                    # Снимаем слепок со 100% развернутой страницы
                     page_content = page.content()
                     found_keys = self.process_content(page_content)
                     if found_keys:
@@ -144,7 +144,6 @@ class TelegramSuperchargedGrabber:
         speed_keys = len(collected) / elapsed_time if elapsed_time > 0 else 0
 
         if collected:
-            # Очистка от дубликатов строк
             clean_raw = list(set([k.strip() for k in collected if k.strip()]))
             
             os.makedirs(self.raw_incoming_dir, exist_ok=True)
@@ -170,7 +169,7 @@ class TelegramSuperchargedGrabber:
             print("-" * 79, flush=True)
             print("🏆 [УСПЕХ] Вся добыча с постов Telegram упакована без обрезков! Смена сдана! 🤍🏆🦖\n", flush=True)
         else:
-            print("ℹ️ [ИНФО] Робот прочесал каналы, но новых ключей не обнаружено.", flush=True)
+            print("ℹ️ [ИНФО] Робот прочешал каналы, но новых ключей не обнаружено.", flush=True)
 
 if __name__ == "__main__":
     TelegramSuperchargedGrabber().start_harvest()
