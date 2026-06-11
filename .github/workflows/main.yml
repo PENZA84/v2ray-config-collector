@@ -33,39 +33,6 @@ jobs:
           playwright install-deps chromium
           playwright install chromium
 
-      # --- 🛡️ ЩИТ ЛЕИ: ОЧИСТКА ОТ ПЕТЕЛЬ ТЕЛЕГРАМА ПЕРЕД СБОРОМ ---
-      - name: "🛡️ Блокировка Телеграм-ссылок (Защита от зависания)"
-        run: |
-          echo "🚷 Вырезаю опасные ссылки Телеграма, чтобы конвейер не застопорился..."
-          python -u <<EOF
-          import os
-
-          # Пути к файлам, откуда скрипты могут брать цели
-          base_dir = "v2ray_config_collector/data/sources"
-          files = ["sources.txt", "sources1.txt", "grabber_targets.txt"]
-          
-          for f_name in files:
-              path = os.path.join(base_dir, f_name)
-              if os.path.exists(path):
-                  with open(path, "r", encoding="utf-8") as f:
-                      lines = f.readlines()
-                  
-                  clean_lines = []
-                  dropped = 0
-                  for line in lines:
-                      low = line.lower()
-                      if "t.me/" in low or "telegram.me/" in low or "tg://" in low:
-                          dropped += 1
-                          continue
-                      clean_lines.append(line)
-                  
-                  if dropped > 0:
-                      with open(path, "w", encoding="utf-8") as f:
-                          f.writelines(clean_lines)
-                      print(f"  🛑 Из {f_name} удалено {dropped} Телеграм-ссылок.")
-          print("✅ Все источники очищены, петли Телеграма полностью заблокированы!")
-          EOF
-
       - name: "⚙️ Начинаю сбор данных (Работаю над конфигами)"
         run: |
           echo "🔍 Я отправляюсь на поиск лучших конфигов для тебя..."
