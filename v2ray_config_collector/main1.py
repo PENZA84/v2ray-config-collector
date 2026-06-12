@@ -22,13 +22,10 @@ class TelegramSuperchargedGrabber:
         
         # Динамические переменные матрицы параллелизма из GitHub Actions
         self.chunk_index = int(os.environ.get("CHUNK_INDEX", 0))
-        self.total_chunks = int(os.environ.get("TOTAL_CHUNKS", 1))
+        self.total_chunks = int(os.environ.get("TOTAL_CHUNKS", 7))
         
-        # Разделение имен выходных файлов для параллельных потоков
-        if self.total_chunks > 1:
-            self.storage_file = os.path.join(self.raw_incoming_dir, f'deep_raw_collected_chunk_{self.chunk_index}.txt')
-        else:
-            self.storage_file = os.path.join(self.raw_incoming_dir, 'deep_raw_collected.txt')
+        # Имя выходного файла для конкретного окна сбора
+        self.storage_file = os.path.join(self.raw_incoming_dir, f'deep_raw_collected_chunk_{self.chunk_index}.txt')
         
         # Полный королевский список из 23 протоколов с Завода 👑
         self.protocols = [
@@ -43,13 +40,12 @@ class TelegramSuperchargedGrabber:
         self.tg_proxy_pattern = re.compile(r'(?:https://t.me/proxy?[^s<"\']+)|(?:tg://proxy\?[^\s<"\']*)')
 
     def load_and_filter_sources(self):
-        """Умная фильтрация и сжатие списка + нарезка на параллельные потоки матрицы"""
+        """Умная фильтрация и точная нарезка ссылок по окнам по приказу хозяина"""
         if not os.path.exists(self.sources_file):
             print(f"⚠️ [ВНИМАНИЕ] Мой прекрасный хозяин, файл источников не найден: {self.sources_file}", flush=True)
             return []
             
         unique_channels = set()
-        # Регулярное выражение Леи для вырезания чистого юзернейма из любого хаоса (/s/s/, посты и т.д.)
         username_pattern = re.compile(r'(?:t\.me|telegram\.me|telegram\.dog)/(?:s/)*([^/?\s#]+)', re.IGNORECASE)
         
         total_raw_lines = 0
@@ -62,7 +58,6 @@ class TelegramSuperchargedGrabber:
                 if not line:
                     continue
                 
-                # Игнорируем реферальные ссылки ботов (у них нет веб-истории)
                 if 'bot?start=' in line.lower() or 'cryptoonebot' in line.lower():
                     bot_links_ignored += 1
                     continue
@@ -70,7 +65,6 @@ class TelegramSuperchargedGrabber:
                 match = username_pattern.search(line)
                 if match:
                     username = match.group(1)
-                    # Исключаем служебные страницы Telegram
                     if username.lower() not in ['s', 'share', 'contact', 'proxy', 'setlanguage', 'bot']:
                         unique_channels.add(f"https://t.me/s/{username}")
                 elif line.startswith('http'):
@@ -78,21 +72,28 @@ class TelegramSuperchargedGrabber:
                     
         cleaned_sources = sorted(list(unique_channels))
         
-        # Логирует только самый первый воркер, чтобы не засорять общую панель
         if self.chunk_index == 0:
             print("========================================================", flush=True)
-            print(f"🧹 [МАТРИЧНЫЙ ТЕКСТ-ФИЛЬТР] Фильтрация завершена, моё солнышко!", flush=True)
-            print(f"📊 Всего сырых строк в файле: {total_raw_lines} шт.", flush=True)
-            if bot_links_ignored > 0:
-                print(f"🗑️ Отсеяно нерабочих ссылок на ботов: {bot_links_ignored} шт.", flush=True)
+            print(f"🧹 [ТЕКСТ-ФИЛЬТР ЛЕИ] Генеральная уборка завершена!", flush=True)
+            print(f"📊 Всего сырых строк в файле было: {total_raw_lines} шт.", flush=True)
             print(f"🎯 Сжато до уникальных чистых каналов: {len(cleaned_sources)} шт.", flush=True)
-            print(f"🚀 Активных параллельных цехов в матрице: {self.total_chunks}", flush=True)
             print("========================================================", flush=True)
             
-        # ГЕНИАЛЬНОЕ МАТРИЧНОЕ ДЕЛЕНИЕ: Каждый поток забирает свою долю элементов с шагом total_chunks
-        if self.total_chunks > 1:
-            return cleaned_sources[self.chunk_index::self.total_chunks]
-        return cleaned_sources
+        # 👑 ИДЕАЛЬНАЯ ТАКТИЧЕСКАЯ НАРЕЗКА СЕРГЕЯ ПО ОКНАМ:
+        # Окна 0, 1, 2, 3, 4, 5 забирают ровно по 2500 ссылок. Окно 6 забирает остаток (1606 строк)
+        if self.total_chunks == 7:
+            if self.chunk_index < 6:
+                start_idx = self.chunk_index * 2500
+                end_idx = start_idx + 2500
+                chunk_sources = cleaned_sources[start_idx:end_idx]
+            else:
+                start_idx = 6 * 2500
+                chunk_sources = cleaned_sources[start_idx:]
+        else:
+            # Резервный динамический шаг, если количество окон изменится
+            chunk_sources = cleaned_sources[self.chunk_index::self.total_chunks]
+            
+        return chunk_sources
 
     def process_content(self, text):
         extracted = []
@@ -121,15 +122,10 @@ class TelegramSuperchargedGrabber:
         sys.stdout.reconfigure(line_buffering=True)
         sources = self.load_and_filter_sources()
         
-        print("🏭 ========================================================", flush=True)
-        print(f"🏭 ЗАПУСК ПАРАЛЛЕЛЬНОГО ЦЕХА №{self.chunk_index} ИЗ {self.total_chunks}! 🛰️🤖", flush=True)
-        print("🏭 ========================================================", flush=True)
-        
+        print(f"🏭 [ОКНО №{self.chunk_index}] Взяло в обработку: {len(sources)} ссылок.", flush=True)
         if not sources:
-            print(f"ℹ️ У цеха №{self.chunk_index} нет уникальных задач на этот цикл. Смена окончена.", flush=True)
             return
 
-        print(f"📥 Поток №{self.chunk_index} принял в работу долю из {len(sources)} каналов.", flush=True)
         collected = []
 
         with sync_playwright() as p:
@@ -143,22 +139,15 @@ class TelegramSuperchargedGrabber:
             page = context.new_page()
             
             for idx, url in enumerate(sources, 1):
-                print(f"🔄 [{idx}/{len(sources)}] Цех {self.chunk_index} открывает историю: {url}", flush=True)
                 try:
                     page.goto(url, timeout=15000)
                     page.wait_for_load_state("networkidle")
                     
-                    # Мягкая прокрутка вверх для подгрузки свежих постов
                     for _ in range(2): 
                         page.evaluate("window.scrollTo(0, 0);")
                         time.sleep(0.3)
                     
-                    expand_selectors = [
-                        "a.tgme_widget_message_inline_keyboard",
-                        ".js-message_inline_keyboard a",
-                        "a.tgme_widget_message_text_left"
-                    ]
-                    
+                    expand_selectors = ["a.tgme_widget_message_inline_keyboard", ".js-message_inline_keyboard a"]
                     for selector in expand_selectors:
                         try:
                             buttons = page.locator(selector).all()
@@ -168,16 +157,12 @@ class TelegramSuperchargedGrabber:
                         except:
                             pass
                     
-                    time.sleep(0.2)
-                    
                     page_content = page.content()
                     found_keys = self.process_content(page_content)
                     if found_keys:
-                        print(f"   ↳ 🎯 Цех {self.chunk_index} перехватил: {len(found_keys)} конфигов", flush=True)
                         collected.extend(found_keys)
                         
-                except Exception as e:
-                    print(f"   ⚠️ Небольшая заминка на канале {url}, иду дальше, мой родной: {str(e)}", flush=True)
+                except:
                     continue
             
             browser.close()
@@ -185,13 +170,9 @@ class TelegramSuperchargedGrabber:
         if collected:
             clean_raw = list(set([k.strip() for k in collected if k.strip()]))
             os.makedirs(self.raw_incoming_dir, exist_ok=True)
-            
             with open(self.storage_file, 'w', encoding='utf-8') as f:
                 f.write("\n".join(clean_raw) + "\n")
-                
-            print(f"🏆 [УСПЕХ] Цех {self.chunk_index} временно сохранил {len(clean_raw)} уникальных находок.", flush=True)
-        else:
-            print(f"ℹ️ Цех {self.chunk_index} завершил проверку, новых ключей в этой доле не нашлось.")
+            print(f"✨ [ОКНО №{self.chunk_index}] Сбор окончен. Сохранено: {len(clean_raw)} строк.", flush=True)
 
 if __name__ == "__main__":
     TelegramSuperchargedGrabber().start_harvest()
