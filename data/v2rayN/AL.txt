@@ -20,6 +20,7 @@ ss://YWVzLTI1Ni1nY206dHhtSzlXaHdQNldQaFA3aHFTQkxWeHBO@31.171.153.133:34687#AL
 ss://ae852d97-85f5-45cf-82a4-254eba345480@144.31.131.33:443?security=reality&encryption=none&pbk=djH9iD2QV748ocK-wPH7HvDd03lu88zHhS4G-61w6Dc&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=cdn.cdnjst.org&sid=a120#REALITY|AL🇦🇱
 ss://d6ba1a45-4d85-4b7d-b5d0-1e5abd6e0bd2@185.177.238.196:8443?encryption=none&type=grpc&security=reality&mode=gun&sni=steamcommunity.com&fp=chrome&allowInsecure=1&pbk=YAGFX8W6o2l3UWIAMEP93ULo0NSQ2iFM8DopfcFDBUk#REALITY|AL🇦🇱
 vless://01c40f1e-73c9-4c08-9a84-d5d1baccff3d@185.177.238.196:8443?encryption=none&type=grpc&security=reality&mode=gun&sni=steamcommunity.com&fp=chrome&allowInsecure=1&pbk=YAGFX8W6o2l3UWIAMEP93ULo0NSQ2iFM8DopfcFDBUk#REALITY|AL🇦🇱
+vless://01c40f1e-73c9-4c08-9a84-d5d1baccff3d@185.177.238.196:8443?type=grpc&security=tls&sni=steamcommunity.com#[VLESS]_REALITY|AL🇦🇱_|_185.177.238.196-8443_|_107.53ms
 vless://10f3650d-32f6-470a-b100-e29471cf3380@78.159.131.107:443?type=tcp&security=tls&sni=pingless.com&fp=chrome&flow=xtls-rprx-vision-udp443#AL
 vless://2d96c29e-4974-4bbb-a0f2-33e5c912458e@45.15.170.53:2443?type=tcp&security=reality&sni=api.snapkit.com&fp=chrome&pbk=QgyNvrlHczufNmykfEZlNojkJNtz_BSc8JCVGZlpdT0&sid=c104a7dd#AL
 vless://3175c0e6-2d00-4560-d90e-1a5a4810c4c0@45.38.139.104:45134?type=tcp&security=reality&sni=microsoft.com&fp=chrome&pbk=0exSjluSEfNvR4S1TYT7PIBHhLQS6ypHZXM25xtJa04#AL
@@ -37,10 +38,9 @@ vless://aa2be8f1-32f2-4358-a2d3-e98f3c458955@78.159.131.83:5064?type=tcp&securit
 vless://ab03c163-c098-44ce-8e68-ed1578c82035@103.167.234.248:1182?type=tcp&security=none#AL
 vless://acbab574-fbb3-48fe-948f-f2c173d5dfeb@103.167.234.110:2050?type=tcp&security=reality&sni=refersion.com&fp=firefox&pbk=sHzIKPKqTTq77wusV6qaa0bwx41ap2r_sCXjHwHl4m8&sid=3466c6b00f1201c2#AL
 vless://ae852d97-85f5-45cf-82a4-254eba345480@144.31.131.33:443?security=reality&encryption=none&pbk=djH9iD2QV748ocK-wPH7HvDd03lu88zHhS4G-61w6Dc&headerType=none&type=tcp&flow=xtls-rprx-vision&sni=cdn.cdnjst.org&sid=a120#REALITY|AL🇦🇱
-vless://ae852d97-85f5-45cf-82a4-254eba345480@144.31.131.33:443?security=tls&sni=cdn.cdnjst.org#[VLESS]_REALITY|AL🇦🇱_|_144.31.131.33-443_|_175.89ms
+vless://ae852d97-85f5-45cf-82a4-254eba345480@144.31.131.33:443?security=tls&sni=cdn.cdnjst.org#[VLESS]_REALITY|AL🇦🇱_|_144.31.131.33-443_|_131.15ms
 vless://b4819c49-6c7e-4b57-9b9b-c73031e1de11@45.15.170.237:80?type=ws&path=%2Fvless%2F#🇨🇾_|_@WhiteDNS_|_CY6|1.1MB/s|GPT-AL|GM-MZ|CL-AL|SP-CY
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@193.108.112.212:443?type=ws&security=tls&path=/proxyip=ProxyIP.DE.owg.dpdns.orgfp=chrome&sni=1-aym.pages.dev#AL
 vless://ce069292-c8bf-40dd-a6b1-87818a1e64e9@193.108.112.212:443?type=ws&security=tls&path=/proxyip=ProxyIP.DE.owg.dpdns.orgfp=chrome&sni=1-aym.pages.dev#AL%20%F0%9F%87%A6%F0%9F%87%B1%20%E2%94%87%20VLESS-WS-TLS%20-%20ASNET%20%E2%94%87%20193.108.112.212%20t.me/rjsxrd
 vless://d0113f9e-4f68-40c4-8c0a-4da6d49d8a55@world-of.ru:443?type=tcp&security=reality&sni=yahoo.com&fp=chrome&flow=xtls-rprx-vision&pbk=9QOmx7k0-uCbUrgh7ee9x9qtLIOEVyeYiZI2aiimYEs&sid=71e48a#AL
 vless://d6ba1a45-4d85-4b7d-b5d0-1e5abd6e0bd2@185.177.238.196:8443?encryption=none&type=grpc&security=reality&mode=gun&sni=steamcommunity.com&fp=chrome&allowInsecure=1&pbk=YAGFX8W6o2l3UWIAMEP93ULo0NSQ2iFM8DopfcFDBUk#REALITY|AL🇦🇱
-vless://d6ba1a45-4d85-4b7d-b5d0-1e5abd6e0bd2@185.177.238.196:8443?type=grpc&security=tls&sni=steamcommunity.com#[VLESS]_REALITY|AL🇦🇱_|_185.177.238.196-8443_|_119.34ms

@@ -106,10 +106,8 @@ vless://083073e2-071d-4b44-af36-f4bba21a3e8e@94.103.1.65:8443?type=tcp&security=
 vless://0878eb75-6121-6138-8f06-1aed31aeabe0@45.142.212.217:1443?type=tcp&security=reality&sni=refersion.com&fp=chrome&flow=xtls-rprx-vision&pbk=qdfo8UQXXsXPViln7MbAIIvVgKrDnuRoFBGVTJDm134&sid=31e7200536a1ad45#MD
 vless://1b43419a-b711-40d4-a0ee-eb5c73e60c92@pl.prostosetup.org:443?type=tcp&security=reality&sni=pl.prostosetup.org&fp=chrome&flow=xtls-rprx-vision&pbk=ps7eCLLKAqgSGPFRQl1-R1PhzUeO1Z1EwNl02Ac63UA&sid=514d02a2addd6476#MD
 vless://1e8d112e-fed0-4f7c-91ec-df914ad49906@md.riotvpn.eu:443?encryption=none&type=tcp&security=reality&sni=ads.x5.ru&fp=chrome&allowInsecure=1&pbk=8h8t5eBWL9oERK7xWHQLFJE5j6sZdgNDQAs3EGnNbho&sid=b76dcf9e1183fe1b&flow=xtls-rprx-vision#REALITY|MD🇲🇩
-vless://1e8d112e-fed0-4f7c-91ec-df914ad49906@md.riotvpn.eu:443?security=tls&sni=ads.x5.ru#[VLESS]_REALITY|MD🇲🇩_|_md.riotvpn.eu-443_|_160.32ms
 vless://296bbba2-b100-4d91-b8df-3fe03cc863c4@91.225.217.28:443?encryption=none&fp=&pbk=CnFVrSvJ1Mhl_6QqKCCvXtEdlaJjN4MXWBkSswJ_gX0&security=reality&sid=106c&sni=yahoo.com&type=tcp#REALITY|MD🇲🇩
 vless://30bbbfc5-6a24-4348-8f3b-d44331b6aab8@md.riotvpn.eu:443?encryption=none&type=tcp&security=reality&headerType=none&sni=ads.x5.ru&fp=chrome&allowInsecure=1&pbk=8h8t5eBWL9oERK7xWHQLFJE5j6sZdgNDQAs3EGnNbho&sid=2f49bccf11150ef2&flow=xtls-rprx-vision#REALITY|MD🇲🇩
-vless://30bbbfc5-6a24-4348-8f3b-d44331b6aab8@md.riotvpn.eu:443?security=tls&sni=ads.x5.ru#[VLESS]_REALITY|MD🇲🇩_|_md.riotvpn.eu-443_|_272.1ms
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@217.156.67.40:443?type=ws&security=tls&path=/magnet/cn&sni=linek.perry.us.kg&fp=chrome#MD
 vless://37df73c5-5e2a-4dbe-95e6-8e7e9b46a09b@194.58.45.233:49851?type=tcp&security=none#MD🇲🇩
 vless://459b4a80-bd61-4ecd-a26b-e9c1809d9e45@bsuqian01.dynu.net:22216?sni=www.nvidia.com&flow=xtls-rprx-vision-udp443&fp=chrome&security=tls#2%7C%F0%9F%8C%802-MD%20%7C%20%205.7MB/s
@@ -141,10 +139,10 @@ vless://cea58936-d8e5-406e-8683-738485d4a17e@45.67.229.166:443?type=tcp&security
 vless://d14660cf-44f0-4b47-af50-dac98e19d46d@93.185.165.50:55211?type=tcp&security=reality&sni=yahoo.com&fp=chrome&flow=xtls-rprx-vision&pbk=5D6U_DRxkNF9I6Sa87j6jvHD_HvhZ9j53rAbZE8Y7lQ&sid=1885#MD
 vless://d342d11e-d424-4583-b36e-524ab1f0afa4@95.164.22.239:2003?type=ws&security=tls&path=/?ed=2560&sni=vless.ifx.us.kg&fp=chrome#MD
 vless://d6ba1a45-4d85-4b7d-b5d0-1e5abd6e0bd2@rb1.safesurf.cloud:443?encryption=none&type=grpc&security=reality&mode=gun&sni=rb1.safesurf.cloud&fp=chrome&allowInsecure=1&pbk=ZhESTyKXbO5MEFQ7bifoDd89XVnFye-Kj2b8CckEx3s#REALITY|MD🇲🇩
-vless://d6ba1a45-4d85-4b7d-b5d0-1e5abd6e0bd2@rb1.safesurf.cloud:443?type=grpc&security=tls&sni=rb1.safesurf.cloud#[VLESS]_REALITY|MD🇲🇩_|_rb1.safesurf.cloud-443_|_188.78ms
 vless://dade9c9c-04ef-4f51-9aa6-34d7e8af57e4@www.speedtest.net:2052?path=%2Fvless%23%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi&security=none&encryption=none&host=sm.zula.ir.g.varzeshi3.ir.fgil.hm.deba.ka.%E3%82%89%E3%82%8F%E3%81%AA%E3%81%95maxsskllppae.plakrovel.melocvo.zmaxer.napovafoodka.com.am1.v2vless.sitespeedtest.net&type=ws&sni=am1.v2vless.site#MD🇲🇩
+vless://ddcedd9d-2af2-3967-14bf-120a2583279e@bg.webpathway.eu:443?type=tcp&security=reality&sni=yahoo.com&fp=chrome&flow=xtls-rprx-vision&pbk=V1EFGAbDSNGJJedfuUlfPGG_dxkXtmv8WmGqQ2tqFQ4&sid=b8d60c42675ef983#MD
 vless://e384913f-8863-47b4-8858-a84b68abb4a6@1.cdnconn.com:23335?security=reality&encryption=none&pbk=7Gi8eiUU9TIVbGuvSU16gl5-Aqt7tcCSB9x6CSxyvik&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=icloud.com&sid=67b1e94e4dd1ef90#REALITY|MD🇲🇩
-vless://e384913f-8863-47b4-8858-a84b68abb4a6@1.cdnconn.com:23335?security=tls&sni=icloud.com#[VLESS]_REALITY|MD🇲🇩_|_1.cdnconn.com-23335_|_204.65ms
+vless://e431c044-c0ab-4dc4-b809-6420b444ba0f@real.pedyhek.ir:443?type=tcp&security=reality&sni=www.google.com&fp=chrome&pbk=4JJx5vnlfXTH2wTmX4qYyaB2WqLaiGqrz5QTDzNdjlo#MD
 vless://e431c044-c0ab-4dc4-b809-6420b444ba0f@real.pedyhek.ir:443?type=tcp&security=reality&sni=www.google.com&fp=chrome&pbk=4JJx5vnlfXTH2wTmX4qYyaB2WqLaiGqrz5QTDzNdjlo#MD%20%F0%9F%87%B2%F0%9F%87%A9%20%E2%94%87%20VLESS-TCP-RLT%20-%20Ava%20Host%20Srl%20%E2%94%87%2037.221.66.184%20t.me/rjsxrd
 vless://ef24a915-6af9-4637-b2ce-d2a8de9a2646@ramtin.avairan.online:8080?type=ws&path=%2F&host=&security=none#Md%20vpn-100g
 vless://m7n8o9p0-q1r2-3456-f012-6789012345mn@45.142.214.132:443?type=grpc&security=tls#MD

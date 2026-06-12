@@ -1,2 +1,2 @@
-ss://YWVzLTEyOC1nY206c2hhZG93c29ja3M=@149.22.95.183:443#🇨🇦CA-🚀@VPNine1
-vless://d205ae68-0819-473c-b425-6c5947ac2f8d@209.127.228.114:443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=8vqOvJ5eoG_9oHla4B3Vh1E-o39RrCXW6Wr7OcXZGmI&security=reality&sid=dd&sni=cars.morro-settings.ru&type=tcp#🇨🇦CA-🚀@VPNine1
+trojan://HdsUZmsHQW@148.113.141.99:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#🇨🇦CA-🚀@VPNine1
+vless://f31efd33-292d-4939-a59d-1b7fbf6b13bd@204.10.192.88:401?encryption=none&type=tcp&headerType=none#🇨🇦CA-🚀@VPNine1

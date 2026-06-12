@@ -43,6 +43,7 @@ vless://1c7fcc38-e6be-43c5-875f-b8de2516b9f2@5.182.38.91:17267?type=tcp&security
 vless://292e75fc-5a8a-40c4-b937-407c2400a42e@217.13.104.101:443?type=tcp&security=reality&sni=api-maps.yandex.ru&fp=chrome&flow=xtls-rprx-vision&pbk=SbVKOEMjK0sIlbwg4akyBg5mL5KZwwB-ed4eEE7YnRc#HU
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@91.219.236.202:2053?type=ws&security=tls&path=/download/study&sni=linek.perry.us.kg&fp=chrome#HU
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@91.219.237.49:443?type=ws&security=tls&path=/html/teacher&sni=linek.perry.us.kg&fp=chrome#HU
+vless://385f8774-a40e-4ceb-b31e-9f752d03a4a0@hu02.kubservice.icu:443?type=tcp&security=reality&sni=hu02.kubservice.icu&fp=chrome&flow=xtls-rprx-vision&pbk=z-TKWOWgZLfzQ-wNdwXQqVwaUgCmbchM2Xtrk1NGynU#HU
 vless://385f8774-a40e-4ceb-b31e-9f752d03a4a0@hu02.kubservice.icu:443?type=tcp&security=reality&sni=hu02.kubservice.icu&fp=chrome&flow=xtls-rprx-vision&pbk=z-TKWOWgZLfzQ-wNdwXQqVwaUgCmbchM2Xtrk1NGynU#HU%20%F0%9F%87%AD%F0%9F%87%BA%20%E2%94%87%20VLESS-TCP-RLT%20-%20ATW%20Internet%20Kft.%20%E2%94%87%2037.221.209.190%20t.me/rjsxrd
 vless://4881e886-8467-4c2d-91c6-7aaf4d0b2582@217.13.105.43:443?type=tcp&security=reality&sni=sun6-22.userapi.com&fp=qq&flow=xtls-rprx-vision&pbk=2C6MqBdf1XxEKmVe_hHfYhov31tM_eEuq_c5ZFMfPAI#HU
 vless://4fe214fb-048e-431f-b939-4518dc9df6a2@217.13.104.130:443?type=http&security=tls&path=/&sni=chat.speedload.ru#HU
@@ -55,11 +56,13 @@ vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.134:8443?encryption=none
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.137:8443?security=tls&sni=cdn7-09.vk-cdnvideo.com#[VLESS]_🇭🇺[openproxylist.com]_vless-HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.71:8443?type=tcp&security=tls&sni=cdn7-09.vk-cdnvideo.com#🇭🇺_|_@WhiteDNS_|_HU4|5.7MB/s|GPT⁺-HU|GM-HU|CL-HU|SP-HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@46.229.243.72:8443?encryption=none&fp=chrome&security=tls&sni=cdn7-09.vk-cdnvideo.com&type=tcp#>>@oneclickvpnkeys::HU
-vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@77.74.123.168:8443?security=tls&sni=cdn7-09.vk-cdnvideo.com#[VLESS]_🇭🇺[openproxylist.com]_vless-HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@77.74.123.171:8443?encryption=none&security=tls&sni=cdn7-09.vk-cdnvideo.com&type=tcp#>>@oneclickvpnkeys::HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?allowInsecure=0&sni=cdn7-09.vk-cdnvideo.com&fp=chrome&security=tls#🇭🇺[openproxylist.com]vless-HU
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?security=tls&sni=cdn7-09.vk-cdnvideo.com#[VLESS]_🇭🇺[openproxylist.com]_vless-HU
+vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?security=tls&sni=cdn7-09.vk-cdnvideo.com#[openproxylist.com]_vless-HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?type=tcp&security=tls&sni=cdn7-09.vk-cdnvideo.com#🇭🇺_|_@WhiteDNS_|_HU1|12.5MB/s|GPT⁺-HU|GM-HU|CL-HU|SP-HU
 vless://931729a8-3c20-4841-89a1-f18dc9ce0a6f@cdn7-09.vk-cdnvideo.com:8443?type=tcp&security=tls&sni=cdn7-09.vk-cdnvideo.com#🇭🇺_|_@WhiteDNS_|_HU3|12.5MB/s|GPT⁺-HU|CL-HU
+vless://a78bf929-6883-48af-902d-7737793eeb17@hu02.sonicsonic.icu:443?type=tcp&security=reality&sni=hu02.sonicsonic.icu&fp=chrome&flow=xtls-rprx-vision&pbk=z-TKWOWgZLfzQ-wNdwXQqVwaUgCmbchM2Xtrk1NGynU#HU
 vless://b5c74983-8400-4fb3-81a7-d5b3ab559537@217.13.104.148:443?type=tcp&security=reality&sni=travel.yandex.ru&fp=chrome&flow=xtls-rprx-vision&pbk=FkmYFobwxLMLEktYXywmjthuEYCZggITsxwPNasTKUg&sid=17802e8ff84f12df#HU
 vless://c4e32b22-f0ee-47aa-abef-373cf35bc1ba@5.182.38.165:443?security=reality&encryption=none&pbk=EsvkKogbRPn7YK-U5Rx5G5Q255VDmJMY4TU37KTVN14&headerType=none&fp=chrome&spx=%2FQ4YLL6yVaNE3YBe&type=tcp&sni=www.google.com&sid=1be095b3#REALITY|HU🇭🇺
 vless://cf35aef1-cf24-488f-a952-3bfd14c15b48@217.13.105.1:443?type=tcp&security=reality&sni=eh.vk.com&fp=chrome&flow=xtls-rprx-vision&pbk=ZGwYjRp5RxlVpHUTPzi7pB4ZZuDU5FZEaFgBM71teiQ&sid=0669a3e6b300d069#HU

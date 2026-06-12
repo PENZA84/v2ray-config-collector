@@ -25,16 +25,14 @@ vless://20fda433-1864-433b-b3dd-8f119fe4cafd@217.196.104.83:8443?type=ws&securit
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@38.180.100.80:443?type=ws&security=tls&path=/lives/topic/ads&sni=linek.perry.us.kg&fp=chrome#RS
 vless://66bfd7e4-ea6f-43c0-ace6-57dbf58a5288@91.225.217.27:443?type=tcp&security=tls&sni=yahoo.com#🇲🇩_|_@WhiteDNS_|_MD13|5.3MB/s|GPT⁺-RS|CL-RS|SP-MD
 vless://66bfd7e4-ea6f-43c0-ace6-57dbf58a5288@91.225.217.27:443?type=tcp&security=tls&sni=yahoo.com#🇲🇩_|_@WhiteDNS_|_MD4|5.3MB/s|GPT⁺-RS|CL-RS|SP-MD
-vless://69a2af58-d74a-44ca-864a-e09b493f4274@91.225.217.94:443?security=reality&amp;encryption=none&amp;pbk=vYAxsSvDFRv3AFxbenjrq3jRG_p8o_wER-I8x-7aSwU&amp;headerType=none&amp;fp=chrome&amp;type=tcp&amp;flow=xtls-rprx-vision&amp;sni=api-maps.yandex.ru&amp;sid=062f#%F0%9F%87%B7%F0%9F%87%B8%5Bopenproxylist.com%5D%20vless-RS
 vless://69a2af58-d74a-44ca-864a-e09b493f4274@91.225.217.94:443?type=tcp&security=tls&sni=api-maps.yandex.ru#🇲🇩_|_@WhiteDNS_|_MD6|5.2MB/s|GPT⁺-RS|CL-RS|SP-MD
 vless://89b3cbba-e6ac-485a-9481-976a0415eab9@38.180.100.80:443?type=ws&security=tls&path=/?proxyip=proxyip.oracle.fxxk.dedyn.io&sni=vz.ylks.xyz#RS
 vless://8b0f3ccd-5f6a-4c08-b7da-042d00965d7d@91.225.217.27:443?type=raw&security=tls&sni=yahoo.com#🇲🇩_|_@WhiteDNS_|_MD10|5.8MB/s|GPT⁺-RS|CL-RS|SP-MD
 vless://8b0f3ccd-5f6a-4c08-b7da-042d00965d7d@91.225.217.27:443?type=tcp&security=tls&sni=yahoo.com#🇲🇩_|_@WhiteDNS_|_MD5|5.4MB/s|GPT⁺-RS|CL-RS|SP-MD
 vless://96eb0aac-b747-4f3c-8c30-d2ff7ec7415c@38.180.17.232:443?security=tls&sni=google.com#[VLESS]_🇷🇸[openproxylist.com]_vless-RS
 vless://96eb0aac-b747-4f3c-8c30-d2ff7ec7415c@38.180.17.232:443?security=tls&sni=google.com#[openproxylist.com]_vless-RS
-vless://9bc87bd9-0d37-4ba6-9601-408b22902fff@38.180.101.65:443?type=xhttp&security=reality&path=/xhttp-proxy&sni=5post-gate.x5.ru&fp=chrome&pbk=akcAXaW7GNwXT6bTrtD6oZIY9rdEzW4TfZvYqDRzsTc&sid=a8f3c1d7e9b4c2f6#RS
+vless://9bc87bd9-0d37-4ba6-9601-408b22902fff@38.180.101.65:443?type=xhttp&security=reality&path=/xhttp-proxy&sni=5post-gate.x5.ru&fp=chrome&pbk=akcAXaW7GNwXT6bTrtD6oZIY9rdEzW4TfZvYqDRzsTc&sid=a8f3c1d7e9b4c2f6#RS%20%F0%9F%87%B7%F0%9F%87%B8%20%E2%94%87%20VLESS-XHTTP-RLT%20-%20M247%20Europe%20SRL%20%E2%94%87%2038.180.101.65
 vless://I_Love__SSHMax_8214e3c@0:0:0:0:0:ffff:2d59:37bc:443?type=grpc&security=tls&sni=zula.ir#RS
-vless://I_Love_🇵🇸_SSHMax_8214e3c@0:0:0:0:0:ffff:2d59:37bc:443?type=grpc&security=tls&sni=zula.ir#RS
 vless://a01634d7-4070-5586-970e-bdd5e4d17b93@45.89.55.188:8880?mode=gun&security=none&encryption=none&type=grpc&serviceName=vless-grpc#RS🇷🇸
 vless://a01634d7-4070-5586-970e-bdd5e4d17b93@45.89.55.188:8880?security=none&type=grpc&serviceName=vless-grpc#RS🇷🇸
 vless://a01634d7-4070-5586-970e-bdd5e4d17b93@45.89.55.188:8880?type=grpc&security=none#RS

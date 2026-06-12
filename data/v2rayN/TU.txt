@@ -1,3 +1,2 @@
-ss://MjAyMi1ibGFrZTMtYWVzLTI1Ni1nY206NHBUQXA4RVZIdkhlemQ4T2dwRm5TamZqYW04VTIva0wxbGRmWSt0MjNwMD06eEQ0VDJsdmVpNEFtYlFtcFo2Z3RLTm5NS1MyQTFZTlFCampIUDQyRUlDND0@91.108.145.68:51824#tu-shadi32
 ss://MjAyMi1ibGFrZTMtYWVzLTI1Ni1nY206NHBUQXA4RVZIdkhlemQ4T2dwRm5TamZqYW04VTIva0wxbGRmWSt0MjNwMD06eEQ0VDJsdmVpNEFtYlFtcFo2Z3RLTm5NS1MyQTFZTlFCampIUDQyRUlDND0@91.108.145.68:51824/?type=tcp#tu-shadi32
 vless://439e2f9e-079e-4369-a712-22b942afeadd@download.seyfilm.ir:443?path=%2F&security=tls&encryption=none&fp=safari&type=ws&sni=download.seyfilm.ir#Tu

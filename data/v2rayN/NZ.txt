@@ -3,13 +3,16 @@ ss://fab7bf9cddb945638a04fb01ce6c0fbfOg==@114.129.43.29:8880#NZ%F0%9F%87%B3%F0%9
 trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@202.37.33.80:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#NZ
 vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@114.129.43.254:8880?type=ws&security=false&path=/Telegram🇨🇳&fp=chrome#NZ
 vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@114.129.43.254:8880?type=ws&security=none&path=/Telegram🇨🇳#NZ
-vless://3b01a777-55e7-49f6-8637-d94ee69607c6@202.37.33.81:443?type=tcp&security=none&path=/id-tksi#NZ
+vless://3b01a777-55e7-49f6-8637-d94ee69607c6@202.37.33.81:443?type=ws&security=tls&path=/id-tksi&sni=m.udemy.com.cyylr.eu.cc&fp=chrome#NZ
 vless://40c708ca-42e4-4224-a12d-1dbd7ef1e0b7@114.129.43.77:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#NZ
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.238:2096?type=ws&security=tls&path=/?Telegram🇨🇳@WangCai2=&sni=sni.jpmj.dev#NZ
 vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.30:8880?type=ws&security=none&path=/#NZ
 vless://647c5215-b2b7-567f-ac40-9733121b43a8@45.15.140.8:443?type=ws&security=tls&path=/vless&sni=zula.ir&fp=chrome#NZ
 vless://7e296434-2d17-48d3-928d-19eaa34aecb1@45.15.140.38:28495?type=tcp&security=reality&sni=dl.google.com&fp=chrome&pbk=KXMH8QzaRa66F6GxOR1CanBunO2uHdJvri2zCbar2RQ&sid=0ecc2c1392#NZ
 vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@114.129.43.151:2087?type=ws&security=tls&path=/Telegram-Channel---Masir-Sefid&sni=vps.masir-sefid-4.shop&fp=chrome#NZ
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.233.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#NZ
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.234.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#NZ
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.235.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#NZ
 vless://9f3c4ab7-ea26-4d96-91a9-c85ff64ad9a0@114.129.43.13:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#NZ
 vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@114.129.43.247:8880?type=ws&security=false&path=/Telegram🇨🇳&fp=chrome#NZ
 vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@114.129.43.247:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=ex.sue.x10.mx#NZ

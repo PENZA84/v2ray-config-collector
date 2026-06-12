@@ -27,3 +27,6 @@ vless://6938efdb-b699-464d-8098-ae35b886b5c7@45.82.249.42:8443?type=ws&security=
 vless://69a2af58-d74a-44ca-864a-e09b493f4274@103.119.18.165:8443?type=tcp&security=tls&sni=www.vk.ru#🇨🇿_|_@WhiteDNS_|_CZ2|1.1MB/s|CL-CZ
 vless://6fdfdb73-51b0-4a14-89a5-c9355a0e0397@178.236.17.86:443?type=tcp&security=tls&sni=google.com#❓_|_@WhiteDNS_|_OT25|1019KB/s|GPT⁺|CL-KZ|SP-KZ
 vless://7585f059-2c89-4a02-9dff-394bb7913ef5@162.158.99.161:2096?type=ws&security=tls&path=/&sni=wwwspeedtestnetwhiteberinsistomd6625996s09.gatesriver.ir&fp=chrome#CL
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.221.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#CL
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.222.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#CL
+vless://96eec36e-2c44-5b09-898e-6f0f0526e57f@151.101.223.119:80?type=xhttp&security=none&path=/Tignal?ed=2560&https://t.me/WangCai2🇨🇳#CL

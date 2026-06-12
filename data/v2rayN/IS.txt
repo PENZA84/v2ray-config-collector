@@ -28,12 +28,12 @@ vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@195.246.230.125:443?type=ws&securit
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@89.147.109.212:443?type=ws&security=tls&path=/trade&sni=linek.perry.us.kg&fp=chrome#IS
 vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@89.147.111.223:2053?type=ws&security=tls&path=/pictures&sni=linek.perry.us.kg#IS
 vless://4110d743-4a48-5166-9691-15a0dc6682e8@[0:0:0:0:0:ffff:59dd:e00b]:8880?mode=gun&security=none&encryption=none&type=grpc&serviceName=vless-grpc#IS%F0%9F%87%AE%F0%9F%87%B8%40vpnAndroid2
-vless://43488128-319e-f480-64ea-0acdc712e2a8@45.83.21.39:443?type=tcp&security=reality&sni=www.grab.com&fp=chrome&flow=xtls-rprx-vision&pbk=7OqbbLDZwsSwh6D25ZavNneK3NiQs-gwrUJkrHAs_hI&sid=f717aafc9dfcc96e#IS
 vless://5e20bcea-3e4e-5925-9227-5e3670ccbbfa@www.speedtest.net:2052?path=%2Fvless%23%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi%2C%40alpha_v2ray_fazayi&security=none&encryption=none&host=sm.zula.ir.g.varzeshi3.ir.fgil.hm.deba.ka.%E3%82%89%E3%82%8F%E3%81%AA%E3%81%95maxsskllppae.plakrovel.melocvo.zmaxer.napovafoodka.com.is1.v2vless.sitespeedtest.net&type=ws&sni=is1.v2vless.site#IS🇮🇸
 vless://7a0f288a-7df3-4f74-a8b2-69d884aebdff@89.221.224.166:8443?mode=gun&security=reality&encryption=none&pbk=lknJ1qdh1naSh-NJX8O7oOdnFov8vOETpy2A6bVtiUk&fp=chrome&spx=%2F%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY--%40ELiV2RAY&type=grpc&serviceName=grpc&sni=172.66.44.245&sid=8545118da3a60b18#REALITY|IS🇮🇸
 vless://7a0f288a-7df3-4f74-a8b2-69d884aebdff@89.221.224.166:8443?security=reality&sni=172.66.44.245&fp=chrome&pbk=lknJ1qdh1naSh-NJX8O7oOdnFov8vOETpy2A6bVtiUk&sid=8545118da3a60b18&type=grpc&serviceName=grpc&encryption=none#REALITY|IS🇮🇸
 vless://9ed5414e-5875-44dc-acc9-d880bb177184@nl2.ircloudmarket.com:443?type=tcp&security=none&path=/#IS
 vless://I_Love__SSHMax_d97dcef@0:0:0:0:0:ffff:59dd:e00b:443?type=grpc&security=tls&sni=zula.ir#IS
+vless://I_Love_🇵🇸_SSHMax_d97dcef@0:0:0:0:0:ffff:59dd:e00b:443?type=grpc&security=tls&sni=zula.ir#IS
 vless://c3dd7afc-151f-44f6-8263-ad3c8420ae2f@45.83.21.107:59997?type=tcp&security=reality&sni=yahoo.com&fp=chrome&pbk=m4ipEx1PUfb6F5Uv5Mwe5g34TzdNkG_rIQ0xw-Do1mI&sid=816473be23c2#IS
 vless://df0680ca-e43c-498d-ed86-8e196eedd012@89.221.224.238:8880?type=grpc&security=none#IS
 vless://e04fd6e4-d570-4bf0-9bd7-c7f7f830e521@91.194.161.15:80?type=ws&security=none&path=/vless#IS

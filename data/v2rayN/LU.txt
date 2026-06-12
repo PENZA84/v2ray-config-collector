@@ -7,6 +7,7 @@ ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#LU%F0%9F%87%B1%F0
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#LU%F0%9F%87%B1%F0%9F%87%BA+%7C+92.38.163.53-989+%7C+109.21ms
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#LU%F0%9F%87%B1%F0%9F%87%BA+%7C+92.38.163.53-989+%7C+134.34ms
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#LU%F0%9F%87%B1%F0%9F%87%BA+%7C+92.38.163.53-989+%7C+86.41ms
+ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#lu|2b24|puddincat07@Telegram
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw==@92.38.163.53:989#🆔@LuxyNet💎❖🇱🇺❖LU❖486
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@92.38.163.53:989#LU
 ss://YWVzLTI1Ni1jZmI6ZjhmN2FDemNQS2JzRjhwMw@92.38.163.53:989#LU%201%20%E2%86%92%20tg%40nicevpn123
@@ -32,6 +33,7 @@ vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@188.42.145.226:443?type=ws&security
 vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@188.42.88.6:443?type=ws&security=tls&path=tg@zdyz2&sni=cfed.tgzdyz2.top#LU
 vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@188.42.89.64:443?type=ws&security=tls&path=tg@zdyz2security=tls&sni=cfed.tgzdyz2.top#LU
 vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@188.42.88.254:8880?type=ws&security=none&path=/Telegram🇨🇳#LU
+vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@188.42.89.254:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=yg.bantony199.top#LU
 vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@188.42.89.254:8880?type=ws&security=none&path=/Telegram🇨🇳#LU
 vless://39502dba-b0dc-59bb-b332-f75194b1689c@45.136.117.14:8880?type=grpc&security=none#LU
 vless://4%653c4cb5-325b-495d-%61%616b-b1%61d09%65d72d0@141.227.168.93:40114?mode=gun&security=none&encryption=none&authority=&type=grpc&serviceName=ZEDMODEON-ZEDMODEON-ZEDMODEON-bia-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON-ZEDMODEON#🇱🇺LU%20|%20🔴%20|%20vless%20|%203YED%20|%203
@@ -43,7 +45,6 @@ vless://48198295-b7ba-4b5c-8d85-085d55a6c869@188.42.88.53:443?type=ws&security=t
 vless://4cb39a2e-0aa0-43c4-bd94-5026c13e9ba3@95.85.95.85:443?type=tcp&security=none#LU
 vless://4cb39a2e-0aa0-43c4-bd94-5026c13e9ba3@95.85.95.85:443?type=ws&security=tls&path=/&sni=promo.worldofwarships.com&fp=chrome#LU
 vless://4d91916f-a7fd-419b-8b90-640bb8d1b9f4@188.42.89.206:443?type=ws&security=tls&path=/JHVdDlmFTThrY7WI/NjIuMy4xMi4xODU&sni=TITanTabLOmaNAHaMRaH.IR&fp=randomized#LU
-vless://4d91916f-a7fd-419b-8b90-640bb8d4b3f2@188.42.89.254:443?type=ws&security=tls&path=/fJBvsL0uR2MtzRig&sni=mypHOtoGRAPICpIctUre.iR#LU
 vless://4d91916f-a7fd-419b-8b90-640bb8d4b3f2@188.42.89.254:443?type=ws&security=tls&path=/fJBvsL0uR2MtzRig&sni=mypHOtoGRAPICpIctUre.iR#LU%20%F0%9F%87%B1%F0%9F%87%BA%20%E2%94%87%20VLESS-WS-TLS%20-%20Cloudflare%20London,%20LLC%20%E2%94%87%20188.42.89.254%20t.me/rjsxrd
 vless://4d91916f-a7fd-419b-8b90-640bb8d4b3f2@188.42.89.71:443?type=ws&security=tls&path=/fJBvsL0uR2MtzRig&sni=mypHOtoGRAPICpIctUre.iR&fp=chrome#LU
 vless://4d91916f-a7fd-419b-8b90-640bb8d4b3f2@188.42.89.71:443?type=ws&security=tls&path=/fJBvsL0uR2MtzRig&sni=mypHOtoGRAPICpIctUre.iR&fp=chrome#LU%20%F0%9F%87%B1%F0%9F%87%BA%20%E2%94%87%20VLESS-WS-TLS%20-%20Cloudflare%20London,%20LLC%20%E2%94%87%20188.42.89.71%20t.me/rjsxrd
@@ -65,8 +66,8 @@ vless://53fa8faf-ba4b-4322-9c69-a3e5b1555049@188.42.89.237:8880?type=ws&security
 vless://53fa8faf-ba4b-4322-9c69-a3e5b1555049@188.42.89.237:8880?type=ws&security=none&path=Telegram@ShadowProxy66/?ed=2560#LU
 vless://53fa8faf-ba4b-4322-9c69-a3e5b1555049@188.42.89.91:80?type=ws&security=false&path=Telegram:@vpnAndroid2/?ed=2560&fp=chrome#LU
 vless://53fa8faf-ba4b-4322-9c69-a3e5b1555049@188.42.89.91:80?type=ws&security=none&path=Telegram:@vpnAndroid2/?ed=2560#LU
-vless://54ef4ecf-ff37-436a-be13-95c8a8a1114d@188.42.145.159:443?type=ws&security=tls&path=/&sni=VIrgiNiavPn-nL.pagEs.dEv#LU
 vless://54ef4ecf-ff37-436a-be13-95c8a8a1114d@188.42.145.159:443?type=ws&security=tls&path=/&sni=VIrgiNiavPn-nL.pagEs.dEv&fp=chrome#LU
+vless://54ef4ecf-ff37-436a-be13-95c8a8a1114d@188.42.145.159:443?type=ws&security=tls&path=/fp=chrome&sni=VIrgiNiavPn-nL.pagEs.dEv#LU
 vless://583ceab3-4022-4553-9158-9bedc625ad4e@188.42.145.177:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#LU
 vless://583ceab3-4022-4553-9158-9bedc625ad4e@188.42.145.177:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=Telegram-channel-WangCai2#LU
 vless://583ceab3-4022-4553-9158-9bedc625ad4e@188.42.145.186:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=Telegram-channel-WangCai2#LU
