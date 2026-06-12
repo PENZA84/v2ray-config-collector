@@ -1,0 +1,1 @@
+vless://80074bdc-1e4b-4828-bf8b-afc6fd5872cc@iran.configforvpn.online:54106?security=tls&encryption=none&alpn=h2,http/1.1&headerType=none&fp=chrome&type=tcp&sni=server.configforvpn.online#Gn%E2%99%A5%EF%B8%8F%F0%9F%A4%9F%F0%9F%8F%BD

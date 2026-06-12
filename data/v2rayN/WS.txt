@@ -1,0 +1,5 @@
+vless://45e55198-a5ad-4f19-bb39-236822141d25@188.72.103.3:443?type=ws&security=tls&path=%2Fstream%2Fupdates%2Fb66b78d7%2F019dfd7f-0777-6283-7287-911777c3720f4&sni=cdn.tracker.yandex.net&fp=chrome#WS%2C%20%D0%AF%D0%BD%D0%B4%D0%B5%D0%BA%D1%81%20%5BV.O.I.D%5D
+vless://72b36a89-a5bb-4c96-8cab-d0f560880ad6@138.68.160.230:443?path=%2Ffeesdgws&security=tls&encryption=none&type=ws&sni=ozon.ru#WS,
+vless://8a6d643c-39bf-4d11-998a-62e3bc9a7ba4@94.131.100.169:443?type=ws&security=tls&path=%2Feclbanws&sni=www.vk.com#WS,
+vless://921290a9-6e24-4661-82fb-844d88164b74@167.99.91.171:443?type=ws&security=tls&path=%2Fsbqbfows&sni=api.avito.ru#WS,
+vless://a0dee25f-56f6-4709-972c-8cfdf938c66d@68.183.47.127:443?type=ws&security=tls&path=%2Fmucowsws&sni=ozon.ru#WS,

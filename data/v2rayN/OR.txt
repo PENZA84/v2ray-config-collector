@@ -1,0 +1,1 @@
+trojan://your_password@43.218.139.54:443/?type=tcp&security=tls&sni=aws-id-jakarta-1.f1rocketnode.com&allowInsecure=1#Or%20Goto%3D%E2%80%BA%20http%3A%2F%2Ft.me%2Fsubcr_robot%3Fstart

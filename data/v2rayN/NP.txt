@@ -1,0 +1,2 @@
+trojan://3723507166611775488@settled-seal.treefrog761.one:443?security=tls&headerType=none&type=tcp&sni=settled-seal.treefrog761.one#NP🇳🇵
+trojan://3747000103274291200@154.205.151.46:443?sni=loving-boa.treefrog761.one&peer=loving-boa.treefrog761.one&security=tls#NP

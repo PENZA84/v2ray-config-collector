@@ -1,0 +1,1 @@
+vless://ab48d74d27bf45eca577b821c9a79577@ukibm.ptuu.ga:443?encryption=none&security=tls&sni=ukibm.ptuu.ga&type=ws&host=ukibm.ptuu.ga&path=path#VV%E7%A7%91%E6%8A%80_7

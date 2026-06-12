@@ -1,0 +1,2 @@
+vless://e97a7931-500b-4777-82a2-4237f15bcedd@lt-cherry-01.com:8443?security=tls&sni=storage.yandex.net#lt-cherry-01.com
+vless://e97a7931-500b-4777-82a2-4237f15bcedd@lt-cherry-01.com:8443?security=tls&sni=storage.yandex.net#lt-cherry-01.com_1

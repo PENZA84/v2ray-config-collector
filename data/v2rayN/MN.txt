@@ -1,0 +1,12 @@
+trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443#🇲🇳MN-103.168.56.77-2060
+trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443?allowInsecure=0#MN-103.168.56.77-1949
+trojan://4f2c305b-9a03-4493-b3e4-2dff2f1af8c9@103.168.56.77:443?security=tls#MN
+trojan://bpb-trojan@russia.com:443?security=tls&sni=1.lileoxiu.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=1.lileoxiu.nyc.mn&path=%2Ftr%3Fed%3D2560#1.lileoxiu.nyc.mn
+trojan://bpb-trojan@russia.com:443?security=tls&sni=2.lileoxiu.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=2.lileoxiu.nyc.mn&path=%2Ftr%3Fed%3D2560#2.lileoxiu.nyc.mn
+trojan://bpb-trojan@russia.com:443?security=tls&sni=bpb.wdgg1979.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=bpb.wdgg1979.nyc.mn&path=%2Ftr%3Fed%3D2560#bpb.wdgg1979.nyc.mn
+trojan://bpb-trojan@russia.com:443?security=tls&sni=bpb3.aced.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=bpb3.aced.nyc.mn&path=%2Ftr%3Fed%3D2560#bpb3.aced.nyc.mn
+trojan://bpb-trojan@russia.com:443?security=tls&sni=bpbyty.tianyiyty.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=bpbyty.tianyiyty.nyc.mn&path=%2Ftr%3Fed%3D2560#bpbyty.tianyiyty.nyc.mn
+trojan://bpb-trojan@russia.com:443?security=tls&sni=sub.laixianzheng.nyc.mn&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=sub.laixianzheng.nyc.mn&path=%2Ftr%3Fed%3D2560#sub.laixianzheng.nyc.mn
+trojan://bpb-trojan@wing2452.nyc.mn:443?security=tls&sni=wing2452.nyc.mn&type=ws&host=wing2452.nyc.mn&path=%2Ftr%3Fed%3D2560#03-10%20BPB%20wing2452.nyc.mn
+trojan://bpb-trojan@www.vpslook.com:443?security=tls&sni=bpb3.aced.nyc.mn&type=ws&host=bpb3.aced.nyc.mn&path=%2Ftr%3Fed%3D2560#03-01%20BPB%20bpb3.aced.nyc.mn
+vless://d85ea913-7dfa-44b0-bd66-33414e897991@afrcloud22.mmv.kr:443?encryption=none&security=tls&sni=afrcloud22.mmv.kr&type=ws&host=afrcloud22.mmv.kr&path=/35.230.79.26%3D443&packetEncoding=xudp#mn

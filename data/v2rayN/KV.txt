@@ -1,0 +1,1 @@
+hysteria2://%40KevinZakarian@194.117.224.146:22002?insecure=1&obfs=salamander&obfs-password=KevinZakarian&sni=m.vk.com#KV

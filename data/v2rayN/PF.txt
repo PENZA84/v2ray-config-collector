@@ -1,0 +1,1 @@
+vless://7585f059-2c89-4a02-9dff-394bb7913ef5@172.69.54.64:2096?type=ws&security=tls&path=/&sni=wwwspeedtestnetwhiteberinsistomd6625996s09.gatesriver.ir&fp=chrome#PF
