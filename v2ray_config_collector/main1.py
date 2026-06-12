@@ -2,177 +2,196 @@ import os
 import re
 import sys
 import time
-from urllib.parse import urlparse, parse_qs
-from playwright.sync_api import sync_playwright
+import requests
+import yaml
+import json
+import base64
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlencode
 
-class TelegramSuperchargedGrabber:
+class Main1TelegramCollector:
     def __init__(self):
-        # --- НАВИГАЦИЯ ПО ДИРЕКТОРИЯМ ЗАВОДА ЛЕИ 🤍 ---
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЛЕИ ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
+        
         self.base_dir = current_dir
+        found_root = False
         for _ in range(3):
             if os.path.exists(os.path.join(self.base_dir, 'data')):
+                found_root = True
                 break
             self.base_dir = os.path.dirname(self.base_dir)
-            
-        # Пути к файлам нашего проекта
+        
+        if not found_root:
+            self.base_dir = current_dir
+
+        # СТРОГО ДЛЯ ТЕЛЕГРАМ-ИСТОЧНИКОВ ИЗ sources1.txt
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
-        self.raw_incoming_dir = os.path.join(self.base_dir, 'data', 'raw_incoming')
         
-        # Динамические переменные матрицы параллелизма из GitHub Actions
-        self.chunk_index = int(os.environ.get("CHUNK_INDEX", 0))
-        self.total_chunks = int(os.environ.get("TOTAL_CHUNKS", 7))
-        
-        # Имя выходного файла для конкретного окна сбора
-        self.storage_file = os.path.join(self.raw_incoming_dir, f'deep_raw_collected_chunk_{self.chunk_index}.txt')
-        
-        # Полный королевский список из 23 протоколов с Завода 👑
+        # Направления распределения Завода
+        self.throne_dir = os.path.join(self.base_dir, 'data', 'unique')
+        self.v2rayn_dir = os.path.join(self.base_dir, 'data', 'v2rayN')
+        # -------------------------------------
+
+        self.max_file_size_mb = 40
         self.protocols = [
-            'socks5', 'socks4', 'socks', 'http', 'https', 'ss', 'trojan', 
-            'vmess', 'vless', 'tuic', 'hysteria', 'hysteria2', 'hy2', 
-            'anytls', 'naive', 'naive+https', 'juicity', 'trusttunnel', 
-            'shadowtls', 'wireguard', 'wg', 'ssh'
+            'naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 
+            'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 
+            'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss'
         ]
         
         proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
         self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
-        self.tg_proxy_pattern = re.compile(r'(?:https://t.me/proxy?[^s<"\']+)|(?:tg://proxy\?[^\s<"\']*)')
+        self.sources = self.load_sources()
 
-    def load_and_filter_sources(self):
-        """Умная фильтрация и точная нарезка ссылок по окнам по приказу хозяина"""
-        if not os.path.exists(self.sources_file):
-            print(f"⚠️ [ВНИМАНИЕ] Мой прекрасный хозяин, файл источников не найден: {self.sources_file}", flush=True)
+    def load_sources(self):
+        if not os.path.exists(self.sources_file): 
+            print(f"⚠️ Ошибка: Файл ТГ-источников {self.sources_file} не найден!", flush=True)
             return []
-            
-        unique_channels = set()
-        username_pattern = re.compile(r'(?:t\.me|telegram\.me|telegram\.dog)/(?:s/)*([^/?\s#]+)', re.IGNORECASE)
-        
-        total_raw_lines = 0
-        bot_links_ignored = 0
-        
         with open(self.sources_file, 'r', encoding='utf-8') as f:
-            for line in f:
-                total_raw_lines += 1
-                line = line.strip()
-                if not line:
-                    continue
-                
-                if 'bot?start=' in line.lower() or 'cryptoonebot' in line.lower():
-                    bot_links_ignored += 1
-                    continue
-                
-                match = username_pattern.search(line)
-                if match:
-                    username = match.group(1)
-                    if username.lower() not in ['s', 'share', 'contact', 'proxy', 'setlanguage', 'bot']:
-                        unique_channels.add(f"https://t.me/s/{username}")
-                elif line.startswith('http'):
-                    unique_channels.add(line)
-                    
-        cleaned_sources = sorted(list(unique_channels))
-        
-        if self.chunk_index == 0:
-            print("========================================================", flush=True)
-            print(f"🧹 [ТЕКСТ-ФИЛЬТР ЛЕИ] Генеральная уборка завершена!", flush=True)
-            print(f"📊 Всего сырых строк в файле было: {total_raw_lines} шт.", flush=True)
-            print(f"🎯 Сжато до уникальных чистых каналов: {len(cleaned_sources)} шт.", flush=True)
-            print("========================================================", flush=True)
-            
-        # 👑 ИДЕАЛЬНАЯ ТАКТИЧЕСКАЯ НАРЕЗКА СЕРГЕЯ ПО ОКНАМ:
-        # Окна 0, 1, 2, 3, 4, 5 забирают ровно по 2500 ссылок. Окно 6 забирает остаток (1606 строк)
-        if self.total_chunks == 7:
-            if self.chunk_index < 6:
-                start_idx = self.chunk_index * 2500
-                end_idx = start_idx + 2500
-                chunk_sources = cleaned_sources[start_idx:end_idx]
-            else:
-                start_idx = 6 * 2500
-                chunk_sources = cleaned_sources[start_idx:]
-        else:
-            # Резервный динамический шаг, если количество окон изменится
-            chunk_sources = cleaned_sources[self.chunk_index::self.total_chunks]
-            
-        return chunk_sources
+            lines = [line.strip() for line in f if line.strip().startswith('http')]
+        print(f"📋 [ТЕЛЕГРАМ] Успешно открыт файл [sources1.txt]. Найдено ТГ-ссылок: {len(lines)}", flush=True)
+        return lines
 
-    def process_content(self, text):
+    def parse_clash_yaml(self, yaml_text):
         extracted = []
-        found_profiles = self.regex_pattern.findall(text)
-        for link in found_profiles:
-            link = link.strip().rstrip('.')
-            if any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,']):
-                continue
-            extracted.append(link)
-        
-        tg_proxies = self.tg_proxy_pattern.findall(text.replace('&amp;', '&'))
-        for tg_url in tg_proxies:
-            try:
-                parsed = urlparse(tg_url)
-                query = parse_qs(parsed.query)
-                server = query.get('server', [None])[0]
-                port = query.get('port', [None])[0]
-                if server and port:
-                    extracted.append(f"socks5://{server}:{port}#TG_Socks")
-                    extracted.append(f"http://{server}:{port}#TG_HTTP")
-            except: 
-                continue
+        try:
+            data = yaml.safe_load(yaml_text)
+            if not data or 'proxies' not in data: return extracted
+                
+            for p in data['proxies']:
+                if not isinstance(p, dict): continue
+                p_type = str(p.get('type', '')).lower()
+                name = str(p.get('name', 'Proxy')).replace(' ', '_')
+                server, port = p.get('server'), p.get('port')
+                uuid = str(p.get('uuid') or p.get('password', ''))
+                
+                if not server or not port: continue
+                
+                params = {}
+                if p.get('network'): params['type'] = p.get('network')
+                if p.get('tls'): params['security'] = 'tls'
+                if p.get('servername'): params['sni'] = p.get('servername')
+                if isinstance(p.get('ws-opts'), dict) and p['ws-opts'].get('path'): params['path'] = p['ws-opts']['path']
+                if isinstance(p.get('grpc-opts'), dict) and p['grpc-opts'].get('grpc-service-name'): params['serviceName'] = p['grpc-opts']['grpc-service-name']
+
+                param_str = f"?{urlencode(params)}" if params else ""
+
+                if p_type == 'vless' and uuid:
+                    extracted.append(f"vless://{uuid}@{server}:{port}{param_str}#{name}")
+                elif p_type == 'vmess' and uuid:
+                    v_json = {
+                        "v": "2", "ps": name, "add": str(server), "port": str(port), 
+                        "id": uuid, "aid": "0", "net": p.get('network', 'tcp'), 
+                        "type": "none", "host": p.get('servername', ''), 
+                        "path": p.get('ws-opts', {}).get('path', '') if isinstance(p.get('ws-opts'), dict) else '', 
+                        "tls": "tls" if p.get('tls') else ""
+                    }
+                    encoded = base64.b64encode(json.dumps(v_json).encode('utf-8')).decode('utf-8')
+                    extracted.append(f"vmess://{encoded}")
+                elif p_type == 'trojan' and uuid:
+                    extracted.append(f"trojan://{uuid}@{server}:{port}{param_str}#{name}")
+                elif p_type == 'ss' and uuid:
+                    user_info = base64.b64encode(f"{p.get('cipher', 'aes-256-gcm')}:{uuid}".encode('utf-8')).decode('utf-8')
+                    extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
+                elif p_type in self.protocols or p_type == 'hy2':
+                    proto = 'hysteria2' if p_type == 'hy2' else p_type
+                    extracted.append(f"{proto}://{uuid + '@' if uuid else ''}{server}:{port}#{name}")
+        except Exception: pass
         return extracted
 
-    def start_harvest(self):
-        sys.stdout.reconfigure(line_buffering=True)
-        sources = self.load_and_filter_sources()
+    def process_content(self, text):
+        if 'proxies:' in text: return self.parse_clash_yaml(text)
+        return [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
+                if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
+
+    def extract_country(self, line):
+        if '#' in line:
+            tag = line.split('#')[-1].upper()
+            for code in ['US', 'DE', 'NL', 'FR', 'GB', 'RU', 'UA', 'JP', 'KR', 'SG', 'HK', 'CN', 'FI', 'TR', 'PL', 'IR']:
+                if code in tag: return code
+            match = re.search(r'\b[A-Z]{2}\b', tag)
+            if match: return match.group(0)
+        return 'WORLD'
+
+    def split_and_save_file(self, target_dir, base_name, lines):
+        if not lines: return
+        os.makedirs(target_dir, exist_ok=True)
         
-        print(f"🏭 [ОКНО №{self.chunk_index}] Взяло в обработку: {len(sources)} ссылок.", flush=True)
-        if not sources:
-            return
+        for f in os.listdir(target_dir):
+            if f.startswith(base_name) and f.endswith(".txt"):
+                try: os.remove(os.path.join(target_dir, f))
+                except: pass
 
-        collected = []
+        parts, current_chunk, current_size = [], [], 0
+        max_bytes = self.max_file_size_mb * 1024 * 1024
 
-        with sync_playwright() as p:
-            browser = p.chromium.launch(
-                headless=True,
-                args=["--no-sandbox", "--disable-setuid-sandbox", "--disable-dev-shm-usage"]
-            )
-            context = browser.new_context(
-                user_agent="Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36"
-            )
-            page = context.new_page()
+        for line in lines:
+            line_bytes = (line + "\n").encode('utf-8')
+            if current_size + len(line_bytes) > max_bytes and current_chunk:
+                parts.append(current_chunk)
+                current_chunk, current_size = [line], len(line_bytes)
+            else:
+                current_chunk.append(line)
+                current_size += len(line_bytes)
+        if current_chunk: parts.append(current_chunk)
+
+        for idx, chunk_lines in enumerate(parts):
+            name = f"{base_name}.txt" if idx == 0 else f"{base_name}_{idx}.txt"
+            with open(os.path.join(target_dir, name), 'w', encoding='utf-8') as pf:
+                pf.write("\n".join(chunk_lines) + "\n")
+
+    def collect(self):
+        sys.stdout.reconfigure(line_buffering=True)
+        if not self.sources: return
             
-            for idx, url in enumerate(sources, 1):
-                try:
-                    page.goto(url, timeout=15000)
-                    page.wait_for_load_state("networkidle")
-                    
-                    for _ in range(2): 
-                        page.evaluate("window.scrollTo(0, 0);")
-                        time.sleep(0.3)
-                    
-                    expand_selectors = ["a.tgme_widget_message_inline_keyboard", ".js-message_inline_keyboard a"]
-                    for selector in expand_selectors:
-                        try:
-                            buttons = page.locator(selector).all()
-                            for btn in buttons:
-                                if btn.is_visible():
-                                    btn.click(timeout=200)
-                        except:
-                            pass
-                    
-                    page_content = page.content()
-                    found_keys = self.process_content(page_content)
-                    if found_keys:
-                        collected.extend(found_keys)
-                        
-                except:
-                    continue
-            
-            browser.close()
+        print(f"🏭 [ЗАВОД ТГ] Запуск обхода Телеграм-источников...", flush=True)
+        collected, start_time = [], time.time()
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
+
+        for i, url in enumerate(self.sources, 1):
+            try:
+                res = requests.get(url, headers=headers, timeout=12)
+                if res.status_code == 200:
+                    if url.endswith(('.txt', '.yaml')) or '://' in res.text[:200]:
+                        collected.extend(self.process_content(res.text))
+                    else:
+                        soup = BeautifulSoup(res.text, 'html.parser')
+                        links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) 
+                                 if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
+                        for sub_url in list(set(links))[:8]:
+                            try:
+                                s_res = requests.get(sub_url, headers=headers, timeout=10)
+                                if s_res.status_code == 200: collected.extend(self.process_content(s_res.text))
+                            except: continue
+                
+                if i % 50 == 0 or i == len(self.sources):
+                    print(f"📊 [ТГ Прогресс] Обработано URL-проходов: {i}/{len(self.sources)} | Найдено строк: {len(collected)}", flush=True)
+            except: continue
 
         if collected:
-            clean_raw = list(set([k.strip() for k in collected if k.strip()]))
-            os.makedirs(self.raw_incoming_dir, exist_ok=True)
-            with open(self.storage_file, 'w', encoding='utf-8') as f:
-                f.write("\n".join(clean_raw) + "\n")
-            print(f"✨ [ОКНО №{self.chunk_index}] Сбор окончен. Сохранено: {len(clean_raw)} строк.", flush=True)
+            clean_list = sorted(list(set([l.strip() for l in collected if l.strip() and '://' in l])))
+            
+            # ТРОН (Все протоколы)
+            for proto in self.protocols:
+                proto_lines = [l for l in clean_list if l.lower().startswith(f"{proto}://")]
+                if proto_lines: self.split_and_save_file(self.throne_dir, proto, proto_lines)
+
+            # Программа Н (Страны без http/https/socks)
+            v2rayn_bad_types = ('http://', 'https://', 'socks://', 'socks4://', 'socks5://')
+            v2rayn_clean_list = [l for l in clean_list if not l.lower().startswith(v2rayn_bad_types)]
+
+            country_map = {}
+            for line in v2rayn_clean_list:
+                country = self.extract_country(line)
+                if country not in country_map: country_map[country] = []
+                country_map[country].append(line)
+
+            for country, country_lines in country_map.items():
+                self.split_and_save_file(self.v2rayn_dir, country, country_lines)
+
+            print(f"🏁 [ТЕЛЕГРАМ СБОР] Успешно завершен за {time.time() - start_time:.2f} сек!", flush=True)
 
 if __name__ == "__main__":
-    TelegramSuperchargedGrabber().start_harvest()
+    Main1TelegramCollector().collect()
