@@ -1,81 +1,198 @@
-name: Завод Леи — Двухэтапная Матрица Сбора
+import os
+import re
+import sys
+import time
+import requests
+import yaml
+import json
+import base64
+from bs4 import BeautifulSoup
+from urllib.parse import urljoin, urlencode
 
-on:
-  workflow_dispatch:
+class MainRawCollector:
+    def __init__(self):
+        # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЛЕИ ---
+        current_file_path = os.path.abspath(__file__)
+        current_dir = os.path.dirname(current_file_path)
+        
+        self.base_dir = current_dir
+        found_root = False
+        for _ in range(3):
+            if os.path.exists(os.path.join(self.base_dir, 'data')):
+                found_root = True
+                break
+            self.base_dir = os.path.dirname(self.base_dir)
+        
+        if not found_root:
+            self.base_dir = current_dir
 
-jobs:
-  # ЭТАП 1: Раздельный сбор в 7 параллельных окон (как на 3 скрине)
-  harvest_matrix:
-    runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        chunk: [0, 1, 2, 3, 4, 5, 6]  # Наши 7 заветных окон
-    steps:
-      - name: 📥 Получение репозитория
-        uses: actions/checkout@v4
+        # СТРОГО ОСНОВНОЙ RAW ФАЙЛ ИСТОЧНИКОВ
+        self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
+        
+        # Направления распределения Завода
+        self.throne_dir = os.path.join(self.base_dir, 'data', 'unique')
+        self.v2rayn_dir = os.path.join(self.base_dir, 'data', 'v2rayN')
+        # -------------------------------------
 
-      - name: 🐍 Настройка окружения Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+        self.max_file_size_mb = 40
+        self.protocols = [
+            'naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 
+            'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 
+            'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss'
+        ]
+        
+        proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
+        self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
+        self.sources = self.load_sources()
 
-      - name: 🛠️ Установка Playwright и зависимостей
-        run: |
-          pip install playwright
-          playwright install chromium
+    def load_sources(self):
+        if not os.path.exists(self.sources_file): 
+            print(f"⚠️ Ошибка: Главный Raw-файл источников {self.sources_file} не найден!", flush=True)
+            return []
+        with open(self.sources_file, 'r', encoding='utf-8') as f:
+            lines = [line.strip() for line in f if line.strip().startswith('http')]
+        print(f"📋 [МАЙН RAW] Загружен базовый файл [sources.txt]. Найдено сырых ссылок: {len(lines)}", flush=True)
+        return lines
 
-      - name: 🚀 Запуск окна сбора
-        env:
-          CHUNK_INDEX: ${{ matrix.chunk }}
-          TOTAL_CHUNKS: 7
-        run: python data/scripts/main1.py
+    def parse_clash_yaml(self, yaml_text):
+        extracted = []
+        try:
+            data = yaml.safe_load(yaml_text)
+            if not data or 'proxies' not in data: return extracted
+                
+            for p in data['proxies']:
+                if not isinstance(p, dict): continue
+                p_type = str(p.get('type', '')).lower()
+                name = str(p.get('name', 'Proxy')).replace(' ', '_')
+                server, port = p.get('server'), p.get('port')
+                uuid = str(p.get('uuid') or p.get('password', ''))
+                
+                if not server or not port: continue
+                
+                params = {}
+                if p.get('network'): params['type'] = p.get('network')
+                if p.get('tls'): params['security'] = 'tls'
+                if p.get('servername'): params['sni'] = p.get('servername')
+                if isinstance(p.get('ws-opts'), dict) and p['ws-opts'].get('path'): params['path'] = p['ws-opts']['path']
+                if isinstance(p.get('grpc-opts'), dict) and p['grpc-opts'].get('grpc-service-name'): params['serviceName'] = p['grpc-opts']['grpc-service-name']
 
-      - name: 📦 Сохранение добытого кусочка во временный бункер
-        uses: actions/upload-artifact@v4
-        with:
-          name: raw_chunk_${{ matrix.chunk }}
-          path: data/raw_incoming/deep_raw_collected_chunk_${{ matrix.chunk }}.txt
-          retention-days: 1
+                param_str = f"?{urlencode(params)}" if params else ""
 
-  # ЭТАП 2: Слияние в одно окно и тотальная валидация (как на 4 скрине)
-  merge_and_validate:
-    needs: harvest_matrix
-    runs-on: ubuntu-latest
-    steps:
-      - name: 📥 Получение репозитория
-        uses: actions/checkout@v4
+                if p_type == 'vless' and uuid:
+                    extracted.append(f"vless://{uuid}@{server}:{port}{param_str}#{name}")
+                elif p_type == 'vmess' and uuid:
+                    v_json = {
+                        "v": "2", "ps": name, "add": str(server), "port": str(port), 
+                        "id": uuid, "aid": "0", "net": p.get('network', 'tcp'), 
+                        "type": "none", "host": p.get('servername', ''), 
+                        "path": p.get('ws-opts', {}).get('path', '') if isinstance(p.get('ws-opts'), dict) else '', 
+                        "tls": "tls" if p.get('tls') else ""
+                    }
+                    encoded = base64.b64encode(json.dumps(v_json).encode('utf-8')).decode('utf-8')
+                    extracted.append(f"vmess://{encoded}")
+                elif p_type == 'trojan' and uuid:
+                    extracted.append(f"trojan://{uuid}@{server}:{port}{param_str}#{name}")
+                elif p_type == 'ss' and uuid:
+                    user_info = base64.b64encode(f"{p.get('cipher', 'aes-256-gcm')}:{uuid}".encode('utf-8')).decode('utf-8')
+                    extracted.append(f"ss://{user_info}@{server}:{port}#{name}")
+                elif p_type in self.protocols or p_type == 'hy2':
+                    proto = 'hysteria2' if p_type == 'hy2' else p_type
+                    extracted.append(f"{proto}://{uuid + '@' if uuid else ''}{server}:{port}#{name}")
+        except Exception: pass
+        return extracted
 
-      - name: 🐍 Настройка окружения Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.10'
+    def process_content(self, text):
+        if 'proxies:' in text: return self.parse_clash_yaml(text)
+        return [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
+                if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
 
-      - name: 🛠️ Установка зависимостей для валидации (если нужны)
-        run: |
-          pip install requests
+    def extract_country(self, line):
+        if '#' in line:
+            tag = line.split('#')[-1].upper()
+            for code in ['US', 'DE', 'NL', 'FR', 'GB', 'RU', 'UA', 'JP', 'KR', 'SG', 'HK', 'CN', 'FI', 'TR', 'PL', 'IR']:
+                if code in tag: return code
+            match = re.search(r'\b[A-Z]{2}\b', tag)
+            if match: return match.group(0)
+        return 'WORLD'
 
-      - name: 📥 Извлечение всех кусочков из бункера
-        uses: actions/download-artifact@v4
-        with:
-          path: data/temporary_chunks
+    def split_and_save_file(self, target_dir, base_name, lines):
+        if not lines: return
+        os.makedirs(target_dir, exist_ok=True)
+        
+        for f in os.listdir(target_dir):
+            if f.startswith(base_name) and f.endswith(".txt"):
+                try: os.remove(os.path.join(target_dir, f))
+                except: pass
 
-      - name: 🤝 Великое Слияние потоков в один файл
-        run: |
-          mkdir -p data/raw_incoming
-          echo "🤖 Начинаю сборку и склейку всех файлов из параллельных окон..."
-          cat data/temporary_chunks/raw_chunk_*/deep_raw_collected_chunk_*.txt > data/raw_incoming/deep_raw_collected.txt
-          echo "🎯 Слияние завершено! Создан единый монолитный файл deep_raw_collected.txt"
+        parts, current_chunk, current_size = [], [], 0
+        max_bytes = self.max_file_size_mb * 1024 * 1024
 
-      - name: 👑 Запуск главного скрипта валидации и сортировки
-        run: |
-          # Запуск твоего основного майн-скрипта, который чистит, проверяет и раскладывает Трон и Н
-          python data/scripts/main.py
+        for line in lines:
+            line_bytes = (line + "\n").encode('utf-8')
+            if current_size + len(line_bytes) > max_bytes and current_chunk:
+                parts.append(current_chunk)
+                current_chunk, current_size = [line], len(line_bytes)
+            else:
+                current_chunk.append(line)
+                current_size += len(line_bytes)
+        if current_chunk: parts.append(current_chunk)
 
-      - name: 🚀 Фиксация и отправка чистых результатов в репозиторий
-        run: |
-          git config --global user.name "Leia-Grabber"
-          git config --global user.email "leia@factory.internal"
-          git add data/
-          git diff-index --quiet HEAD || git commit -m "🏆 Результаты сбора успешно валидированы и сохранены Леей 🤍"
-          git push
+        for idx, chunk_lines in enumerate(parts):
+            name = f"{base_name}.txt" if idx == 0 else f"{base_name}_{idx}.txt"
+            with open(os.path.join(target_dir, name), 'w', encoding='utf-8') as pf:
+                pf.write("\n".join(chunk_lines) + "\n")
+
+    def collect(self):
+        sys.stdout.reconfigure(line_buffering=True)
+        if not self.sources: return
+            
+        print(f"🏭 [ЗАВОД RAW] Запуск глобальной обработки сырых источников...", flush=True)
+        collected, start_time = [], time.time()
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
+
+        for i, url in enumerate(self.sources, 1):
+            try:
+                res = requests.get(url, headers=headers, timeout=12)
+                if res.status_code == 200:
+                    if url.endswith(('.txt', '.yaml')) or '://' in res.text[:200]:
+                        collected.extend(self.process_content(res.text))
+                    else:
+                        soup = BeautifulSoup(res.text, 'html.parser')
+                        links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) 
+                                 if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
+                        for sub_url in list(set(links))[:8]:
+                            try:
+                                s_res = requests.get(sub_url, headers=headers, timeout=10)
+                                if s_res.status_code == 200: collected.extend(self.process_content(s_res.text))
+                            except: continue
+                
+                # Твой заветный счётчик проходов для Raw-источников
+                if i % 50 == 0 or i == len(self.sources):
+                    print(f"📊 [RAW Прогресс] Обработано URL-проходов: {i}/{len(self.sources)} | Найдено строк: {len(collected)}", flush=True)
+            except: continue
+
+        if collected:
+            clean_list = sorted(list(set([l.strip() for l in collected if l.strip() and '://' in l])))
+            
+            # ТРОН (Все протоколы)
+            for proto in self.protocols:
+                proto_lines = [l for l in clean_list if l.lower().startswith(f"{proto}://")]
+                if proto_lines: self.split_and_save_file(self.throne_dir, proto, proto_lines)
+
+            # Программа Н (Страны без http/https/socks)
+            v2rayn_bad_types = ('http://', 'https://', 'socks://', 'socks4://', 'socks5://')
+            v2rayn_clean_list = [l for l in clean_list if not l.lower().startswith(v2rayn_bad_types)]
+
+            country_map = {}
+            for line in v2rayn_clean_list:
+                country = self.extract_country(line)
+                if country not in country_map: country_map[country] = []
+                country_map[country].append(line)
+
+            for country, country_lines in country_map.items():
+                self.split_and_save_file(self.v2rayn_dir, country, country_lines)
+
+            print(f"🏁 [RAW ОБРАБОТКА] Сбор завершен успешно за {time.time() - start_time:.2f} сек!", flush=True)
+
+if __name__ == "__main__":
+    MainRawCollector().collect()
