@@ -2,12 +2,13 @@ import os
 import re
 import sys
 import time
+import hashlib
 import requests
 import yaml
 import json
 import base64
 from bs4 import BeautifulSoup
-from urllib.parse import urljoin, urlencode
+from urllib.parse import urljoin, urlencode, quote, unquote
 
 class MainRawCollector:
     def __init__(self):
@@ -28,22 +29,40 @@ class MainRawCollector:
 
         # СТРОГО ОСНОВНОЙ RAW ФАЙЛ ИСТОЧНИКОВ
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources.txt')
-        
-        # Направления распределения Завода
+        self.amnezia_out_dir = os.path.join(self.base_dir, 'data', 'unique', 'AmneziaWG')
         self.throne_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.v2rayn_dir = os.path.join(self.base_dir, 'data', 'v2rayN')
-        # -------------------------------------
+        
+        # Изолированная текстовая база хэшей для одиночных файлов (Принцип Файл-Файл)
+        self.hash_db_file = os.path.join(self.base_dir, 'data', 'sources', 'raw_hashes.txt')
 
         self.max_file_size_mb = 40
         self.protocols = [
-            'naive+https', 'shadowtls', 'trusttunnel', 'hysteria2', 'wireguard', 
-            'juicity', 'socks5', 'socks4', 'anytls', 'vmess', 'vless', 'trojan', 
-            'naive', 'socks', 'https', 'http', 'tuic', 'hy2', 'ssh', 'wg', 'ss'
+            'amneziawg', 'Xray VLESS', 'vless', 'wireguard', 'wg', 'hysteria2', 'hy2',
+            'naive+https', 'shadowtls', 'trusttunnel', 'juicity', 'socks5', 'socks4', 
+            'anytls', 'vmess', 'trojan', 'naive', 'socks', 'https', 'http', 'tuic', 'ssh', 'ss'
         ]
         
-        proto_pattern = '|'.join([re.escape(p) for p in self.protocols])
+        search_protocols = [p for p in self.protocols if p not in ['Xray VLESS', 'amneziawg']]
+        proto_pattern = '|'.join([re.escape(p) for p in search_protocols])
         self.regex_pattern = re.compile(r'(?:' + proto_pattern + r')://[^\s<"\']+')
+        
+        self.raw_hashes = set()
+        self.load_raw_hashes()
         self.sources = self.load_sources()
+
+    def load_raw_hashes(self):
+        """Загружает хэши ранее обработанных одиночных файлов"""
+        if os.path.exists(self.hash_db_file):
+            with open(self.hash_db_file, 'r', encoding='utf-8') as f:
+                self.raw_hashes = set([line.strip() for line in f if line.strip()])
+
+    def save_raw_hash(self, file_hash):
+        """Сохраняет хэш нового файла в текстовую базу"""
+        self.raw_hashes.add(file_hash)
+        os.makedirs(os.path.dirname(self.hash_db_file), exist_ok=True)
+        with open(self.hash_db_file, 'a', encoding='utf-8') as f:
+            f.write(file_hash + "\n")
 
     def load_sources(self):
         if not os.path.exists(self.sources_file): 
@@ -53,6 +72,28 @@ class MainRawCollector:
             lines = [line.strip() for line in f if line.strip().startswith('http')]
         print(f"📋 [МАЙН RAW] Загружен базовый файл [sources.txt]. Найдено сырых ссылок: {len(lines)}", flush=True)
         return lines
+
+    def get_unique_path(self, filename, text_content):
+        """Принцип Файл-Файл: сверяет MD5 кода и создаёт индексы (1), (2) для обновлённых конфигов"""
+        cleaned_text = text_content.strip()
+        new_hash = hashlib.md5(cleaned_text.encode('utf-8')).hexdigest()
+
+        # Если код этого конфига уже скачивался напрямую — это дубликат, пропускаем его
+        if new_hash in self.raw_hashes:
+            return None
+
+        os.makedirs(self.amnezia_out_dir, exist_ok=True)
+        name, ext = os.path.splitext(filename)
+        target_path = os.path.join(self.amnezia_out_dir, filename)
+        
+        counter = 1
+        # Если имя занято, но внутри новый обновлённый контент — нарезаем индекс
+        while os.path.exists(target_path):
+            target_path = os.path.join(self.amnezia_out_dir, f"{name}({counter}){ext}")
+            counter += 1
+
+        self.save_raw_hash(new_hash)
+        return target_path
 
     def parse_clash_yaml(self, yaml_text):
         extracted = []
@@ -101,10 +142,35 @@ class MainRawCollector:
         except Exception: pass
         return extracted
 
-    def process_content(self, text):
+    def process_content(self, text, origin_url=None):
         if 'proxies:' in text: return self.parse_clash_yaml(text)
-        return [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
-                if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
+        extracted = []
+        
+        # Обнаружение конфигураций WireGuard и AmneziaWG
+        if "[interface]" in text.lower() and "[peer]" in text.lower():
+            endpoint_match = re.search(r'(?i)^\s*Endpoint\s*=\s*([^\s#]+)', text, re.MULTILINE)
+            if endpoint_match:
+                endpoint = endpoint_match.group(1).strip()
+                is_amnezia = any(k in text.lower() for k in ['jc =', 'jmin =', 'jmax =', 's1 =', 's2 ='])
+                
+                filename = "WARPv3_79.conf"
+                if origin_url and origin_url.split('/')[-1].lower().endswith('.conf'):
+                    filename = unquote(origin_url.split('/')[-1])
+
+                # Контроль Файл-Файл по уникальности хэша кода
+                target_path = self.get_unique_path(filename, text)
+                if target_path:
+                    with open(target_path, 'w', encoding='utf-8') as f:
+                        f.write(text)
+                    
+                    prefix = "amneziawg" if is_amnezia else "wireguard"
+                    # В ссылку подставляем имя реально созданного на диске файла
+                    extracted.append(f"{prefix}://{endpoint}#Raw_{os.path.basename(target_path).replace('.', '_')}")
+        
+        standard_links = [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
+                          if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
+        extracted.extend(standard_links)
+        return extracted
 
     def extract_country(self, line):
         if '#' in line:
@@ -152,19 +218,38 @@ class MainRawCollector:
 
         for i, url in enumerate(self.sources, 1):
             try:
-                res = requests.get(url, headers=headers, timeout=12)
-                if res.status_code == 200:
-                    if url.endswith(('.txt', '.yaml')) or '://' in res.text[:200]:
-                        collected.extend(self.process_content(res.text))
+                if "github.com" in url.lower():
+                    if "/blob/" in url.lower():
+                        raw_url = url.replace("github.com", "raw.githubusercontent.com").replace("/blob/", "/")
+                        res = requests.get(raw_url, headers=headers, timeout=12)
+                        if res.status_code == 200: collected.extend(self.process_content(res.text, raw_url))
+                    elif "raw.githubusercontent.com" in url.lower():
+                        res = requests.get(url, headers=headers, timeout=12)
+                        if res.status_code == 200: collected.extend(self.process_content(res.text, url))
                     else:
-                        soup = BeautifulSoup(res.text, 'html.parser')
-                        links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) 
-                                 if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml'])]
-                        for sub_url in list(set(links))[:8]:
-                            try:
-                                s_res = requests.get(sub_url, headers=headers, timeout=10)
-                                if s_res.status_code == 200: collected.extend(self.process_content(s_res.text))
-                            except: continue
+                        res = requests.get(url, headers=headers, timeout=12)
+                        if res.status_code == 200:
+                            soup = BeautifulSoup(res.text, 'html.parser')
+                            for link in soup.find_all('a', class_='Link--primary'):
+                                href = link.get('href', '')
+                                if href.lower().endswith('.conf'):
+                                    full_raw_url = quote("https://raw.githubusercontent.com" + href.replace('/blob/', '/'), safe=':/?=')
+                                    r_res = requests.get(full_raw_url, headers=headers, timeout=10)
+                                    if r_res.status_code == 200: collected.extend(self.process_content(r_res.text, full_raw_url))
+                else:
+                    res = requests.get(url, headers=headers, timeout=12)
+                    if res.status_code == 200:
+                        if url.endswith(('.txt', '.yaml')) or '://' in res.text[:200]: 
+                            collected.extend(self.process_content(res.text, url))
+                        else:
+                            soup = BeautifulSoup(res.text, 'html.parser')
+                            links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) 
+                                     if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml', '.conf'])]
+                            for sub_url in list(set(links))[:8]:
+                                try:
+                                    s_res = requests.get(sub_url, headers=headers, timeout=10)
+                                    if s_res.status_code == 200: collected.extend(self.process_content(s_res.text, sub_url))
+                                except: continue
                 
                 # Твой заветный счётчик проходов для Raw-источников
                 if i % 50 == 0 or i == len(self.sources):
@@ -174,10 +259,17 @@ class MainRawCollector:
         if collected:
             clean_list = sorted(list(set([l.strip() for l in collected if l.strip() and '://' in l])))
             
-            # ТРОН (Все протоколы)
+            # ТРОН (Все протоколы с разделением по файлам)
             for proto in self.protocols:
-                proto_lines = [l for l in clean_list if l.lower().startswith(f"{proto}://")]
-                if proto_lines: self.split_and_save_file(self.throne_dir, proto, proto_lines)
+                if proto == 'Xray VLESS':
+                    xray_lines = [l for l in clean_list if l.lower().startswith("vless://") and ('security=reality' in l.lower() or 'pbk=' in l.lower() or 'xtls' in l.lower())]
+                    if xray_lines: self.split_and_save_file(self.throne_dir, 'Xray VLESS', xray_lines)
+                elif proto == 'vless':
+                    vless_lines = [l for l in clean_list if l.lower().startswith("vless://") and not ('security=reality' in l.lower() or 'pbk=' in l.lower() or 'xtls' in l.lower())]
+                    if vless_lines: self.split_and_save_file(self.throne_dir, 'vless', vless_lines)
+                else:
+                    proto_lines = [l for l in clean_list if l.lower().startswith(f"{proto}://")]
+                    if proto_lines: self.split_and_save_file(self.throne_dir, proto, proto_lines)
 
             # Программа Н (Страны без http/https/socks)
             v2rayn_bad_types = ('http://', 'https://', 'socks://', 'socks4://', 'socks5://')
@@ -185,6 +277,8 @@ class MainRawCollector:
 
             country_map = {}
             for line in v2rayn_clean_list:
+                if line.lower().startswith("amneziawg://"): 
+                    line = line.replace("amneziawg://", "wireguard://")
                 country = self.extract_country(line)
                 if country not in country_map: country_map[country] = []
                 country_map[country].append(line)
