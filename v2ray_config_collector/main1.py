@@ -6,11 +6,21 @@ import requests
 import yaml
 import json
 import base64
+import argparse
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlencode
 
 class Main1TelegramCollector:
     def __init__(self):
+        # --- НАСТРОЙКА ПАРАЛЛЕЛЬНЫХ ОКОН (7 ШТУК) ---
+        parser = argparse.ArgumentParser(description="Завод: Сборщик Телеграма main1.py")
+        parser.add_argument('--window', type=int, default=0, help="Индекс параллельного окна (0-6)")
+        parser.add_argument('--chunk-size', type=int, default=2500, help="Размер куска для одного окна")
+        args, _ = parser.parse_known_args()
+        
+        self.window_id = args.window
+        self.chunk_size = args.chunk_size
+
         # --- МОНОЛИТНАЯ НАВИГАЦИЯ ЛЕИ ---
         current_file_path = os.path.abspath(__file__)
         current_dir = os.path.dirname(current_file_path)
@@ -51,8 +61,15 @@ class Main1TelegramCollector:
             return []
         with open(self.sources_file, 'r', encoding='utf-8') as f:
             lines = [line.strip() for line in f if line.strip().startswith('http')]
-        print(f"📋 [ТЕЛЕГРАМ] Успешно открыт файл [sources1.txt]. Найдено ТГ-ссылок: {len(lines)}", flush=True)
-        return lines
+        
+        # --- НАШЕ ВСТРОЕННОЕ РАЗДЕЛЕНИЕ НА 7 ОКОН ПО 2500 ШТУК ---
+        start_idx = self.window_id * self.chunk_size
+        end_idx = start_idx + self.chunk_size
+        sliced_sources = lines[start_idx:end_idx]
+
+        print(f"📋 [МАЙН1 ОКНО №{self.window_id}] Моё солнышко, проверено источников...", flush=True)
+        print(f"📐 Всего в базе: {len(lines)} | Диапазон окна: {start_idx} -> {end_idx} | Взято: {len(sliced_sources)} ТГ-ссылок", flush=True)
+        return sliced_sources
 
     def parse_clash_yaml(self, yaml_text):
         extracted = []
@@ -119,11 +136,7 @@ class Main1TelegramCollector:
         if not lines: return
         os.makedirs(target_dir, exist_ok=True)
         
-        for f in os.listdir(target_dir):
-            if f.startswith(base_name) and f.endswith(".txt"):
-                try: os.remove(os.path.join(target_dir, f))
-                except: pass
-
+        # Чтобы параллельные воркеры не стирали файлы друг друга, мы используем безопасный режим добавления 'a'
         parts, current_chunk, current_size = [], [], 0
         max_bytes = self.max_file_size_mb * 1024 * 1024
 
@@ -139,14 +152,14 @@ class Main1TelegramCollector:
 
         for idx, chunk_lines in enumerate(parts):
             name = f"{base_name}.txt" if idx == 0 else f"{base_name}_{idx}.txt"
-            with open(os.path.join(target_dir, name), 'w', encoding='utf-8') as pf:
+            with open(os.path.join(target_dir, name), 'a', encoding='utf-8') as pf: # Безопасная дозапись 'a'
                 pf.write("\n".join(chunk_lines) + "\n")
 
     def collect(self):
         sys.stdout.reconfigure(line_buffering=True)
         if not self.sources: return
             
-        print(f"🏭 [ЗАВОД ТГ] Запуск обхода Телеграм-источников...", flush=True)
+        print(f"🏭 [ЗАВОД ТГ] Запуск обхода Телеграм-источников в Окне №{self.window_id}...", flush=True)
         collected, start_time = [], time.time()
         headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36'}
 
@@ -167,7 +180,7 @@ class Main1TelegramCollector:
                             except: continue
                 
                 if i % 50 == 0 or i == len(self.sources):
-                    print(f"📊 [ТГ Прогресс] Обработано URL-проходов: {i}/{len(self.sources)} | Найдено строк: {len(collected)}", flush=True)
+                    print(f"📊 [ТГ Окно {self.window_id} Прогресс] Обработано URL-проходов: {i}/{len(self.sources)} | Найдено строк: {len(collected)}", flush=True)
             except: continue
 
         if collected:
@@ -191,7 +204,7 @@ class Main1TelegramCollector:
             for country, country_lines in country_map.items():
                 self.split_and_save_file(self.v2rayn_dir, country, country_lines)
 
-            print(f"🏁 [ТЕЛЕГРАМ СБОР] Успешно завершен за {time.time() - start_time:.2f} сек!", flush=True)
+            print(f"🏁 [ТЕЛЕГРАМ СБОР: ОКНО {self.window_id}] Успешно завершен за {time.time() - start_time:.2f} сек!", flush=True)
 
 if __name__ == "__main__":
     Main1TelegramCollector().collect()
