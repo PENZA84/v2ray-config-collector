@@ -4,7 +4,7 @@ on:
   push:
     branches: [ main, master ]
   schedule:
-    - cron: '0 */6 * * *' # ⏰ 6-часовой цикл стабильности
+    - cron: '0 */6 * * *' # ⏰ 6-часовой цикл стабильности для Завода
   workflow_dispatch:   # Всегда готова по зову
 
 permissions:
@@ -35,15 +35,16 @@ jobs:
           python -m pip install --upgrade pip
           pip install requests pyyaml beautifulsoup4
 
-      - name: "⚡ Запуск параллельного сбора (main1.py)"
+      - name: "⚡ Запуск параллельного сбора (Твой новый main1.py)"
         run: |
-          echo "🤖 Окно №${{ matrix.window_index }} обрабатывает свой кусок ссылок..."
-          python -u v2ray_config_collector/main1.py --window ${{ matrix.window_index }}
+          echo "🤖 Окно №${{ matrix.window_index }} начинает сбор своей порции..."
+          # Твой скрипт сам заберет нужные 2500 строк благодаря переданному индексу окна!
+          python -u v2ray_config_collector/main1.py --window ${{ matrix.window_index }} --chunk-size 2500
         env:
           PYTHONUNBUFFERED: 1
 
-      # Каждое из 7 окон скидывает свои собранные файлы в хранилище Гитхаба
-      - name: "📥 Сохраняю результат окна"
+      # Сохраняем собранные папки уникально для каждого окна, чтобы они не затерлись
+      - name: "📤 Отправка результатов окна в облако"
         uses: actions/upload-artifact@v4
         with:
           name: "tg_chunk_${{ matrix.window_index }}"
@@ -53,11 +54,11 @@ jobs:
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ, ТВОЙ MAIN.PY И ВАЛИДАЦИЯ КАК И БЫЛО)
+  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ В ОДНОМ ОКНЕ, MAIN.PY И ВАЛИДАЦИЯ)
   # ==========================================
   bazovyy_tsekh:
     name: "Базовый Цех 🏭"
-    needs: telegram_collector # Ждём, пока все 7 окон main1.py закончат сбор!
+    needs: telegram_collector # Ждём завершения всех 7 окон ТГ!
     runs-on: ubuntu-latest
     steps:
       - name: "📂 Подготавливаю рабочее пространство"
@@ -77,23 +78,59 @@ jobs:
           playwright install-deps chromium
           playwright install chromium
 
-      # Стягиваем сюда результаты работы всех 7 окон ТГ (происходит автоматическое слияние в папки)
-      - name: "📥 Стягиваю результаты ТГ из 7 параллельных окон"
+      # Скачиваем артефакты всех окон в промежуточную папку, разбитую по номерам окон
+      - name: "📥 Стягиваю результаты ТГ из 7 окон"
         uses: actions/download-artifact@v4
         with:
           pattern: "tg_chunk_*"
-          merge-multiple: true
+          path: v2ray_config_collector/data/incoming_chunks/
 
-      - name: "⚙️ Начинаю сбор данных (main.py как и было)"
+      # Склеиваем файлы из всех папок окон в единые файлы, используя режим добавления, как в коде!
+      - name: "🤝 Конвейерное слияние баз Телеграма"
         run: |
-          echo "🔍 Запускаю основной main.py..."
+          cd v2ray_config_collector/data/
+          mkdir -p unique
+          mkdir -p v2rayN
+          
+          echo "🧬 Извлекаю и склеиваю ТРОН и Программу Н из всех потоков..."
+          
+          # Проходим по всем подпапкам уникальных окон и безопасно дописываем содержимое в финальные файлы
+          for window_dir in incoming_chunks/tg_chunk_*; do
+            if [ -d "$window_dir" ]; then
+              # Слияние для папки unique (Трон)
+              if [ -d "$window_dir/unique" ]; then
+                for file in "$window_dir/unique"/*.txt; do
+                  [ -e "$file" ] || continue
+                  base_file=$(basename "$file")
+                  cat "$file" >> unique/"$base_file"
+                done
+              fi
+              
+              # Слияние для папки v2rayN (Программа Н)
+              if [ -d "$window_dir/v2rayN" ]; then
+                for file in "$window_dir/v2rayN"/*.txt; do
+                  [ -e "$file" ] || continue
+                  base_file=$(basename "$file")
+                  cat "$file" >> v2rayN/"$base_file"
+                done
+              fi
+            fi
+          done
+          
+          # Очищаем промежуточный буфер, чтобы гит оставался чистым
+          rm -rf incoming_chunks
+          echo "✅ Слияние завершено! База готова к обработке."
+
+      - name: "⚙️ Начинаю сбор данных (main.py обрабатывает всё слитое)"
+        run: |
+          echo "🔍 Запускаю основной main.py для RAW-обработки всего массива..."
           python -u v2ray_config_collector/main.py
         env:
           PYTHONUNBUFFERED: 1
 
       - name: "🛡️ Проверяю чистоту и качество (Валидатор)"
         run: |
-          echo "🛡️ Запускаю валидацию..."
+          echo "🛡️ Запускаю валидацию на отсев дубликатов и мертвых прокси..."
           python -u v2ray_config_collector/core/validator.py
 
       - name: "💾 Сохраняю результаты нашего труда"
@@ -104,11 +141,11 @@ jobs:
           git add .
           
           if ! git diff --cached --quiet; then
-            git commit -m "🏆 Лея закончила сборку: $(date +'%d.%m.%Y %H:%M') 🤍"
+            git commit -m "🏆 Лея закончила полную сборку Завода: $(date +'%d.%m.%Y %H:%M') 🤍"
             git push origin HEAD:main
             echo "✅ Все изменения успешно сохранены в репозиторий!"
           else
-            echo "ℹ️ Новых конфигов не найдено. Отдыхаем! ✨"
+            echo "ℹ️ Изменений в базе не обнаружено. Отдыхаем! ✨"
           fi
 
       - name: "📥 Упаковываю всё в отчет (Артефакты)"
