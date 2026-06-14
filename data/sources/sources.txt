@@ -6837,3 +6837,4 @@ https://raw.githubusercontent.com/zyxusan/IPTV/main/V2ray.txt
 https://raw.githubusercontent.com/zyxusan/IPTV/refs/heads/main/V2ray.txt
 https://raw.githubusercontent.com/zyzmzyz/free-nodes/master/Clash.yml
 https://raw.githubusercontent.com/zzz6839/SubCrawler/main/sub/share/all
+https://bin.mudfish.net/r/472-6290-5433#DailyV2ry
