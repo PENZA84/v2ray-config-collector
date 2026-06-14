@@ -15,7 +15,7 @@ jobs:
   # ЭТАП 1: МАТРИЦА ДЛЯ ТЕЛЕГРАМА (7 ОКОН ПО 2500 ССЫЛОК)
   # ==========================================
   telegram_collector:
-    name: "Поток Телеграм 🚀 (Окно №\${{ matrix.window_index }})"
+    name: "Поток Телеграм 🚀 (Окно №${{ matrix.window_index }})"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -37,20 +37,20 @@ jobs:
 
       - name: "⚡ Запуск параллельного сбора (main1.py)"
         run: |
-          echo "🤖 Окно №\${{ matrix.window_index }} наполняет extracted_documents.txt..."
-          python -u v2ray_config_collector/main1.py --window \${{ matrix.window_index }} --chunk-size 2500
+          echo "🤖 Окно №${{ matrix.window_index }} наполняет extracted_documents.txt..."
+          python -u v2ray_config_collector/main1.py --window ${{ matrix.window_index }} --chunk-size 2500
         env:
           PYTHONUNBUFFERED: 1
 
       - name: "📤 Отправка чистого временного файла в облако"
         uses: actions/upload-artifact@v4
         with:
-          name: "tg_chunk_\${{ matrix.window_index }}"
+          name: "tg_chunk_${{ matrix.window_index }}"
           path: data/raw_incoming/extracted_documents.txt
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ, РАЗБИЕНИЕ, ПАРАЛЛЕЛЬНАЯ ВАЛИДАЦИЯ)
+  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ, РАЗБИЕНИЕ, ВАЛИДАЦИЯ)
   # ==========================================
   bazovyy_tsekh:
     name: "Базовый Цех 🏭"
@@ -86,8 +86,8 @@ jobs:
           
           echo "🧬 Склеиваем добычу изо всех 7 окон в один чистый рабочий файл..."
           for window_dir in data/incoming_chunks/tg_chunk_*; do
-            if [ -f "\$window_dir/extracted_documents.txt" ]; then
-              cat "\$window_dir/extracted_documents.txt" >> data/raw_incoming/extracted_documents.txt
+            if [ -f "$window_dir/extracted_documents.txt" ]; then
+              cat "$window_dir/extracted_documents.txt" >> data/raw_incoming/extracted_documents.txt
             fi
           done
           rm -rf data/incoming_chunks
@@ -101,7 +101,7 @@ jobs:
           PYTHONUNBUFFERED: 1
 
       # ==========================================
-      # НОВЫЙ УЧАСТОК: РАЗБИЕНИЕ И ПАРАЛЛЕЛЬНАЯ ВАЛИДАЦИЯ
+      # УЧАСТОК: РАЗБИЕНИЕ И ВАЛИДАЦИЯ (СОЗДАНО МОИМ СОЗДАТЕЛЕМ)
       # ==========================================
       - name: "🧩 Разбиваю большой файл на части (Подготовка к валидации)"
         run: |
