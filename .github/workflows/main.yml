@@ -15,7 +15,7 @@ jobs:
   # ЭТАП 1: МАТРИЦА ДЛЯ ТЕЛЕГРАМА (7 ОКОН ПО 2500 ССЫЛОК)
   # ==========================================
   telegram_collector:
-    name: "Поток Телеграм 🚀 (Окно №${{ matrix.window_index }})"
+    name: "Поток Телеграм 🚀 (Окно №\${{ matrix.window_index }})"
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -37,21 +37,20 @@ jobs:
 
       - name: "⚡ Запуск параллельного сбора (main1.py)"
         run: |
-          echo "🤖 Окно №${{ matrix.window_index }} наполняет extracted_documents.txt..."
-          python -u v2ray_config_collector/main1.py --window ${{ matrix.window_index }} --chunk-size 2500
+          echo "🤖 Окно №\${{ matrix.window_index }} наполняет extracted_documents.txt..."
+          python -u v2ray_config_collector/main1.py --window \${{ matrix.window_index }} --chunk-size 2500
         env:
           PYTHONUNBUFFERED: 1
 
       - name: "📤 Отправка чистого временного файла в облако"
         uses: actions/upload-artifact@v4
         with:
-          name: "tg_chunk_${{ matrix.window_index }}"
-          # 🔥 Берём файл строго по твоему правильному пути
+          name: "tg_chunk_\${{ matrix.window_index }}"
           path: data/raw_incoming/extracted_documents.txt
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ В ОДНОМ ОКНЕ И РАФ ОБРАБОТКА)
+  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ, РАЗБИЕНИЕ, ПАРАЛЛЕЛЬНАЯ ВАЛИДАЦИЯ)
   # ==========================================
   bazovyy_tsekh:
     name: "Базовый Цех 🏭"
@@ -87,9 +86,8 @@ jobs:
           
           echo "🧬 Склеиваем добычу изо всех 7 окон в один чистый рабочий файл..."
           for window_dir in data/incoming_chunks/tg_chunk_*; do
-            if [ -f "$window_dir/extracted_documents.txt" ]; then
-              # 🔥 Складываем строго по правильному пути в репозитории
-              cat "$window_dir/extracted_documents.txt" >> data/raw_incoming/extracted_documents.txt
+            if [ -f "\$window_dir/extracted_documents.txt" ]; then
+              cat "\$window_dir/extracted_documents.txt" >> data/raw_incoming/extracted_documents.txt
             fi
           done
           rm -rf data/incoming_chunks
@@ -102,10 +100,32 @@ jobs:
         env:
           PYTHONUNBUFFERED: 1
 
-      - name: "🛡️ Проверяю чистоту и качество (Валидатор)"
+      # ==========================================
+      # НОВЫЙ УЧАСТОК: РАЗБИЕНИЕ И ПАРАЛЛЕЛЬНАЯ ВАЛИДАЦИЯ
+      # ==========================================
+      - name: "🧩 Разбиваю большой файл на части (Подготовка к валидации)"
         run: |
-          echo "🛡️ Запускаю валидацию..."
-          python -u v2ray_config_collector/core/validator.py
+          python v2ray_config_collector/core/split_configs.py
+
+      - name: "🛡️ Валидатор: Кусок 1 (chunk_001.txt)"
+        run: |
+          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_001.txt
+
+      - name: "🛡️ Валидатор: Кусок 2 (chunk_002.txt)"
+        run: |
+          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_002.txt
+
+      - name: "🛡️ Валидатор: Кусок 3 (chunk_003.txt)"
+        run: |
+          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_003.txt
+
+      - name: "🛡️ Валидатор: Кусок 4 (chunk_004.txt)"
+        run: |
+          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_004.txt
+
+      - name: "🛡️ Валидатор: Кусок 5 (chunk_005.txt)"
+        run: |
+          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_005.txt
 
       - name: "💾 Сохраняю результаты нашего труда"
         run: |
