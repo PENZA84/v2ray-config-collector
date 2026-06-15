@@ -2,25 +2,26 @@ import os
 import re
 import sys
 import time
-import socket
 import json
 import base64
+import asyncio
 import urllib.parse
 from datetime import datetime
-from concurrent.futures import ThreadPoolExecutor, as_completed
 
 class ConnectivityValidator:
     def __init__(self, input_file=None):
         current_file_path = os.path.abspath(__file__)
-        current_dir = os.path.dirname(current_file_path)
-        
-        self.base_dir = current_dir
-        for _ in range(3):
-            if os.path.exists(os.path.join(self.base_dir, 'data')):
-                break
-            self.base_dir = os.path.dirname(self.base_dir)
+        core_dir = os.path.dirname(current_file_path)          
+        project_dir = os.path.dirname(core_dir)                
+        self.base_dir = os.path.dirname(project_dir)           
 
         self.input_file = input_file
+        
+        # Вытаскиваем красивое имя куска для логирования в GitHub Actions
+        self.chunk_label = "Общий поток"
+        if self.input_file:
+            self.chunk_label = os.path.splitext(os.path.basename(self.input_file))[0].upper()
+
         self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
         self.output_dir = os.path.join(self.base_dir, 'data', 'unique') 
         
@@ -33,6 +34,7 @@ class ConnectivityValidator:
         self.valid_configs = {proto: [] for proto in self.protocols}
         self.valid_configs['clash'] = [] 
         
+        self.lock = asyncio.Lock()
         self.stats = {'valid_configs': 0, 'total_checked': 0, 'failed_tcp': 0}
 
     def read_configs(self):
@@ -44,7 +46,7 @@ class ConnectivityValidator:
                         line_clean = line.strip()
                         if line_clean and not line_clean.startswith('#'):
                             all_lines.append(line_clean)
-            except Exception as e:
+            except:
                 pass
             return list(set(all_lines))
 
@@ -105,66 +107,94 @@ class ConnectivityValidator:
             pass
         return None, None
 
-    def test_tcp_connection(self, host, port, timeout=2.5):
+    async def test_tcp_connection(self, host, port, timeout=4.0):
         if not host or not port:
             return False
         try:
-            sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-            sock.settimeout(timeout)
-            result = sock.connect_ex((host, port))
-            sock.close()
-            return result == 0 
+            conn = asyncio.open_connection(host, port)
+            reader, writer = await asyncio.wait_for(conn, timeout=timeout)
+            writer.close()
+            try:
+                await writer.wait_closed()
+            except:
+                pass
+            return True 
         except:
             return False
 
-    def test_config(self, config):
-        proto = self.detect_protocol(config)
-        if not proto:
-            return None, False
-        host, port = self.extract_server_port(config, proto)
-        if not host or not port:
-            return None, False
-        is_alive = self.test_tcp_connection(host, port)
-        return config, is_alive, proto
-
-    def worker(self, config):
-        return self.test_config(config)
-
     def display_progress(self, current, total):
-        if total > 0 and current % 50 == 0:
+        # Красивый вывод каждые 500 строк без захламления логов виртуальной машины
+        if total > 0 and current % 500 == 0:
             percent = (current / total) * 100
-            print(f"🔹 [ОТК ПРОГРЕСС] Проверено точек доступа: {current}/{total} ({percent:.1f}%)", flush=True)
+            print(f"🔹 [ОТК ПРОГРЕСС] [{self.chunk_label}] Проверено: {current}/{total} ({percent:.1f}%)", flush=True)
 
-    def test_all_configs(self):
-        configs = self.read_configs()
-        total = len(configs)
-        print(f"🏭 [ОТК] Извлечено для тестирования: {total} конфигураций.", flush=True)
-        if total == 0:
-            return
+    async def worker(self, queue, total):
+        while not queue.empty():
+            try:
+                cfg = queue.get_nowait()
+            except asyncio.QueueEmpty:
+                break
 
-        current_count = 0
-        with ThreadPoolExecutor(max_workers=100) as executor:
-            futures = [executor.submit(self.worker, cfg) for cfg in configs]
-            for future in as_completed(futures):
-                current_count += 1
-                self.display_progress(current_count, total)
+            proto = self.detect_protocol(cfg)
+            if not proto:
+                queue.task_done()
+                async with self.lock:
+                    self.stats['total_checked'] += 1
+                    self.stats['failed_tcp'] += 1
+                continue
+
+            host, port = self.extract_server_port(cfg, proto)
+            if not host or not port:
+                queue.task_done()
+                async with self.lock:
+                    self.stats['total_checked'] += 1
+                    self.stats['failed_tcp'] += 1
+                continue
+
+            is_alive = await self.test_tcp_connection(host, port)
+
+            async with self.lock:
                 self.stats['total_checked'] += 1
-                
-                result = future.result()
-                if result and result[1]: 
-                    cfg, _, proto = result
+                if is_alive:
                     self.valid_configs[proto].append(cfg)
                     self.stats['valid_configs'] += 1
                 else:
                     self.stats['failed_tcp'] += 1
+                
+                self.display_progress(self.stats['total_checked'], total)
 
+            queue.task_done()
+
+    async def run_validation(self, configs):
+        total = len(configs)
+        queue = asyncio.Queue()
+        
+        for cfg in configs:
+            queue.put_nowait(cfg)
+
+        # Мощный пул из 800 параллельных воркеров для быстрой обработки
+        num_workers = min(800, total)
+        workers = [
+            asyncio.create_task(self.worker(queue, total)) 
+            for _ in range(num_workers)
+        ]
+
+        await asyncio.gather(*workers)
+
+    def test_all_configs(self):
+        configs = self.read_configs()
+        total = len(configs)
+        print(f"🏭 [ОТК] [{self.chunk_label}] Извлечено для теста: {total} конфигураций.", flush=True)
+        if total == 0:
+            return
+
+        asyncio.run(self.run_validation(configs))
         self.save_valid_configs()
 
     def save_valid_configs(self):
         try:
             os.makedirs(self.output_dir, exist_ok=True)
             
-            # ДОБАВЛЕНО: Уникальный суффикс куска, чтобы файлы не стирали друг друга!
             suffix = ""
             if self.input_file:
                 chunk_name = os.path.splitext(os.path.basename(self.input_file))[0]
@@ -185,10 +215,10 @@ class ConnectivityValidator:
                     for config in configs:
                         f.write(f"{config}\n")
             
-            print("\n📊 " + "="*23 + " ОТЧЁТ ОРИГИНАЛЬНОГО TCP-ВАЛИДАТОРА ОТК " + "="*23, flush=True)
-            print(f"📥 ВСЕГО ТОЧЕК ДОСТУПА НАПРАВЛЕНО НА СЕТЕВОЙ ТЕСТ: {self.stats['total_checked']} шт.", flush=True)
-            print(f"✅ УСПЕШНО ПРОШЛИ ТЕСТ TCP-CONNECTIVITY: {self.stats['valid_configs']} шт. 🔥", flush=True)
-            print(f"🗑️ МЁРТВЫХ (НЕОТВЕТИВШИХ) СЕРВЕРОВ УДАЛЕНО ИЗ БАЗЫ: {self.stats['failed_tcp']} шт. 🛡️", flush=True)
+            print(f"\n📊 ================= ОТЧЁТ TCP-ВАЛИДАТОРА [{self.chunk_label}] =================", flush=True)
+            print(f"📥 ВСЕГО ТОЧЕК ДОСТУПА В КУСКЕ: {self.stats['total_checked']} шт.", flush=True)
+            print(f"✅ УСПЕШНО ПРОШЛИ ТЕСТ: {self.stats['valid_configs']} шт. 🔥", flush=True)
+            print(f"🗑️ МЁРТВЫХ СЕРВЕРОВ УДАЛЕНО: {self.stats['failed_tcp']} шт. 🛡️", flush=True)
             print("=====================================================================================\n", flush=True)
             
         except Exception as e:
