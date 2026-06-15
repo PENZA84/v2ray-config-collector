@@ -20,8 +20,11 @@ class CountrySorter:
             self.base_dir = os.path.dirname(self.base_dir)
 
         self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
-        self.output_dir = os.path.join(self.base_dir, 'data', 'countries')
+        self.output_dir = os.path.join(self.base_dir, 'countries') # Исправлено на правильный корень по твоему указанию
         self.strange_dir = os.path.join(self.output_dir, 'STRANGE')
+        
+        # 🛡️ ЩИТ ДЛЯ ПРОГРАММЫ Н: Устаревшие протоколы, вызывающие слепые строки и ошибки подписки
+        self.bad_protocols = ('http://', 'https://', 'socks://', 'socks4://', 'socks5://')
         
         # Регулярка для быстрого поиска ISO-кодов стран в именах (заглавные 2 буквы)
         self.country_tag_pattern = re.compile(r'\b([A-Z]{2})\b')
@@ -36,6 +39,7 @@ class CountrySorter:
         # Приборный щит аналитики
         self.stats = {
             'total_processed': 0,
+            'blocked_bad_protocols': 0, # Счетчик отбитых плохих ссылок
             'sorted_by_tags': 0,
             'sorted_by_zone': 0,
             'strange_configs': 0,
@@ -89,11 +93,10 @@ class CountrySorter:
 
         # 1. Анализируем текстовые маркеры и флаги в названии прокси (самый точный метод!)
         if name:
-            # Ищем явные упоминания стран вроде RU, US, DE, NL, SG в названии ключа
             matches = self.country_tag_pattern.findall(name)
             if matches:
                 for match in matches:
-                    if match != 'II' and match != 'TV': # Отсекаем артефакты
+                    if match != 'II' and match != 'TV': 
                         return match
 
         # 2. Анализируем доменную зону сервера
@@ -123,14 +126,11 @@ class CountrySorter:
             print(f"❌ Ошибка чтения директории {self.input_dir}: {e}", flush=True)
             return
 
-        # Словарь для аккумулирования строк в оперативной памяти перед пакетной записью
-        # Это защищает диск и ускоряет работу в тысячи раз!
         country_buckets = defaultdict(lambda: defaultdict(list))
         strange_bucket = defaultdict(list)
 
         for file_name in files:
-            if 'deduplicated' in file_name.lower():
-                print(f"🛡️ ГВАРДЕЙСКИЙ ЩИТ: Сортировщик обошел базу дубликатов: {file_name}", flush=True)
+            if 'deduplicated' in file_name.lower() or file_name.startswith('chunk_'):
                 continue
             if not file_name.endswith('.txt'):
                 continue
@@ -148,10 +148,16 @@ class CountrySorter:
                 if line.startswith('#'):
                     continue
                 
+                # --- 🛡️ БРОНЯ ДЛЯ ПРОГРАММЫ Н ---
+                # Жестко отсекаем http, https и socks, чтобы не было пустых строк и ошибок подписок!
+                if line.lower().startswith(self.bad_protocols):
+                    self.stats['blocked_bad_protocols'] += 1
+                    continue
+                # --------------------------------
+                
                 self.stats['total_processed'] += 1
                 host, name = self.extract_server_and_name(line)
                 
-                # Запускаем локальный анализ без опасных сетевых петель
                 country = self.detect_country_locally(host, name)
                 
                 if country and country != 'UNKNOWN':
@@ -162,27 +168,24 @@ class CountrySorter:
                     strange_bucket[file_name].append(line)
                     self.stats['strange_configs'] += 1
 
-        # --- ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК (БЕЗ МУСОРА С ПЕРЕОТКРЫТИЕМ) ---
-        # 1. Пишем отсортированные страны
+        # --- ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК ---
         for country, file_data in country_buckets.items():
             country_path = os.path.join(self.output_dir, country)
             os.makedirs(country_path, exist_ok=True)
             
             for f_name, lines_to_write in file_data.items():
                 out_file = os.path.join(country_path, f_name)
-                # Атомарно перезаписываем файл чистыми уникальными строками
                 with open(out_file, 'w', encoding='utf-8') as out_f:
                     out_f.write("\n".join(lines_to_write) + "\n")
 
-        # 2. Пишем неопределенные (STRANGE) конфигурации
         for f_name, lines_to_write in strange_bucket.items():
             strange_file = os.path.join(self.strange_dir, f_name)
             with open(strange_file, 'w', encoding='utf-8') as strange_f:
                 strange_f.write("\n".join(lines_to_write) + "\n")
 
-        # Наш роскошный гвардейский отчет в логах коммита Гитхаба! 📊🦖
         print("\n📊 " + "="*24 + " ОТЧЁТ СВЕРХЗВУКОВОГО СОРТИРОВЩИКА СТРАН " + "="*24, flush=True)
-        print(f"📦 ВСЕГО СТРОК ПРОАНАЛИЗИРОВАНО В ЦЕХУ: {self.stats['total_processed']} шт.", flush=True)
+        print(f"📦 ВСЕГО ЖИВЫХ СТРОК ВЗЯТО В ОБРАБОТКУ: {self.stats['total_processed']} шт.", flush=True)
+        print(f"🛡️ ЗАБЛОКИРОВАНО УСТАРЕВШИХ (HTTP/SOCKS) ПРОТОКОЛОВ: {self.stats['blocked_bad_protocols']} шт. 🚫", flush=True)
         print(f"🌍 УСПЕШНО РАСПРЕДЕЛЕНО ПО СТРАНАМ: {self.stats['sorted_by_tags']} шт. 🔥", flush=True)
         print(f"🗂️ ВСЕГО СФОРМИРОВАНО НАЦИОНАЛЬНЫХ ПАПОК: {len(self.stats['saved_countries'])} шт.", flush=True)
         print(f"👽 СТРАННЫХ (НЕОПРЕДЕЛЕННЫХ) КОНФИГУРАЦИЙ ОСТАЛОСЬ: {self.stats['strange_configs']} шт.", flush=True)
