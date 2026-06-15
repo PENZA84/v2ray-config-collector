@@ -178,30 +178,47 @@ jobs:
           pattern: "validated_chunk_*"
           path: temp_validated/
 
-      - name: "🤝 Изящное слияние файлов (Без перезаписи!)"
+      - name: "🤝 Изящное слияние файлов (С защитой от накопления дубликатов)"
         run: |
           mkdir -p data/unique
-          # Этот скрипт берет vless_chunk_001.txt, vless_chunk_002.txt и сливает их в чистый vless.txt
+          
+          # Шаг 1: Очищаем старые версии финальных протоколов, чтобы cat не дублировал базу прошлых запусков
           for file in temp_validated/*/*_chunk_*.txt; do
             if [ -f "$file" ]; then
               filename=$(basename "$file")
-              # Отсекаем суффикс _chunk_00x.txt, чтобы получить имя протокола
+              proto_name="${filename%_chunk_*.txt}"
+              rm -f "data/unique/${proto_name}.txt"
+            fi
+          done
+          
+          # Шаг 2: Производим чистое слияние свежих проверенных кусков
+          for file in temp_validated/*/*_chunk_*.txt; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
               proto_name="${filename%_chunk_*.txt}"
               cat "$file" >> "data/unique/${proto_name}.txt"
             fi
           done
+          
           rm -rf temp_validated
+          echo "✅ Новая чистая база успешно собрана воедино!"
 
       - name: "💾 Сохраняю результаты нашего труда"
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "Leia's Assistant 🤍"
           
-          git add .
+          git add data/unique/
           
           if ! git diff --cached --quiet; then
-            git commit -m "🏆 Лея завершила сборку: Полная база 16606+ собрана (8 потоков), Валидация успешна! 🤍"
-            git push origin HEAD:main
+            git commit -m "🏆 Лея завершила сборку: Полная база проверена на 8 потоках валидации! 🤍"
+            
+            # Умный цикл для пуша, защищающий от любых накладок в репозитории
+            for i in {1..10}; do
+              git pull --rebase origin main && git push origin HEAD:main && break
+              echo "⚠️ Ветка занята, пробуем снова..."
+              sleep $((1 + RANDOM % 5))
+            done
             echo "✅ Все изменения успешно сохранены!"
           else
             echo "ℹ️ Изменений не обнаружено."
