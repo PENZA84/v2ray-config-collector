@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   # ==========================================
-  # ЭТАП 1: МАТРИЦА ДЛЯ ТЕЛЕГРАМА (7 ОКОН ПО 2500 ССЫЛОК)
+  # ЭТАП 1: МАТРИЦА ДЛЯ ТЕЛЕГРАМА (7 ОКОН)
   # ==========================================
   telegram_collector:
     name: "Поток Телеграм 🚀 (Окно №${{ matrix.window_index }})"
@@ -30,19 +30,18 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: "📦 Установка зависимостей для main1.py"
+      - name: "📦 Установка зависимостей"
         run: |
           python -m pip install --upgrade pip
           pip install requests pyyaml beautifulsoup4
 
-      - name: "⚡ Запуск параллельного сбора (main1.py)"
+      - name: "⚡ Запуск параллельного сбора"
         run: |
-          echo "🤖 Окно №${{ matrix.window_index }} наполняет extracted_documents.txt..."
           python -u v2ray_config_collector/main1.py --window ${{ matrix.window_index }} --chunk-size 2500
         env:
           PYTHONUNBUFFERED: 1
 
-      - name: "📤 Отправка чистого временного файла в облако"
+      - name: "📤 Отправка временного файла"
         uses: actions/upload-artifact@v4
         with:
           name: "tg_chunk_${{ matrix.window_index }}"
@@ -50,10 +49,10 @@ jobs:
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 2: БАЗОВЫЙ ЦЕХ (СЛИЯНИЕ, РАЗБИЕНИЕ, ВАЛИДАЦИЯ)
+  # ЭТАП 2: РАФ-РАСПАКОВКА И ДЕДУПЛИКАЦИЯ
   # ==========================================
-  bazovyy_tsekh:
-    name: "Базовый Цех 🏭"
+  data_preparation:
+    name: "Очистка и Разбивка 🏭"
     needs: telegram_collector
     runs-on: ubuntu-latest
     steps:
@@ -67,65 +66,130 @@ jobs:
         with:
           python-version: '3.13'
 
-      - name: "📦 Собираю инструменты (Установка зависимостей)"
+      - name: "📦 Установка зависимостей"
         run: |
           python -m pip install --upgrade pip
-          pip install requests pyyaml beautifulsoup4 tqdm playwright
-          playwright install-deps chromium
-          playwright install chromium
+          pip install requests pyyaml beautifulsoup4 tqdm
 
-      - name: "📥 Стягиваю временные файлы из 7 окон"
+      - name: "📥 Стягиваю временные файлы Телеграма"
         uses: actions/download-artifact@v4
         with:
           pattern: "tg_chunk_*"
           path: data/incoming_chunks/
 
-      - name: "🤝 Конвейерное слияние в единый extracted_documents.txt"
+      - name: "🤝 Подготовка файла для Дедупликатора"
         run: |
           mkdir -p data/raw_incoming
-          
-          echo "🧬 Склеиваем добычу изо всех 7 окон в один чистый рабочий файл..."
+          # Склеиваем добычу именно под именем, которое ждет deduplicator.py!
           for window_dir in data/incoming_chunks/tg_chunk_*; do
             if [ -f "$window_dir/extracted_documents.txt" ]; then
-              cat "$window_dir/extracted_documents.txt" >> data/raw_incoming/extracted_documents.txt
+              cat "$window_dir/extracted_documents.txt" >> data/raw_incoming/deep_raw_collected.txt
             fi
           done
           rm -rf data/incoming_chunks
-          echo "✅ Все куски успешно объединены в data/raw_incoming/extracted_documents.txt!"
+          echo "✅ Телеграм-база готова для Дедупликатора!"
 
-      - name: "⚙️ Начинаю сбор данных (main.py делает РАФ-обработку)"
+      - name: "⚙️ РАФ-обработка источников (main.py)"
         run: |
-          echo "🔍 Запускаю майн для глубокой РАФ-обработки объединенного extracted_documents.txt..."
           python -u v2ray_config_collector/main.py
         env:
           PYTHONUNBUFFERED: 1
 
-      # ==========================================
-      # УЧАСТОК: РАЗБИЕНИЕ И ВАЛИДАЦИЯ (СОЗДАНО МОИМ СОЗДАТЕЛЕМ)
-      # ==========================================
-      - name: "🧩 Разбиваю большой файл на части (Подготовка к валидации)"
+      - name: "💎 ЦЕХ ОГРАНКИ: Удаление дубликатов (deduplicator.py)"
+        run: |
+          python -u v2ray_config_collector/core/deduplicator.py
+        env:
+          PYTHONUNBUFFERED: 1
+
+      - name: "🧩 Формирование 5 кусков для Валидатора"
         run: |
           python v2ray_config_collector/core/split_configs.py
 
-      - name: "🛡️ Валидатор: Кусок 1 (chunk_001.txt)"
-        run: |
-          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_001.txt
+      - name: "📤 Загрузка кусков в облако"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "chunks_for_validation"
+          path: data/unique/chunk_*.txt
+          retention-days: 1
 
-      - name: "🛡️ Валидатор: Кусок 2 (chunk_002.txt)"
-        run: |
-          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_002.txt
+  # ==========================================
+  # ЭТАП 3: ПАРАЛЛЕЛЬНАЯ ВАЛИДАЦИЯ В СТОЛБИК
+  # ==========================================
+  parallel_validator:
+    name: "Валидатор 🛡️ (Кусок №${{ matrix.chunk_id }})"
+    needs: data_preparation
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        chunk_id: ['001', '002', '003', '004', '005']
+    steps:
+      - name: "📂 Копирую код"
+        uses: actions/checkout@v4
 
-      - name: "🛡️ Валидатор: Кусок 3 (chunk_003.txt)"
-        run: |
-          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_003.txt
+      - name: "🐍 Настраиваю Python"
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.13'
 
-      - name: "🛡️ Валидатор: Кусок 4 (chunk_004.txt)"
+      - name: "📦 Инструменты Валидатора"
         run: |
-          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_004.txt
+          python -m pip install --upgrade pip
+          pip install requests tqdm playwright
+          playwright install-deps chromium
+          playwright install chromium
 
-      - name: "🛡️ Валидатор: Кусок 5 (chunk_005.txt)"
+      - name: "📥 Беру свой кусок на проверку"
+        uses: actions/download-artifact@v4
+        with:
+          name: "chunks_for_validation"
+          path: data/unique/
+
+      - name: "🛡️ Проверяю адреса в куске №${{ matrix.chunk_id }}"
         run: |
-          python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_005.txt
+          if [ -f "data/unique/chunk_${{ matrix.chunk_id }}.txt" ]; then
+            python -u v2ray_config_collector/core/validator.py --input data/unique/chunk_${{ matrix.chunk_id }}.txt
+          fi
+
+      - name: "📤 Отправка проверенного куска"
+        uses: actions/upload-artifact@v4
+        with:
+          name: "validated_chunk_${{ matrix.chunk_id }}"
+          path: data/unique/
+          retention-days: 1
+
+  # ==========================================
+  # ЭТАП 4: СЛИЯНИЕ И ФИНАЛЬНОЕ СОХРАНЕНИЕ
+  # ==========================================
+  final_commit:
+    name: "Сохранение на Заводе 💾"
+    needs: parallel_validator
+    runs-on: ubuntu-latest
+    steps:
+      - name: "📂 Подготавливаю пространство"
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: "📥 Скачиваю все 5 результатов"
+        uses: actions/download-artifact@v4
+        with:
+          pattern: "validated_chunk_*"
+          path: temp_validated/
+
+      - name: "🤝 Изящное слияние файлов (Без перезаписи!)"
+        run: |
+          mkdir -p data/unique
+          # Этот скрипт берет vless_chunk_001.txt, vless_chunk_002.txt и сливает их в чистый vless.txt
+          for file in temp_validated/*/*_chunk_*.txt; do
+            if [ -f "$file" ]; then
+              filename=$(basename "$file")
+              # Отсекаем суффикс _chunk_00x.txt, чтобы получить имя протокола
+              proto_name="${filename%_chunk_*.txt}"
+              cat "$file" >> "data/unique/${proto_name}.txt"
+            fi
+          done
+          rm -rf temp_validated
 
       - name: "💾 Сохраняю результаты нашего труда"
         run: |
@@ -135,20 +199,9 @@ jobs:
           git add .
           
           if ! git diff --cached --quiet; then
-            git commit -m "🏆 Лея завершила сборку Завода: extracted_documents отработан, XRAY VLESS на месте! 🤍"
+            git commit -m "🏆 Лея завершила сборку: Параллельная проверка в 5 потоков успешна! 🤍"
             git push origin HEAD:main
-            echo "✅ Все изменения успешно сохранены в репозиторий!"
+            echo "✅ Все изменения успешно сохранены!"
           else
-            echo "ℹ️ Изменений в базе не обнаружено. Отдыхаем! ✨"
+            echo "ℹ️ Изменений не обнаружено."
           fi
-
-      - name: "📥 Упаковываю всё в отчет (Артефакты)"
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: "ПОЛНЫЙ_РЕЗУЛЬТАТ_ЛЕИ_🤍"
-          path: |
-            data/raw_incoming/
-            data/unique/
-            data/v2rayN/
-          retention-days: 7
