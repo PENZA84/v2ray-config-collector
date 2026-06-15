@@ -13,9 +13,9 @@ from urllib.parse import urljoin, urlencode, unquote
 
 class Main1TelegramCollector:
     def __init__(self):
-        # --- НАСТРОЙКА ПАРАЛЛЕЛЬНЫХ ОКОН (0 - 6) ---
+        # --- НАСТРОЙКА ПАРАЛЛЕЛЬНЫХ ОКОН (0 - 7) ---
         parser = argparse.ArgumentParser(description="Завод: Индустриальный Сборщик Телеграма main1.py")
-        parser.add_argument('--window', type=int, default=0, help="Индекс параллельного окна (0-6)")
+        parser.add_argument('--window', type=int, default=0, help="Индекс параллельного окна (0-7)")
         parser.add_argument('--chunk-size', type=int, default=2500, help="Размер куска для рабочих окон")
         args, _ = parser.parse_known_args()
         
@@ -40,8 +40,6 @@ class Main1TelegramCollector:
         # Пути распределения Завода
         self.sources_file = os.path.join(self.base_dir, 'data', 'sources', 'sources1.txt')
         self.amnezia_out_dir = os.path.join(self.base_dir, 'data', 'unique', 'AmneziaWG')
-        self.throne_dir = os.path.join(self.base_dir, 'data', 'unique')
-        self.v2rayn_dir = os.path.join(self.base_dir, 'data', 'v2rayN')
         
         # Логи аудита пропусков и хэш-база
         self.hash_db_file = os.path.join(self.base_dir, 'data', 'sources', 'raw_hashes.txt')
@@ -88,7 +86,7 @@ class Main1TelegramCollector:
             print(f"🕵️‍♀️ [МАЙН1 ОКНО №0] РЕЖИМ ГЛУБОКОГО АНАЛИЗА: Загружена вся база ({len(lines)} источников)!", flush=True)
             return lines
 
-        # ⚙️ РАБОЧИЕ ОКНА (1 - 6) пилят общую базу по кускам
+        # ⚙️ РАБОЧИЕ ОКНА (1 - 7) пилят общую базу по кускам
         worker_index = self.window_id - 1
         start_idx = worker_index * self.chunk_size
         end_idx = start_idx + self.chunk_size
@@ -186,42 +184,11 @@ class Main1TelegramCollector:
                     prefix = "amneziawg" if is_amnezia else "wireguard"
                     extracted.append(f"{prefix}://{endpoint}#Raw_{os.path.basename(target_path).replace('.', '_')}")
         
-        # Сбор строк прокси прямо из текста (для ss://, vless://, в том числе из спойлеров и кнопок скопировать)
+        # Сбор строк прокси прямо из текста
         standard_links = [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
                           if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
         extracted.extend(standard_links)
         return extracted
-
-    def extract_country(self, line):
-        if '#' in line:
-            tag = line.split('#')[-1].upper()
-            for code in ['US', 'DE', 'NL', 'FR', 'GB', 'RU', 'UA', 'JP', 'KR', 'SG', 'HK', 'CN', 'FI', 'TR', 'PL', 'IR']:
-                if code in tag: return code
-            match = re.search(r'\b[A-Z]{2}\b', tag)
-            if match: return match.group(0)
-        return 'WORLD'
-
-    def split_and_save_file(self, target_dir, base_name, lines):
-        if not lines: return
-        os.makedirs(target_dir, exist_ok=True)
-        
-        parts, current_chunk, current_size = [], [], 0
-        max_bytes = self.max_file_size_mb * 1024 * 1024
-
-        for line in lines:
-            line_bytes = (line + "\n").encode('utf-8')
-            if current_size + len(line_bytes) > max_bytes and current_chunk:
-                parts.append(current_chunk)
-                current_chunk, current_size = [line], len(line_bytes)
-            else:
-                current_chunk.append(line)
-                current_size += len(line_bytes)
-        if current_chunk: parts.append(current_chunk)
-
-        for idx, chunk_lines in enumerate(parts):
-            name = f"{base_name}.txt" if idx == 0 else f"{base_name}_{idx}.txt"
-            with open(os.path.join(target_dir, name), 'a', encoding='utf-8') as pf:
-                pf.write("\n".join(chunk_lines) + "\n")
 
     def collect(self):
         sys.stdout.reconfigure(line_buffering=True)
@@ -238,30 +205,22 @@ class Main1TelegramCollector:
                 if res.status_code == 200:
                     text_content = res.text
                     
-                    # 1. Первичный сбор протоколов (Сюда автоматически попадает и замазанный текст!)
                     found_in_main = self.process_content(text_content, url)
                     collected.extend(found_in_main)
                     
-                    # Инициализируем BeautifulSoup для поиска скрытых элементов оформления
                     soup = BeautifulSoup(text_content, 'html.parser')
                     
-                    # 2. ДЕТЕКТОР "ЛОТЕРЕЙНЫХ" СПОЙЛЕРОВ И ЗАЧЁРКНУТОГО ТЕКСТА
-                    # Ищем теги спойлеров <tg-spoiler>, зачёркивания <s>, <del> или специальные классы Телеграма
                     has_spoiler = soup.find(['tg-spoiler', 's', 'del']) or soup.find(class_=re.compile(r'spoiler|hidden'))
                     
-                    # Если нашли признаки "замазанного" или зачёркнутого текста, но регулярка ничего не достала
                     if has_spoiler and not found_in_main:
                         os.makedirs(os.path.dirname(missed_log), exist_ok=True)
                         with open(missed_log, 'a', encoding='utf-8') as f:
                             f.write(f"[ОБНАРУЖЕН СКРЫТЫЙ ТЕКСТ / СПОЙЛЕР]: {url}\n")
                     
-                    # 3. ОСОБАЯ ИНТЕЛЛЕКТУАЛЬНАЯ ЛОГИКА ДЛЯ ОКНА №0 (ПРОКЛИКИВАНИЕ)
                     if self.window_id == 0:
-                        # Находим скрытые ссылки, подписки, вложения под кнопками (sub, clash, conf, txt)
                         sub_links = [urljoin(url, a['href'].strip()) for a in soup.find_all('a', href=True) 
                                      if any(k in a['href'].lower() for k in ['key=', 'sub', 'clash', '.txt', '.yaml', '.conf'])]
                         
-                        # Кликаем (открываем) найденные скрытые окна и вкладки
                         for sub_url in list(set(sub_links))[:12]:
                             try:
                                 s_res = requests.get(sub_url, headers=headers, timeout=10)
@@ -269,7 +228,6 @@ class Main1TelegramCollector:
                                     collected.extend(self.process_content(s_res.text, sub_url))
                             except: continue
                             
-                        # Если совсем ничего не нашли, но есть триггерные слова — пишем в общий лог
                         if not found_in_main and not sub_links and not has_spoiler:
                             if any(trigger in text_content.lower() for trigger in ['vless://', 'ss://', 'trojan://', 'proxy']):
                                 os.makedirs(os.path.dirname(missed_log), exist_ok=True)
@@ -282,36 +240,18 @@ class Main1TelegramCollector:
                     print(f"🕵️‍♀️ [РАЗВЕДЧИК №0] Глубокий анализ постов: {i}/{len(self.sources)}...", flush=True)
             except: continue
 
-        # --- СОХРАНЕНИЕ И СОРТИРОВКА РЕЗУЛЬТАТОВ НА ЗАВОДЕ ---
+        # --- ИСТИННЫЙ КОНВЕЙЕР ХОЗЯИНА: ТОЛЬКО СБОР СЫРЬЯ ---
         if collected:
+            # Очищаем от полных дублей только внутри текущего окна, чтобы файл был легче
             clean_list = sorted(list(set([l.strip() for l in collected if l.strip() and '://' in l])))
             
-            for proto in self.protocols:
-                if proto == 'Xray VLESS':
-                    xray_lines = [l for l in clean_list if l.lower().startswith("vless://") and ('security=reality' in l.lower() or 'pbk=' in l.lower() or 'xtls' in l.lower())]
-                    if xray_lines: self.split_and_save_file(self.throne_dir, 'Xray VLESS', xray_lines)
-                elif proto == 'vless':
-                    vless_lines = [l for l in clean_list if l.lower().startswith("vless://") and not ('security=reality' in l.lower() or 'pbk=' in l.lower() or 'xtls' in l.lower())]
-                    if vless_lines: self.split_and_save_file(self.throne_dir, 'vless', vless_lines)
-                else:
-                    proto_lines = [l for l in clean_list if l.lower().startswith(f"{proto}://")]
-                    if proto_lines: self.split_and_save_file(self.throne_dir, proto, proto_lines)
-
-            v2rayn_bad_types = ('http://', 'https://', 'socks://', 'socks4://', 'socks5://')
-            v2rayn_clean_list = [l for l in clean_list if not l.lower().startswith(v2rayn_bad_types)]
-
-            country_map = {}
-            for line in v2rayn_clean_list:
-                if line.lower().startswith("amneziawg://"): 
-                    line = line.replace("amneziawg://", "wireguard://")
-                country = self.extract_country(line)
-                if country not in country_map: country_map[country] = []
-                country_map[country].append(line)
-
-            for country, country_lines in country_map.items():
-                self.split_and_save_file(self.v2rayn_dir, country, country_lines)
-
-            print(f"🏁 [ФИНИШ: ОКНО {self.window_id}] Время работы: {time.time() - start_time:.2f} сек. Завод выдал максимум!", flush=True)
+            # Сбрасываем сырье в единый файл для Дедупликатора
+            raw_dump_path = os.path.join(self.base_dir, 'data', 'raw_incoming', 'extracted_documents.txt')
+            os.makedirs(os.path.dirname(raw_dump_path), exist_ok=True)
+            with open(raw_dump_path, 'w', encoding='utf-8') as f:
+                f.write("\n".join(clean_list) + "\n")
+            
+            print(f"🏁 [ФИНИШ: ОКНО {self.window_id}] Время работы: {time.time() - start_time:.2f} сек. Собрано уникальных строк в окне: {len(clean_list)}", flush=True)
 
 if __name__ == "__main__":
     Main1TelegramCollector().collect()
