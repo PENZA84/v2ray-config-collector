@@ -1,12 +1,7 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-17 02:49:16
-# Total valid configs: 1
+# Generated on: 2026-06-17 12:23:07
+# Total valid configs: 2
 
-# ANYTLS (1 configs)
-anytls://1b9c460e-f026-11ef-b737-f23c91cfbbc9@4efebae0-teisg0-tet9be-1s0a7.sj.oshuawei.com:8443#🇺🇸_美国-907C95DB
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-17 02:48:51
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
+# ANYTLS (2 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
+anytls://1b9c460e-f026-11ef-b737-f23c91cfbbc9@4efebae0-teisg0-tet9be-1s0a7.sj.oshuawei.com:8443#🇺🇸_美国-907C95DB
