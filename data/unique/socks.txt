@@ -1,31 +1,36 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-19 17:10:31
+# Generated on: 2026-06-19 22:25:41
+# Total valid configs: 5
+
+# SOCKS (5 configs)
+socks://MFVDV0x4elc0VDNZbHFYaThnY3JsMFRvOkBWaXBfZnJhZ21lbnRfdjJyYXk@fi-esp.pvdata.host:1080#@KAFING_2
+socks://Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-19 22:25:40
 # Total valid configs: 1
 
 # SOCKS (1 configs)
 socks://Og@65.109.29.104:1080#%E7%BE%8E%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-19 17:10:27
-# Total valid configs: 4
-
-# SOCKS (4 configs)
-socks://Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
-socks://Og@121.169.46.116:1090#KR%E9%9F%A9%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-19 17:10:33
+# Generated on: 2026-06-19 22:25:43
 # Total valid configs: 2
 
 # SOCKS (2 configs)
-socks://MFVDV0x4elc0VDNZbHFYaThnY3JsMFRvOkBWaXBfZnJhZ21lbnRfdjJyYXk@fi-esp.pvdata.host:1080#@KAFING_2
-socks://Og%3D%3D@5.255.99.75:1080#🇳🇱NL_18|1.1MB/s|GPT⁺|100%
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-19 17:10:32
-# Total valid configs: 4
-
-# SOCKS (4 configs)
 socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-19 22:25:43
+# Total valid configs: 1
+
+# SOCKS (1 configs)
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-19 22:25:31
+# Total valid configs: 2
+
+# SOCKS (2 configs)
+socks://Og@121.169.46.116:1090#KR%E9%9F%A9%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
+socks://Og%3D%3D@5.255.99.75:1080#🇳🇱NL_18|1.1MB/s|GPT⁺|100%
