@@ -1,6 +1,26 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 09:36:33
+# Generated on: 2026-06-20 16:11:51
+# Total valid configs: 1
+
+# ANYTLS (1 configs)
+anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@185.151.146.10:23169
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-20 16:11:48
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-20 16:11:40
+# Total valid configs: 2
+
+# ANYTLS (2 configs)
+anytls://ba7a37e3-033a-e1ab-06f6-9027aa4630f5@772470be-tcxds0-toa9ad-4w8.los.hyhuawei.com:443#🇺🇸_美国_|_USA_11-1
+anytls://a6ddfc37-05eb-11ed-af40-f23c91cfbbc9@465848e0-tcxds0-tkhmfr-1jm8i.los.hyhuawei.com:443#🇺🇸_美国_|_USA_17-2
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-20 16:11:43
+# Total valid configs: 2
+
+# ANYTLS (2 configs)
+anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20001?peer=apple.com&insecure=1&udp=1#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A100%20GB
+anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@185.151.146.26:23169
