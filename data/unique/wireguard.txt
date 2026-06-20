@@ -1,39 +1,39 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 05:42:03
+# Generated on: 2026-06-20 09:36:22
 # Total valid configs: 2
 
 # WIREGUARD (2 configs)
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.165.170.3:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=ua7TUXkcSiiHeTyCok5b3PX9DkJ4l5yVvGlSmJ34WU8%3D&mtu=1280#%F0%9F%87%AE%F0%9F%87%B8%20wind6%20-%20Reykjavik
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.107.198.228:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=tJa6iPx6mpOktn5KoalMslWcpg6pRUdVx3bKDi3wtDg%3D&mtu=1280#%F0%9F%87%B8%F0%9F%87%AC%20wind9%20-%20Singapore
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 05:42:11
-# Total valid configs: 3
-
-# WIREGUARD (3 configs)
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@167.88.60.244:443?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=%2Foz2frQv99JveBgmTXW22QXIEulQURK79BW%2Bugk8fCE%3D&mtu=1280#%F0%9F%87%BA%F0%9F%87%B8%20wind18%20-%20SantaClara
-wireguard://103.108.94.164:80#🇳🇿_hamedp71
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.99.3.25:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=6oMHpHHL3pq6Pdr2HoDRYuyjcyQGxfQaSRQR%2BHPyvgc%3D&mtu=1280#%F0%9F%87%A7%F0%9F%87%A6%20wind20%20-%20NoviTravnik
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 05:42:08
-# Total valid configs: 6
-
-# WIREGUARD (6 configs)
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@116.206.228.180:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=r5BDU0T%2BVGZU6I%2BzuF3vlGrdORtgNvLhY08gQxrFRCw%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind25%20-%20Melbourne
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.1.213.212:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=jCi1I5HBTtwCblBbMzOFmOOFNG1GilYOZgst0kyq9gY%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind24%20-%20Sydney
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.225.28.52:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=9J0kA4c4i7N%2F%2B6B%2B3j0zFkDTHocZNsw6eK6%2BsLZ1qCQ%3D&mtu=1280#%F0%9F%87%B2%F0%9F%87%B0%20wind13%20-%20NorthMacedonia
-wireguard://185.165.170.3:443#🇮🇸_hamedp71-1
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@198.147.22.227:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=b5fIKEXhihCI7f4NOkQO%2F2BOd%2BbYHa0c05OylImgB0E%3D&mtu=1280#%F0%9F%87%BA%F0%9F%87%B8%20wind16%20-%20Orlando
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.9.79.220:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=SxBT11IISNRou7thGo5A1QtaMjfzPIzZXDxdYEbDxhE%3D&mtu=1280#%F0%9F%87%BB%F0%9F%87%B3%20wind38%20-%20Vietnam
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 05:42:13
+# Generated on: 2026-06-20 09:36:19
 # Total valid configs: 2
 
 # WIREGUARD (2 configs)
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@79.142.76.199:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=P5X43E%2FSgvnJtbrKnJwLFxqFoZGsCghW2SxlXvfdzm0%3D&mtu=1280#%F0%9F%87%B8%F0%9F%87%AA%20wind2%20-%20Stockholm
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@46.199.75.107:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=90fjr1sq0Hgv2l%2BDgMaaGQ009SDw7VxmzJwaYmclaFs%3D&mtu=1280#%F0%9F%87%A8%F0%9F%87%BE%20wind11%20-%20Nicosia
+wireguard://103.108.94.164:80#🇳🇿_hamedp71
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@89.187.165.99:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=G7LkwWk08Ase%2FWi9mnOW77brNBC0vTCemvy1IW1nlV4%3D&mtu=1280#%F0%9F%87%A8%F0%9F%87%AD%20wind4%20-%20Zurich
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 05:42:16
+# Generated on: 2026-06-20 09:36:18
+# Total valid configs: 4
+
+# WIREGUARD (4 configs)
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.165.170.3:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=ua7TUXkcSiiHeTyCok5b3PX9DkJ4l5yVvGlSmJ34WU8%3D&mtu=1280#%F0%9F%87%AE%F0%9F%87%B8%20wind6%20-%20Reykjavik
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@185.225.28.52:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=9J0kA4c4i7N%2F%2B6B%2B3j0zFkDTHocZNsw6eK6%2BsLZ1qCQ%3D&mtu=1280#%F0%9F%87%B2%F0%9F%87%B0%20wind13%20-%20NorthMacedonia
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@46.199.75.107:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=90fjr1sq0Hgv2l%2BDgMaaGQ009SDw7VxmzJwaYmclaFs%3D&mtu=1280#%F0%9F%87%A8%F0%9F%87%BE%20wind11%20-%20Nicosia
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@167.88.60.244:443?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=%2Foz2frQv99JveBgmTXW22QXIEulQURK79BW%2Bugk8fCE%3D&mtu=1280#%F0%9F%87%BA%F0%9F%87%B8%20wind18%20-%20SantaClara
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-20 09:37:19
 # Total valid configs: 1
 
 # WIREGUARD (1 configs)
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@89.187.165.99:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=G7LkwWk08Ase%2FWi9mnOW77brNBC0vTCemvy1IW1nlV4%3D&mtu=1280#%F0%9F%87%A8%F0%9F%87%AD%20wind4%20-%20Zurich
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.107.198.228:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=tJa6iPx6mpOktn5KoalMslWcpg6pRUdVx3bKDi3wtDg%3D&mtu=1280#%F0%9F%87%B8%F0%9F%87%AC%20wind9%20-%20Singapore
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-20 09:36:33
+# Total valid configs: 5
+
+# WIREGUARD (5 configs)
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.1.213.212:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=jCi1I5HBTtwCblBbMzOFmOOFNG1GilYOZgst0kyq9gY%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind24%20-%20Sydney
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@79.142.76.199:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=P5X43E%2FSgvnJtbrKnJwLFxqFoZGsCghW2SxlXvfdzm0%3D&mtu=1280#%F0%9F%87%B8%F0%9F%87%AA%20wind2%20-%20Stockholm
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@116.206.228.180:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=r5BDU0T%2BVGZU6I%2BzuF3vlGrdORtgNvLhY08gQxrFRCw%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind25%20-%20Melbourne
+wireguard://185.165.170.3:443#🇮🇸_hamedp71-1
+wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@198.147.22.227:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=b5fIKEXhihCI7f4NOkQO%2F2BOd%2BbYHa0c05OylImgB0E%3D&mtu=1280#%F0%9F%87%BA%F0%9F%87%B8%20wind16%20-%20Orlando
