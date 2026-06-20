@@ -1,0 +1,45 @@
+name: Source Cleaner URLs
+
+on:
+  push:
+    paths:
+      - 'urls/source_urls.txt'
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
+
+jobs:
+  run-cleaner:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.10'
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp
+
+      - name: Ensure environment
+        run: |
+          mkdir -p urls
+          touch urls/source_urls.txt
+          touch urls/filtered_results.txt
+
+      - name: Process URLs
+        run: python urls/source_cleaner_urls.py
+
+      - name: Commit and Push
+        run: |
+          git config --global user.name 'github-actions'
+          git config --global user.email 'github-actions@github.com'
+          git add urls/source_urls.txt urls/filtered_results.txt
+          if git diff --staged --quiet; then
+            echo "No changes detected"
+          else
+            git commit -m "Automated URL categorization inside single document"
+            git push
+          fi
