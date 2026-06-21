@@ -1,21 +1,20 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 23:10:38
-# Total valid configs: 3
-
-# ANYTLS (3 configs)
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@huoshanapihongguo.mao26868.com:36123
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@huoshanapihongguo.mao26868.com:36121
-anytls://16955d72-1794-11f0-a035-f23c95b6f51d@f3c11f36-th25c0-ti9d39-dnss.losjan20.west.wctype.com:8300#🇺🇸_直连_|_洛杉矶二号_AnyTLS
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 23:10:26
+# Generated on: 2026-06-21 07:15:29
 # Total valid configs: 2
 
 # ANYTLS (2 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@185.151.146.10:23169
+anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20010?peer=apple.com&insecure=1&udp=1#%F0%9F%87%BA%F0%9F%87%B8%E7%BE%8E%E5%9B%BD02%20%5Bipv4%5D
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-20 23:10:32
+# Generated on: 2026-06-21 07:15:29
+# Total valid configs: 2
+
+# ANYTLS (2 configs)
+anytls://5f091cbe-fb34-11ea-9777-f23c9164ca5d@58e80f61-tcxds0-tiuovf-v3c2.los.hyhuawei.com:443#🇺🇸_美国_|_USA_6-2
+anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20001?peer=apple.com&insecure=1&udp=1#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A100%20GB
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 07:15:33
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@185.151.146.26:23169
+anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@huoshanapihongguo.mao26868.com:36123
