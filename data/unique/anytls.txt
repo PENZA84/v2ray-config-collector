@@ -1,20 +1,24 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:29
-# Total valid configs: 2
-
-# ANYTLS (2 configs)
-anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
-anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20010?peer=apple.com&insecure=1&udp=1#%F0%9F%87%BA%F0%9F%87%B8%E7%BE%8E%E5%9B%BD02%20%5Bipv4%5D
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:29
-# Total valid configs: 2
-
-# ANYTLS (2 configs)
-anytls://5f091cbe-fb34-11ea-9777-f23c9164ca5d@58e80f61-tcxds0-tiuovf-v3c2.los.hyhuawei.com:443#🇺🇸_美国_|_USA_6-2
-anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20001?peer=apple.com&insecure=1&udp=1#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A100%20GB
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:33
+# Generated on: 2026-06-21 14:39:33
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@huoshanapihongguo.mao26868.com:36123
+anytls://ba7a37e3-033a-e1ab-06f6-9027aa4630f5@772470be-tcxds0-toa9ad-4w8.los.hyhuawei.com:443#🇺🇸_美国_|_USA_11-1
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:40:00
+# Total valid configs: 1
+
+# ANYTLS (1 configs)
+anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:39:09
+# Total valid configs: 1
+
+# ANYTLS (1 configs)
+anytls://5f091cbe-fb34-11ea-9777-f23c9164ca5d@58e80f61-tcxds0-tiuovf-v3c2.los.hyhuawei.com:443#🇺🇸_美国_|_USA_6-2
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:39:27
+# Total valid configs: 1
+
+# ANYTLS (1 configs)
+anytls://6286105c-fb6d-11ef-be96-f23c93136cb3@57ed3743-tea5c0-telzv3-4550.losjan20.west.wctype.com:8300#🔴🇺🇸[🎬🤖📺🔍]_github.com/Ruk1ng001_5e6587cd

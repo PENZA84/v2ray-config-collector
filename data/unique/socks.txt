@@ -1,50 +1,46 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:29
-# Total valid configs: 3
+# Generated on: 2026-06-21 14:39:27
+# Total valid configs: 4
 
-# SOCKS (3 configs)
+# SOCKS (4 configs)
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
 socks://Og@65.109.29.104:1080
-socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
-socks://MklMTG1aTVBoM2VreDRwYmR4NWJkbjhUOlRlbDZAU29vblRlYW0@fi-esp.pvdata.host:1080#ð«ð®@vmesskhodam
+socks://Og@147.45.146.97:1080
+socks://Og@147.45.146.97:1080#@meliproxyy
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:26
+# Generated on: 2026-06-21 14:39:33
+# Total valid configs: 6
+
+# SOCKS (6 configs)
+socks://Og@152.53.137.180:1081
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+socks://Og@5.255.123.162:1080
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0=@185.72.199.130:1080#@bored_vpn
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@ch-zur.pvdata.host:1080#🇨🇭@vmesskhodam
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:40:00
+# Total valid configs: 2
+
+# SOCKS (2 configs)
+socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0=@185.72.199.130:1080#@confiig_hub
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:39:09
 # Total valid configs: 5
 
 # SOCKS (5 configs)
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0=@185.72.199.130:1080#@bored_vpn
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-socks://Og@147.45.146.97:1080#@meliproxyy
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@dk-cop.pvdata.host:1080
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@pl-tor.pvdata.host:1080#@meliproxyy
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:29
-# Total valid configs: 3
-
-# SOCKS (3 configs)
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@hu-bud.pvdata.host:1080#ð­ðº@vmesskhodam
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:17
-# Total valid configs: 7
-
-# SOCKS (7 configs)
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0=@ua-nik.pvdata.host:1080#@confiig_hub
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@ee-tal.pvdata.host:1080#ðªðª@vmesskhodam
 socks://Og==@5.255.99.75:1080
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@ua-nik.pvdata.host:1080#ðºð¦@FreakConfig
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@fi-esp.pvdata.host:1080#🇫🇮@vmesskhodam
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0=@185.72.199.130:1080#@confiig_hub
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-21 07:15:33
-# Total valid configs: 7
-
-# SOCKS (7 configs)
-socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@fi-esp.pvdata.host:1080#ð«ð®@vmesskhodam
-socks://Og@5.255.123.162:1080
-socks://Og@65.109.29.104:1080#KR%E9%9F%A9%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
 socks://Og@5.255.123.162:1080#@meliproxyy
-socks://Og@147.45.146.97:1080
+socks://VDJjbE0wUWxNMFE2Og%3D%3D@121.169.46.116:1090#🇰🇷KR²_1|0.7MB/s|GPT|X|History
 socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-21 14:39:27
+# Total valid configs: 4
+
+# SOCKS (4 configs)
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@hu-bud.pvdata.host:1080#🇭🇺@vmesskhodam
+socks://Og@65.109.29.104:1080#KR%E9%9F%A9%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
