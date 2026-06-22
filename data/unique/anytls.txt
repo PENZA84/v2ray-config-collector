@@ -1,18 +1,12 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-22 15:24:48
+# Generated on: 2026-06-22 22:02:43
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-22 15:25:12
+# Generated on: 2026-06-22 22:04:43
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://c144ee6e-6c4f-4df1-b539-9c8ee27762c7@yinqinfeishupowudapai.mao26868.com:36112
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-22 15:25:06
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
-anytls://6286105c-fb6d-11ef-be96-f23c93136cb3@5dbb6a9d-t9wqo0-tb7mup-4550.losjan20.west.wctype.com:8300#🔴🇺🇸[🎬🤖📺🎭]_github.com/Ruk1ng001_b74cae53
+anytls://6286105c-fb6d-11ef-be96-f23c93136cb3@57ed3743-tea5c0-telzv3-4550.losjan20.west.wctype.com:8300#🔴🇺🇸[🎬🤖📺🔍]_github.com/Ruk1ng001_5e6587cd
