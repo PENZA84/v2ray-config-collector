@@ -1,117 +1,93 @@
-import asyncio
-import aiohttp
-import os
-import re
+name: "🧹 Чистильщик URLs 💋"
 
-# Исключения медиа, архивов и документов
-EXCLUDED_EXTENSIONS = [
-    '.mp4', '.zip', '.apk', '.rar', '.exe', '.tar.gz',
-    '.7z', '.pdf', '.md', '.mp3', '.png', '.jpg', '.jpeg', '.gif', '.tar'
-]
-EXCLUDED_KEYWORDS = ['release', 'релиз', 'download', 'archive']
+on:
+  push:
+    paths:
+      - 'urls/source_urls.txt'
+  schedule:
+    - cron: '0 */12 * * *'
+  workflow_dispatch:
 
-async def check_link(session, url):
-    url_lower = url.lower().strip()
-    if not url_lower.startswith(('http://', 'https://')):
-        return ('trash', url)
+jobs:
+  run-cleaner:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
 
-    # 1. Специальные проверки
-    if '_url_check' in url_lower:
-        return ('url_checks', url)
+    steps:
+      - uses: actions/checkout@v4
 
-    # Фильтрация по расширениям
-    if any(ext in url_lower for ext in EXCLUDED_EXTENSIONS):
-        return ('trash', url)
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
 
-    # Фильтрация по ключевым словам
-    if any(kw in url_lower for kw in EXCLUDED_KEYWORDS):
-        return ('trash', url)
+      - name: 📦 Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp requests
 
-    try:
-        async with session.get(url, timeout=10, allow_redirects=True) as response:
-            if response.status != 200:
-                return ('trash', url)
+      - name: 🌱 Prepare environment
+        run: mkdir -p urls data/raw_incoming
 
-            # Читаем текст (с лимитом, чтобы не упасть на огромных файлах)
-            text = await response.text()
-            text_lower = text.lower()
-            text_len = len(text)
+      - name: 🔍 Process source_urls.txt
+        run: python urls/source_cleaner_urls.py
 
-            # === УЛУЧШЕННЫЕ ПРОВЕРКИ ДЛЯ ЗАВОДА ===
-            # 1. Классические протоколы
-            if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'socks5://']):
-                return ('factory', url)
+      - name: 💾 Save dead links & Statistics
+        run: |
+          python <<EOF
+          import os
 
-            # 2. Признаки хорошей подписки (Clash/Xray/V2Ray)
-            subscription_signs = ['#profile-title', '#profile-update-interval', '#subscription-userinfo', 
-                                  'subscription', 'clash', 'xray', 'v2ray', 'shadowrocket']
-            if any(sign in text_lower for sign in subscription_signs):
-                return ('factory', url)
+          # === ДОКУМЕНТЫ ЗАВОДА ===
+          filtered_file = 📄 "urls/filtered_results.txt" 📄
+          factory_file   = 📄 "urls/factory_valid.txt" 📄
+          checks_file    = 📄 "urls/url_checks.txt" 📄
+          dead_file      = 📄 "data/raw_incoming/deep_raw_collected.txt" 📄
 
-            # 3. Длинный чистый текст (Base64 или список прокси)
-            if text_len > 500 and '<html' not in text_lower and '<body' not in text_lower and '<!doctype' not in text_lower:
-                # Проверка на Base64-like контент
-                if re.search(r'[A-Za-z0-9+/]{50,}', text):
-                    return ('factory', url)
+          print("📋 ════════════════════════════════════════ 📋")
+          print("          📄   РЕЕСТР ДОКУМЕНТОВ ЗАВОДА   📄")
+          print("═══════════════════════════════════════════════")
 
-            return ('trash', url)
+          factory_count = len([line for line in open(factory_file, encoding='utf-8') if line.strip()]) if os.path.exists(factory_file) else 0
+          filtered_count = len([line for line in open(filtered_file, encoding='utf-8') if line.strip()]) if os.path.exists(filtered_file) else 0
+          checks_count = len([line for line in open(checks_file, encoding='utf-8') if line.strip()]) if os.path.exists(checks_file) else 0
 
-    except asyncio.TimeoutError:
-        return ('trash', url)
-    except Exception as e:
-        # print(f"Ошибка при проверке {url}: {e}")  # раскомментировать при отладке
-        return ('trash', url)
+          existing_dead = set()
+          if os.path.exists(dead_file):
+              with open(dead_file, "r", encoding="utf-8") as f:
+                  existing_dead = {line.strip() for line in f if line.strip() and not line.startswith('#')}
 
+          new_dead = set()
+          if os.path.exists(filtered_file):
+              with open(filtered_file, "r", encoding="utf-8") as f:
+                  for line in f:
+                      line = line.strip()
+                      if line and line.startswith('http'):
+                          new_dead.add(line)
 
-async def main():
-    dir_path = 'urls'
-    input_file = os.path.join(dir_path, 'source_urls.txt')
-   
-    output_factory = os.path.join(dir_path, 'factory_valid.txt')
-    output_url_checks = os.path.join(dir_path, 'url_checks.txt')
-    output_filtered = os.path.join(dir_path, 'filtered_results.txt')
-   
-    os.makedirs(dir_path, exist_ok=True)
-   
-    if not os.path.exists(input_file):
-        print("❌ Файл source_urls.txt не найден!")
-        return
+          all_dead = existing_dead.union(new_dead)
+          os.makedirs(os.path.dirname(dead_file), exist_ok=True)
+          
+          with open(dead_file, "w", encoding="utf-8") as f:
+              f.write("# БУНКЕР ОТХОДОВ\n\n")
+              f.write("\n".join(sorted(all_dead)) + "\n")
 
-    with open(input_file, 'r', encoding='utf-8') as f:
-        urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
+          print(f"🏭 Factory     : {factory_count}")
+          print(f"🗑  Filtered    : {filtered_count}")
+          print(f"🔍  Url_checks  : {checks_count}")
+          print(f"💀  Dead saved  : {len(all_dead)}")
+          print("📋 ════════════════════════════════════════ 📋")
+          EOF
 
-    if not urls:
-        print("⚠ Нет ссылок для обработки.")
-        return
-
-    print(f"🔍 Проверяю {len(urls)} ссылок...")
-
-    async with aiohttp.ClientSession() as session:
-        tasks = [check_link(session, url) for url in urls]
-        results = await asyncio.gather(*tasks)
-
-    categorized = {'factory': [], 'url_checks': [], 'trash': []}
-    for cat, url in results:
-        categorized[cat].append(url)
-
-    # Запись результатов
-    with open(output_factory, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(categorized['factory']) + '\n' if categorized['factory'] else '')
-
-    with open(output_url_checks, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(categorized['url_checks']) + '\n' if categorized['url_checks'] else '')
-
-    with open(output_filtered, 'w', encoding='utf-8') as f:
-        f.write('\n'.join(categorized['trash']) + '\n' if categorized['trash'] else '')
-
-    print(f"✅ Готово!")
-    print(f"   🏭 Factory (для Трона): {len(categorized['factory'])} ссылок")
-    print(f"   🔍 Url_checks: {len(categorized['url_checks'])}")
-    print(f"   🗑 Trash: {len(categorized['trash'])}")
-
-
-if __name__ == '__main__':
-    import sys
-    if sys.platform == 'win32':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-    asyncio.run(main())
+      - name: 🚀 Commit & Push
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git add urls/* data/raw_incoming/deep_raw_collected.txt
+          
+          if git diff --staged --quiet; then
+            echo "✨ Нет изменений"
+          else
+            git commit -m "🧹 Чистильщик URLs: обновление списков 💋"
+            git push
+          fi
