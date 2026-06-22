@@ -11,35 +11,73 @@ on:
 jobs:
   run-cleaner:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
+    permissions:
+      contents: write
 
-      - uses: actions/setup-python@v4
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.10'
+          python-version: '3.12'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          pip install aiohttp
+          pip install aiohttp requests
 
       - name: Ensure environment
         run: |
-          mkdir -p urls
-          touch urls/source_urls.txt
-          touch urls/filtered_results.txt
+          mkdir -p urls data/raw_incoming
 
-      - name: Process URLs
+      - name: Process URLs (factory_valid и filtered)
         run: python urls/source_cleaner_urls.py
+
+      - name: Save dead links to deep_raw_collected.txt
+        run: |
+          python <<EOF
+          import os
+
+          filtered_file = "urls/filtered_results.txt"
+          dead_file = "data/raw_incoming/deep_raw_collected.txt"
+
+          if not os.path.exists(filtered_file):
+              print("filtered_results.txt не найден")
+              exit(0)
+
+          existing_dead = set()
+          if os.path.exists(dead_file):
+              with open(dead_file, "r", encoding="utf-8") as f:
+                  existing_dead = {line.strip() for line in f if line.strip() and not line.startswith('#')}
+
+          new_dead = set()
+          with open(filtered_file, "r", encoding="utf-8") as f:
+              for line in f:
+                  line = line.strip()
+                  if line and line.startswith('http'):
+                      new_dead.add(line)
+
+          all_dead = existing_dead.union(new_dead)
+          os.makedirs(os.path.dirname(dead_file), exist_ok=True)
+          
+          with open(dead_file, "w", encoding="utf-8") as f:
+              f.write("# БУНКЕР ОТХОДОВ (мусор из source_cleaner_urls.py)\n\n")
+              f.write("\n".join(sorted(all_dead)) + "\n")
+
+          print(f"Сохранено мёртвых ссылок: {len(all_dead)}")
+          EOF
 
       - name: Commit and Push
         run: |
-          git config --global user.name 'github-actions'
-          git config --global user.email 'github-actions@github.com'
-          git add urls/source_urls.txt urls/filtered_results.txt
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          
+          git add urls/source_urls.txt urls/filtered_results.txt urls/factory_valid.txt urls/url_checks.txt
+          git add data/raw_incoming/deep_raw_collected.txt
+          
           if git diff --staged --quiet; then
             echo "No changes detected"
           else
-            git commit -m "Automated URL categorization inside single document"
+            git commit -m "Automated URL categorization + save dead links to deep_raw 💋"
             git push
           fi
