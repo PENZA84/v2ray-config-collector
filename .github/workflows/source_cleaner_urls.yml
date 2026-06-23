@@ -38,10 +38,10 @@ jobs:
           import os
 
           # === ДОКУМЕНТЫ ЗАВОДА ===
-          filtered_file = 📄 "urls/filtered_results.txt" 📄
-          factory_file   = 📄 "urls/factory_valid.txt" 📄
-          checks_file    = 📄 "urls/url_checks.txt" 📄
-          dead_file      = 📄 "data/raw_incoming/deep_raw_collected.txt" 📄
+          filtered_file = "urls/filtered_results.txt"
+          factory_file   = "urls/factory_valid.txt"
+          checks_file    = "urls/url_checks.txt"
+          dead_file      = "data/raw_incoming/deep_raw_collected.txt"
 
           print("📋 ════════════════════════════════════════ 📋")
           print("          📄   РЕЕСТР ДОКУМЕНТОВ ЗАВОДА   📄")
