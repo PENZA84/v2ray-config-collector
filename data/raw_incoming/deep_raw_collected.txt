@@ -35015,6 +35015,7 @@ http://api.moreweb.ir/v1/radar/all
 http://api.nbp.pl/en.html__A | Error: 404
 http://api.oceandrivers.com/static/docs.html__Weather | Error: 404
 http://api.opencorporates.com/documentation/API-Reference__Data | Error: 404
+http://api.sgjc.xyz/api/v1/client/subscribe
 http://api.sgjc.xyz/api/v1/client/subscribe?token=c015034bf0912b4eff60bd867465c45e
 http://api.thenounproject.com/index.html__Icons__ | Error: 404
 http://api.xn--14ra41gd24b.xyz/api/v1/client/subscribe?token=2dd7b0de39536f2e08d53d4bdf078c28 | Error: 403
@@ -36999,7 +37000,9 @@ http://dineotv.com/ | Error: TIMEOUT_OR_ERROR
 http://dingyue.myzone.site/link/79qL0kTwAOnENfek?clash=2 | Error: 404
 http://dingyue.myzone.site/link/eyRDH7jB83I25ikT?clash=2 | Error: 404
 http://dingyue.myzone.sitelink79qL0kTwAOnENfek?clash=2 | Error: TIMEOUT_OR_ERROR
+http://dingyue2.qyjc.xyz/api/v1/client/subscribe
 http://dingyue2.qyjc.xyz/api/v1/client/subscribe?token=55be191adc2c919537a823623bb1e02a
+http://dingyue3.qyjc.xyz/api/v1/client/subscribe
 http://dingyue3.qyjc.xyz/api/v1/client/subscribe?token=e62a527fe908e7486693137f9f65174e
 http://dinkobro.wix.com/dinko-bro | Error: 404
 http://dinolingo.com/languages/italian.html | Error: 404
@@ -38084,6 +38087,7 @@ http://free-proxy.cz/en/proxylist/main | Error: TIMEOUT_OR_ERROR
 http://free-proxy.cz/zh/ | Error: TIMEOUT_OR_ERROR
 http://free-proxy.cz/zh/proxylist/country/JP/all/ping/all | Error: TIMEOUT_OR_ERROR
 http://free.fckrknbot.com:500#TG_HTTP | Error: TIMEOUT_OR_ERROR
+http://free.ninecloud.co/api/v1/client/subscribe
 http://free.ninecloud.co/api/v1/client/subscribe?token=7a3521e20fdc2a061a52578366ae975b
 http://free.proproxies.top:443#TG_HTTP | Error: TIMEOUT_OR_ERROR
 http://free01.xyz | Error: TIMEOUT_OR_ERROR
@@ -45980,6 +45984,7 @@ http://uxindo.com/training-ux-indonesia/content-strategy-digital-products-servic
 http://uymaarip.com/ | Error: TIMEOUT_OR_ERROR
 http://v.tudou.com/1theK/ | Error: 404
 http://v1.badoomzamini.info/ | Error: TIMEOUT_OR_ERROR
+http://v18xj.top
 http://v18xj.top/
 http://v2-1.806cms.top/api/v1/client/subscribe?token=652be51577866d965bebfbb471c2d2fc | Error: TIMEOUT_OR_ERROR
 http://v2rayN-windows-64-desktop.zip/ | Error: TIMEOUT_OR_ERROR
@@ -52635,6 +52640,7 @@ https://bbg.bbgjc.cc/api/v1/client/subscribe?token=fe6e16ac63a5228a3ac47f540ff0f
 https://bbghy.00890604.xyz/KqGqWdzg40wm4Sycs/827beb2a-f97a-4b23-b733-adef30c98e17/#default | Error: TIMEOUT_OR_ERROR
 https://bbgjc.cc/api/v1/client/subscribe?token=bd52599c078786e507b937a1412f4728 | Error: TIMEOUT_OR_ERROR
 https://bbgjc.cc/api/v1/client/subscribe?token=f92307afae7e199dc73c3025db624ec0 | Error: TIMEOUT_OR_ERROR
+https://bbjc.xyz/api/v1/client/subscribe
 https://bbjc.xyz/api/v1/client/subscribe?token=06a3c4c5441c3a5c69bd7824e40f7658
 https://bbjc.xyz/api/v1/client/subscribe?token=32a1c05ec9af42fe49e9e9e22e9bb1ce
 https://bbjc.xyz/api/v1/client/subscribe?token=357c1cb1f5807136b3635b4bed9bc0ba
@@ -52745,6 +52751,7 @@ https://bpjc.lol/api/bpjclol?token=068e0156746a301e8ad744cc05b3b3f0
 https://bpjc.lol/api/bpjclol?token=a2036c6e0380a346b698f6eeb5bc9998
 https://bpjc.lol/api/bpjclol?token=de40b3dd7bcd041c2a28453c70b261a9
 https://bpjc.lol/api/bpjclol?token=f0c5d0428d5ac67f5cbba017b6cebd39&amp;flag=meta
+https://bptz.xyz/api/v1/client/subscribe
 https://bptz.xyz/api/v1/client/subscribe?token=e26146d74f1ac44a4fbdc7546c4e0972
 https://bptz.xyz/api/v1/client/subscribe?token=fc90b5a401a76bdf4300b6c7112120b7
 https://brew.systems/v.txt | Error: TIMEOUT_OR_ERROR
@@ -65407,6 +65414,7 @@ https://ch.vfkum.website/api/v1/client/subscribe?token=9834caf1701f442add1e75aef
 https://ch.vfkum.website/api/v1/client/subscribe?token=9834caf1701f442add1e75aef6691fbe&amp;freeVPNjd | Error: TIMEOUT_OR_ERROR
 https://ch.vfkum.website/api/v1/client/subscribe?token=aa36067d0aaafdb50bea5383ea099c72 | Error: TIMEOUT_OR_ERROR
 https://ch.vfkum.website/api/v1/client/subscribe?token=e269fb15e884497acd63e6102f6b7610 | Error: TIMEOUT_OR_ERROR
+https://chaozhijc.xyz/api/v1/client/subscribe
 https://chaozhijc.xyz/api/v1/client/subscribe?token=3c2d11bd3aa96353289b6c873040f32d
 https://chaozhijc.xyz/api/v1/client/subscribe?token=e37a86887ec3604a97ba68cc63cdc1f3
 https://chatgpt.com&quot | Error: TIMEOUT_OR_ERROR
@@ -65713,6 +65721,7 @@ https://datmicxg.mdssconfig.com/api/v1/client/subscribe?token=2b86064ff11f54ce35
 https://dawson0207.xn--3iq226gfdb94q.com/api/v1/client/subscribe?token=2593bfa3291f0eac52bbdad81e4f93f9 | Error: 403
 https://dawson0207.xn--3iq226gfdb94q.com/api/v1/client/subscribe?token=2593bfa3291f0eac52bbdad81e4f93f9 | Error: TIMEOUT_OR_ERROR
 https://daxun.buzz/api/v1/client/subscribe?token=03d79fa708d81576ac9366ca0e0f5e07 | Error: TIMEOUT_OR_ERROR
+https://dbjc.xyz/api/dabai
 https://dbjc.xyz/api/dabai?token=8a966579e5a301f682634d2e3cc68826
 https://dcapi.gbox.top/register
 https://dcapi.gbox.top/register?aff=q5Fd
@@ -66203,6 +66212,7 @@ https://freeflyingcloud.com/api/v1/client/subscribe?token=9ffa2bb8983bcdbcd366ce
 https://freeflyingcloud.com/api/v1/client/subscribe?token=f710814be9776088a6c2da5fc2e166a8 | Error: TIMEOUT_OR_ERROR
 https://freefq.com | Error: TIMEOUT_OR_ERROR
 https://freefq.neocities.org/free.txt | Error: 404
+https://freejc.xyz/api/v1/client/subscribe
 https://freejc.xyz/api/v1/client/subscribe?token=bd6b699d471392052f01977fa50c3fed
 https://freemc.mcsslk.xyz/lVyzvUQ | Error: 403
 https://freemodel.dev/invite/FRE-01666fde
@@ -66295,6 +66305,7 @@ https://fsc.jiediandingyuejiji.homes/answer/land?token=e5c1222922dce3acafb209ae8
 https://fsc.jiediandingyuejiji.homes/answer/land?token=ea31bcdda9e1f9af70ca87072f337e51 | Error: TIMEOUT_OR_ERROR
 https://fsc.jiediandingyuejiji.homes/answer/land?token=ebf77cdb420eb8bd6ccc30564d9bd588 | Error: TIMEOUT_OR_ERROR
 https://fuqing.ch/subscribe/rmbmzk-afcevakl
+https://fxjc.xyz/api/fuxing
 https://fxjc.xyz/api/fuxing?token=2f359872135c9a48adc1b923cb0c8e45
 https://fylm.ai
 https://g-x.us.kg/c/?token=05351d1b642a27afa9582f5425c7486f | Error: TIMEOUT_OR_ERROR
@@ -67147,6 +67158,7 @@ https://ihjlkbcueiwqnwior.duboji.vip/link/s8sspt1uymuj4jtj
 https://ihuoqx.281968.xyz/api/v1/client/subscribe?token=54c9e0033535b67112c99558b0017bcd | Error: TIMEOUT_OR_ERROR
 https://ikuajingbus.com/link/h1zu4orksa2KChnG?clash=1
 https://ikuajingbus.com/link/h1zu4orksa2KChnG?clash=1 | Error: TIMEOUT_OR_ERROR
+https://ikuajingbus.com/link/h1zu4orksa2kchng
 https://ikun520.live
 https://il.vpnvpn.com
 https://img.hsjiasuqi.com/
@@ -67615,6 +67627,7 @@ https://llgjc.shop/api/v1/client/subscribe?token=5f728880f6bad3b6d6a70123c1edb68
 https://lmaff01.lmspeed.co/api/v1/client/subscribe?token=328c67cf5463a7c51f835e30469912a6 | Error: 403
 https://lmaff01.lmspeed.co/api/v1/client/subscribe?token=35911e9a69a8bc49adf86904c16944ce | Error: 403
 https://lmaff01.lmspeed.co/api/v1/client/subscribe?token=a963a261a3b8c29027a09c36def5b862 | Error: 403
+https://lmjc.xyz/api/lmjc
 https://lmjc.xyz/api/lmjc?token=dac0cb26b65e5724cc493bd6173ea25e
 https://lncn.org | Error: TIMEOUT_OR_ERROR
 https://login.djjc.cfd/api/v1/client/subscribe
@@ -68875,6 +68888,7 @@ https://qianggewangluo.cc/api/v1/client/subscribe?token=7542ba212b3193b2452282c2
 https://qianjin1586.8811334.xyz/#/register?code=7gfpoT4m
 https://qianjin1586.8811334.xyz/#/register?code=WM7s6hcW
 https://qiaomenzhuanfx.netlify.app
+https://qidijichang.xyz/api/configqd
 https://qidijichang.xyz/api/configqd?token=099bfe46e8d27718e579f85bc18c37e6
 https://qifei.today.elementfx.com/407129f7-ae44-4aba-b6d7-92fd0026d1a8 | Error: TIMEOUT_OR_ERROR
 https://qingchayun.icu/api/v1/client/subscribe?token=80418297fba5a4f4ac7f21cdcf847e6d | Error: TIMEOUT_OR_ERROR
@@ -73094,6 +73108,7 @@ https://raw.githubusercontent.com/anaer/Sub/main/clash.yaml
 https://raw.githubusercontent.com/anaer/Sub/refs/heads/main/clash.yaml
 https://raw.githubusercontent.com/anaer/Sub/refs/heads/main/clash.yaml,anaer | Error: 404
 https://raw.githubusercontent.com/anaer/Sub/refs/heads/main/proxies.yaml
+https://raw.githubusercontent.com/anaer/sub/refs/heads/main/proxies.yaml
 https://raw.githubusercontent.com/anderson84PROGETOS/anderson84PROGETOS/main/lista.txt | Error: 404
 https://raw.githubusercontent.com/andigwandi/free-proxy/main/proxy_list.txt
 https://raw.githubusercontent.com/andrejangelovski/deep_seek_hackathon/main/papers/pmc8700023.txt
@@ -82981,6 +82996,7 @@ https://syt.sytcloud.top/syt/syt/client/subscribe?token=f1c8311e87bc4a3158f30004
 https://syt.sytcloud.top/syt/syt/client/subscribe?token=f1c8311e87bc4a3158f300049e3b483a&amp;flag=meta | Error: TIMEOUT_OR_ERROR
 https://sytcloud.top/#/register?code=SJGhhD2S | Error: TIMEOUT_OR_ERROR
 https://syyn.ianong.cn/api/v1/client/subscribe?token=c18551e475b956e1c7085827c7305e9e | Error: TIMEOUT_OR_ERROR
+https://syyn.xyz/api/v1/client/subscribe
 https://syyn.xyz/api/v1/client/subscribe?token=1b49383898b23801b5965869a6cb12d7
 https://syyn.xyz/api/v1/client/subscribe?token=8c1261d3e0b3409af7a4baa3a9e645e3
 https://syynweb.shop/api/v1/client/subscribe?token=f8c376caa12b91d4d8a0c54204c169fc | Error: TIMEOUT_OR_ERROR
@@ -85902,6 +85918,7 @@ https://v2rayshare.com/wp-content/uploads/2023/02/20230225.txt | Error: TIMEOUT_
 https://v2rayshare.com/wp-content/uploads/2025/05/20250530.txt | Error: TIMEOUT_OR_ERROR
 https://v2rayshare.githubrowcontent.com/2025/08/20250804.txt | Error: TIMEOUT_OR_ERROR
 https://v2rayshare.githubrowcontent.com/2026/02/20260201.txt | Error: TIMEOUT_OR_ERROR
+https://v2y.xyz/api/v1/client/subscribe
 https://v2y.xyz/api/v1/client/subscribe?token=2533ce3df935ebaf4143fcc3df068ebd
 https://vanced.to/revanced-manager
 https://vase.bengalj.com/queue/list?token=b9cf08c9c8fe9c4a297fbdd3741fd7ee | Error: TIMEOUT_OR_ERROR
@@ -86132,6 +86149,7 @@ https://www.baiyunvpn.xyz/api/v1/client/subscribe?token=80b0f3373b6d2165cccdb997
 https://www.bintv.net
 https://www.bitduct.net/api/v1/client/subscribe?token=2fdd9776bf27de99555522340ddf436d | Error: TIMEOUT_OR_ERROR
 https://www.bjch999.com/?mid=3037 | Error: TIMEOUT_OR_ERROR
+https://www.bptz.xyz/api/v1/client/subscribe
 https://www.bptz.xyz/api/v1/client/subscribe?token=c07f9d5c0fd4784f283c0a33d027453d
 https://www.bqg888.com/api/v1/client/subscribe?token=522baf629aa4bd56ab058af14c3dcb2a | Error: TIMEOUT_OR_ERROR
 https://www.butnono.com/freevpn20200313.html
@@ -86142,6 +86160,7 @@ https://www.catssr.host/api/v1/client/subscribe?token=bf587ad6317f74983bb98612a5
 https://www.catssr.one/api/v1/client/subscribe?token=7cbd7190d96a63741dbab5119a2b8656 | Error: TIMEOUT_OR_ERROR
 https://www.catssr.one/api/v1/client/subscribe?token=bf587ad6317f74983bb98612a522a196 | Error: TIMEOUT_OR_ERROR
 https://www.catssr.top/api/v1/client/subscribe?token=2f36e87157bf9fc79bce325bc6e804c3 | Error: TIMEOUT_OR_ERROR
+https://www.catssr.xyz/api/v1/client/subscribe
 https://www.catssr.xyz/api/v1/client/subscribe?token=2f36e87157bf9fc79bce325bc6e804c3
 https://www.ccsub.online/link/l2gMrWO1W0oK0dZz?clash=1 | Error: 403
 https://www.ccsub.org/link/CYjcarYeQeLoNYny?clash=1 | Error: 404
@@ -86153,6 +86172,7 @@ https://www.citna.ir/news/337488/%D9%85%D8%B9%D8%A7%D9%88%D9%86-%D8%A7%D8%B7%D9%
 https://www.citna.ir/news/337610/%D9%88%D8%B6%D8%B9%DB%8C%D8%AA-%D8%A7%DB%8C%D9%86%D8%AA%D8%B1%D9%86%D8%AA-%D8%A7%DB%8C%D8%B1%D8%A7%D9%86-%D9%BE%D8%A7%DB%8C%D8%AF%D8%A7%D8%B1-%D8%9B-%D9%86%D8%B4%D8%A7%D9%86%D9%87-%D8%A7%DB%8C-%D8%A7%D8%AE%D8%AA%D9%84%D8%A7%D9%84-%D8%B3%D8%B1%D8%A7%D8%B3%D8%B1%DB%8C-%D8%AC%D8%AF%DB%8C%D8%AF-%D9%85%D8%B4%D8%A7%D9%87%D8%AF%D9%87
 https://www.ckckssl.top/api/v1/client/subscribe?token=cdc96d354d96b6e6e2670c7611611bdf | Error: TIMEOUT_OR_ERROR
 https://www.ckckssl.top/api/v1/client/subscribe?token=cdc96d354d96b6e6e2670c7611611bdf#/ | Error: TIMEOUT_OR_ERROR
+https://www.cloudshops.xyz/api/v1/client/subscribe
 https://www.cloudshops.xyz/api/v1/client/subscribe?token=be50277a4656dd0e33776deff05b8314
 https://www.cross666.top:9423/s/058251f5935e73aaed23712afb3b9c17 | Error: TIMEOUT_OR_ERROR
 https://www.cross666.top:9423/s/7ead2ccbd3f4d3cb19d8d7fcb21bb152 | Error: TIMEOUT_OR_ERROR
