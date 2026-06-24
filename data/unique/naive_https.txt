@@ -1,0 +1,6 @@
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-24 01:10:41
+# Total valid configs: 1
+
+# NAIVE+HTTPS (1 configs)
+naive+https://rstnnl:P0E4oi2repWoTl3n@imagine.all4you.ru:443?uot=1&security=tls&fp=qq#BLACK
