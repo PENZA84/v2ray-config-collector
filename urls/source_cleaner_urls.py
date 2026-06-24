@@ -3,7 +3,7 @@ import aiohttp
 import os
 import re
 
-BATCH_SIZE = 15000   # Можно изменить на 10000 или 20000
+BATCH_SIZE = 20000   # Увеличил до 20 тысяч, как ты хотел (можно 25000 или 30000)
 
 # === СИЛЬНЫЕ ФИЛЬТРЫ ===
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
@@ -38,11 +38,7 @@ async def deep_check(session, url: str):
 
 async def main():
     input_file = 'urls/source_urls.txt'
-    chunks_dir = 'urls/urls'           # твоя папка для чанков
-    factory_file = 'urls/factory_valid.txt'
-    url_checks_file = 'urls/url_checks.txt'
-    filtered_file = 'urls/filtered_results.txt'
-    dead_file = 'data/raw_incoming/deep_raw_collected.txt'
+    chunks_dir = 'urls/urls'
 
     os.makedirs(chunks_dir, exist_ok=True)
 
@@ -56,7 +52,6 @@ async def main():
     print(f"🔍 Всего ссылок: {len(urls)}")
     print(f"📦 Разбиваю на чанки по {BATCH_SIZE} ссылок...\n")
 
-    # Разбиваем на чанки
     for i in range(0, len(urls), BATCH_SIZE):
         batch = urls[i:i + BATCH_SIZE]
         batch_num = i // BATCH_SIZE + 1
@@ -65,13 +60,11 @@ async def main():
         with open(chunk_file, 'w', encoding='utf-8') as f:
             f.write('\n'.join(batch) + '\n')
         
-        print(f"   ✅ Сохранён chunk_{batch_num:03d}.txt ({len(batch)} ссылок)")
+        print(f"   ✅ Сохранён {chunk_file} ({len(batch)} ссылок)")
 
+    open(input_file, 'w').close()
     print("\n🧹 source_urls.txt очищен")
     print(f"🎉 Чанки сохранены в папке urls/urls/")
-
-    # Здесь можно позже добавить обработку чанков
-    # Пока только разбиение + очистка
 
 if __name__ == "__main__":
     import sys
