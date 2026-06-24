@@ -3,9 +3,13 @@ import aiohttp
 import os
 import re
 
-# === СИЛЬНЫЕ ФИЛЬТРЫ ===
-BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
-BAD_KW = ['apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music', 'book', 'quote', 'steam', 'readme']
+# === ВСЁ ЭТО ИДЁТ В БУНКЕР ===
+BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.png', '.jpg', '.gif']
+BAD_KW = [
+    'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker',
+    'facebook', 'music', 'book', 'quote', 'steam', 'readme', 'youtube',
+    'boosty', 't.me/proxy', 'mtproto', 'blog.', 'medium.com'
+]
 
 async def deep_check(session, url: str):
     try:
@@ -17,23 +21,22 @@ async def deep_check(session, url: str):
             text_lower = text.lower()
             lines = [line.strip() for line in text.splitlines() if line.strip()]
 
-            # === СТРОГОЕ УСЛОВИЕ ДЛЯ FACTORY ===
-            # Должны быть прямые протоколы
-            protocols = ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']
-            if any(p in text_lower for p in protocols):
+            # Прямые протоколы → factory_valid.txt
+            if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
                 return "factory"
 
-            # Дополнительные признаки хорошей подписки
-            if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo']):
+            # Признаки подписки
+            if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
                 return "factory"
 
-            # Большой Base64-контент
-            if len(text) > 2000 and re.search(r'[A-Za-z0-9+/=]{80,}', text):
-                return "factory"
-
-            # Если это Clash-правила, но без протоколов — в url_checks
-            if 'clash' in text_lower and any(line.startswith(('http://', 'https://')) for line in lines):
+            # Много внутренних ссылок → url_checks.txt
+            http_count = sum(1 for line in lines if line.startswith(('http://', 'https://')))
+            if http_count >= 5:
                 return "url_check"
+
+            # Большой Base64 файл
+            if len(text) > 1500 and re.search(r'[A-Za-z0-9+/=]{80,}', text):
+                return "factory"
 
             return "filtered"
     except:
@@ -64,6 +67,7 @@ async def main():
         for url in urls:
             url_lower = url.lower()
 
+            # Всё плохое — сразу в бункер
             if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
                 dead.append(url)
                 continue
@@ -87,15 +91,20 @@ async def main():
     with open(filtered_file, 'w', encoding='utf-8') as f:
         f.write('\n'.join(filtered) + '\n' if filtered else '')
 
+    # Бункер
     with open(dead_file, 'a', encoding='utf-8') as f:
         if dead:
-            f.write("\n# === Явный мусор + мёртвые ===\n")
+            f.write("\n# === Явный мусор + 403/404 ===\n")
             f.write("\n".join(dead) + "\n")
 
-    print(f"✅ Factory (только протоколы): {len(factory)}")
-    print(f"🔗 Url_checks (Clash-правила и списки ссылок): {len(url_checks)}")
+    # Очистка source_urls.txt
+    open(input_file, 'w').close()
+    print("🧹 source_urls.txt очищен после обработки")
+
+    print(f"✅ Factory: {len(factory)}")
+    print(f"🔗 Url_checks: {len(url_checks)}")
     print(f"🗑 Filtered: {len(filtered)}")
-    print(f"💀 В бункер: {len(dead)}")
+    print(f"💀 В бункер (мусор + dead): {len(dead)}")
 
 if __name__ == "__main__":
     import sys
