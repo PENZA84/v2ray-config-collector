@@ -1,12 +1,12 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 01:10:41
+# Generated on: 2026-06-24 06:11:02
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 01:10:51
+# Generated on: 2026-06-24 06:11:10
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com:8300#🇺🇸_|_@WhiteDNS_|_US125|1.3MB/s|GPT⁺-US|GM-US|CL-US|SP-US
+anytls://ceeb8370-d87a-40c7-b8b9-566716210763@us2.xn--9kqp42aims.top:18445#[AnyTLS]_🇺🇸_🇺🇸美国-03
