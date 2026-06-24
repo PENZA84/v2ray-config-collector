@@ -1,7 +1,12 @@
-name: "🧹 Чистильщик URLs 💋"
+name: "🧹 Сортировщик и Разбивка на Чанки 💋"
 
 on:
-  workflow_dispatch:   # Только ручной запуск
+  push:
+    paths:
+      - 'urls/source_urls.txt'
+  schedule:
+    - cron: '0 3 * * 0'      # Раз в неделю (воскресенье в 3:00 по UTC)
+  workflow_dispatch:
 
 jobs:
   run-cleaner:
@@ -22,9 +27,9 @@ jobs:
           pip install aiohttp requests
 
       - name: 🌱 Prepare environment
-        run: mkdir -p urls data/raw_incoming
+        run: mkdir -p urls/urls data/raw_incoming
 
-      - name: 🔍 Process source_urls.txt
+      - name: 🔀 Разбивка source_urls.txt на чанки
         run: python urls/source_cleaner_urls.py
 
       - name: 🚀 Commit & Push
@@ -32,11 +37,13 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          git add urls/* data/raw_incoming/deep_raw_collected.txt
+          git add urls/source_urls.txt urls/urls/*.txt
+          git add urls/factory_valid.txt urls/url_checks.txt urls/filtered_results.txt
+          git add data/raw_incoming/deep_raw_collected.txt
           
           if git diff --staged --quiet; then
             echo "✨ Нет изменений"
           else
-            git commit -m "🧹 Чистильщик URLs: обновление списков 💋"
+            git commit -m "🧹 Сортировщик: разбивка на чанки 💋"
             git push
           fi
