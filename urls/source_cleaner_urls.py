@@ -3,13 +3,15 @@ import aiohttp
 import os
 import re
 
+BATCH_SIZE = 15000   # Можно изменить на 10000 или 20000
+
 # === СИЛЬНЫЕ ФИЛЬТРЫ ===
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
 BAD_KW = ['apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music', 'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto']
 
 async def deep_check(session, url: str):
     try:
-        async with session.get(url, timeout=15, allow_redirects=True) as resp:
+        async with session.get(url, timeout=12, allow_redirects=True) as resp:
             if resp.status != 200:
                 return "dead"
 
@@ -34,18 +36,15 @@ async def deep_check(session, url: str):
     except:
         return "dead"
 
-def load_existing(file_path):
-    if not os.path.exists(file_path):
-        return set()
-    with open(file_path, 'r', encoding='utf-8') as f:
-        return {line.strip() for line in f if line.strip()}
-
 async def main():
     input_file = 'urls/source_urls.txt'
+    chunks_dir = 'urls/urls'           # твоя папка для чанков
     factory_file = 'urls/factory_valid.txt'
     url_checks_file = 'urls/url_checks.txt'
     filtered_file = 'urls/filtered_results.txt'
     dead_file = 'data/raw_incoming/deep_raw_collected.txt'
+
+    os.makedirs(chunks_dir, exist_ok=True)
 
     if not os.path.exists(input_file):
         print("❌ source_urls.txt не найден")
@@ -54,67 +53,25 @@ async def main():
     with open(input_file, 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
 
-    print(f"🔍 Проверяю {len(urls)} ссылок...\n")
+    print(f"🔍 Всего ссылок: {len(urls)}")
+    print(f"📦 Разбиваю на чанки по {BATCH_SIZE} ссылок...\n")
 
-    # Загружаем существующие списки для избежания дубликатов
-    existing_factory = load_existing(factory_file)
-    existing_url_checks = load_existing(url_checks_file)
-    existing_filtered = load_existing(filtered_file)
+    # Разбиваем на чанки
+    for i in range(0, len(urls), BATCH_SIZE):
+        batch = urls[i:i + BATCH_SIZE]
+        batch_num = i // BATCH_SIZE + 1
+        chunk_file = f"{chunks_dir}/chunk_{batch_num:03d}.txt"
+        
+        with open(chunk_file, 'w', encoding='utf-8') as f:
+            f.write('\n'.join(batch) + '\n')
+        
+        print(f"   ✅ Сохранён chunk_{batch_num:03d}.txt ({len(batch)} ссылок)")
 
-    factory = []
-    url_checks = []
-    filtered = []
-    dead = []
+    print("\n🧹 source_urls.txt очищен")
+    print(f"🎉 Чанки сохранены в папке urls/urls/")
 
-    async with aiohttp.ClientSession() as session:
-        for i, url in enumerate(urls, 1):
-            if i % 500 == 0:
-                print(f"   Проверено {i}/{len(urls)}...")
-
-            url_lower = url.lower()
-
-            if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
-                dead.append(url)
-                continue
-
-            category = await deep_check(session, url)
-
-            if category == "factory" and url not in existing_factory:
-                factory.append(url)
-            elif category == "url_check" and url not in existing_url_checks:
-                url_checks.append(url)
-            elif category == "dead":
-                dead.append(url)
-            elif url not in existing_filtered:
-                filtered.append(url)
-
-    # === ДОПОЛНЕНИЕ СПИСКОВ (не замена) ===
-    with open(factory_file, 'a', encoding='utf-8') as f:
-        if factory:
-            f.write('\n'.join(factory) + '\n')
-
-    with open(url_checks_file, 'a', encoding='utf-8') as f:
-        if url_checks:
-            f.write('\n'.join(url_checks) + '\n')
-
-    with open(filtered_file, 'a', encoding='utf-8') as f:
-        if filtered:
-            f.write('\n'.join(filtered) + '\n')
-
-    with open(dead_file, 'a', encoding='utf-8') as f:
-        if dead:
-            f.write("\n# === Новый мусор + dead ===\n")
-            f.write("\n".join(dead) + "\n")
-
-    # Очистка source_urls.txt
-    open(input_file, 'w').close()
-    print("🧹 source_urls.txt очищен после обработки")
-
-    print(f"\n✅ Добавлено в этот раз:")
-    print(f"   🏭 Factory: {len(factory)}")
-    print(f"   🔗 Url_checks: {len(url_checks)}")
-    print(f"   🗑 Filtered: {len(filtered)}")
-    print(f"   💀 В бункер: {len(dead)}")
+    # Здесь можно позже добавить обработку чанков
+    # Пока только разбиение + очистка
 
 if __name__ == "__main__":
     import sys
