@@ -4,9 +4,8 @@ on:
   push:
     paths:
       - 'urls/source_urls.txt'
-  schedule:
-    - cron: '0 3 * * 0'      # Раз в неделю (воскресенье в 3:00 по UTC)
   workflow_dispatch:
+    # schedule убран отсюда
 
 jobs:
   run-cleaner:
