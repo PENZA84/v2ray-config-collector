@@ -5,7 +5,6 @@ on:
     paths:
       - 'urls/source_urls.txt'
   workflow_dispatch:
-    # schedule убран отсюда
 
 jobs:
   run-cleaner:
@@ -28,7 +27,7 @@ jobs:
       - name: 🌱 Prepare environment
         run: mkdir -p urls/urls data/raw_incoming
 
-      - name: 🔀 Разбивка source_urls.txt на чанки
+      - name: 🔀 Разбивка и обработка source_urls.txt
         run: python urls/source_cleaner_urls.py
 
       - name: 🚀 Commit & Push
@@ -43,6 +42,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "✨ Нет изменений"
           else
-            git commit -m "🧹 Сортировщик: разбивка на чанки 💋"
+            git commit -m "🧹 Сортировщик: обработка чанков 💋"
             git push
           fi
