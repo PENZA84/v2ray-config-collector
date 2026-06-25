@@ -3,11 +3,14 @@ import aiohttp
 import os
 import re
 
-BATCH_SIZE = 20000   # Увеличил до 20 тысяч, как ты хотел (можно 25000 или 30000)
+BATCH_SIZE = 20000
 
-# === СИЛЬНЫЕ ФИЛЬТРЫ ===
+# === СТРОГИЕ ФИЛЬТРЫ ===
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
-BAD_KW = ['apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music', 'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto']
+BAD_KW = ['apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music', 
+          'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto', 
+          'blog.', 'medium.com', 'substack', 'telegra.ph', 'happ.su', 'bintv.net', 'applnn.com', 
+          'tvlnn.com', 'techcrunch.com']
 
 async def deep_check(session, url: str):
     try:
@@ -17,54 +20,97 @@ async def deep_check(session, url: str):
 
             text = await resp.text()
             text_lower = text.lower()
-            lines = [line.strip() for line in text.splitlines() if line.strip()]
 
             if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
-                return "factory"
-
-            if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
-                return "factory"
-
-            http_count = sum(1 for line in lines if line.startswith(('http://', 'https://')))
-            if http_count >= 5:
-                return "url_check"
-
-            if len(text) > 1500 and re.search(r'[A-Za-z0-9+/=]{80,}', text):
                 return "factory"
 
             return "filtered"
     except:
         return "dead"
 
+async def process_chunk(session, chunk_path):
+    with open(chunk_path, 'r', encoding='utf-8') as f:
+        urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
+    
+    print(f"   Обработка {os.path.basename(chunk_path)} ({len(urls)} ссылок)...")
+    
+    factory = []
+    url_checks = []
+    filtered = []
+    dead = []
+
+    for url in urls:
+        url_lower = url.lower()
+        if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
+            dead.append(url)
+            continue
+
+        category = await deep_check(session, url)
+
+        if category == "factory":
+            factory.append(url)
+        elif category == "dead":
+            dead.append(url)
+        else:
+            url_checks.append(url)
+
+    return factory, url_checks, filtered, dead
+
 async def main():
-    input_file = 'urls/source_urls.txt'
     chunks_dir = 'urls/urls'
+    factory_file = 'urls/factory_valid.txt'
+    url_checks_file = 'urls/url_checks.txt'
+    filtered_file = 'urls/filtered_results.txt'
+    dead_file = 'data/raw_incoming/deep_raw_collected.txt'
 
-    os.makedirs(chunks_dir, exist_ok=True)
-
-    if not os.path.exists(input_file):
-        print("❌ source_urls.txt не найден")
+    if not os.path.exists(chunks_dir):
+        print("❌ Папка urls/urls/ не найдена")
         return
 
-    with open(input_file, 'r', encoding='utf-8') as f:
-        urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
+    chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_') and f.endswith('.txt')])
 
-    print(f"🔍 Всего ссылок: {len(urls)}")
-    print(f"📦 Разбиваю на чанки по {BATCH_SIZE} ссылок...\n")
+    if not chunk_files:
+        print("❌ Чанки не найдены в urls/urls/")
+        return
 
-    for i in range(0, len(urls), BATCH_SIZE):
-        batch = urls[i:i + BATCH_SIZE]
-        batch_num = i // BATCH_SIZE + 1
-        chunk_file = f"{chunks_dir}/chunk_{batch_num:03d}.txt"
-        
-        with open(chunk_file, 'w', encoding='utf-8') as f:
-            f.write('\n'.join(batch) + '\n')
-        
-        print(f"   ✅ Сохранён {chunk_file} ({len(batch)} ссылок)")
+    print(f"🔍 Найдено {len(chunk_files)} чанков. Начинаю обработку...\n")
 
-    open(input_file, 'w').close()
-    print("\n🧹 source_urls.txt очищен")
-    print(f"🎉 Чанки сохранены в папке urls/urls/")
+    all_factory = []
+    all_url_checks = []
+    all_dead = []
+
+    async with aiohttp.ClientSession() as session:
+        for chunk_file in chunk_files:
+            chunk_path = os.path.join(chunks_dir, chunk_file)
+            factory, url_checks, filtered, dead = await process_chunk(session, chunk_path)
+            
+            all_factory.extend(factory)
+            all_url_checks.extend(url_checks)
+            all_dead.extend(dead)
+
+    # Склейка результатов
+    with open(factory_file, 'a', encoding='utf-8') as f:
+        if all_factory:
+            f.write('\n'.join(all_factory) + '\n')
+
+    with open(url_checks_file, 'a', encoding='utf-8') as f:
+        if all_url_checks:
+            f.write('\n'.join(all_url_checks) + '\n')
+
+    with open(dead_file, 'a', encoding='utf-8') as f:
+        if all_dead:
+            f.write("\n# === Новый мусор + dead ===\n")
+            f.write("\n".join(all_dead) + "\n")
+
+    print("\n✅ Обработка всех чанков завершена!")
+    print(f"   🏭 Factory: {len(all_factory)}")
+    print(f"   🔗 Url_checks: {len(all_url_checks)}")
+    print(f"   💀 В бункер: {len(all_dead)}")
+
+    # Опционально: очистка чанков после обработки
+    # for f in chunk_files:
+    #     os.remove(os.path.join(chunks_dir, f))
+    # print("🧹 Чанки удалены")
 
 if __name__ == "__main__":
     import sys
