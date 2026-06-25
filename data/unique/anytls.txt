@@ -1,17 +1,14 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 12:51:30
-# Total valid configs: 1
+# Generated on: 2026-06-24 23:09:16
+# Total valid configs: 4
 
-# ANYTLS (1 configs)
+# ANYTLS (4 configs)
+anytls://3085fcf8-a69c-11ec-bd7c-f23c913c8d2b@9825688e-tcxds0-tnsc3a-1f0gu.hk2.hyhuawei.com:443#🇭🇰_香港_|_HKG_8-2
+anytls://a8d37bf8-ff5b-4de8-8796-2de9c4072b41@hkt2.nekohub.xyz:20001/?type=tcp&insecure=1&fp=chrome&sni=www.bing.com#%E7%BE%8E%E5%9B%BD%2003
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
+anytls://091f6d02-c063-4e4d-bc87-30f55e934b51@free.us1.laodavip.com:443?peer=free.us1.laodavip.com&udp=1#%E7%BE%8E%E5%9B%BD01%20%7C%E4%B8%8D%E5%8A%A0%E9%80%9F%7C1%E5%80%8D
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 12:50:57
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
-anytls://88dfd15a-95df-4d54-b83d-dd8d74ede48b@cname.jgpy.help:20003?peer=apple.com&insecure=1&udp=1#%F0%9F%87%AF%F0%9F%87%B5%E6%97%A5%E6%9C%AC02%20%5Bipv4%5D
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 12:51:23
+# Generated on: 2026-06-24 23:07:09
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
