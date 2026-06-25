@@ -1,10 +1,7 @@
 name: "🧹 Сортировщик и Разбивка на Чанки 💋"
 
 on:
-  push:
-    paths:
-      - 'urls/source_urls.txt'
-  workflow_dispatch:
+  workflow_dispatch:     # ← Только ручной запуск
 
 jobs:
   run-cleaner:
