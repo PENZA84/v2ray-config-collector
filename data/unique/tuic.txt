@@ -1,122 +1,122 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 22:57:33
-# Total valid configs: 18
+# Generated on: 2026-06-25 07:02:42
+# Total valid configs: 19
 
-# TUIC (18 configs)
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Bsni=www.apple.com&amp%3Balpn=h3&amp%3Ballow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20DE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.150.1.135:35000#高速-美国VS1倍
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:40000#高速-原生IP-美国德州1
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🆔vipv2rey%20🔒%20TU-UDP-N/A%20❔%20XX%20down
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%20down
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@104.223.85.121:40000#高速-多伦多数据中心_Tiktok
-tuic://d1bb3aae-ace9-4b0f-9ae5-85ab73acbb43:Mahsaamini@104.21.59.207:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&sni=ELiV2RAY.eliv2.top&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#irancpi.net-tuic2
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#🔒
+# TUIC (19 configs)
 tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🔒
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@192.227.153.87:60000#高速-纽约水牛1
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=eliv2ray.eliv2.top&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d97ab
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@95.179.167.38:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🇩🇪DE%20|%20tuic%20|%20@TUICity%20|%2014
-tuic://d7a967b5-a26b-46f9-bc76-a9e5e082ef91:aleph@95.217.188.125:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%94%92%20TUIC-UDP%20%F0%9F%87%AB%F0%9F%87%AE%20FI-95.217.188.125:443%20%F0%9F%93%A1%20PING-166.43-MS
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#%D8%B1%D8%A7%DB%8C%DA%AF%D8%A7%D9%86%20%7C%20TUIC%20%7C%20%40TUICity%20%7C%20DE%F0%9F%87%A9%F0%9F%87%AA%20%7C%200%EF%B8%8F%E2%83%A31%EF%B8%8F%E2%83%A3
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 23:09:36
-# Total valid configs: 24
-
-# TUIC (24 configs)
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.172.250.191:60000#US高速-芝加哥2
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🔒
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&%3Budp_relay_mode=native&%3Balpn=h3%2Cspdy/3.1&%3Ballow_insecure=1#
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.172.250.191:443#US高速-芝加哥1
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:50000#高速-原生IP-美国德州2
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@185.244.195.86:47977#高速-原生IP-德国7
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@151.245.32.32:46981#高速-迈阿密1
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@108.165.120.141:43602#高速-原生IP-美国密苏里州
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.208.3&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc&udp_relay_mode=native#%F0%9F%92%B0%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20a109c
-tuic://3bd82ac3-c6ec-43ad-834d-a5ed7c6686f7:1cd5c8c30cf21c8a@172.67.206.75:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@108.165.121.116:60000#原生IP-奥勒姆Gemini
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.150.1.135:45000#高速-美国VS2倍
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%20down
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@166.0.192.239:46961#高速-原生IP-休斯敦1
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@209.141.58.4:61000#高速-拉斯维加斯1|2x
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#🔒
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@209.141.58.4:51364#高速-拉斯维加斯2|2x
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb@70.34.197.98:443#SE_|_TUIC_|_@vipv2rey_#1
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/@ELiV2RAY-@ELiV2RAY-@ELiV2RAY-@ELiV2RAY?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.197.98&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%2079f29
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#SH%CE%9E%D0%AFVIN%E2%84%A2
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@104.223.85.121:40000#高速-多伦多数据中心_Tiktok
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443/?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#%F0%9F%85%B0LL%20OPERATORS%20%20%20%F0%9F%94%B5%F0%9F%9F%A1%F0%9F%94%B5%20%20%20V2RAYNPLUS%F0%9F%87%B8%F0%9F%87%AA
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@207.174.28.26:31851#美国洛杉矶2
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.208.3&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#ð
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:60000#高速-原生IP-德州3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@192.227.153.87:40000#高速-纽约水牛2
 tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#🔒
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#irancpi.net_Tuic5
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.197.98&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://d7a967b5-a26b-46f9-bc76-a9e5e082ef91:aleph@95.217.188.125:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%94%92%20TUIC-UDP%20%F0%9F%87%AB%F0%9F%87%AE%20FI-95.217.188.125:443%20%F0%9F%93%A1%20PING-166.43-MS
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=wrmelmwxlf.gktevlrqznwqqozy.fabpfs66gizmnojhcvqxwl.kytrcfzqla87gvgvs6c7kjnrubuh.cc&udp_relay_mode=native#%F0%9F%92%B0%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20a109c
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@23.94.175.162:60000#高速-纽约大水牛4
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@95.179.167.38:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#ð
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f@136.244.88.153:443#🇩🇪_DE_|_TUIC_|_@vipv2rey_#1
+tuic://3bd82ac3-c6ec-43ad-834d-a5ed7c6686f7:1cd5c8c30cf21c8a@104.21.69.78:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
 tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#â¡ï¸@vipv2rey
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 23:09:16
-# Total valid configs: 12
+# Generated on: 2026-06-25 07:02:53
+# Total valid configs: 13
 
-# TUIC (12 configs)
+# TUIC (13 configs)
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.172.250.191:443#US高速-芝加哥1
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#🔒
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.208.3&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20fd09a
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@192.227.153.87:60000#高速-纽约水牛1
+tuic://ee982251-246b-4c5c-b5f2-dbc43d78058e:23fc8eecf7eab4ac@178.236.246.236:443?congestion_control=bbr&udp_relay_mode=quic&allow_insecure=1#%F0%9F%94%92%20TUIC-UDP%20%F0%9F%87%B5%F0%9F%87%B1%20PL-178.236.246.236:443%20%F0%9F%93%A1%20PING-000.00-MS
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Bsni=www.apple.com&amp%3Balpn=h3&amp%3Ballow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20DE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb@70.34.197.98:443#SE_|_TUIC_|_@vipv2rey_#1
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#🔒
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#%D8%B1%D8%A7%DB%8C%DA%AF%D8%A7%D9%86%20%7C%20TUIC%20%7C%20%40TUICity%20%7C%20DE%F0%9F%87%A9%F0%9F%87%AA%20%7C%200%EF%B8%8F%E2%83%A31%EF%B8%8F%E2%83%A3
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-25 07:02:26
+# Total valid configs: 22
+
+# TUIC (22 configs)
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=eliv2ray.eliv2.top&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d97ab
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%20down
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%2097ms
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.150.1.135:35000#高速-美国VS1倍
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.175.51.245:40001#高速-美国达拉斯4
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.172.250.191:60000#US高速-芝加哥2
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#🔒
+tuic://768dba4b-40e9-43dd-8135-9dec2425cd53:7f36c26f9e5e21ae@136.244.102.244:443?congestion_control=bbr&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B3%F0%9F%87%B1%20Netherlands%20-%20Amsterdam%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
 tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#ð
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@23.94.175.162:60000#高速-纽约大水牛4
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:50000#高速-原生IP-美国德州2
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#🔒
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#irancpi.net_Tuic5
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.cpionline.us&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d25f3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@108.165.121.116:60000#原生IP-奥勒姆Gemini
 tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=136.244.88.153&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%232
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%202269
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:60000#高速-原生IP-德州3
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@207.174.28.26:31851#美国洛杉矶2
-tuic://6313c68a-472b-4999-ba33-094a55ea7549:FRebRlCrO+huXaprEwr6@tuic61.freelines.net:443/?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&sni=www.apple.com&allow_insecure=1#irancpi.net_Tuic61
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🆔vipv2rey%20🔒%20TU-UDP-N/A%20❔%20XX%2097ms
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@185.244.195.86:47977#高速-原生IP-德国7
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@209.141.58.4:61000#高速-拉斯维加斯1|2x
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.freelines.net&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20541b8
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-25 07:02:33
+# Total valid configs: 22
+
+# TUIC (22 configs)
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🇩🇪DE%20|%20tuic%20|%20@TUICity%20|%203
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@115.187.16.7:61425#日本东京read
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%20down
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.208.3&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.ELiV2.top&alpn=h3&allow_insecure=1#🇩🇪ELi
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@209.141.58.4:51364#高速-拉斯维加斯2|2x
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.208.3&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20be601
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@166.0.192.239:46961#高速-原生IP-休斯敦1
 tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🆔vipv2rey%20🔒%20TU-UDP-N/A%20❔%20XX%20down
 tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@23.94.175.162:43652#高速-纽约大水牛3
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 23:07:09
-# Total valid configs: 28
-
-# TUIC (28 configs)
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@95.179.167.38:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.208.3&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20fd09a
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ð
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#ðvipv2rey%20ð%20TU-UDP-N/A%20â%20XX%2097ms
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.freelines.net&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20541b8
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f@136.244.88.153:443#🇩🇪_DE_|_TUIC_|_@vipv2rey_#1
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🇩🇪DE%20|%20tuic%20|%20@TUICity%20|%203
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🔒
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.208.3&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20be601
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🔒
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@115.187.16.7:61425#日本东京read
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&%3Budp_relay_mode=native&%3Balpn=h3%2Cspdy/3.1&%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#🔒
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@192.227.153.87:40000#高速-纽约水牛2
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=tuic51.cpionline.us&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#SH%CE%9E%D0%AFVIN%E2%84%A2
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#ð
-tuic://c28f2f1e-265c-4672-ab64-d038254cc362:8264dd9849a38cf8@172.67.206.75:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.ELiV2.top&alpn=h3&allow_insecure=1#🇩🇪ELi
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@199.247.1.134:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#🔒
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443/?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#%F0%9F%85%B0LL%20OPERATORS%20%20%20%F0%9F%94%B5%F0%9F%9F%A1%F0%9F%94%B5%20%20%20V2RAYNPLUS%F0%9F%87%B8%F0%9F%87%AA
-tuic://d7a967b5-a26b-46f9-bc76-a9e5e082ef91:aleph@95.217.188.125:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%AB%F0%9F%87%AE%20Finland%20-%20Helsinki%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-24 22:57:49
-# Total valid configs: 15
-
-# TUIC (15 configs)
-tuic://c28f2f1e-265c-4672-ab64-d038254cc362:8264dd9849a38cf8@104.21.69.78:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://3bd82ac3-c6ec-43ad-834d-a5ed7c6686f7:1cd5c8c30cf21c8a@104.21.69.78:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://768dba4b-40e9-43dd-8135-9dec2425cd53:7f36c26f9e5e21ae@209.250.248.223:443?congestion_control=bbr&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B3%F0%9F%87%B1%20Netherlands%20-%20Amsterdam%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.175.51.245:40001#高速-美国达拉斯4
-tuic://768dba4b-40e9-43dd-8135-9dec2425cd53:7f36c26f9e5e21ae@136.244.102.244:443?congestion_control=bbr&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B3%F0%9F%87%B1%20Netherlands%20-%20Amsterdam%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@103.83.86.167:30000#高速-原生IP-土耳其
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.208.3&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
-tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@204.152.198.183:40572#高速-美国洛杉矶-40TB
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.cpionline.us&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d6b7e
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#ð
-tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.cpionline.us&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d25f3
-tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#ð
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@107.150.1.135:45000#高速-美国VS2倍
 tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@194.233.79.195:5829#低速-新加坡
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🔒
+tuic://768dba4b-40e9-43dd-8135-9dec2425cd53:7f36c26f9e5e21ae@209.250.248.223:443?congestion_control=bbr&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B3%F0%9F%87%B1%20Netherlands%20-%20Amsterdam%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@108.165.120.141:43602#高速-原生IP-美国密苏里州
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#
+tuic://ee982251-246b-4c5c-b5f2-dbc43d78058e:23fc8eecf7eab4ac@178.236.246.236:443?congestion_control=bbr&udp_relay_mode=quic&allow_insecure=1#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%20-%20Los%20Angeles%20%F0%9F%8C%8E%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3,spdy/3.1&sni=ELiV2RAY.eliv2.top&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@136.0.41.47:40000#高速-原生IP-美国德州1
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=70.34.197.98&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%232
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&amp%3Budp_relay_mode=native&amp%3Balpn=h3%2Cspdy/3.1&amp%3Ballow_insecure=1#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20890
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-25 07:02:37
+# Total valid configs: 21
+
+# TUIC (21 configs)
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=tuic51.cpionline.us&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%20d6b7e
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🆔vipv2rey%20🔒%20TU-UDP-N/A%20❔%20XX%2097ms
+tuic://d7a967b5-a26b-46f9-bc76-a9e5e082ef91:aleph@95.217.188.125:443?congestion_control=bbr&alpn=h3,spdy/3.1&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%AB%F0%9F%87%AE%20Finland%20-%20Helsinki%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443/@ELiV2RAY-@ELiV2RAY-@ELiV2RAY-@ELiV2RAY?allow_insecure=1&alpn=h3%2Cspdy%2F3.1&congestion_control=bbr&sni=70.34.197.98&udp_relay_mode=native#%F0%9F%92%A5%F0%9F%87%B8%F0%9F%87%AA%20SE%2070.34.197.98%20%E2%97%88%20udp:443%20%E2%97%88%20The%20Constant%20Company%20/%20Vultr%20%E2%97%88%2079f29
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&udp_relay_mode=native&sni=ELiV2RAY.eliv2.top&alpn=h3%2Cspdy%2F3.1&allow_insecure=1#🔒
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.208.3:443?congestion_control=bbr&alpn=h3%2Cspdy%2F3.1&sni=tuic51.cpionline.us&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Sp%C3%A5nga%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@95.179.167.38:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🇩🇪DE%20|%20tuic%20|%20@TUICity%20|%2014
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@204.152.198.183:40572#高速-美国洛杉矶-40TB
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🆔vipv2rey%20🔒%20TU-UDP-N/A%20❔%20XX%20down
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443/?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#irancpi.net-tuic2
+tuic://d1bb3aae-ace9-4b0f-9ae5-85ab73acbb43:Mahsaamini@104.21.59.207:443?congestion_control=bbr&udp_relay_mode=native&alpn=h3,spdy/3.1&allow_insecure=1#ð
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&%3Budp_relay_mode=native&%3Balpn=h3%2Cspdy/3.1&%3Ballow_insecure=1#
+tuic://c28f2f1e-265c-4672-ab64-d038254cc362:8264dd9849a38cf8@104.21.69.78:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://87bc1693-8860-41d7-acf4-e6edf49abbbb:crivAv10hAdr-fop4Lne@70.34.197.98:443?congestion_control=bbr&%3Budp_relay_mode=native&%3Balpn=h3%2Cspdy/3.1&%3Ballow_insecure=1#%F0%9F%87%B8%F0%9F%87%AA%20SE%20%7C%20TUIC%20%7C%20%40vipv2rey%20%231
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@199.247.1.134:443?congestion_control=bbr&alpn=h3&sni=www.apple.com&udp_relay_mode=native&allow_insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@151.245.32.32:46981#高速-迈阿密1
+tuic://32d6d133-0496-4b24-ab42-24d6dba0c071@103.83.86.167:30000#高速-原生IP-土耳其
+tuic://c28f2f1e-265c-4672-ab64-d038254cc362:8264dd9849a38cf8@172.67.206.75:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://3bd82ac3-c6ec-43ad-834d-a5ed7c6686f7:1cd5c8c30cf21c8a@172.67.206.75:443?congestion_control=bbr&udp_relay_mode=quic#%F0%9F%87%B3%F0%9F%87%A6%20Namibia%20-%20NA%20%F0%9F%8C%8D%20TU-UDP-TLS%204%E2%83%A3
+tuic://38e38f61-b1dd-4b34-90d0-f6222fd7393f:e7b1c11f0d40cc95@136.244.88.153:443?congestion_control=bbr&udp_relay_mode=native&sni=www.apple.com&alpn=h3&allow_insecure=1#🔒
