@@ -1,7 +1,7 @@
 name: "🧹 Сортировщик и Разбивка на Чанки 💋"
 
 on:
-  workflow_dispatch:     # Только ручной запуск
+  workflow_dispatch:
 
 jobs:
   run-cleaner:
