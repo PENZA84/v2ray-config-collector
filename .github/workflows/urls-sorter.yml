@@ -4,14 +4,19 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-cleaner:
+  process:
     runs-on: ubuntu-latest
     permissions: 
       contents: write
+    strategy:
+      matrix:
+        window: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
+
     steps:
       - uses: actions/checkout@v4
 
-      - uses: actions/setup-python@v5
+      - name: Setup Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
 
@@ -23,16 +28,15 @@ jobs:
       - name: 🌱 Prepare environment
         run: mkdir -p urls/urls data/raw_incoming
 
-      - name: 🔀 1. Разбиение на чанки
+      - name: 🔀 1. Разбиение на чанки (только в первом окне)
+        if: matrix.window == 0
         run: python urls/splitter.py
 
-      - name: ⚡ 2. Параллельная обработка чанков (10 окон)
+      - name: ⚡ 2. Обработка чанка (окно ${{ matrix.window }})
         run: python urls/sorter.py --window ${{ matrix.window }}
-        strategy:
-          matrix:
-            window: [0,1,2,3,4,5,6,7,8,9]
 
-      - name: 🚀 Commit & Push
+      - name: 🚀 Commit & Push (только после последнего окна)
+        if: matrix.window == 9
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
@@ -42,6 +46,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "✨ Нет изменений"
           else
-            git commit -m "🧹 Сортировщик: обработка 10 окон 💋"
+            git commit -m "🧹 Сортировщик: 10 окон завершены 💋"
             git push
           fi
