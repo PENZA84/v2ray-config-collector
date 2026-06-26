@@ -4,10 +4,11 @@ on:
   workflow_dispatch:
 
 jobs:
-  run-cleaner:
+  process:
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
+    strategy:
+      matrix:
+        window: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]   # 10 окон
 
     steps:
       - uses: actions/checkout@v4
@@ -24,21 +25,19 @@ jobs:
       - name: 🌱 Prepare environment
         run: mkdir -p urls/urls data/raw_incoming
 
-      - name: 🔀 Сортировка и обработка source_urls.txt
-        run: python urls/sorter.py
+      - name: 🔄 Обработка окна ${{ matrix.window }}
+        run: python urls/sorter.py --window ${{ matrix.window }}
 
       - name: 🚀 Commit & Push
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           
-          git add urls/source_urls.txt urls/urls/*.txt
-          git add urls/factory_valid.txt urls/url_checks.txt urls/filtered_results.txt
-          git add data/raw_incoming/deep_raw_collected.txt
+          git add urls/factory_valid.txt urls/url_checks.txt data/raw_incoming/deep_raw_collected.txt
           
           if git diff --staged --quiet; then
-            echo "✨ Нет изменений"
+            echo "Нет изменений в этом окне"
           else
-            git commit -m "🧹 Сортировщик: обработка чанков 💋"
+            git commit -m "🧹 Сортировщик: окно ${{ matrix.window }} 💋"
             git push
           fi
