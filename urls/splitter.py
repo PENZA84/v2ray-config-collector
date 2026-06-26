@@ -28,7 +28,7 @@ async def main():
 
     open(input_file, 'w').close()
     print("\n🧹 source_urls.txt очищен")
-    print(f"🎉 Чанки готовы в urls/urls/")
+    print(f"🎉 Чанки готовы в папке urls/urls/")
 
 if __name__ == "__main__":
     import asyncio
