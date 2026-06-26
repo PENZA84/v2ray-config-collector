@@ -13,10 +13,11 @@ BAD_KW = [
     'mtproto', 'blog.', 'medium.com', 'substack', 'telegra.ph', 'happ.su', 'bintv.net',
     'applnn.com', 'tvlnn.com', 'techcrunch.com', 'google.com', 'translate.google',
     'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com', 
-    'bitbucket.org', 'anthropic.com', 'instagram.com', 'videosearch', 'wikipedia.org', 'wiki'
+    'bitbucket.org', 'anthropic.com', 'instagram.com', 'videosearch', 'wikipedia.org', 
+    'wiki', 'donate'   # ← добавлено по твоей просьбе
 ]
 
-def is_duplicate_with_slash(url: str) -> bool:
+def is_trailing_slash(url: str) -> bool:
     """Если URL заканчивается на / — считаем дубликатом и отправляем в бункер"""
     return url.strip().endswith('/')
 
@@ -82,8 +83,7 @@ async def main():
                 chunk_urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
 
             for url in chunk_urls:
-                # Специальная проверка на дубликат со слэшем
-                if is_duplicate_with_slash(url):
+                if is_trailing_slash(url):
                     all_dead.append(url)
                     continue
 
@@ -98,7 +98,7 @@ async def main():
                 else:
                     all_url_checks.append(url)
 
-    # Склейка результатов
+    # Склейка
     with open(factory_file, 'a', encoding='utf-8') as f:
         if all_factory:
             f.write('\n'.join(all_factory) + '\n')
