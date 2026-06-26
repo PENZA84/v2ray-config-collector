@@ -7,7 +7,6 @@ import argparse
 
 BATCH_SIZE = 20000
 
-# === СТРОГИЕ ФИЛЬТРЫ ===
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
 BAD_KW = [
     'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook',
@@ -19,12 +18,9 @@ BAD_KW = [
     'wiki', 'donate', 'gugu3.com'
 ]
 
-def is_trailing_slash(url: str) -> bool:
-    return url.strip().endswith('/')
-
 async def deep_check(session, url: str):
     try:
-        async with session.get(url, timeout=12, allow_redirects=True) as resp:
+        async with session.get(url, timeout=15, allow_redirects=True) as resp:
             if resp.status != 200:
                 return "dead"
             text = await resp.text()
@@ -36,9 +32,8 @@ async def deep_check(session, url: str):
         return "dead"
 
 async def main():
-    parser = argparse.ArgumentParser(description="Сортировщик чанков")
-    parser.add_argument('--window', type=int, default=0, help="Номер окна (0 = все чанки)")
-    parser.add_argument('--chunk-size', type=int, default=20000)
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--window', type=int, default=0, help="Номер окна (0 = все)")
     args = parser.parse_args()
 
     chunks_dir = 'urls/urls'
@@ -48,11 +43,7 @@ async def main():
 
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
 
-    if not chunk_files:
-        print("❌ Чанки не найдены")
-        return
-
-    print(f"🔄 [Окно №{args.window}] Запуск обработки чанков...")
+    print(f"🔄 [Окно №{args.window}] Запуск обработки...")
 
     all_factory = []
     all_url_checks = []
@@ -61,16 +52,12 @@ async def main():
     async with aiohttp.ClientSession() as session:
         for chunk_file in chunk_files:
             chunk_path = os.path.join(chunks_dir, chunk_file)
-            print(f"   Обрабатываю {chunk_file}...")
+            print(f"   📂 {chunk_file}")
 
             with open(chunk_path, 'r', encoding='utf-8') as f:
                 urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
 
             for url in urls:
-                if is_trailing_slash(url):
-                    all_dead.append(url)
-                    continue
-
                 url_lower = url.lower()
                 if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
                     all_dead.append(url)
@@ -96,7 +83,7 @@ async def main():
             f.write("\n# === Новый мусор + dead ===\n")
             f.write("\n".join(all_dead) + "\n")
 
-    print(f"✅ [Окно №{args.window}] Завершено | Factory: {len(all_factory)} | Url_checks: {len(all_url_checks)} | Dead: {len(all_dead)}")
+    print(f"✅ [Окно №{args.window}] Завершено | Factory: {len(all_factory)} | Url_checks: {len(all_url_checks)}")
 
 if __name__ == "__main__":
     import sys
