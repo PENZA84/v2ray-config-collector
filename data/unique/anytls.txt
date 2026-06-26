@@ -1,13 +1,6 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-26 00:18:25
-# Total valid configs: 2
-
-# ANYTLS (2 configs)
-anytls://d3976a48-771b-4537-954c-c1b6db4dc6c6@us01a.t11-a.app:35660#🇺🇸_机场推荐:dafei.de_美国_20
-anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-26 00:18:40
+# Generated on: 2026-06-26 06:42:30
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://32315324-cf6b-11ed-979b-f23c9164ca5d@714ffc8e-te09s0-tfgtqm-nx3b.los.hyhuawei.com:443#🔴🇺🇸[🎬🤖📺🔍]_github.com/Ruk1ng001_113dba6b
+anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
