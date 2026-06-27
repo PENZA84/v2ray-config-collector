@@ -17,7 +17,6 @@ def main():
     print(f"🔍 Всего ссылок: {len(urls)}")
     print(f"📦 Разбиваю на чанки по {BATCH_SIZE}...\n")
 
-    chunk_count = 0
     for i in range(0, len(urls), BATCH_SIZE):
         batch = urls[i:i + BATCH_SIZE]
         batch_num = i // BATCH_SIZE + 1
@@ -27,14 +26,13 @@ def main():
             f.write('\n'.join(batch) + '\n')
         
         print(f"✅ Сохранён {chunk_file} ({len(batch)} ссылок)")
-        chunk_count += 1
 
-    # === ПРИНУДИТЕЛЬНАЯ ОЧИСТКА ===
+    # === НАДЁЖНАЯ ОЧИСТКА ===
     with open(input_file, 'w', encoding='utf-8') as f:
-        f.write("")  # полностью пустой файл
-    
+        f.write("")   # полностью пустой
+
     print("\n🧹 source_urls.txt полностью очищен")
-    print(f"🎉 Разбито на {chunk_count} чанков")
+    print(f"🎉 Разбито на {((len(urls)-1)//BATCH_SIZE)+1} чанков")
 
 if __name__ == "__main__":
     main()
