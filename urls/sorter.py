@@ -12,7 +12,7 @@ BAD_KW = [
     'tvlnn.com', 'techcrunch.com', 'gugu3.com/', 'donate', 'instagram', 'wikipedia',
     'videosearch', 'artist', 'tv', 'tv.', 'article', 'google.com', 'translate.google',
     'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
-    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com'
+    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news'
 ]
 
 async def deep_check(session, url: str):
