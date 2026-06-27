@@ -1,15 +1,19 @@
 import asyncio
 import aiohttp
 import os
-import sys
 import argparse
 
-# === ФИЛЬТРЫ ===
-BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.png', '.jpg']
-BAD_KW = ['apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music', 'book', 
-          'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto', 'blog.', 'medium.com', 
-          'substack', 'telegra.ph', 'happ.su', 'bintv.net', 'applnn.com', 'tvlnn.com', 'techcrunch.com', 
-          'gugu3.com/', 'donate', 'instagram', 'wikipedia', 'videosearch']
+BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
+
+BAD_KW = [
+    'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
+    'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto',
+    'blog.', 'medium.com', 'substack', 'telegra.ph', 'happ.su', 'bintv.net', 'applnn.com',
+    'tvlnn.com', 'techcrunch.com', 'gugu3.com/', 'donate', 'instagram', 'wikipedia',
+    'videosearch', 'artist', 'tv', 'tv.', 'article', 'google.com', 'translate.google',
+    'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
+    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com'
+]
 
 async def deep_check(session, url: str):
     try:
@@ -33,16 +37,14 @@ async def deep_check(session, url: str):
 
 async def process_window(window_id: int):
     chunks_dir = 'urls/urls'
-    chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
-    
-    if not chunk_files:
-        print(f"❌ Окно {window_id}: Чанки не найдены!")
+    if not os.path.exists(chunks_dir):
+        print(f"❌ Окно {window_id}: Папка чанков не найдена!")
         return
 
-    # Каждое окно берёт свои чанки (распределяем равномерно)
+    chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
     my_chunks = [f for i, f in enumerate(chunk_files) if i % 10 == window_id]
-    
-    print(f"🚀 [Окно {window_id}] Обрабатываю {len(my_chunks)} чанков: {my_chunks}")
+
+    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)}")
 
     factory, url_checks, filtered, dead = [], [], [], []
 
@@ -51,12 +53,13 @@ async def process_window(window_id: int):
             full_path = os.path.join(chunks_dir, chunk_file)
             with open(full_path, 'r', encoding='utf-8') as f:
                 urls = [line.strip() for line in f if line.strip()]
-            
+
             for url in urls:
-                if any(ext in url.lower() for ext in BAD_EXT) or any(kw in url.lower() for kw in BAD_KW):
+                url_lower = url.lower()
+                if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
                     dead.append(url)
                     continue
-                
+
                 category = await deep_check(session, url)
                 if category == "factory":
                     factory.append(url)
@@ -67,29 +70,32 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Дополняем результаты
-    for file, data in [
+    # Сохранение результатов
+    for filename, data in [
         ('urls/factory_valid.txt', factory),
         ('urls/url_checks.txt', url_checks),
         ('urls/filtered_results.txt', filtered)
     ]:
         if data:
-            os.makedirs(os.path.dirname(file), exist_ok=True)
-            with open(file, 'a', encoding='utf-8') as f:
+            os.makedirs(os.path.dirname(filename), exist_ok=True)
+            with open(filename, 'a', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
 
     if dead:
-        with open('data/raw_incoming/deep_raw_collected.txt', 'a', encoding='utf-8') as f:
+        dead_file = 'data/raw_incoming/deep_raw_collected.txt'
+        os.makedirs(os.path.dirname(dead_file), exist_ok=True)
+        with open(dead_file, 'a', encoding='utf-8') as f:
             f.write(f"\n# === Dead from window {window_id} ===\n")
             f.write('\n'.join(dead) + '\n')
 
-    print(f"✅ [Окно {window_id}] Завершено: Factory {len(factory)}, Url_checks {len(url_checks)}, Filtered {len(filtered)}, Dead {len(dead)}")
+    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument('--window', type=int, default=0)
     args = parser.parse_args()
-    
-    if sys.platform == 'win32':
+
+    if os.name == 'nt':
         asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
+
     asyncio.run(process_window(args.window))
