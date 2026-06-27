@@ -1,7 +1,12 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-27 02:04:28
-# Total valid configs: 2
+# Generated on: 2026-06-27 12:03:03
+# Total valid configs: 1
 
-# WIREGUARD (2 configs)
-wireguard://185.165.170.3:443#🇮🇸_hamedp71-1
+# WIREGUARD (1 configs)
 wireguard://103.108.94.164:80#🇳🇿_hamedp71
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-27 12:03:25
+# Total valid configs: 1
+
+# WIREGUARD (1 configs)
+wireguard://185.165.170.3:443#🇮🇸_hamedp71-1
