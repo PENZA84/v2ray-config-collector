@@ -1,24 +1,33 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:13
-# Total valid configs: 1
-
-# SOCKS (1 configs)
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:29
+# Generated on: 2026-06-28 17:15:57
 # Total valid configs: 1
 
 # SOCKS (1 configs)
 socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:29
-# Total valid configs: 7
+# Generated on: 2026-06-28 17:15:58
+# Total valid configs: 2
 
-# SOCKS (7 configs)
-socks://VjJyYXl5bmd2cG46VjJyYXl5Tmd2cG4@65.109.177.191:80#🇫🇮FinlandSocks🇫🇮🎖️
+# SOCKS (2 configs)
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+socks://djJyYXl5Tkd2cG46VjJSYXl5bmd2cG4@65.109.177.191:80#🇫🇮@V2RayyNGvpn🇫🇮
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-28 17:15:46
+# Total valid configs: 2
+
+# SOCKS (2 configs)
+socks://VjJyYXl5bmd2cG46VjJyYXl5Tmd2cG4@65.109.177.191:80#🇫🇮FinlandSocks🇫🇮🎖️
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-28 17:15:52
+# Total valid configs: 1
+
+# SOCKS (1 configs)
 socks://VjJyYXl5bmd2cG46VjJyYXl5Tmd2cG4@65.109.177.191:80#ð«ð®FinlandSocksð«ð®ðï¸
-socks://VDJjbE0wUWxNMFE2Og%3D%3D@121.169.46.116:1090#🇰🇷KR²_1|0.7MB/s|GPT|X|History
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-28 17:15:55
+# Total valid configs: 2
+
+# SOCKS (2 configs)
 socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+socks://djJyYXl5Tkd2cG46VjJSYXl5bmd2cG4@65.109.177.191:80#ð«ð®@V2RayyNGvpnð«ð®

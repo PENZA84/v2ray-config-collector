@@ -1,19 +1,13 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:18
+# Generated on: 2026-06-28 17:15:51
 # Total valid configs: 2
 
 # ANYTLS (2 configs)
 anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053#[AnyTLS]_🇯🇵_🇯🇵日本-01
-anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053/?type=tcp&insecure=1&fp=chrome&sni=gw.alicdn.com#%F0%9F%87%AF%F0%9F%87%B5%E6%97%A5%E6%9C%AC-01
+anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053#🇯🇵_日本-01
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:29
+# Generated on: 2026-06-28 17:15:55
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 13:03:29
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
-anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053#🇯🇵_日本-01
