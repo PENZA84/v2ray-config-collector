@@ -1,19 +1,24 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-27 23:12:23
+# Generated on: 2026-06-28 03:22:14
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
-anytls://5f091cbe-fb34-11ea-9777-f23c9164ca5d@58e80f61-tcxds0-tiuovf-v3c2.los.hyhuawei.com:443#🇺🇸_美国_|_USA_6-2
+anytls://1b609740-eec2-11ef-8543-f23c93136cb3@56518553-te8ao0-tfnl0i-au6.hkt.east.wctype.com:8300#🇭🇰_机场推荐:dafei.de_香港_01
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-27 23:10:34
-# Total valid configs: 2
+# Generated on: 2026-06-28 03:22:10
+# Total valid configs: 1
 
-# ANYTLS (2 configs)
+# ANYTLS (1 configs)
 anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053#[AnyTLS]_🇯🇵_🇯🇵日本-01
-anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053/?type=tcp&insecure=1&fp=chrome&sni=gw.alicdn.com#%F0%9F%87%AF%F0%9F%87%B5%E6%97%A5%E6%9C%AC-01
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-27 23:10:52
+# Generated on: 2026-06-28 03:22:23
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-28 03:22:26
+# Total valid configs: 1
+
+# ANYTLS (1 configs)
+anytls://ceeb8370-d87a-40c7-b8b9-566716210763@45.192.199.144:2053/?type=tcp&insecure=1&fp=chrome&sni=gw.alicdn.com#%F0%9F%87%AF%F0%9F%87%B5%E6%97%A5%E6%9C%AC-01
