@@ -90,7 +90,7 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение (без commit'ов)
+    # Сохранение
     for filename, data in [
         ('urls/factory_valid.txt', factory),
         ('urls/url_checks.txt', url_checks),
