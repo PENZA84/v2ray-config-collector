@@ -17,22 +17,29 @@ BAD_KW = [
 
 async def deep_check(session, url: str):
     try:
+        print(f"   🔍 Проверяем: {url}")
         async with session.get(url, timeout=12, allow_redirects=True) as resp:
             if resp.status != 200:
+                print(f"   ❌ Dead (status {resp.status}): {url}")
                 return "dead"
             text = await resp.text()
             text_lower = text.lower()
             
             if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
+                print(f"   ✅ Factory (протокол): {url}")
                 return "factory"
             if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
+                print(f"   ✅ Factory (subscription): {url}")
                 return "factory"
             
             http_count = sum(1 for line in text.splitlines() if line.strip().startswith(('http://', 'https://')))
             if http_count >= 5:
+                print(f"   🔗 Url_check (много ссылок): {url}")
                 return "url_check"
+            print(f"   🗑 Filtered: {url}")
             return "filtered"
-    except:
+    except Exception as e:
+        print(f"   ❌ Dead (ошибка): {url} | {e}")
         return "dead"
 
 async def process_window(window_id: int):
@@ -44,7 +51,7 @@ async def process_window(window_id: int):
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
     my_chunks = [f for i, f in enumerate(chunk_files) if i % 10 == window_id]
 
-    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)}")
+    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)} → {my_chunks}")
 
     factory, url_checks, filtered, dead = [], [], [], []
 
@@ -54,9 +61,12 @@ async def process_window(window_id: int):
             with open(full_path, 'r', encoding='utf-8') as f:
                 urls = [line.strip() for line in f if line.strip()]
 
+            print(f"   📂 Обрабатываем чанк: {chunk_file} ({len(urls)} ссылок)")
+
             for url in urls:
                 url_lower = url.lower()
                 if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
+                    print(f"   🗑 BAD_KW/BAD_EXT: {url}")
                     dead.append(url)
                     continue
 
@@ -70,7 +80,7 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # === СОХРАНЕНИЕ (append) ===
+    # Сохранение
     for filename, data in [
         ('urls/factory_valid.txt', factory),
         ('urls/url_checks.txt', url_checks),
