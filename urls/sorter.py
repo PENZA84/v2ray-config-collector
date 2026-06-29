@@ -17,14 +17,29 @@ BAD_KW = [
 
 async def deep_check(session, url: str):
     try:
-        print(f"   🔍 Проверяем: {url}")
         async with session.get(url, timeout=12, allow_redirects=True) as resp:
             if resp.status != 200:
-                print(f"   ❌ Dead (status {resp.status}): {url}")
                 return "dead"
             text = await resp.text()
             text_lower = text.lower()
+            url_lower = url.lower()
             
+            # Telegram proxies → мусор
+            if 't.me/proxy' in url_lower or 'mtproto' in url_lower:
+                print(f"   🗑 Telegram proxy (мусор): {url}")
+                return "dead"
+
+            # Telegram channels (t.me/ и t.me/s/) и m3u плейлисты → MISCELLANEOUS
+            if ('t.me/' in url_lower or '.m3u' in url_lower or '.m3u8' in url_lower or '#extm3u' in text_lower):
+                print(f"   📁 Miscellaneous (Telegram/m3u): {url}")
+                return "misc"
+
+            # Raw списки прокси → factory
+            if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray']):
+                print(f"   ✅ Factory (raw список): {url}")
+                return "factory"
+
+            # Основные протоколы
             if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
                 print(f"   ✅ Factory (протокол): {url}")
                 return "factory"
@@ -36,10 +51,10 @@ async def deep_check(session, url: str):
             if http_count >= 5:
                 print(f"   🔗 Url_check (много ссылок): {url}")
                 return "url_check"
+            
             print(f"   🗑 Filtered: {url}")
             return "filtered"
-    except Exception as e:
-        print(f"   ❌ Dead (ошибка): {url} | {e}")
+    except:
         return "dead"
 
 async def process_window(window_id: int):
@@ -51,9 +66,9 @@ async def process_window(window_id: int):
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
     my_chunks = [f for i, f in enumerate(chunk_files) if i % 10 == window_id]
 
-    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)} → {my_chunks}")
+    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)}")
 
-    factory, url_checks, filtered, dead = [], [], [], []
+    factory, url_checks, filtered, dead, misc = [], [], [], [], []
 
     async with aiohttp.ClientSession() as session:
         for chunk_file in my_chunks:
@@ -61,12 +76,9 @@ async def process_window(window_id: int):
             with open(full_path, 'r', encoding='utf-8') as f:
                 urls = [line.strip() for line in f if line.strip()]
 
-            print(f"   📂 Обрабатываем чанк: {chunk_file} ({len(urls)} ссылок)")
-
             for url in urls:
                 url_lower = url.lower()
                 if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
-                    print(f"   🗑 BAD_KW/BAD_EXT: {url}")
                     dead.append(url)
                     continue
 
@@ -75,6 +87,8 @@ async def process_window(window_id: int):
                     factory.append(url)
                 elif category == "url_check":
                     url_checks.append(url)
+                elif category == "misc":
+                    misc.append(url)
                 elif category == "dead":
                     dead.append(url)
                 else:
@@ -84,6 +98,7 @@ async def process_window(window_id: int):
     for filename, data in [
         ('urls/factory_valid.txt', factory),
         ('urls/url_checks.txt', url_checks),
+        ('urls/misc.txt', misc),          # Новая категория
         ('urls/filtered_results.txt', filtered)
     ]:
         if data:
@@ -98,7 +113,7 @@ async def process_window(window_id: int):
             f.write(f"\n# === Dead from window {window_id} ===\n")
             f.write('\n'.join(dead) + '\n')
 
-    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
+    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
