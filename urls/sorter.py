@@ -24,22 +24,18 @@ async def deep_check(session, url: str):
             text_lower = text.lower()
             url_lower = url.lower()
             
-            # Telegram proxies → мусор
             if 't.me/proxy' in url_lower or 'mtproto' in url_lower:
                 print(f"   🗑 Telegram proxy (мусор): {url}")
                 return "dead"
 
-            # Telegram channels (t.me/ и t.me/s/) и m3u плейлисты → MISCELLANEOUS
             if ('t.me/' in url_lower or '.m3u' in url_lower or '.m3u8' in url_lower or '#extm3u' in text_lower):
                 print(f"   📁 Miscellaneous (Telegram/m3u): {url}")
                 return "misc"
 
-            # Raw списки прокси → factory
             if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray']):
                 print(f"   ✅ Factory (raw список): {url}")
                 return "factory"
 
-            # Основные протоколы
             if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
                 print(f"   ✅ Factory (протокол): {url}")
                 return "factory"
@@ -94,17 +90,18 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение
+    # Сохранение (без commit'ов)
     for filename, data in [
         ('urls/factory_valid.txt', factory),
         ('urls/url_checks.txt', url_checks),
-        ('urls/misc.txt', misc),          # Новая категория
+        ('urls/misc.txt', misc),
         ('urls/filtered_results.txt', filtered)
     ]:
         if data:
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, 'a', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
+            print(f"   💾 Сохранено в {filename}: {len(data)} строк")
 
     if dead:
         dead_file = 'data/raw_incoming/deep_raw_collected.txt'
@@ -112,6 +109,7 @@ async def process_window(window_id: int):
         with open(dead_file, 'a', encoding='utf-8') as f:
             f.write(f"\n# === Dead from window {window_id} ===\n")
             f.write('\n'.join(dead) + '\n')
+        print(f"   💾 Сохранено Dead: {len(dead)}")
 
     print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
 
