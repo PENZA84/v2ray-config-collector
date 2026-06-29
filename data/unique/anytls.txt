@@ -1,11 +1,5 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 22:08:57
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
-anytls://5f091cbe-fb34-11ea-9777-f23c9164ca5d@e5be15e9-tcz8g0-tiuovf-v3c2.los.hyhuawei.com:443#🇺🇸_美国_|_USA_14
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-28 22:08:56
+# Generated on: 2026-06-29 06:43:50
 # Total valid configs: 1
 
 # ANYTLS (1 configs)
