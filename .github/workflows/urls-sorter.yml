@@ -60,22 +60,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: 🚀 Финальный Commit с статистикой
+      - name: 🚀 Финальный Commit
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          
-          factory_count=$(wc -l < urls/factory_valid.txt 2>/dev/null || echo 0)
-          url_checks_count=$(wc -l < urls/url_checks.txt 2>/dev/null || echo 0)
-          misc_count=$(wc -l < urls/misc.txt 2>/dev/null || echo 0)
-          filtered_count=$(wc -l < urls/filtered_results.txt 2>/dev/null || echo 0)
-          
           git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt data/raw_incoming/deep_raw_collected.txt
-          
           if git diff --staged --quiet; then
             echo "✨ Нет новых изменений"
           else
-            git commit -m "🧹 Сортировщик: 10 окон завершены 💋
-Factory: $factory_count | Url_checks: $url_checks_count | Misc: $misc_count | Filtered: $filtered_count"
+            git commit -m "🧹 Сортировщик: 10 окон завершены 💋"
             git push
           fi
