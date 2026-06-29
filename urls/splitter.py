@@ -27,11 +27,19 @@ def main():
         
         print(f"✅ Сохранён {chunk_file} ({len(batch)} ссылок)")
 
-    # === НАДЁЖНАЯ ОЧИСТКА ===
+    # === ПРИНУДИТЕЛЬНАЯ ОЧИСТКА ===
     with open(input_file, 'w', encoding='utf-8') as f:
-        f.write("")   # полностью пустой
+        f.write("")
 
     print("\n🧹 source_urls.txt полностью очищен")
+
+    # === Commit изменений ===
+    print("📤 Коммитим пустой source_urls.txt...")
+    os.system('git config --global user.name "github-actions[bot]"')
+    os.system('git config --global user.email "github-actions[bot]@users.noreply.github.com"')
+    os.system('git add urls/source_urls.txt')
+    os.system('git diff --staged --quiet || git commit -m "🧹 source_urls.txt очищен" && git push')
+
     print(f"🎉 Разбито на {((len(urls)-1)//BATCH_SIZE)+1} чанков")
 
 if __name__ == "__main__":
