@@ -10,11 +10,12 @@ import base64
 import argparse
 from bs4 import BeautifulSoup
 from urllib.parse import urljoin, urlencode, unquote
+import urllib.parse
 
 class Main1TelegramCollector:
     def __init__(self):
         # --- НАСТРОЙКА ПАРАЛЛЕЛЬНЫХ ОКОН (0 - 7) ---
-        parser = argparse.ArgumentParser(description="Завод: Индустриальный Сборщик Телеграма main1.py")
+        parser = argparse.ArgumentParser(description="Завод: ИндустриАльный Сборщик Телеграма main1.py")
         parser.add_argument('--window', type=int, default=0, help="Индекс параллельного окна (0-7)")
         parser.add_argument('--chunk-size', type=int, default=2500, help="Размер куска для рабочих окон")
         args, _ = parser.parse_known_args()
@@ -184,9 +185,29 @@ class Main1TelegramCollector:
                     prefix = "amneziawg" if is_amnezia else "wireguard"
                     extracted.append(f"{prefix}://{endpoint}#Raw_{os.path.basename(target_path).replace('.', '_')}")
         
-        # Сбор строк прокси прямо из текста
-        standard_links = [link.strip().rstrip('.') for link in self.regex_pattern.findall(text) 
-                          if not any(bad in link for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,'])]
+        # Сбор строк прокси прямо из текста + ЖЕСТКИЙ ТАМОЖЕННИК
+        standard_links = []
+        for link in self.regex_pattern.findall(text):
+            link_clean = link.strip().rstrip('.')
+            if any(bad in link_clean for bad in ['User-Agent', 'headers', 'Pragma', 'cache-control', 'Host,']):
+                continue
+            
+            # 🛡️ ТАМОЖЕННИК: Выжигаем обычные веб-сайты-пустышки в никуда
+            link_lower = link_clean.lower()
+            if link_lower.startswith('http://') or link_lower.startswith('https://'):
+                try:
+                    parsed = urllib.parse.urlparse(link_clean)
+                    path_clean = parsed.path.strip('/')
+                    # Если в ссылке есть вложенный путь (типа /recipes/...) или нет порта прокси
+                    if path_clean or not parsed.port:
+                        # Защитное исключение для реальных ссылок подписок (если проскочат)
+                        if not any(k in link_lower for k in ['key=', 'sub', 'token=', 'clash', '.txt', '.yaml', '.conf']):
+                            continue  # Полный сброс строки мимо базы (В НИКУДА)
+                except:
+                    continue  # Ошибка парсинга ссылки — тоже в никуда
+                    
+            standard_links.append(link_clean)
+            
         extracted.extend(standard_links)
         return extracted
 
