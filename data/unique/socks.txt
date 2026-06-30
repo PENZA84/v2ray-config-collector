@@ -1,32 +1,33 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-29 18:02:29
+# Generated on: 2026-06-30 00:44:45
 # Total valid configs: 1
 
 # SOCKS (1 configs)
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-29 18:02:49
-# Total valid configs: 2
-
-# SOCKS (2 configs)
 socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-29 18:02:40
-# Total valid configs: 1
-
-# SOCKS (1 configs)
-socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-29 18:02:41
-# Total valid configs: 1
-
-# SOCKS (1 configs)
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-29 18:02:45
+# Generated on: 2026-06-30 00:18:45
 # Total valid configs: 2
 
 # SOCKS (2 configs)
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-30 00:42:55
+# Total valid configs: 1
+
+# SOCKS (1 configs)
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-30 00:45:11
+# Total valid configs: 3
+
+# SOCKS (3 configs)
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@dk-cop.pvdata.host:1080#@Leecher56
+socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-30 00:23:44
+# Total valid configs: 1
+
+# SOCKS (1 configs)
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
