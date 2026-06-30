@@ -70,6 +70,19 @@ class ConnectivityValidator:
     def detect_protocol(self, config):
         if config.startswith('clash-config://'):
             return 'clash'
+            
+        # 🛡️ ВТОРОЙ БАРЬЕР ТАМОЖЕННИКА: Фильтруем остаточный мусор на входе
+        config_lower = config.lower()
+        if config_lower.startswith('http://') or config_lower.startswith('https://'):
+            try:
+                parsed = urllib.parse.urlparse(config)
+                path_clean = parsed.path.strip('/')
+                if path_clean or not parsed.port:
+                    if not any(k in config_lower for k in ['key=', 'sub', 'token=', 'clash', '.txt', '.yaml', '.conf']):
+                        return None  # Жесткий отказ, строка полностью аннулируется
+            except:
+                return None
+
         for proto in self.protocols:
             if config.lower().startswith(f"{proto}://"):
                 return proto
@@ -123,7 +136,6 @@ class ConnectivityValidator:
             return False
 
     def display_progress(self, current, total):
-        # Красивый вывод каждые 500 строк без захламления логов виртуальной машины
         if total > 0 and current % 500 == 0:
             percent = (current / total) * 100
             print(f"🔹 [ОТК ПРОГРЕСС] [{self.chunk_label}] Проверено: {current}/{total} ({percent:.1f}%)", flush=True)
@@ -212,8 +224,7 @@ class ConnectivityValidator:
                     f.write(f"# Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                     f.write(f"# Total valid configs: {len(configs)}\n\n")
                     f.write(f"# {protocol.upper()} ({len(configs)} configs)\n")
-                    for config in configs:
-                        f.write(f"{config}\n")
+                    f.write(f"{config}\n" for config in configs)
             
             print(f"\n📊 ================= ОТЧЁТ TCP-ВАЛИДАТОРА [{self.chunk_label}] =================", flush=True)
             print(f"📥 ВСЕГО ТОЧЕК ДОСТУПА В КУСКЕ: {self.stats['total_checked']} шт.", flush=True)
