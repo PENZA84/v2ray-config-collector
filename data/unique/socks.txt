@@ -1,33 +1,26 @@
 # All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 06:55:21
-# Total valid configs: 1
-
-# SOCKS (1 configs)
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 06:54:57
-# Total valid configs: 1
-
-# SOCKS (1 configs)
-socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 06:54:55
-# Total valid configs: 2
-
-# SOCKS (2 configs)
-socks://Og@152.53.144.223:1080#US%E7%BE%8E%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
-socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 06:55:12
+# Generated on: 2026-06-30 12:59:55
 # Total valid configs: 3
 
 # SOCKS (3 configs)
-socks://VDJjbE0wUWxNMFE2Og%3D%3D@121.169.46.116:1090#🇰🇷KR²_1|0.7MB/s|GPT|X|History
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
-socks://Og%3D%3D@5.255.99.75:1080#❓Other_1|2.1MB/s
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 06:55:10
-# Total valid configs: 1
-
-# SOCKS (1 configs)
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
+socks://Og@121.169.46.116:1090#KR%E9%9F%A9%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-30 13:00:12
+# Total valid configs: 2
+
+# SOCKS (2 configs)
+socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
+# All Valid Configurations - TCP Test Passed
+# Generated on: 2026-06-30 12:59:57
+# Total valid configs: 6
+
+# SOCKS (6 configs)
+socks://VDJjbE0wUWxNMFE2Og%3D%3D@121.169.46.116:1090#🇰🇷KR²_1|0.7MB/s|GPT|X|History
+socks://UjM4WWNqMWJuR1F0RldQN2NMVU1neUdDOlRlbDZAU29vblRlYW0@de-fra.pvdata.host:1080#telegram
+socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
+socks://Og@152.53.144.223:1080#US%E7%BE%8E%E5%9B%BD%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
+socks://djJyYXl5Tkd2cG46VjJSYXl5bmd2cG4@65.109.177.191:80#🇫🇮@V2RayyNGvpn🇫🇮
+socks://djJyYXl5Tkd2cG46VjJSYXl5bmd2cG4@65.109.177.191:80#ð«ð®@V2RayyNGvpnð«ð®
