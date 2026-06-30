@@ -20,14 +20,13 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        # ВОТ ОНА, СПАСИТЕЛЬНАЯ СЕМЁРКА:
         window_index: [0, 1, 2, 3, 4, 5, 6, 7]
     steps:
       - name: "📂 Копирую код"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: "🐍 Настраиваю Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.13'
 
@@ -42,8 +41,9 @@ jobs:
         env:
           PYTHONUNBUFFERED: 1
 
+          # Фиксируем размер и отправляем сырье на обработку, как показано на Снимок экрана (1674)_3.jpg
       - name: "📤 Отправка временного файла"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: "tg_chunk_${{ matrix.window_index }}"
           path: data/raw_incoming/extracted_documents.txt
@@ -58,12 +58,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📂 Подготавливаю рабочее пространство"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
 
       - name: "🐍 Настраиваю Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.13'
 
@@ -73,7 +73,7 @@ jobs:
           pip install requests pyyaml beautifulsoup4 tqdm
 
       - name: "📥 Стягиваю временные файлы Телеграма"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: "tg_chunk_*"
           path: data/incoming_chunks/
@@ -81,7 +81,6 @@ jobs:
       - name: "🤝 Подготовка файла для Дедупликатора"
         run: |
           mkdir -p data/raw_incoming
-          # Склеиваем добычу именно под именем, которое ждет deduplicator.py!
           for window_dir in data/incoming_chunks/tg_chunk_*; do
             if [ -f "$window_dir/extracted_documents.txt" ]; then
               cat "$window_dir/extracted_documents.txt" >> data/raw_incoming/deep_raw_collected.txt
@@ -107,7 +106,7 @@ jobs:
           python v2ray_config_collector/core/split_configs.py
 
       - name: "📤 Загрузка кусков в облако"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: "chunks_for_validation"
           path: data/unique/chunk_*.txt
@@ -126,10 +125,10 @@ jobs:
         chunk_id: ['001', '002', '003', '004', '005']
     steps:
       - name: "📂 Копирую код"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
 
       - name: "🐍 Настраиваю Python"
-        uses: actions/setup-python@v5
+        uses: actions/setup-python@v5.3.0
         with:
           python-version: '3.13'
 
@@ -141,7 +140,7 @@ jobs:
           playwright install chromium
 
       - name: "📥 Беру свой кусок на проверку"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           name: "chunks_for_validation"
           path: data/unique/
@@ -153,14 +152,14 @@ jobs:
           fi
 
       - name: "📤 Отправка проверенного куска"
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v4.6.0
         with:
           name: "validated_chunk_${{ matrix.chunk_id }}"
           path: data/unique/
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 4: СЛИЯНИЕ И ФИНАЛЬНОЕ СОХРАНЕНИЕ С НАРЕЗКОЙ
+  # ЭТАП 4: СЛИЯНИЕ И ФИНАЛЬНОЕ СОХРАНЕНИЕ С НАРЕЗКОЙ ЧАСТЕЙ
   # ==========================================
   final_commit:
     name: "Сохранение на Заводе 💾"
@@ -168,12 +167,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: "📂 Подготавливаю пространство"
-        uses: actions/checkout@v4
+        uses: actions/checkout@v4.2.2
         with:
           fetch-depth: 0
 
       - name: "📥 Скачиваю все 5 результатов"
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v4.1.8
         with:
           pattern: "validated_chunk_*"
           path: temp_validated/
@@ -181,36 +180,57 @@ jobs:
       - name: "🤝 Изящное слияние файлов и защитная нарезка"
         run: |
           mkdir -p data/unique
+          python -c "
+          import os, glob
+          out_dir = 'data/unique'
+          os.makedirs(out_dir, exist_ok=True)
           
-          # Шаг 1: Очищаем старые версии финальных протоколов, чтобы cat не дублировал базу прошлых запусков
-          for file in temp_validated/*/*_chunk_*.txt; do
-            if [ -f "$file" ]; then
-              filename=$(basename "$file")
-              proto_name="${filename%_chunk_*.txt}"
-              rm -f "data/unique/${proto_name}.txt"
-            fi
-          done
+          # Очищаем старые версии финальных txt-файлов, чтобы не плодить дубли прошлых запусков
+          for f in glob.glob(os.path.join(out_dir, '*.txt')):
+              try: os.remove(f)
+              except: pass
           
-          # Шаг 2: Производим чистое слияние свежих проверенных кусков
-          for file in temp_validated/*/*_chunk_*.txt; do
-            if [ -f "$file" ]; then
-              filename=$(basename "$file")
-              proto_name="${filename%_chunk_*.txt}"
-              cat "$file" >> "data/unique/${proto_name}.txt"
-            fi
-          done
+          # Находим все проверенные файлы во всех подпапках temp_validated
+          files = glob.glob('temp_validated/*/*_chunk_*.txt') + glob.glob('temp_validated/*/*/*_chunk_*.txt')
+          proto_data = {}
           
-          # Шаг 3: ФИНАЛЬНАЯ НАРЕЗКА ПОД ЛИМИТЫ GITHUB (Безопасный размер)
-          # Оставляем строго последние 80 000 рабочих конфигураций для каждого протокола
-          for txt_file in data/unique/*.txt; do
-            if [ -f "$txt_file" ]; then
-              echo "✂️ Нарезка файла $txt_file до лимита в 80 000 строк..."
-              tail -n 80000 "$txt_file" > "${txt_file}.tmp" && mv "${txt_file}.tmp" "$txt_file"
-            fi
-          done
+          for f in files:
+              filename = os.path.basename(f)
+              if '_chunk_' in filename:
+                  proto_name = filename.split('_chunk_')[0]
+              else:
+                  continue
+                  
+              if not proto_name:
+                  continue
+                  
+              if proto_name not in proto_data:
+                  proto_data[proto_name] = set()
+                  
+              with open(f, 'r', encoding='utf-8') as file_in:
+                  for line in file_in:
+                      line_clean = line.strip()
+                      if line_clean and not line_clean.startswith('#'):
+                          proto_data[proto_name].add(line_clean)
           
+          # Нарезка по 80 000 строк в соответствии с логикой из Снимок экрана (1681).jpg
+          LIMIT = 80000
+          for proto, lines in proto_data.items():
+              sorted_lines = sorted(list(lines))
+              total = len(sorted_lines)
+              part = 1
+              for i in range(0, total, LIMIT):
+                  chunk = sorted_lines[i:i+LIMIT]
+                  out_name = f'{proto}_{part}.txt'
+                  with open(os.path.join(out_dir, out_name), 'w', encoding='utf-8') as file_out:
+                      file_out.write(f'# Valid {proto.upper()} Configurations - Part {part}\n')
+                      file_out.write(f'# Total links in this file: {len(chunk)}\n\n')
+                      file_out.write('\n'.join(chunk) + '\n')
+                  print(f'✂️ Нарезка файла data/unique/{out_name} до лимита в {LIMIT} строк... [Успешно: {len(chunk)} строк]')
+                  part += 1
+          "
           rm -rf temp_validated
-          echo "✅ Новая чистая база успешно собрана воедино и нарезана!"
+          echo "✅ Новая чистая база успешно собрана воедино и нарезана по частям!"
 
       - name: "💾 Сохраняю результаты нашего труда"
         run: |
@@ -222,7 +242,6 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "🏆 Лея завершила сборку: Полная база проверена на 8 потоках и нарезана! 🤍"
             
-            # Умный цикл для пуша, защищающий от любых накладок в репозитории
             for i in {1..10}; do
               git pull --rebase origin main && git push origin HEAD:main && break
               echo "⚠️ Ветка занята, пробуем снова..."
