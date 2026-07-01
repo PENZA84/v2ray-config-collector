@@ -10,6 +10,10 @@ on:
 permissions:
   contents: write
 
+# ГЛУШИТЕЛЬ ПРЕДУПРЕЖДЕНИЙ NODE: Защита экрана от жёлтых плашек GitHub
+env:
+  ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION: "true"
+
 jobs:
   # ==========================================
   # ЭТАП 1: МАТРИЦА ДЛЯ ТЕЛЕГРАМА (8 ОКОН: Разведчик + 7 рабочих)
@@ -41,7 +45,6 @@ jobs:
         env:
           PYTHONUNBUFFERED: 1
 
-          # Фиксируем размер и отправляем сырье на обработку, как показано на Снимок экрана (1674)_3.jpg
       - name: "📤 Отправка временного файла"
         uses: actions/upload-artifact@v4.6.0
         with:
@@ -213,7 +216,7 @@ jobs:
                       if line_clean and not line_clean.startswith('#'):
                           proto_data[proto_name].add(line_clean)
           
-          # Нарезка по 80 000 строк в соответствии с логикой из Снимок экрана (1681).jpg
+          # Нарезка по 80 000 строк в соответствии с логикой
           LIMIT = 80000
           for proto, lines in proto_data.items():
               sorted_lines = sorted(list(lines))
