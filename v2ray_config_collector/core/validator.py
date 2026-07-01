@@ -216,6 +216,7 @@ class ConnectivityValidator:
                 safe_name = protocol.replace('+', '_')
                 file_path = os.path.join(self.output_dir, f"{safe_name}{suffix}.txt")
                 
+                # ЖЕЛЕЗОБЕТОННАЯ ЗАПИСЬ БЕЗ ГЕНЕРАТОРОВ (Защита от ошибки write() must be str)
                 with open(file_path, 'w', encoding='utf-8') as f:
                     f.write(f"# All Valid Configurations - TCP Test Passed\n")
                     f.write(f"# Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
