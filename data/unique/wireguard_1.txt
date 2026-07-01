@@ -1,0 +1,4 @@
+# Valid WIREGUARD Configurations - Part 1
+# Total links in this file: 1
+
+wireguard://185.165.170.3:443#🇮🇸_hamedp71-1

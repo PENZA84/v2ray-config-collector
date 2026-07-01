@@ -1,0 +1,4 @@
+# Valid ANYTLS Configurations - Part 1
+# Total links in this file: 1
+
+anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
