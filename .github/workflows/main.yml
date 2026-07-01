@@ -162,7 +162,7 @@ jobs:
           retention-days: 1
 
   # ==========================================
-  # ЭТАП 4: СЛИЯНИЕ И ФИНАЛЬНОЕ СОХРАНЕНИЕ С НАРЕЗКОЙ ЧАСТЕЙ
+  # ЭТАП 4: СЛИЯНИЕ И ФИНАЛЬНОЕ СОХРАНЕНИЕ С КРАСИВОЙ НАРЕЗКОЙ ДЛЯ ТРОНА
   # ==========================================
   final_commit:
     name: "Сохранение на Заводе 💾"
@@ -188,12 +188,11 @@ jobs:
           out_dir = 'data/unique'
           os.makedirs(out_dir, exist_ok=True)
           
-          # Очищаем старые версии финальных txt-файлов, чтобы не плодить дубли прошлых запусков
+          # Очищаем только старые текстовые файлы баз, не ломая структуру каталогов
           for f in glob.glob(os.path.join(out_dir, '*.txt')):
               try: os.remove(f)
               except: pass
           
-          # Находим все проверенные файлы во всех подпапках temp_validated
           files = glob.glob('temp_validated/*/*_chunk_*.txt') + glob.glob('temp_validated/*/*/*_chunk_*.txt')
           proto_data = {}
           
@@ -216,7 +215,7 @@ jobs:
                       if line_clean and not line_clean.startswith('#'):
                           proto_data[proto_name].add(line_clean)
           
-          # Нарезка по 80 000 строк в соответствии с логикой
+          # Нарезка по 80 000 строк с идеальным именованием (proto.txt, proto1.txt, proto2.txt...)
           LIMIT = 80000
           for proto, lines in proto_data.items():
               sorted_lines = sorted(list(lines))
@@ -224,12 +223,18 @@ jobs:
               part = 1
               for i in range(0, total, LIMIT):
                   chunk = sorted_lines[i:i+LIMIT]
-                  out_name = f'{proto}_{part}.txt'
+                  
+                  # ИДЕАЛЬНОЕ ИМЕНОВАНИЕ ДЛЯ ТРОНА: Первый файл чистый, последующие — по порядку без подчёркиваний
+                  if part == 1:
+                      out_name = f'{proto}.txt'
+                  else:
+                      out_name = f'{proto}{part-1}.txt'
+                      
                   with open(os.path.join(out_dir, out_name), 'w', encoding='utf-8') as file_out:
                       file_out.write(f'# Valid {proto.upper()} Configurations - Part {part}\n')
                       file_out.write(f'# Total links in this file: {len(chunk)}\n\n')
                       file_out.write('\n'.join(chunk) + '\n')
-                  print(f'✂️ Нарезка файла data/unique/{out_name} до лимита в {LIMIT} строк... [Успешно: {len(chunk)} строк]')
+                  print(f'✂️ Сборка общего списка data/unique/{out_name}... [Строк: {len(chunk)}]')
                   part += 1
           "
           rm -rf temp_validated
