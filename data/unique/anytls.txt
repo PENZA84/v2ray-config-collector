@@ -1,6 +1,0 @@
-# All Valid Configurations - TCP Test Passed
-# Generated on: 2026-06-30 23:14:26
-# Total valid configs: 1
-
-# ANYTLS (1 configs)
-anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
