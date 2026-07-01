@@ -17,7 +17,6 @@ class ConnectivityValidator:
 
         self.input_file = input_file
         
-        # Вытаскиваем красивое имя куска для логирования в GitHub Actions
         self.chunk_label = "Общий поток"
         if self.input_file:
             self.chunk_label = os.path.splitext(os.path.basename(self.input_file))[0].upper()
@@ -71,7 +70,6 @@ class ConnectivityValidator:
         if config.startswith('clash-config://'):
             return 'clash'
             
-        # 🛡️ ВТОРОЙ БАРЬЕР ТАМОЖЕННИКА: Фильтруем остаточный мусор на входе
         config_lower = config.lower()
         if config_lower.startswith('http://') or config_lower.startswith('https://'):
             try:
@@ -79,7 +77,7 @@ class ConnectivityValidator:
                 path_clean = parsed.path.strip('/')
                 if path_clean or not parsed.port:
                     if not any(k in config_lower for k in ['key=', 'sub', 'token=', 'clash', '.txt', '.yaml', '.conf']):
-                        return None  # Жесткий отказ, строка полностью аннулируется
+                        return None
             except:
                 return None
 
@@ -184,7 +182,6 @@ class ConnectivityValidator:
         for cfg in configs:
             queue.put_nowait(cfg)
 
-        # Мощный пул из 800 параллельных воркеров для быстрой обработки
         num_workers = min(800, total)
         workers = [
             asyncio.create_task(self.worker(queue, total)) 
@@ -196,7 +193,7 @@ class ConnectivityValidator:
     def test_all_configs(self):
         configs = self.read_configs()
         total = len(configs)
-        print(f"🏭 [ОТК] [{self.chunk_label}] Извлечено для теста: {total} конфигураций.", flush=True)
+        print(f"🏭 [ОТК] [{self.chunk_label}] Извлечено для теста: {total} configurations.", flush=True)
         if total == 0:
             return
 
@@ -224,7 +221,10 @@ class ConnectivityValidator:
                     f.write(f"# Generated on: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n")
                     f.write(f"# Total valid configs: {len(configs)}\n\n")
                     f.write(f"# {protocol.upper()} ({len(configs)} configs)\n")
-                    f.write(f"{config}\n" for config in configs)
+                    
+                    # ИСПРАВЛЕНО НАВСЕГДА: Построчный перебор списка
+                    for config in configs:
+                        f.write(f"{config}\n")
             
             print(f"\n📊 ================= ОТЧЁТ TCP-ВАЛИДАТОРА [{self.chunk_label}] =================", flush=True)
             print(f"📥 ВСЕГО ТОЧЕК ДОСТУПА В КУСКЕ: {self.stats['total_checked']} шт.", flush=True)
