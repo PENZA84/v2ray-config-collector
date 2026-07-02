@@ -3,6 +3,8 @@ import aiohttp
 import os
 import argparse
 
+print("=== sorter.py запущен ===")
+
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
 
 BAD_KW = [
@@ -50,7 +52,8 @@ async def deep_check(session, url: str):
             
             print(f"   🗑 Filtered: {url}")
             return "filtered"
-    except:
+    except Exception as e:
+        print(f"   ❌ Ошибка: {url} | {e}")
         return "dead"
 
 async def process_window(window_id: int):
@@ -90,28 +93,28 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение
-    for filename, data in [
-        ('urls/factory_valid.txt', factory),
-        ('urls/url_checks.txt', url_checks),
-        ('urls/misc.txt', misc),
-        ('urls/filtered_results.txt', filtered)
+    # Сохранение в уникальные файлы окна
+    for name, data in [
+        (f'factory_valid_{window_id}.txt', factory),
+        (f'url_checks_{window_id}.txt', url_checks),
+        (f'misc_{window_id}.txt', misc),
+        (f'filtered_{window_id}.txt', filtered)
     ]:
         if data:
+            filename = f'urls/{name}'
             os.makedirs(os.path.dirname(filename), exist_ok=True)
-            with open(filename, 'a', encoding='utf-8') as f:
+            with open(filename, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
-            print(f"   💾 Сохранено в {filename}: {len(data)} строк")
+            print(f"   💾 Сохранено {filename}: {len(data)} строк")
 
     if dead:
-        dead_file = 'data/raw_incoming/deep_raw_collected.txt'
+        dead_file = f'urls/dead_{window_id}.txt'
         os.makedirs(os.path.dirname(dead_file), exist_ok=True)
-        with open(dead_file, 'a', encoding='utf-8') as f:
-            f.write(f"\n# === Dead from window {window_id} ===\n")
+        with open(dead_file, 'w', encoding='utf-8') as f:
             f.write('\n'.join(dead) + '\n')
-        print(f"   💾 Сохранено Dead: {len(dead)}")
+        print(f"   💾 Сохранено dead_{window_id}.txt: {len(dead)}")
 
-    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
+    print(f"✅ [Окно {window_id}] Завершено")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
