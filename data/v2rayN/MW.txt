@@ -1,1 +1,0 @@
-trojan://8063ca34-3080-45f6-905a-9b80e8e994c9@empty.node:443#MW-BDC

@@ -1,1 +1,0 @@
-trojan://13e71ddb-908c-45e0-993c-da482d848c88@seashell.qzz.io:443?allowInsecure=1&sni=seashell.qzz.io&ws=1&wspath=%2F156.254.114.120%3A30011#RELAY%F0%9F%9A%A9%20%7C%20seashell.qzz.io-443%20%7C%2067.76ms

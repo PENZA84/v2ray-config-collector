@@ -1,2 +1,0 @@
-trojan://bpb-trojan@russia.com:443?security=tls&sni=ps-chunyen-1.cylee.cyou&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=ps-chunyen-1.cylee.cyou&path=%2Ftr%3Fed%3D2560#ps-chunyen-1.cylee.cyou
-vless://d8e9f0a1-b2c3-8901-4567-789abcdef012@188.215.101.196:2053?type=ws&security=tls&path=/@Filter_breaker&sni=iran.aslivpn.ir&fp=chrome#PS

@@ -1,4 +1,0 @@
-vless://8e3a3121-93e6-416e-8a8a-8e5ea918a81b@pls.kopobkatopta.ru:443?type=tcp&security=reality&sni=pls.kopobkatopta.ru&fp=chrome&flow=xtls-rprx-vision&pbk=SKTGLuU_H4_K3YDqsBzsSROeC7NcfAZkoLg4YVkDvxY&sid=8bc68c5e04d795ec#BZ
-vless://8e3a3121-93e6-416e-8a8a-8e5ea918a81b@pls.kopobkatopta.ru:443?type=tcp&security=reality&sni=pls.kopobkatopta.ru&fp=chrome&flow=xtls-rprx-vision&pbk=SKTGLuU_H4_K3YDqsBzsSROeC7NcfAZkoLg4YVkDvxY&sid=8bc68c5e04d795ec#BZ%20%F0%9F%87%A7%F0%9F%87%BF%20%E2%94%87%20VLESS-TCP-RLT%20%E2%94%87%20185.223.57.96%20t.me/rjsxrd
-vless://be8962c2-c299-4b2e-a76d-373ddfd9c886@bloo-NEtflix23.maj.gamerme.IR:80?path=/?ed=2048&security=none&encryption=none&host=IRON.man.policeoficer-45.GAMERme.IR&type=ws#🇧🇿BZ
-vless://ecde4254-f631-47de-b498-44c1c988a016@94.74.164.71:3443?type=tcp&security=reality&sni=tgju.org&fp=chrome&flow=xtls-rprx-vision&pbk=3WnHdv9A0tNParChTLxPnDteRD841h8thOGR7MBgAhY#BZ

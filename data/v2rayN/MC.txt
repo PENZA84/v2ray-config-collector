@@ -1,2 +1,0 @@
-trojan://d342d31e-d016-4c25-82fe-19a892795da2@43.134.16.25:443?security=tls&headerType=none&type=tcp&sni=822sg.ljydw.top#MC
-vless://1bf4970b-bc0c-4994-ab2a-074ee76692a3@www.discord.com:80?path=%2F%40VPNCUSTOMIZE&security=none&encryption=none&host=TMCUSTOMIZE-TMCUSTOMIZE.v2ray.motorcycles&type=ws#MC%F0%9F%9A%80Join%3A%40V2rayng_anti

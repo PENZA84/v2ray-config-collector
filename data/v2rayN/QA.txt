@@ -1,2 +1,0 @@
-ss://YWVzLTEyOC1nY206NTBjV01yOUtia2VnREM5aEhaUE5Bdw@20.173.66.64:1080#QA
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@156.244.43.22:443?type=tcp&security=tls&sni=r1.mizulina.top&fp=edge&flow=xtls-rprx-vision-udp443#QA

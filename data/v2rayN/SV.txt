@@ -1,6 +1,0 @@
-vless://0151aa04-1ffd-44b9-9e7a-31f72c53e490@191.101.251.210:443?path=%2Fvless&security=tls&encryption=none&host=calws.mainssh.xyz&type=ws&sni=calws.mainssh.xyz#Join+%40vmessq+%7C++Sv+Canada+%F0%9F%87%A8%F0%9F%87%A6
-vless://229a1287-a53a-4ece-e0e0-c05434f1e557@91.107.187.162:18555?security=none&encryption=none&seed=Ui1KTHiLSB&headerType=dtls&type=kcp#Join+%40Vmessq+%7C+Sv+Germany+%F0%9F%87%A9%F0%9F%87%AA
-vless://91e7361d-dde1-4208-f412-75ee9f71d86c@91.107.187.162:2086?security=none&encryption=none&seed=qNrajY6Puo&headerType=dtls&type=kcp#Join+%40Vmessq+%7C+Sv+Germany+%F0%9F%87%A9%F0%9F%87%AA
-vless://aa19ff16-31ca-495f-fcff-76e3a18e269a@join-vmessq.com:443?security=none&encryption=none&host=canva.com&headerType=http&type=tcp#Join+%40Vmessq+%7C+Sv+German++%F0%9F%87%A9%F0%9F%87%AA
-vless://b9b0a38a-caab-43e3-b402-6fcf8d4061e7@91.107.252.92:2040?security=none&encryption=none&host=bmi.ir&headerType=http&type=tcp#Join+%40Vmessq++%7C++Sv++A+L+M+A+N++%F0%9F%87%A9%F0%9F%87%AA
-vless://eecaf152-1b1c-4428-af30-bb214d3afd30@45.131.209.205:443?path=%2Fvless&security=tls&encryption=none&host=gelws.mainssh.xyz&type=ws&sni=gelws.mainssh.xyz#Join+%40Vmessq+%7C+Sv+Germany+%F0%9F%87%A9%F0%9F%87%AA

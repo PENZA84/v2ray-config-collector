@@ -1,7 +1,0 @@
-vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@181.36.229.212:2096?type=ws&security=tls&path=/m/articles&sni=linek.perry.us.kg#DO
-vless://87cd21c8-5366-4837-8a9d-a70d4c440336@181.36.229.212:443?type=ws&security=tls&path=/Free-VPN-CF-Geo-Project/181.36.229.212=443&sni=joss.krukkruk.web.id&fp=randomized#DO
-vless://89b3cbba-e6ac-485a-9481-976a0415eab9@59.3.3.161:443?encryption=none&security=tls&sni=vz.ylks.xyz&fp=random&type=ws&host=vz.ylks.xyz&path=%2F#%E9%9F%A9%E5%9B%BD_Jeollanam-do
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2F%3Fproxyip%3Dproxyip.kr.fxxk.dedyn.io#%E9%9F%A9%E5%9B%BD_Jeollanam-do
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2Fblue#%E9%9F%A9%E5%9B%BD_Jeollanam-do
-vless://c82f8880-bdd8-4a35-b8e7-ad5aa880f7d0@59.3.3.161:443?encryption=none&security=tls&sni=vz.ylkszy.eu.org&fp=random&type=ws&host=vz.ylkszy.eu.org&path=%2F#%E9%9F%A9%E5%9B%BD_Jeollanam-do
-vless://ca8692b7-8f6f-4346-a916-c1e9798ab91b@119.203.175.63:12272?security=tls&sni=freenodes.repe.gay&allowInsecure=1&fp=chrome&type=ws&path=Telegram%F0%9F%87%A8%F0%9F%87%B3+@WangCai2+/?ed%3D2048&host=freenodes.repe.gay&packetEncoding=xudp&encryption=none#%F0%9F%87%B0%F0%9F%87%B7%20Korea,%20Republic%20of%20-%20Chungcheongnam-do%20%F0%9F%8C%8F%20VL-WS-TLS%204%E2%83%A3

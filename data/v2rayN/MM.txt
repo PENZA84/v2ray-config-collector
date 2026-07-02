@@ -1,3 +1,0 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkMGZhM2E5Yi0yMTE1LTRjYzAtYThmNS03ZjRmN2NhZjZlYzE@156.244.36.170:8080#MM
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpyb3dhOUdxZjhRbm9xSXRBYmdXT05K@156.244.37.10:443#MM
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@188.114.99.243:2096?encryption=none&security=tls&sni=sni.111000.indevs.in&type=ws&host=sni.111000.indevs.in&path=/?ed%3D2560&packetEncoding=xudp#mm

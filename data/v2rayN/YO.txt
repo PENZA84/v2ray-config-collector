@@ -1,3 +1,0 @@
-vless://124a46e6-b2fc-466c-b429-e1cf9d6bfcd1@188.114.96.3:80?type=ws&host=hfg.st1lol.ir&path=/Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia,Telegram:@v2pedia&security=none#%F0%9F%93%8DV2pedia-yo%20yo%20yo
-vless://2db8a456-8804-4019-b47e-dd9f96055a1a@mcm.kingvpn.shop:21416?host=telewebion.com&security=none&type=tcp&headerType=http&encryption=none#see+yo
-vless://e6242b23-e697-4952-9246-eff8afeb2910@www.speedtest.net:8880?type=httpupgrade&host=9.V2.d.www.speedtest.net.debian.org.dnschecker.v2logy.iR.&path=/v2pedia?ed%3D8880&security=none#Yo%20bro

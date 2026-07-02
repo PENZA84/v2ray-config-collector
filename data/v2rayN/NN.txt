@@ -1,2 +1,0 @@
-vless://313df2b1-2afb-4751-bf60-5eaf0833d74d@speedtest.net:443?path=%2F&security=tls&encryption=none&host=sshfsaw.ir&type=ws&sni=speedtest.net#nn-oolvbg3s
-vless://313df2b1-2afb-4751-bf60-5eaf0833d74d@speedtest.net:443?security=tls&sni=speedtest.net&type=ws&path=/&host=sshfsaw.ir&encryption=none#nn-oolvbg3s

@@ -1,1 +1,0 @@
-vless://ccaa8606-6772-44a7-b0fe-50f80e08ab7d@152.42.220.151:443?path=%2Fshalana&security=tls&encryption=none&type=ws&sni=cdn.viber.com#DIALOG+223+FB+BYPASS

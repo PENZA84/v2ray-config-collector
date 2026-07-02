@@ -1,1 +1,0 @@
-trojan://auto@cf.090227.xyz:443?path=%2Fworker-polished-glade-fe47.tahajadidi2022.workers.dev%2F%3Fed%3D2560&security=tls&host=fe9b5676-a2aa-4b6a-8257-cd2dd0910205.8c98ef2b-bee2-470b-b759-9f5efbc10812.freeddns.org&fp=randomized&type=ws&sni=fe9b5676-a2aa-4b6a-8257-cd2dd0910205.8c98ef2b-bee2-470b-b759-9f5efbc10812.freeddns.org#PersiaGo+V+II

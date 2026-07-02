@@ -1,4 +1,0 @@
-ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpkMGZhM2E5Yi0yMTE1LTRjYzAtYThmNS03ZjRmN2NhZjZlYzE@154.205.147.24:8080#OM
-vless://16e55e1a-6152-4d92-a422-31490e8ef563@38.54.116.105:443?type=xhttp&security=none&path=/ad#OM
-vless://7585f059-2c89-4a02-9dff-394bb7913ef5@162.158.28.121:2096?type=ws&security=tls&path=/&sni=wwwspeedtestnetwhiteberinsistomd6625996s09.gatesriver.ir&fp=chrome#OM
-vless://8405b505-709f-4066-8f24-5337212d47d4@154.205.147.238:443?type=grpc&security=reality&sni=journalofbigdata.springeropen.com&fp=chrome&pbk=mu0LLDgqLrI_QQwD3Dhd_sAldyWylaspLVS5lXDEeCU&sid=e0796eb9b80f7a#OM

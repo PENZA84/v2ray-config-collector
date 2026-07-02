@@ -1,4 +1,0 @@
-ss://93d7b794-cca6-4c6d-bae8-dd2df25961b4@217.177.47.135:443?security=reality&encryption=none&pbk=PZeIaMJF01u_7wFj3E3NN1wW_8sV1NzC59CnLTTMvzM&headerType=&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=cloudflare.com&sid=6ba85179e30d4fc2#REALITY|KG🇰🇬
-trojan://4467ae8518abf1ef321618c0bfb5549ccc@188.240.213.45:20071?sni=www.cloudflare.com&peer=www.cloudflare.com&security=tls#KG
-vless://93d7b794-cca6-4c6d-bae8-dd2df25961b4@217.177.47.135:443?security=reality&encryption=none&pbk=PZeIaMJF01u_7wFj3E3NN1wW_8sV1NzC59CnLTTMvzM&headerType=&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=cloudflare.com&sid=6ba85179e30d4fc2#REALITY|KG🇰🇬
-vless://93d7b794-cca6-4c6d-bae8-dd2df25961b4@217.177.47.135:443?security=tls&sni=cloudflare.com#[VLESS]_REALITY|KG🇰🇬_|_217.177.47.135-443_|_211.94ms

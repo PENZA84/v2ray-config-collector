@@ -1,2 +1,0 @@
-vless://cac92bc3-e77f-4bbe-ac11-c68162727b6d@chat.openai.com:8080?encryption=none&security=none&type=ws&host=shad.ir.fin.test.digicyber.click.&path=%2Folem%2Fws%3Fed%3D1024#TE
-vless://fd704838-af11-436e-84c3-5c89d649fbd4@85.133.215.172:8080?security=none&encryption=none&host=myket.ir&headerType=http&type=tcp#Te

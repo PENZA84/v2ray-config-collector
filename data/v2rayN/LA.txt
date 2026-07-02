@@ -1,4 +1,0 @@
-hysteria2://17cdeb6c-f046-11ee-bdac-f23c93141fad@6adab57e-t53wg0-tdvgqe-2gok.la.shifen.uk:1743#[Hysteria2]_🇬🇧_6adab57e-t53wg0-tdvgqe-2gok.la.shifen.uk:1743
-hysteria2://Jj0FrgSd85@165.140.166.78:17083?insecure=1&obfs=salamander&obfs-password=salamander#v2raybluecrystal2-la
-hysteria2://Jj0FrgSd85@165.140.166.78:41003?insecure=1&obfs=salamander&obfs-password=salamander#v2raybluecrystal3-la
-hysteria2://Jj0FrgSd85@165.140.166.78:50163?insecure=1&obfs=salamander&obfs-password=salamander#v2raybluecrystal-la

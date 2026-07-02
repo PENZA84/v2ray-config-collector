@@ -1,2 +1,0 @@
-ss://26f8ea41-30e7-4f97-abfc-fe5bf4dd5c38@89.34.230.39:9090?encryption=none&type=grpc&security=reality&sni=play.google.com&fp=chrome&insecure=1&allowInsecure=1&pbk=PyfJYtAKiZKsxw_dsjcQSbdqcqmZgY6zB-ypjymloHk&sid=82e779004f11c4e5&spx=%2F#Go%20VPN-Go%20vpn-%F0%9F%87%B3%F0%9F%87%B1
-vless://26f8ea41-30e7-4f97-abfc-fe5bf4dd5c38@89.34.230.39:9090?encryption=none&type=grpc&security=reality&sni=play.google.com&fp=chrome&insecure=1&allowInsecure=1&pbk=PyfJYtAKiZKsxw_dsjcQSbdqcqmZgY6zB-ypjymloHk&sid=82e779004f11c4e5&spx=%2F#Go%20VPN-Go%20vpn-%F0%9F%87%B3%F0%9F%87%B1

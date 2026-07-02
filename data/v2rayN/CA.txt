@@ -1,2 +1,0 @@
-trojan://HdsUZmsHQW@148.113.141.99:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#🇨🇦CA-🚀@VPNine1
-vless://f31efd33-292d-4939-a59d-1b7fbf6b13bd@204.10.192.88:401?encryption=none&type=tcp&headerType=none#🇨🇦CA-🚀@VPNine1

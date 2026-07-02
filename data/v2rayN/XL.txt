@@ -1,1 +1,0 @@
-vless://3b4e6790-7e19-4643-8a37-2d4fc7193a54@104.18.214.235:443?path=%2F%3Fed%3D2048&security=tls&encryption=none&host=df.game.naver.com.gatot.wonghd.my.id&type=ws&sni=df.game.naver.com.gatot.wonghd.my.id#XL+XCL

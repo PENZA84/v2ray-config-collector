@@ -1,2 +1,0 @@
-vless://c879d5d3-eead-4119-8ebd-e31fb162c554@hongkong.xmm.maimaiyun.shop:5200?type=tcp&security=reality&sni=s0.awsstatic.com&fp=chrome&flow=xtls-rprx-vision&pbk=DR5dMzHBp1YpzIwrWftP4oa9uBMQVnUzIFgDD-WH9lU&sid=17562e4b0fb4#VE
-vless://c879d5d3-eead-4119-8ebd-e31fb162c554@hongkong.xmm.maimaiyun.shop:5200?type=tcp&security=reality&sni=s0.awsstatic.com&fp=chrome&flow=xtls-rprx-vision&pbk=DR5dMzHBp1YpzIwrWftP4oa9uBMQVnUzIFgDD-WH9lU&sid=17562e4b0fb4#VE%20%F0%9F%87%BB%F0%9F%87%AA%20%E2%94%87%20VLESS-TCP-RLT%20-%20T.V%20ZAMORA,%20C.A.%20%E2%94%87%2038.76.171.28%20t.me/rjsxrd

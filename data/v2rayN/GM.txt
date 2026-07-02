@@ -1,3 +1,0 @@
-vless://6bee9ea2-62f6-4b1d-8d7d-041bdd4d3e12@speedtest.net:80?path=%2Fadmin&security=none&encryption=none&host=Gn85.io&type=ws#GM%F0%9F%87%A9%F0%9F%87%AA
-vless://fc1118f0-bdd6-46e7-9a97-259a5b2aabc3@45.15.178.124:8443?type=ws&security=tls&sni=pq-bosniaandherzegovina1.09vpn.com&path=%2Fvless%2F#🇧🇦_|_@WhiteDNS_|_BA3|1.7MB/s|GM-MZ|CL-BA
-vless://fc1118f0-bdd6-46e7-9a97-259a5b2aabc3@pq-bosniaandherzegovina1.09vpn.com:8443?type=ws&security=tls&sni=pq-bosniaandherzegovina1.09vpn.com&path=%2Fvless%2F#🇧🇦_|_@WhiteDNS_|_BA1|1.3MB/s|GPT|GM-MZ|CL-BA
