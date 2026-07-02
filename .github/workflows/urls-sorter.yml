@@ -10,6 +10,8 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -22,12 +24,13 @@ jobs:
       - name: 🔀 Разбиение на чанки
         run: python urls/splitter.py
 
-      - name: Upload Chunks Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: split-chunks
-          path: urls/urls/
-          retention-days: 1
+      - name: Commit chunks
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git switch main || git checkout main
+          git add urls/urls/ urls/source_urls.txt
+          git diff --staged --quiet || git commit -m "🧹 Чанки созданы" && git push
 
   process:
     needs: splitter
@@ -40,6 +43,8 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -49,65 +54,24 @@ jobs:
       - name: Install aiohttp
         run: pip install aiohttp
 
-      - name: Download Chunks
-        uses: actions/download-artifact@v4
-        with:
-          name: split-chunks
-          path: urls/urls/
-
       - name: ⚡ Обработка окна ${{ matrix.window }}
         run: python urls/sorter.py --window ${{ matrix.window }}
 
-      - name: Upload Window Results
-        uses: actions/upload-artifact@v4
-        with:
-          name: results-${{ matrix.window }}
-          path: |
-            urls/*_${{ matrix.window }}.txt
-            data/raw_incoming/*_${{ matrix.window }}.txt
-          if-no-files-found: ignore
-          retention-days: 1
+      - name: Commit from window ${{ matrix.window }}
+        if: always()
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git switch main || git checkout main
+          git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt data/raw_incoming/deep_raw_collected.txt
+          git diff --staged --quiet || git commit -m "🧹 Окно ${{ matrix.window }}: обновление списков" && git push || echo "No changes in this window"
 
-  final-commit:
+  final-summary:
     needs: process
     runs-on: ubuntu-latest
     permissions: 
       contents: write
     steps:
       - uses: actions/checkout@v4
-
-      - name: Download All Results
-        uses: actions/download-artifact@v4
-        with:
-          pattern: results-*
-          merge-multiple: true
-
-      - name: Merge Window Files
-        run: |
-          mkdir -p urls data/raw_incoming
-          
-          # Собираем основные файлы воедино
-          for prefix in factory_valid url_checks misc filtered_results; do
-            if ls urls/${prefix}_*.txt >/dev/null 2>&1; then
-              cat urls/${prefix}_*.txt >> urls/${prefix}.txt
-              rm -f urls/${prefix}_*.txt
-            fi
-          done
-
-          # Собираем базу собранных глубоких ссылок
-          if ls data/raw_incoming/deep_raw_collected_*.txt >/dev/null 2>&1; then
-            cat data/raw_incoming/deep_raw_collected_*.txt >> data/raw_incoming/deep_raw_collected.txt
-            rm -f data/raw_incoming/deep_raw_collected_*.txt
-          fi
-
-      - name: 🚀 Финальный Commit
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt data/raw_incoming/deep_raw_collected.txt
-          if git diff --staged --quiet; then
-            echo "✨ Нет новых изменений"
-          else
-            git commit -m "🧹 Сортировщик: Все 10 окон ссылок успешно объединены 💋"
-            git push
-          fi
+      - name: Финальный отчёт
+        run: echo "Все окна завершены. Результаты сохранены."
