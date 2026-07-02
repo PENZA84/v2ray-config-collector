@@ -1,0 +1,2 @@
+vless://1e7e0537-c23d-43c2-afd5-4d7753831278@14.102.228.201:2053?encryption=none&security=tls&sni=gw-f1.orgspeed.net&fp=chrome&alpn=h3,h2,http/1.1&insecure=0&allowInsecure=0&type=ws&path=/#1927.%20VLESS%20%7C%20SNI%3A%20gw-f1.orgspeed.net%20%7C%20TG%3A%20%40wlrustg
+vless://739f0fe7-1ba1-4b64-9a60-87b13a79d4be@89.116.250.135:8443?encryption=none&security=tls&type=ws&headerType=none&path=/&sni=gw-f1.orgspeed.net&fp=chrome&alpn=h3,h2,http/1.1#2689.%20VLESS%20%7C%20SNI%3A%20gw-f1.orgspeed.net%20%7C%20TG%3A%20%40wlrustg

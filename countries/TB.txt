@@ -1,0 +1,1 @@
+vless://36dcf796-7742-413d-80ab-ac81eb5d7966@151.101.194.133:443?path=%2F%40VPNCUSTOMIZE-----%40VPNCUSTOMIZE-----%40VPNCUSTOMIZE---%40VPNCUSTOMIZE---%40VPNCUSTOMIZE---%40VPNCUSTOMIZE---%40VPNCUSTOMIZE%3Fed%3D2560&security=tls&encryption=none&host=v2roypenel.frashtunnel.com&fp=randomized&type=ws&sni=v2roypenel.frashtunnel.com#5943%20%20%20%205%20TB
