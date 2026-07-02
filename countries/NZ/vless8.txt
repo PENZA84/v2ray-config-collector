@@ -1,0 +1,2 @@
+vless://f9255507-1b65-433f-bfd8-193b35e068e2@114.129.43.140:80?path=%2FTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2&security=&encryption=none&host=s5.868001.xyz&fp=firefox&type=ws#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20VLESS%20%7C%2035868
+vless://f9255507-1b65-433f-bfd8-193b35e068e2@114.129.43.140:80?type=ws&security=none&path=/Telegram🇨🇳+@WangCai2&fp=firefox#NZ

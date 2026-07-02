@@ -1,0 +1,4 @@
+trojan://bpb-trojan@185.159.247.248:443?allowInsecure=1&sni=bpb.my79801.com#%F0%9F%87%A7%F0%9F%87%B7BR%28AzadNet.t.me%29%20%281%29
+trojan://trojan@185.133.35.46:443?security=tls&sni=test-a23.pages.dev&type=ws&host=test-a23.pages.dev&path=%2FTelegram-%40proxy_mtm%2F%3Fed%3D2560&fp=chrome&alpn=h2,http/1.1#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%B7%20BR%20%7C%20TROJAN%20%7C%2015453
+trojan://trojan@185.133.35.46:443?sni=test-a23.pages.dev&peer=test-a23.pages.dev&security=tls#BR
+trojan://your_password@188.114.99.0:443?sni=aws-ge-frankfurt-1.f1cflinea.com#%F0%9D%90%80%F0%9D%90%B3%F0%9D%90%9A%F0%9D%90%9D%F0%9D%90%8D%F0%9D%90%9E%F0%9D%90%AD%E2%9E%AA%F0%9F%87%A7%F0%9F%87%B7%E2%9E%AABR

@@ -1,0 +1,6 @@
+vless://3e2e3c21-3fc8-468f-9ab5-e782bdf5bf97@8.35.211.15:2087?type=ws&security=tls&path=/?ed=2560&sni=l.ayovo.netlib.re#MY
+vless://406d8436-0eb9-4eb2-84fb-960e076ffba6@47.250.212.59:443?Telegram=@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad&mode=stream-one&path=/de&security=tls&encryption=none&insecure=0&host=de.lezzatzone.ir&fp=chrome&type=xhttp&allowInsecure=0&sni=de.lezzatzone.ir#v2go%20%7C%20%F0%9F%87%B2%F0%9F%87%BE%20MY%20%7C%20VLESS%20%7C%2021792
+vless://4fdec620-73bb-40a7-a8d5-2570a59f1832@45.197.134.89:8443?security=reality&encryption=none&pbk=8qHRGcCezzSu4S-Cz9l19BNRLWm4MkaSwZV3dNrLEwc&headerType=&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=d515d6cfdfe60b02#%5BOpenRay%5D%20%F0%9F%87%B2%F0%9F%87%BE%20MY-154
+vless://4fdec620-73bb-40a7-a8d5-2570a59f1832@45.197.134.89:8443?security=reality&encryption=none&pbk=8qHRGcCezzSu4S-Cz9l19BNRLWm4MkaSwZV3dNrLEwc&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=storage.yandex.net&sid=d515d6cfdfe60b02#%5BOpenRay%5D%20%F0%9F%87%B2%F0%9F%87%BE%20MY-154
+vless://51a0af77-a60c-4d9b-81a4-f50e1b38d90b@8.35.211.210:443?type=ws&security=tls&path=/&sni=javad.fighterjavad8-faa.workers.dev&fp=chrome#MY
+vless://51a0af77-a60c-4d9b-81a4-f50e1b38d90b@8.35.211.75:8443?type=ws&security=tls&path=/&sni=javad.fighterjavad8-faa.workers.dev#MY

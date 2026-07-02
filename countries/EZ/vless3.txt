@@ -1,0 +1,1 @@
+vless://648b603d-6188-4b27-9d31-4d42bd01c5fc@162.159.32.214:443?path=/&security=tls&encryption=none&insecure=0&host=ez-e0e6c8.ezaccess199e90e.workers.dev&fp=chrome&type=ws&allowInsecure=0&sni=ez-e0e6c8.ezaccess199e90e.workers.dev#2585.%20VLESS%20%7C%20SNI%3A%20ez-e0e6c8.ezaccess199e90e.workers.dev%20%7C%20TG%3A%20%40wlrustg

@@ -1,0 +1,1 @@
+trojan://P6oS8vzFbu@45.130.125.2:443?path=/db&security=tls&alpn=v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus--v2rayNplus&insecure=0&host=sb.farxmode.ir&fp=chrome&type=ws&allowInsecure=0&sni=sb.farxmode.ir#1438.%20%F0%9F%87%B8%F0%9F%87%A8%20TROJAN%20%7C%20SNI%3A%20sb.farxmode.ir%20%7C%20TG%3A%20%40wlrustg

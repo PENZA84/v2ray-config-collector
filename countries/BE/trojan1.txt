@@ -1,0 +1,2 @@
+trojan://Tel%3AArshiacomplus@45.154.96.35:14456?path=%2Fjdjsjeje&security=tls&alpn=h2%2Chttp%2F1.1&insecure=1&host=oof.acp.us.ci&fp=firefox&type=ws&allowInsecure=1&sni=oof.acp.us.ci#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2014293
+trojan://Tel%3DArshiacomplus@45.154.96.35:58035?mode=stream-one&path=%2Ffkcidiekei&security=tls&alpn=h2%2Chttp%2F1.1&insecure=0&fp=firefox&type=xhttp&allowInsecure=0&sni=oof.acp.us.ci#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2014291

@@ -1,0 +1,2 @@
+vless://96a1b724-68d2-4f4d-ab25-38ecd83577bc@193.227.99.37:2096?type=ws&security=tls&path=/&sni=JpHzJdVn23.bLuEvIa.oRg&fp=chrome#MT
+vless://96a1b724-68d2-4f4d-ab25-38ecd83577bc@193.227.99.88:443?type=ws&security=tls&path=/&sni=Wv2NhB0hVh.SoLiJoNiTo.CoM&fp=chrome#MT

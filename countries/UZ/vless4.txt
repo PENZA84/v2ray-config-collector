@@ -1,0 +1,1 @@
+vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@193.22.229.226:2087?type=ws&security=tls&path=/Telegram-Channel---Masir-Sefid&sni=vps.masir-sefid-4.shop&fp=chrome#UZ

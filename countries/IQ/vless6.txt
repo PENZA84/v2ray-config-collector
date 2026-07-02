@@ -1,0 +1,2 @@
+vless://9fdfb76e-e677-43b5-9856-97abcb7f778d@81.90.25.255:443?type=tcp&security=reality&flow=xtls-rprx-vision&fp=chrome&pbk=CWGfbuuzEV6_SOecdsIqgrvl1RjcRcemRdHjxWap1wc&sid=71d6a884d0a5&sni=www.icloud.com&spx=/#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B6%20IQ%20%7C%20VLESS%20%7C%2030044
+vless://9fdfb76e-e677-43b5-9856-97abcb7f778d@81.90.25.255:443?type=tcp&security=reality&sni=www.icloud.com&fp=chrome&flow=xtls-rprx-vision&pbk=CWGfbuuzEV6_SOecdsIqgrvl1RjcRcemRdHjxWap1wc&sid=71d6a884d0a5#IQ

@@ -1,0 +1,1 @@
+vless://ceeba701-bb9f-4f2c-8142-677d27a2acb1@195.133.198.215:443?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=chrome&sni=eh.vk.com&pbk=3v-9P94hjSE1fw6we1J4RvyIYnFhySQUAe1DUKqkaBo&sid=7f2e9c4b1a8d6a53#AetrisVPN%20White%20list%20%E2%94%83%20%E2%9C%85%20SNI:%20eh.vk.com%20%E2%94%83%20%F0%9F%87%B7%F0%9F%87%BA%20%D0%A0%D0%BE%D1%81%D1%81%D0%B8%D1%8F

@@ -1,0 +1,1 @@
+vless://40c708ca-42e4-4224-a12d-1dbd7ef1e0b7@193.227.99.77:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#MT

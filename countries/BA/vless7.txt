@@ -1,0 +1,11 @@
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.103:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.116:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.135:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.175:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.200:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.220:8880?type=httpupgrade&security=none&path=/#BA
+vless://b99590df-eda0-4e34-e1a9-3d1118faed83@77.74.228.224:8880?type=httpupgrade&security=none&path=/#BA
+vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@77.74.228.247:8880?encryption=none&security=none&sni=ex.sue.x10.mx&type=ws&host=ex.sue.x10.mx&path=%2FTelegram%F0%9F%87%A8%F0%9F%87%B3#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%A6%20BA%20%7C%20VLESS%20%7C%2033908
+vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@77.74.228.247:8880?type=ws&security=false&path=/Telegram🇨🇳&fp=chrome#BA
+vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@77.74.228.247:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=ex.sue.x10.mx#BA
+vless://d9eb0df3-3190-4447-86b6-656fe5ff1119@104.19.116.131:443?encryption=none&security=tls&sni=mmdv2.pages.dev&fp=chrome&type=ws&host=mmdv2.pages.dev&path=%2F#ba%20to%20engar%20tu%20beheshtam

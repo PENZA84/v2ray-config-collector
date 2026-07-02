@@ -1,0 +1,12 @@
+trojan://Wd9QmL5Vr2Z6@149.28.160.123:443?security=tls&sni=ash.d50f6225-23b4-3a7b-9f15-a0fb2fc16803.kailib.com#%F0%9F%87%A6%F0%9F%87%BAAU-149.28.160.123-4954
+trojan://b379fd8e-75c6-4bd6-8a5b-88f3e64bb3fa@103.224.212.217:443/?type=tcp&security=tls&sni=dl.kgvn.garenanow.com&allowInsecure=1&fp=chrome#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%BA%20AU%20%7C%20TROJAN%20%7C%2014673
+trojan://b379fd8e-75c6-4bd6-8a5b-88f3e64bb3fa@103.224.212.217:443?allowInsecure=1&sni=dl.kgvn.garenanow.com#%F0%9F%87%A6%F0%9F%87%BA%20%F0%9F%87%A6%F0%9F%87%BAAU%28AzadNet.t.me%29%20%283%29
+trojan://b379fd8e-75c6-4bd6-8a5b-88f3e64bb3fa@103.224.212.217:443?sni=dl.kgvn.garenanow.com&peer=dl.kgvn.garenanow.com&security=tls#AU
+trojan://f34ec9d8-3ae0-46ba-94e7-a03eaf2af651@192.65.217.183:443?allowInsecure=1&sni=psg1.pqjc.buzz#AU%203%20%E2%86%92%20tg%40nicevpn123
+trojan://rYuChHcwQZskq9E0zdoR@125.7.24.251:443/?type=tcp&security=tls&sni=vpn5.rnmcnm.com#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%BA%20AU%20%7C%20TROJAN%20%7C%2015375
+trojan://rYuChHcwQZskq9E0zdoR@125.7.24.251:443?allowInsecure=0&sni=vpn5.rnmcnm.com#%F0%9F%87%A6%F0%9F%87%BA%20%F0%9F%87%A6%F0%9F%87%BAAU%28AzadNet.t.me%29%20%2810%29
+trojan://rYuChHcwQZskq9E0zdoR@125.7.24.251:443?security=tls&sni=vpn5.rnmcnm.com#%F0%9F%87%A6%F0%9F%87%BAAU-125.7.24.251-1134
+trojan://rYuChHcwQZskq9E0zdoR@125.7.24.251:443?security=tls&sni=vpn5.rnmcnm.com&type=ws&path=%2Fws-79dffb8106db&Host=vpn5.rnmcnm.com#%F0%9F%87%A6%F0%9F%87%BAAU-125.7.24.251-1131
+trojan://your_password@3.27.95.146:443/?type=tcp&security=tls&sni=aws-aus-sydney-1.f1rocketnode.com&allowInsecure=1#%F0%9F%87%A6%F0%9F%87%BAAU%28AzadNet.t.me%29
+trojan://your_password@3.27.95.146:443/?type=tcp&security=tls&sni=aws-aus-sydney-1.f1rocketnode.com&allowInsecure=1#%F0%9F%87%A6%F0%9F%87%BAAU%28AzadNet.t.me%29_002
+trojan://your_password@3.27.95.146:443?sni=aws-aus-sydney-1.f1rocketnode.com&peer=aws-aus-sydney-1.f1rocketnode.com&security=tls#AU

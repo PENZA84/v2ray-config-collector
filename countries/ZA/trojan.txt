@@ -1,0 +1,15 @@
+trojan://4467ae8518abf1ef321618c0bfb5549ccc@102.219.85.236:20041?security=tls&sni=www.cloudflare.com#%F0%9F%87%BF%F0%9F%87%A6ZA-102.219.85.236-4718
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.134:443/?type=tcp&security=tls&sni=icecream.955850.xyz#%F0%9F%87%BF%F0%9F%87%A6ZA-160.123.255.134-0906
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.134:443/?type=tcp&security=tls&sni=icecream.955850.xyz#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%204624
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.134:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#ZA
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.173:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#ZA
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.18:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#ZA
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.199:443/?type=tcp&security=tls&sni=icecream.955850.xyz#%F0%9F%87%BF%F0%9F%87%A6ZA-160.123.255.199-0903
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.199:443/?type=tcp&security=tls&sni=icecream.955850.xyz#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%204603
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.199:443?allowInsecure=0&sni=icecream.955850.xyz#%F0%9F%87%BF%F0%9F%87%A6ZA%28AzadNet.t.me%29
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.199:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#ZA
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@160.123.255.243:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#ZA
+trojan://8r%3C%5B9%27l6hAO%238ZQi@192.142.53.208:2053?host=Koma-YT.PAGeS.Dev&path=/trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2&security=tls&sni=Koma-YT.PAGeS.Dev&type=ws#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%2011777
+trojan://MiTiVPN@151.101.173.173:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%2013618
+trojan://MiTiVPN@151.101.224.224:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%2013958
+trojan://MiTiVPN@151.101.225.242:443/?type=ws&host=www.f6r.ir&path=/?ed=2560&Telegram#v2go%20%7C%20%F0%9F%87%BF%F0%9F%87%A6%20ZA%20%7C%20TROJAN%20%7C%2013947

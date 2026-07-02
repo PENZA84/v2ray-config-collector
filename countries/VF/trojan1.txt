@@ -1,0 +1,1 @@
+trojan://e8b87dd9-cc8f-407c-a1f3-a564009fe6ee@172.66.47.130:443?allowInsecure=0&sni=dc1bf227.vf-8co.pages.dev&ws=1&wspath=%2FTelegram%40Linkvws%3Fed%3D2048#RELAY%F0%9F%9A%A9%20%7C%20dc1bf227.vf-8co.pages.dev-443%20%7C%2040.49ms

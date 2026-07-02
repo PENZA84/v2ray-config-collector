@@ -1,0 +1,7 @@
+vless://f9255507-1b65-433f-bfd8-193b35e068e2@62.72.166.140:80/?type=ws&encryption=none&flow=&host=s5.868001.xyz&path=Telegram%F0%9F%87%A8%F0%9F%87%B3%20%40WangCai2#v2go%20%7C%20%F0%9F%87%AF%F0%9F%87%B4%20JO%20%7C%20VLESS%20%7C%2035994
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.156:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=Telegram-channel-WangCai2#JO
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.168:8880/?type=ws&encryption=none&host=kjgx.laoyoutiao.link&path=Telegram%40WangCai2%2F%3Fed%3D2560#v2go%20%7C%20%F0%9F%87%AF%F0%9F%87%B4%20JO%20%7C%20VLESS%20%7C%205600
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.168:8880?type=ws&security=false&path=Telegram@WangCai2/?ed=2560&fp=chrome#JO
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.168:8880?type=ws&security=none&path=Telegram@WangCai2/?ed=2560#JO
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.213:8880?type=ws&security=none#JO
+vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@62.72.166.63:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=jp.laoyoutiao.link#JO

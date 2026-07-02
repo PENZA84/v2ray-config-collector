@@ -1,0 +1,13 @@
+trojan://ZJU29smXwp@45.85.118.0:2053?path=/&security=tls&host=k.teama.tk&type=ws&sni=web2.teama.tk#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2014284
+trojan://ZJU29smXwp@45.85.118.88:2053?path=%2F&security=tls&host=k.teama.tk&type=ws&sni=omid.teama.tk#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2014285
+trojan://blue2024@45.85.118.20:443/?type=ws&host=ta.promote.icu&path=%2F%3Fed%3D2560&security=tls&sni=ta.promote.icu#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%206183
+trojan://gIRrGnuuNm@45.85.119.0:2096?path=%2F&security=tls&host=aa.v2jey.fun&type=ws&sni=aa.v2jey.fun#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015099
+trojan://gIRrGnuuNm@45.85.119.0:2096?sni=aa.v2jey.fun&peer=aa.v2jey.fun&security=tls#RO
+trojan://gIRrGnuuNm@45.85.119.179:2096?path=%2F&security=tls&host=aa.v2jey.fun&type=ws&sni=aa.v2jey.fun#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015100
+trojan://gIRrGnuuNm@45.85.119.29:2096?path=%2F&security=tls&host=aa.v2jey.fun&type=ws&sni=aa.v2jey.fun#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015102
+trojan://humanity@45.85.118.176:443/?type=ws&host=www.calmloud.com&path=%2Fassignment&security=tls&sni=www.calmloud.com&alpn=http%2F1.1#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015275
+trojan://ttfang@45.12.30.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015467
+trojan://ttfang@45.12.31.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015468
+trojan://ttfang@45.85.118.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015499
+trojan://ttfang@45.85.119.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%B7%F0%9F%87%B4%20RO%20%7C%20TROJAN%20%7C%2015500
+trojan://tvRqMFmVhZ@45.85.118.83:8443?sni=dmm.v2rayngvz.online&peer=dmm.v2rayngvz.online&security=tls#RO

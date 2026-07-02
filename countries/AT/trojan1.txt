@@ -1,0 +1,12 @@
+trojan://humanity@212.183.88.136:443?allowInsecure=0&sni=www.calmlunch.com&ws=1&wspath=%2Fassignment#%F0%9F%87%A6%F0%9F%87%B9AT-212.183.88.136-0741
+trojan://humanity@212.183.88.136:443?allowInsecure=0&sni=www.calmlunch.com&ws=1&wspath=%2Fassignment#AT-212.183.88.136-0741
+trojan://humanity@212.183.88.136:443?host=www.calmlunch.com&path=%2Fassignment&sni=www.calmlunch.com&type=ws#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B9%20AT%20%7C%20TROJAN%20%7C%20730
+trojan://humanity@212.183.88.136:443?security=tls&sni=www.calmlunch.com&type=ws&path=/assignment&Host=www.calmlunch.com#%F0%9F%87%A6%F0%9F%87%B9AT-212.183.88.136-0737
+trojan://humanity@212.183.88.136:443?security=tls&sni=www.calmlunch.com&type=ws&path=/assignment&Host=www.calmlunch.com#%F0%9F%87%A6%F0%9F%87%B9AT-212.183.88.136-0741
+trojan://humanity@212.183.88.136:443?sni=www.calmlunch.com&peer=www.calmlunch.com&security=tls#AT
+trojan://humanity@212.183.88.136:443?type=ws&path=%2Fassignment#[Trojan]_🇦🇹AT-212.183.88.136-0741
+trojan://humanity@8.6.112.139:443?allowInsecure=1&sni=www.calmloud.com&ws=1&wspath=%2Fassignment#%F0%9F%87%A6%F0%9F%87%B9AT%28AzadNet.t.me%29%20%2812%29
+trojan://humanity@8.6.112.6:443?security=tls&sni=www.calmloud.com&type=ws&path=/assignment&Host=www.calmloud.com#%F0%9F%87%A6%F0%9F%87%B9AT-8.6.112.6-1231
+trojan://trojan@152.53.45.251:8888?security=tls&amp%3Bsni=jflsjlaf.pages.dev&amp%3Btype=ws&amp%3Bhost=jflsjlaf.pages.dev&amp%3Bpath=/#%F0%9F%87%A6%F0%9F%87%B9%20AT%20%7C%20TROJAN%20%7C%20%40mpproxy%20%231
+trojan://trojan@152.53.45.251:8888?type=tcp&security=tls&fp=chrome&alpn=http%2F1.1#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B9%20AT%20%7C%20TROJAN%20%7C%202686
+trojan://v2raydia@212.183.88.224:2053?path=/@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia--@v2raydia&security=tls&alpn=h2&insecure=0&host=tru.ccnnx.ir&fp=chrome&type=ws&allowInsecure=0&sni=tru.ccnnx.ir#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B9%20AT%20%7C%20TROJAN%20%7C%2015512

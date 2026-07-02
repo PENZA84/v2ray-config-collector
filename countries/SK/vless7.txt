@@ -1,0 +1,1 @@
+vless://cdfdf759-6e72-4766-88d4-6e7143f880b2@8.47.69.219:8443?type=ws&security=tls&path=/lpcaladdd&sni=vlam-3xiozxip02.wordpresscpanel.ir&fp=chrome#SK

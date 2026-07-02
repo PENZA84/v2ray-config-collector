@@ -1,0 +1,10 @@
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@202.37.33.80:443/?type=tcp&security=tls&sni=icecream.955850.xyz#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%209785
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@202.37.33.80:443?allowInsecure=0&sni=icecream.955850.xyz#%F0%9F%87%B3%F0%9F%87%BFNZ%28AzadNet.t.me%29%20%281%29
+trojan://6884d714-d3c4-4b49-aa20-767ea92837d6@202.37.33.80:443?sni=icecream.955850.xyz&peer=icecream.955850.xyz&security=tls#NZ
+trojan://8r%3C%5B9%27l6hAO%238ZQi@213.170.157.1:443?allowInsecure=0&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%B3%F0%9F%87%BFNZ%28AzadNet.t.me%29%20%282%29
+trojan://EbsKv_weudqnr7-Zfld6F06M8HzO671%2B9c@103.208.85.4:443?allowInsecure=1&insecure=1&type=tcp&security=tls&fp=chrome#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013335
+trojan://MiTiVPN@151.101.165.242:443/?type=ws&host=www.f6r.ir&path=/?ed=2560&Telegram#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013472
+trojan://MiTiVPN@151.101.166.166:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013475
+trojan://MiTiVPN@151.101.233.233:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013586
+trojan://MiTiVPN@151.101.233.242:443/?type=ws&host=www.f6r.ir&path=/?ed=2560&Telegram#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013602
+trojan://MiTiVPN@151.101.235.235:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20TROJAN%20%7C%2013587

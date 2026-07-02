@@ -1,0 +1,2 @@
+vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@45.129.141.188:443?fp=chrome&host=linek.perry.us.kg&path=%2Fseller&security=tls&sni=linek.perry.us.kg&type=ws#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%B0%20SK%20%7C%20VLESS%20%7C%2020649
+vless://36af4874-d6a3-4f7c-82a7-1cb724961b52@45.129.141.188:443?type=ws&security=tls&path=/seller&sni=linek.perry.us.kg&fp=chrome#SK

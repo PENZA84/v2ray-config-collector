@@ -1,0 +1,2 @@
+trojan://kZSruDyvxP@45.130.125.2:443?path=%2Fda&security=tls&insecure=0&host=sk.farxmode.ir&fp=firefox&type=ws&allowInsecure=0&sni=sk.farxmode.ir#4711.%20%F0%9F%87%B8%F0%9F%87%A8%20TROJAN%20%7C%20SNI%3A%20sk.farxmode.ir%20%7C%20TG%3A%20%40wlrustg
+trojan://kZSruDyvxP@45.130.125.2:443?path=/da&security=tls&alpn=-@Proxy---Se7en&insecure=0&host=Proxy-Se7en---Proxy-Se7en---Proxy-Se7en---Proxy-Se7en---Proxy-Se7en---Proxy-Se7en---Proxy-Se7en&fp=chrome&type=ws&allowInsecure=0&sni=sk.farxmode.ir#1596.%20TROJAN%20%7C%20SNI%3A%20sk.farxmode.ir%20%7C%20TG%3A%20%40wlrustg

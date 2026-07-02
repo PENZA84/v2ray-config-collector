@@ -1,0 +1,8 @@
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.101:2083?type=ws&security=tls&path=/fp=chrome&sni=go.iranfree.de5.net#MY
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.114:2053?type=ws&security=tls&path=/&sni=go.iranfree.de5.net&fp=chrome#MY
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.185:443?type=ws&security=tls&path=/fp=chrome&sni=go.iranfree.de5.net#MY
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.36:2087?type=ws&security=tls&path=/fp=chrome&sni=go.iranfree.de5.net#MY
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.43:2053?type=ws&security=tls&path=/fp=chrome&sni=go.iranfree.de5.net#MY
+vless://56e4896e-90a9-4fe0-8480-90d3d68b9928@8.35.211.87:2096?type=ws&security=tls&path=/fp=chromefp=chrome&sni=go.iranfree.de5.net#MY
+vless://5b9fa73b-b549-480b-add9-c45e650d236f@8.35.211.32:443?type=ws&security=tls&path=/fp=firefox&sni=gddy.hhlfy.de5.net#MY
+vless://5c90ba85-fa28-4437-8561-4fab86beccaa@101.99.91.209:443?encryption=none&flow=xtls-rprx-vision&fp=chrome&pbk=mLmBhbVFfNuo2eUgBh6r9-5Koz9mUCn3aSzlR6IejUg&security=reality&sid=e499f276e7bd6420&sni=hls-svod.itunes.apple.com&type=tcp#%5B452ms%20MY%20MY%20%20@vlesstrojan%5D

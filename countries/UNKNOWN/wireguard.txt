@@ -1,0 +1,2 @@
+wireguard://103.108.94.164:80#🇳🇿_hamedp71
+wireguard://185.165.170.3:443#🇮🇸_hamedp71-1

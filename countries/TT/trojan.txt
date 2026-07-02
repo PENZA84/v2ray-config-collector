@@ -1,0 +1,2 @@
+trojan://Aimer@108.165.152.78:2083?allowInsecure=0&sni=epmf.ambercc.filegear-sg.me#%E5%85%8D%E8%B4%B9VPN%EF%BC%9Ahttps%3A%2F%2Ftt.vg%2FgwaAy
+trojan://Aimer@31.43.179.27:443?allowInsecure=0&sni=epml.ambercc.filegear-sg.me#%E5%85%8D%E8%B4%B9VPN%EF%BC%9Ahttps%3A%2F%2Ftt.vg%2FgwaAy

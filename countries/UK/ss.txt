@@ -1,0 +1,1 @@
+ss://737345a9-649d-531d-93e4-23c53b4371f8@194.147.35.250:443?security=tls&sni=zula.ir&allowInsecure=1&fp=chrome&type=ws&path=/vless&host=194.147.35.250&encryption=none#Rayan%20-%20SSM%20-%20WSDR%20-%20UK%20-%20I%20-%20%F0%9F%9F%A1%20t.me/Rayan_Config

@@ -1,0 +1,17 @@
+trojan://01596265-168b-46a7-bcb7-25662c7a9546@188.114.98.0:443?allowInsecure=1&sni=hdfy7c1.foriran2.eu.org#IT%2014%20%E2%86%92%20tg%40nicevpn123
+trojan://2dbd2a10-9512-4b60-84e6-5d9926a9fe5b@188.114.96.3:2083?allowInsecure=1&sni=majidrezarahnavard.pardazesh.tech#IT%206%20%E2%86%92%20tg%40nicevpn123
+trojan://45f98d84-f1ab-4783-989e-e3b930913665@151.101.242.172:80?sni=mci.ir&peer=mci.ir&security=tls#IT
+trojan://8r%3C%5B9%27l6hAO%238ZQi@151.241.215.148:443?security=tls&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%AE%F0%9F%87%B9IT-151.241.215.148-2512
+trojan://8r%3C%5B9%27l6hAO%238ZQi@151.241.215.148:443?sni=Koma-YT.PAGeS.Dev#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B9%20IT%20%7C%20TROJAN%20%7C%20166
+trojan://Aimer@87.120.237.36:81?security=tls&sni=ageph.ambercc.filegear-sg.me#%F0%9F%87%AE%F0%9F%87%B9IT-87.120.237.36-5164
+trojan://Aimer@87.120.237.36:81?sni=ageph.ambercc.filegear-sg.me&peer=ageph.ambercc.filegear-sg.me&security=tls#IT
+trojan://Aimer@91.193.5.121:8443?sni=ngepz.ambercc.filegear-sg.me&peer=ngepz.ambercc.filegear-sg.me&security=tls#IT
+trojan://MiTiVPN@151.101.241.241:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B9%20IT%20%7C%20TROJAN%20%7C%2013531
+trojan://MiTiVPN@151.101.243.243:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B9%20IT%20%7C%20TROJAN%20%7C%2013534
+trojan://MiTiVPN@91.193.58.201:443?path=%2FMiTiVPN%3DNL&security=tls&alpn=http%2F1.1&host=PioHosting.ir&fp=firefox&type=ws&sni=PioHosting.ir#%E2%9C%85%20%20%40vistav2ray%20%20%F0%9F%91%88%F0%9F%91%88%DA%A9%D8%A7%D9%86%D8%A7%D9%84%20%D9%85%D8%A7%20%E2%9C%85vless://1e7e0537-c23d-43c2-afd5-4d7753831278@it.linuxbase.ir:1152?security=reality&encryption=none&pbk=YzQz4D9KFIpJ5YB4W5UqPs8wgowbeujf9KEOyuATSE4&headerType=none&fp=chrome&spx=%2F&type=tcp&flow=xtls-rprx-vision&sni=yahoo.com&sid=e5115b6a2127146d#%E2%9C%85%20%20%40vistav2ray%20%20%F0%9F%91%88%F0%9F%91%88%DA%A9%D8%A7%D9%86%D8%A7%D9%84%20%D9%85%D8%A7%20%E2%9C%85
+trojan://Mitivpn@151.101.242.172:80?#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B9%20IT%20%7C%20TROJAN%20%7C%20161
+trojan://Mitivpn@151.101.242.172:80?allowInsecure=0&sni=4-4-3-mitivpn.global.ssl.fastly.net&ws=1&wspath=%2Fed%3Dmitivpn#%F0%9F%87%AE%F0%9F%87%B9IT%28AzadNet.t.me%29
+trojan://Mitivpn@151.101.242.172:80?path=%2Fed&security=none&host=4-4-3-mitivpn.global.ssl.fastly.net&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B9%20IT-456
+trojan://Mitivpn@151.101.242.172:80?type=ws&host=4-4-3-mitivpn.global.ssl.fastly.net&path=%2F&sni=4-4-3-mitivpn.global.ssl.fastly.net#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B9%20IT-466
+trojan://Mitivpn@151.101.242.172:80?type=ws&host=4-4-3-mitivpn.global.ssl.fastly.net&path=%2Fed%3Dmitivpn#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B9%20IT-458
+trojan://Mitivpn@151.101.242.172:80?type=ws&security=none&path=%2Fed%3Dmitivpn&host=4-4-3-mitivpn.global.ssl.fastly.net#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B9%20IT-450

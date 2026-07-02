@@ -1,0 +1,15 @@
+trojan://a13820c547fa34c5c45515c12f0cd576@117.149.198.190:10051/?type=tcp&security=tls&sni=zz6.91js.pw&allowInsecure=1#v2go%20%7C%20%F0%9F%87%A8%F0%9F%87%B3%20CN%20%7C%20TROJAN%20%7C%203751
+trojan://a13820c547fa34c5c45515c12f0cd576@117.149.198.190:10051?sni=zz6.91js.pw#%F0%9D%90%80%F0%9D%90%B3%F0%9D%90%9A%F0%9D%90%9D%F0%9D%90%8D%F0%9D%90%9E%F0%9D%90%AD%E2%9E%AA%F0%9F%87%A8%F0%9F%87%B3%E2%9E%AACN
+trojan://bpb-trojan@101.69.122.104:443?sni=zamim340.ggff.net&peer=zamim340.ggff.net&security=tls#CN
+trojan://bpb-trojan@27.36.125.2:443?sni=zamim340.ggff.net&peer=zamim340.ggff.net&security=tls#CN
+trojan://eeb6823c-b926-4ea2-866a-5542edd26e59@43.169.19.179:443?security=tls&type=ws&ech=cloudflare-ech.com%2Bhttps%3A%2F%2Fdns.alidns.com%2Fdns-query&host=tjsp.hhxaf.cc.cd&fp=chrome&sni=tjsp.hhxaf.cc.cd&path=%2F&encryption=none#%5BOpenRay%5D%20%F0%9F%87%A8%F0%9F%87%B3%20CN-41
+trojan://fuck@42.236.73.72:443/?type=tcp&security=tls&sni=www.zitian.cn#%F0%9F%87%A8%F0%9F%87%B3CN-42.236.73.72-1306
+trojan://fuck@42.236.73.72:443/?type=tcp&security=tls&sni=www.zitian.cn#v2go%20%7C%20%F0%9F%87%A8%F0%9F%87%B3%20CN%20%7C%20TROJAN%20%7C%203682
+trojan://fuck@42.236.73.72:443?allowInsecure=0&sni=www.zitian.cn#%F0%9F%87%A8%F0%9F%87%B3%20%F0%9F%87%A8%F0%9F%87%B3CN%28AzadNet.t.me%29
+trojan://fuck@42.236.73.72:443?security=tls&sni=www.zitian.cn#%F0%9F%87%A8%F0%9F%87%B3CN-42.236.73.72-0932
+trojan://fuck@42.236.73.72:443?security=tls&sni=www.zitian.cn#%F0%9F%87%A8%F0%9F%87%B3CN-42.236.73.72-1286
+trojan://fuck@42.236.73.72:443?security=tls&type=tcp&sni=www.zitian.cn#CN🇨🇳
+trojan://fuck@42.236.73.72:443?sni=www.zitian.cn&peer=www.zitian.cn&security=tls#CN
+trojan://humanity@43.169.18.179:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&insecure=0&host=www.creationlong.org&type=ws&allowInsecure=0&sni=www.creationlong.org#%5BOpenRay%5D%20%F0%9F%87%A8%F0%9F%87%B3%20CN-40
+trojan://humanity@43.169.18.179:443?path=/assignment&security=tls&insecure=0&host=www.creationlong.org&type=ws&allowInsecure=0&sni=www.creationlong.org#%5BOpenRay%5D%20%F0%9F%87%A8%F0%9F%87%B3%20CN-13
+trojan://humanity@43.169.18.179:443?security=tls&sni=www.creationlong.org&type=ws&path=/assignment&Host=www.creationlong.org#%F0%9F%87%A8%F0%9F%87%B3CN-43.169.18.179-1282

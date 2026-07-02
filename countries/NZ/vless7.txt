@@ -1,0 +1,3 @@
+vless://be2e1543-d450-481b-a955-c691086e41b1@103.68.110.96:443?type=tcp&security=reality&sni=pl-modx.nodexphere.net&fp=firefox&flow=xtls-rprx-vision&pbk=_S6MJ2-dROx_X7rUM_Gnh01MPAVVgnB0_x0t4_2XuVc#NZ
+vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@114.129.43.247:8880?type=ws&security=false&path=/Telegram🇨🇳&fp=chrome#NZ
+vless://d60fc3c5-9f07-4cdb-b81f-70af27936bdc@114.129.43.247:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=ex.sue.x10.mx#NZ

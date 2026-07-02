@@ -1,0 +1,2 @@
+trojan://Xa4%5El(%3B.%3BB%23a@104.18.26.90:443/?type=ws&host=s1.mitivpn.workers.dev&path=%2FtrUXByA1rnbs4YQ1Xw%3Fed%3D2560&security=tls&sni=S1.mitivpN.wOrKeRS.DEV&alpn=h3%2Ch2%2Chttp%2F1.1&fp=randomized#Join%20To%20%40IRAN_V2RAY1
+trojan://trojan@109.234.211.66:8443?security=tls&host=store.timimi.dpdns.org&headerType=&type=tcp&sni=store.timimi.dpdns.org#Bya%20To%20%3A%20%40Iran_V2ray1

@@ -1,0 +1,1 @@
+trojan://amclubs@103.160.204.1:443/?type=ws&host=tran.amclubstest.nyc.mn&path=%2F%3Fed%3D2560&security=tls&sni=tran.amclubstest.nyc.mn#%F0%9F%91%89%F0%9F%86%94@MoftConfig%F0%9F%93%A1%F0%9F%87%AD%F0%9F%87%B0%C2%AE%EF%B8%8FHong%20Kong%C2%A9%EF%B8%8FSan%20Po%20Kong%F0%9F%85%BF%EF%B8%8Fping:8.84ms

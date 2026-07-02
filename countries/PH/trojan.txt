@@ -1,0 +1,4 @@
+trojan://3e974f9e@38.54.81.111:443?allowInsecure=0&sni=63.hhhhh.eu.org&ws=1&wspath=%2F38.54.81.111%3A443#%F0%9F%87%B5%F0%9F%87%AD%20%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%AD%20PH-10
+trojan://3e974f9e@38.54.81.111:443?security=tls&sni=63.hhhhh.eu.org&insecure=0&allowInsecure=0&type=ws&host=63.hhhhh.eu.org&path=%2F38.54.81.111%3A443#%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%AD%20PH-10
+trojan://Aimer@154.83.2.88:2083?sni=epccu.ambercc.filegear-sg.me&peer=epccu.ambercc.filegear-sg.me&security=tls#PH
+trojan://NISHIKUITAN111@154.83.2.121:443/?type=tcp&security=tls#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%AD%20PH%20%7C%20TROJAN%20%7C%206837

@@ -1,0 +1,12 @@
+ss://0970324b-8c61-4ae7-8c3f-385a6f1e17e4@143.110.247.61:2053?fp=chrome&host=vpn47.cc.cd&path=%2F&security=tls&sni=vpn47.cc.cd&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-218
+ss://249b3d88-f54d-482c-a42c-232f7aad3f7e@138.252.100.85:32351?path=%2F&security=&encryption=none&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-199
+ss://24d16a10-5919-486e-9651-a0983ede2060@138.252.100.85:32351?encryption=none&host=&path=%2F&security=none&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-217
+ss://24d16a10-5919-486e-9651-a0983ede2060@138.252.100.85:32351?encryption=none&host=&path=%2F&security=none&type=ws#IN🇮🇳
+ss://24d16a10-5919-486e-9651-a0983ede2060@138.252.100.85:33659?encryption=none&host=&path=%2F&security=none&type=ws#IN🇮🇳
+ss://401374e6-df77-41fb-f638-dad8184f175b@108.165.152.205:443?security=tls&sni=pqh36v4.hiddendom.shop&alpn=h2&type=grpc&encryption=none#%F0%9F%87%AE%F0%9F%87%B3IN%20%7C%20@v2ray_configs_pools`
+ss://401374e6-df77-41fb-f638-dad8184f175b@108.165.152.205:443?security=tls&sni=pqh36v4.hiddendom.shop&alpn=h2&type=grpc&encryption=none#🇮🇳IN
+ss://5cae7714-9c61-4c5c-876e-c45a1cb13be4@138.252.100.85:32351?encryption=none&host=&path=%2F&security=none&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-215
+ss://5cae7714-9c61-4c5c-876e-c45a1cb13be4@138.252.100.85:33659?encryption=none&host=&path=%2F&security=none&type=ws#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-214
+ss://64ce3550595a4327ba2c5af2590b3d3bOg==@151.101.158.204:80#IN%F0%9F%87%AE%F0%9F%87%B3+%7C+151.101.158.204-80+%7C+247.32ms
+ss://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?flow=xtls-rprx-vision&fp=firefox&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&security=reality&sid=54ce&sni=deepl.com&type=tcp#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-169
+ss://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?flow=xtls-rprx-vision&fp=firefox&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&security=reality&sid=54ce&sni=deepl.com&type=tcp#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B3%20IN%20%7C%20SS%20%7C%208984

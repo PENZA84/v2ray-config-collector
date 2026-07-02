@@ -1,0 +1,1 @@
+vless://a4db8cb0-7818-493c-b169-56ce8a234e4b@62.209.27.232:443?security=tls&sni=whyamisofckdup.ddns.net&alpn=http/1.1&allowInsecure=1&fp=chrome&type=ws&path=/?ed%3D2048&host=whyamisofckdup.ddns.net&packetEncoding=xudp&encryption=none#%F0%9F%87%A7%F0%9F%87%AD%20Bahrain%20-%20Al%20%E1%B8%A8add%20%F0%9F%8C%8F%20VL-WS-TLS%204%E2%83%A3

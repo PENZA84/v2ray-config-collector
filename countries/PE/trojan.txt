@@ -1,0 +1,10 @@
+trojan://Aimer@154.219.5.242:2053?sni=epmo.ambercc.filegear-sg.me&peer=epmo.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.249:8443?sni=epccn.ambercc.filegear-sg.me&peer=epccn.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.249:8443?sni=ngepx.ambercc.filegear-sg.me&peer=ngepx.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.255:2087?sni=ngepx.ambercc.filegear-sg.me&peer=ngepx.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.44:2053?sni=epml.ambercc.filegear-sg.me&peer=epml.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.55:443?sni=epcch.ambercc.filegear-sg.me&peer=epcch.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.56:2087?sni=epccx.ambercc.filegear-sg.me&peer=epccx.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.65:2087?sni=epmx.ambercc.filegear-sg.me&peer=epmx.ambercc.filegear-sg.me&security=tls#PE
+trojan://Aimer@154.219.5.87:2087?sni=epccf.ambercc.filegear-sg.me&peer=epccf.ambercc.filegear-sg.me&security=tls#PE
+trojan://MiTiVPN@151.101.229.242:443/?type=ws&host=www.f6r.ir&path=%2F%3Fed%3D2560%26Telegram%F0%9F%87%A8%F0%9F%87%B3%20%40WangCai2&security=tls&sni=www.f6r.ir#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%AA%20PE%20%7C%20TROJAN%20%7C%2013519

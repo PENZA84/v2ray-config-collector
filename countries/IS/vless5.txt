@@ -1,0 +1,2 @@
+vless://8871d6a1-85cf-4588-b6f5-830043781ee9@185.246.191.235:443?fp=firefox&mode=gun&pbk=QJW15WZWLNjA8KEpe4GqSdOe4rfW8KgqjjVmKxPk-ng&security=reality&serviceName=gun&sid=3fa234ea9feaa048&sni=qubes.ubuntuhosting.host&type=grpc#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B8%20IS%20%7C%20VLESS%20%7C%2028043
+vless://8871d6a1-85cf-4588-b6f5-830043781ee9@185.246.191.235:443?type=grpc&security=reality&sni=qubes.ubuntuhosting.host&fp=firefox&pbk=QJW15WZWLNjA8KEpe4GqSdOe4rfW8KgqjjVmKxPk-ng&sid=3fa234ea9feaa048#IS

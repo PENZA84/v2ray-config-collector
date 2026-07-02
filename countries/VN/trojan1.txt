@@ -1,0 +1,2 @@
+trojan://c95357eb-2869-4511-8940-f0dc5e1ec9b1@103.72.96.55:443/?type=tcp&security=tls&sni=hanoiidc2.5gsieutocdo.com&alpn=http%2F1.1&allowInsecure=1&fp=chrome#v2go%20%7C%20%F0%9F%87%BB%F0%9F%87%B3%20VN%20%7C%20TROJAN%20%7C%2014811
+trojan://c95357eb-2869-4511-8940-f0dc5e1ec9b1@103.72.96.55:443?allowInsecure=1&sni=hanoiidc2.5gsieutocdo.com#%F0%9F%87%BB%F0%9F%87%B3VN%28AzadNet.t.me%29%20%281%29

@@ -1,0 +1,6 @@
+trojan://45d5c2fa-58f7-4f2a-811b-c44cc51e8668@190.93.247.155:443?path=%2F&security=tls&host=is2.trojanvpn.xyz&type=ws&sni=is2.trojanvpn.xyz#IS🇮🇸
+trojan://4f4d1167-ef14-4304-9bce-0740472503ef@188.253.12.93:47909?security=tls&sni=is.01.naiun.bilibili.com#%F0%9F%87%AE%F0%9F%87%B8%5Bopenproxylist.com%5D%20trojan-IS
+trojan://4f4d1167-ef14-4304-9bce-0740472503ef@188.253.12.94:47909?security=tls&sni=is.01.naiun.bilibili.com#%F0%9F%87%AE%F0%9F%87%B8%5Bopenproxylist.com%5D%20trojan-IS
+trojan://4f4d1167-ef14-4304-9bce-0740472503ef@188.253.12.96:47909?security=tls&sni=is.01.naiun.bilibili.com#%F0%9F%87%AE%F0%9F%87%B8%5Bopenproxylist.com%5D%20trojan-IS
+trojan://4f4d1167-ef14-4304-9bce-0740472503ef@188.253.12.99:47909?security=tls&sni=is.01.naiun.bilibili.com#%F0%9F%87%AE%F0%9F%87%B8%5Bopenproxylist.com%5D%20trojan-IS
+trojan://8r%3C%5B9%27l6hAO%238ZQi@185.246.191.25:2096?ed=2560&eh=Sec-WebSocket-Protocol&host=Koma-YT.PAGeS.Dev&path=%2FtrTelegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2&sni=Koma-YT.PAGeS.Dev&type=ws#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B8%20IS%20%7C%20TROJAN%20%7C%2011537

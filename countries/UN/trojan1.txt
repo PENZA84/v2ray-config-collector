@@ -1,0 +1,15 @@
+trojan://humanity@104.18.32.47:443?security=tls&sni=www.calmlunch.com&type=ws&path=%2Fassignment#%F0%9F%87%BA%F0%9F%87%B3%20UN%202391ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.calmloud.com&type=ws&path=%2Fassignment&host=www.calmloud.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%201638ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment%3FL%3Dtls#%F0%9F%87%BA%F0%9F%87%B3%20UN%202315ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment%3FTELEGRAM--KANAL--JKVPN--JKVPN--JKVPN--JKVPN--JKVPN--JKVPN#%F0%9F%87%BA%F0%9F%87%B3%20UN%20924ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment&host=www.gossipglove.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%201687ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment&host=www.gossipglove.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%202344ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment&host=www.gossipglove.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%203615ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.gossipglove.com&type=ws&path=%2Fassignment&host=www.gossipglove.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%204097ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.ignitelimit.com&type=ws&path=%2Fassignment&host=www.ignitelimit.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%202483ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.ignitelimit.com&type=ws&path=%2Fassignment&host=www.ignitelimit.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%202596ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.ignitelimit.com&type=ws&path=assignment#%F0%9F%87%BA%F0%9F%87%B3%20UN%203039ms
+trojan://humanity@104.19.229.21:443?security=tls&sni=www.multiplydose.com&type=ws&path=%2F%2Fassignment&host=www.multiplydose.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%201106ms
+trojan://humanity@172.64.152.23:443?security=tls&sni=www.calmlunch.com&type=ws&path=%2Fassignment&host=www.calmlunch.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%202441ms
+trojan://humanity@188.114.96.3:443?security=tls&sni=www.calmloud.com&type=ws&path=%2Fassignment#%F0%9F%87%BA%F0%9F%87%B3%20UN%203387ms
+trojan://humanity@188.114.96.3:443?security=tls&sni=www.calmlunch.com&type=ws&path=%2Fassignment&host=www.calmlunch.com#%F0%9F%87%BA%F0%9F%87%B3%20UN%202916ms

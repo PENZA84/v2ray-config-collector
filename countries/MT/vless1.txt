@@ -1,0 +1,6 @@
+vless://2321a662-adbb-49b6-9c3d-51fcef59c70d@193.227.99.66:8443?mode=gun&security=tls&encryption=none&alpn=h2,http/1.1&fp=chrome&type=grpc&serviceName=&sni=ch.donaldvpn.sbs#v2go%20%7C%20%F0%9F%87%B2%F0%9F%87%B9%20MT%20%7C%20VLESS%20%7C%2018696
+vless://2321a662-adbb-49b6-9c3d-51fcef59c70d@193.227.99.66:8443?type=grpc&security=tls&sni=ch.donaldvpn.sbs&fp=chrome#MT
+vless://2321a662-adbb-49b6-9c3d-51fcef59c70d@193.227.99.66:8443?type=tcp&security=none#MT
+vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@193.227.99.109:443?path=%2Ftg%40zdyz2&security=tls&encryption=none&type=ws&sni=cfed.tgzdyz2.top#v2go%20%7C%20%F0%9F%87%B2%F0%9F%87%B9%20MT%20%7C%20VLESS%20%7C%2019910
+vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@193.227.99.109:443?type=ws&security=tls&path=/tg@zdyz2&sni=cfed.tgzdyz2.top#MT
+vless://34c01e61-f4f3-4afb-a83b-406caf8caa33@193.227.99.254:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#MT

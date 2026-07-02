@@ -1,0 +1,2 @@
+trojan://Aimer@77.74.228.4:2087?sni=agepm.ambercc.filegear-sg.me&peer=agepm.ambercc.filegear-sg.me&security=tls#BA
+trojan://Aimer@77.74.228.4:2087?sni=agepw.ambercc.filegear-sg.me&peer=agepw.ambercc.filegear-sg.me&security=tls#BA

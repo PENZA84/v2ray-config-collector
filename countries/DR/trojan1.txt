@@ -1,0 +1,14 @@
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%252Fassignment#DR-Anv_🇨🇦_CA-12594
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12157
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12158
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12160
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12178
+trojan://humanity@188.114.96.3:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12179
+trojan://humanity@188.114.98.0:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-11962
+trojan://humanity@188.114.98.0:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-11997
+trojan://humanity@188.114.98.0:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12035
+trojan://humanity@188.114.98.0:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12043
+trojan://humanity@188.114.98.0:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_🇨🇦_CA-12045
+trojan://humanity@chatgpt.com:443?type=ws&security=tls&path=%2Fassignment#DR-Anv_Dynamic-11667
+trojan://humanity@www.multiplydose.com:443?type=ws&security=tls&path=%252Fassignment#DR-Anv_Dynamic-12565
+trojan://vpn@45.82.14.144:2025?type=ws&security=tls#DR-Anv_🇰🇿_KZ-88
