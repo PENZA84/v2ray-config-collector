@@ -12,7 +12,7 @@ jobs:
       - name: "📂 Checkout code"
         uses: actions/checkout@v4
         with:
-          fetch-depth: 1
+          fetch-depth: 0 # 👑 Даем Гиту увидеть всю историю, чтобы он не выдавал ложную ошибку push-а
 
       - name: "🐍 Set up Python"
         uses: actions/setup-python@v5
@@ -34,6 +34,9 @@ jobs:
           git config --local user.email "action@github.com"
           git config --local user.name "Leia's Sorter 🤍"
           
+          # 🛡️ ЖЕЛЕЗНЫЙ ШАГ: Официально переключаемся на ветку main, уходя от detached HEAD
+          git switch main || git checkout main
+          
           # Чёткий и прямой гвардейский захват корневой папки countries
           if [ -d "countries" ]; then
             git add countries/
@@ -46,10 +49,8 @@ jobs:
           if ! git diff --cached --quiet; then
             git commit -m "👑 Лея отсортировала файлы стран в корень репозитория 🤍🚀"
             
-            # Наша главная броня: сливаем ветки без конфликтов перед отправкой на сервер
-            git pull origin HEAD:${{ github.ref }} --rebase
-            
-            git push origin HEAD:${{ github.ref }}
+            # Спокойно и чисто пушим напрямую в main без лишних мудреных ребейзов
+            git push origin main
             echo "✨ Все отсортированные страны успешно улетели в базу!"
           else
             echo "ℹ️ Изменений не обнаружено. Всё и так в идеальном порядке, коммит не требуется."
