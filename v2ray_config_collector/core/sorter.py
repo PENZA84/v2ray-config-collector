@@ -20,9 +20,9 @@ class CountrySorter:
             self.base_dir = os.path.dirname(self.base_dir)
 
         self.input_dir = os.path.join(self.base_dir, 'data', 'unique')
-        # 👑 ЗАКОННЫЙ КОРНЕВОЙ ПУТЬ СТРАН: Как ты изначально и создавал!
+        
+        # 👑 ЗАКОННЫЙ КОРНЕВОЙ ПУТЬ СТРАН: Как ты изначально и требовал!
         self.output_dir = os.path.join(self.base_dir, 'countries') 
-        self.strange_dir = os.path.join(self.output_dir, 'STRANGE')
         
         # 🛡️ ЩИТ ДЛЯ ПРОГРАММЫ Н: Исключаем только http/https. Socks4 и Socks5 свободны!
         self.bad_protocols = ('http://', 'https://')
@@ -43,7 +43,7 @@ class CountrySorter:
             'blocked_bad_protocols': 0, 
             'sorted_by_tags': 0,
             'sorted_by_zone': 0,
-            'strange_configs': 0,
+            'unknown_configs': 0,
             'saved_countries': set()
         }
 
@@ -92,7 +92,7 @@ class CountrySorter:
         if not host:
             return 'UNKNOWN'
 
-        # 1. Анализируем текстовые маркеры и флаги в названии прокси (самый точный метод!)
+        # 1. Анализируем текстовые маркеры и флаги в названии прокси
         if name:
             matches = self.country_tag_pattern.findall(name)
             if matches:
@@ -119,7 +119,6 @@ class CountrySorter:
             return
 
         os.makedirs(self.output_dir, exist_ok=True)
-        os.makedirs(self.strange_dir, exist_ok=True)
 
         try:
             files = os.listdir(self.input_dir)
@@ -128,7 +127,6 @@ class CountrySorter:
             return
 
         country_buckets = defaultdict(lambda: defaultdict(list))
-        strange_bucket = defaultdict(list)
 
         for file_name in files:
             if 'deduplicated' in file_name.lower() or file_name.startswith('chunk_'):
@@ -153,20 +151,20 @@ class CountrySorter:
                 if line.lower().startswith(self.bad_protocols):
                     self.stats['blocked_bad_protocols'] += 1
                     continue
-                # --------------------------------
                 
                 self.stats['total_processed'] += 1
                 host, name = self.extract_server_and_name(line)
                 
                 country = self.detect_country_locally(host, name)
                 
-                if country and country != 'UNKNOWN':
-                    country_buckets[country][file_name].append(line)
+                # Складываем всё в единую структуру стран (включая UNKNOWN)
+                country_buckets[country][file_name].append(line)
+                
+                if country != 'UNKNOWN':
                     self.stats['sorted_by_tags'] += 1
                     self.stats['saved_countries'].add(country)
                 else:
-                    strange_bucket[file_name].append(line)
-                    self.stats['strange_configs'] += 1
+                    self.stats['unknown_configs'] += 1
 
         # --- ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК В КОРНЕВУЮ ПАПКУ СТРАН ---
         for country, file_data in country_buckets.items():
@@ -178,17 +176,12 @@ class CountrySorter:
                 with open(out_file, 'w', encoding='utf-8') as out_f:
                     out_f.write("\n".join(lines_to_write) + "\n")
 
-        for f_name, lines_to_write in strange_bucket.items():
-            strange_file = os.path.join(self.strange_dir, f_name)
-            with open(strange_file, 'w', encoding='utf-8') as strange_f:
-                strange_f.write("\n".join(lines_to_write) + "\n")
-
         print("\n📊 " + "="*24 + " ОТЧЁТ СВЕРХЗВУКОВОГО СОРТИРОВЩИКА СТРАН " + "="*24, flush=True)
         print(f"📦 ВСЕГО ЖИВЫХ СТРОК ВЗЯТО В ОБРАБОТКУ: {self.stats['total_processed']} шт.", flush=True)
         print(f"🛡️ ЗАБЛОКИРОВАНО УСТАРЕВШИХ (HTTP) ПРОТОКОЛОВ: {self.stats['blocked_bad_protocols']} шт. 🚫", flush=True)
         print(f"🌍 УСПЕШНО РАСПРЕДЕЛЕНО ПО СТРАНАМ: {self.stats['sorted_by_tags']} шт. 🔥", flush=True)
         print(f"🗂️ ВСЕГО СФОРМИРОВАНО НАЦИОНАЛЬНЫХ ПАПОК В КОРНЕ: {len(self.stats['saved_countries'])} шт.", flush=True)
-        print(f"👽 СТРАННЫХ (НЕОПРЕДЕЛЕННЫХ) КОНФИГУРАЦИЙ ОСТАЛОСЬ: {self.stats['strange_configs']} шт.", flush=True)
+        print(f"👽 НЕОПРЕДЕЛЕННЫХ КОНФИГУРАЦИЙ (UNKNOWN) НАПРАВЛЕНО: {self.stats['unknown_configs']} шт.", flush=True)
         print("-" * 88, flush=True)
         if self.stats['saved_countries']:
             print(f"✅ Готовые локации на полочках: {', '.join(sorted(list(self.stats['saved_countries'])))} 🤍")
