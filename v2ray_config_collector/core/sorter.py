@@ -126,7 +126,8 @@ class CountrySorter:
             print(f"❌ Ошибка чтения директории {self.input_dir}: {e}", flush=True)
             return
 
-        country_buckets = defaultdict(lambda: defaultdict(list))
+        # Изменено на плоскую структуру для сбора всех строк страны в один список
+        country_buckets = defaultdict(list)
 
         for file_name in files:
             if 'deduplicated' in file_name.lower() or file_name.startswith('chunk_'):
@@ -157,8 +158,8 @@ class CountrySorter:
                 
                 country = self.detect_country_locally(host, name)
                 
-                # Складываем всё в единую структуру стран (включая UNKNOWN)
-                country_buckets[country][file_name].append(line)
+                # Складываем строки напрямую в бакет страны без учёта имени файла
+                country_buckets[country].append(line)
                 
                 if country != 'UNKNOWN':
                     self.stats['sorted_by_tags'] += 1
@@ -166,21 +167,18 @@ class CountrySorter:
                 else:
                     self.stats['unknown_configs'] += 1
 
-        # --- ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК В КОРНЕВУЮ ПАПКУ СТРАН ---
-        for country, file_data in country_buckets.items():
-            country_path = os.path.join(self.output_dir, country)
-            os.makedirs(country_path, exist_ok=True)
-            
-            for f_name, lines_to_write in file_data.items():
-                out_file = os.path.join(country_path, f_name)
-                with open(out_file, 'w', encoding='utf-8') as out_f:
-                    out_f.write("\n".join(lines_to_write) + "\n")
+        # --- 👑 ФИЗИЧЕСКАЯ ПАКЕТНАЯ ЗАПИСЬ НА ДИСК СТРОГО В ТЕКСТОВЫЕ ФАЙЛЫ СТРАН ---
+        for country, lines_to_write in country_buckets.items():
+            # Формируем путь прямо к файлу страны в папке countries/ (например, countries/FI.txt)
+            out_file = os.path.join(self.output_dir, f"{country}.txt")
+            with open(out_file, 'w', encoding='utf-8') as out_f:
+                out_f.write("\n".join(lines_to_write) + "\n")
 
         print("\n📊 " + "="*24 + " ОТЧЁТ СВЕРХЗВУКОВОГО СОРТИРОВЩИКА СТРАН " + "="*24, flush=True)
         print(f"📦 ВСЕГО ЖИВЫХ СТРОК ВЗЯТО В ОБРАБОТКУ: {self.stats['total_processed']} шт.", flush=True)
         print(f"🛡️ ЗАБЛОКИРОВАНО УСТАРЕВШИХ (HTTP) ПРОТОКОЛОВ: {self.stats['blocked_bad_protocols']} шт. 🚫", flush=True)
         print(f"🌍 УСПЕШНО РАСПРЕДЕЛЕНО ПО СТРАНАМ: {self.stats['sorted_by_tags']} шт. 🔥", flush=True)
-        print(f"🗂️ ВСЕГО СФОРМИРОВАНО НАЦИОНАЛЬНЫХ ПАПОК В КОРНЕ: {len(self.stats['saved_countries'])} шт.", flush=True)
+        print(f"🗂️ ВСЕГО СФОРМИРОВАНО НАЦИОНАЛЬНЫХ ФАЙЛОВ В КОРНЕ: {len(self.stats['saved_countries'])} шт.", flush=True)
         print(f"👽 НЕОПРЕДЕЛЕННЫХ КОНФИГУРАЦИЙ (UNKNOWN) НАПРАВЛЕНО: {self.stats['unknown_configs']} шт.", flush=True)
         print("-" * 88, flush=True)
         if self.stats['saved_countries']:
