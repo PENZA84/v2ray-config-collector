@@ -1,5 +1,5 @@
 # Valid HTTP Configurations - Part 1
-# Total links in this file: 345
+# Total links in this file: 343
 
 http://%3D%3D@2.58.241.42:443/#%F0%9F%87%A8%F0%9F%87%B3%7CCN%7C%40wxgqlfx%7C92
 http://%3D%3D@216.250.97.118:443/#%F0%9F%90%A523%40ConfigV2RayNG
@@ -9,8 +9,6 @@ http://101.133.229.203:9001/
 http://103.62.50.130:443#🇦🇺_澳大利亚-43311E6E
 http://113.25.252.226:9901/tsfile/live/1002_1.m3u8?key=txiptv&playlive=1&authid=0
 http://122.224.58.42:85/tsfile/live/1022_1.m3u8?key=txiptv&playlive=1&authid=0
-http://147.45.43.172:8000/sub/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBQUtfVlBOIiwiYWNjZ
-http://147.45.43.172:8000/sub/eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJBQUtfVlBOIiwiYWNjZXNzIjoic3Vic2NyaXB0aW9uIiwiaWF0IjoxNzA4Nzc0NDYyfQ.sIq4qxcUvxhhJuRgWYMJvt2MpiFdgixkB1gj9QEjpEw
 http://156.146.59.39:9002#🇺🇸_机场推荐:dafei.de_美国_27
 http://183.237.95.108:9901/tsfile/live/1099_1.m3u8?key=txiptv&playlive=0&authid=0
 http://183.237.95.108:9901/tsfile/live/1104_1.m3u8?key=txiptv&playlive=0&authid=0

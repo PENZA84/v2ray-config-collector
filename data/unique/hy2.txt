@@ -1,5 +1,5 @@
 # Valid HY2 Configurations - Part 1
-# Total links in this file: 181
+# Total links in this file: 182
 
 hy2://00dcd873-9211-4d61-ad35-87999906e5c8@185.75.135.220:443
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.212.157:443?insecure=1&sni=haneda.lol#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20-%20NA%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
@@ -62,6 +62,7 @@ hy2://HowdyHysteria2023w0W@51.15.19.206:8443?insecure=1&sni=sni-here.com&obfs=sa
 hy2://HowdyHysteria2023w0W@51.15.19.206:8443?obfs=salamander&obfs-password=HysteriaHowdy&insecure=1&sni=sni-here.com#%F0%9F%87%AB%F0%9F%87%B7%20France%20-%20NA%20%F0%9F%8C%8D%20HY2-UDP-TLS%204%E2%83%A3
 hy2://HowdyHysteria2023w0W@51.15.19.206:8443?obfs=salamander&obfs-password=HysteriaHowdy&insecure=1&sni=vkvd127.mycdn.me#ð
 hy2://HowdyHysteria2023w0W@51.15.19.206:8443?obfs=salamander&obfs-password=HysteriaHowdy&insecure=1&sni=vkvd127.mycdn.me#🔒
+hy2://HowdyHysteria2023w0W@hysteria.udpgw.com:8443/?insecure=1&sni=sni-here.com&obfs=salamander&obfs-password=HysteriaHowdy#%E2%9A%934%40oneclickvpnkeys
 hy2://KevinZakarian@66.23.198.26:443?obfs=salamander&obfs-password=KevinZakarian&insecure=1#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%20-%20Norristown%20%F0%9F%8C%8E%20HY2-UDP-TLS%204%E2%83%A3
 hy2://KevinZakarian@66.23.198.26:443?obfs=salamander&obfs-password=KevinZakarian&insecure=1#ð
 hy2://KevinZakarian@66.23.198.26:443?obfs=salamander&obfs-password=KevinZakarian&insecure=1#🔒
