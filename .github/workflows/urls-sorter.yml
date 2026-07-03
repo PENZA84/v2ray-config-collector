@@ -29,7 +29,15 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git switch main || git checkout main
-          git pull --rebase origin main   # 👈 Добавили pull --rebase
+          
+          # 🛡️ Прячем новые чанки и изменения перед обновлением ветки
+          git stash -u || echo "Нет изменений для скрытия"
+          
+          git pull --rebase origin main
+          
+          # 🔓 Возвращаем чанки на место для коммита
+          git stash pop || echo "Нет изменений для восстановления"
+          
           git add urls/urls/ urls/source_urls.txt
           git diff --staged --quiet || git commit -m "🧹 Чанки созданы" && git push
 
@@ -83,7 +91,15 @@ jobs:
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git switch main || git checkout main
+          
+          # 🛡️ Безопасный сейф: временно убираем склеенную базу прокси из-под удара rebase
+          git stash || echo "Нет изменений для скрытия"
+          
           git pull --rebase origin main
+          
+          # 🔓 Возвращаем наши свежие склеенные результаты в рабочую область
+          git stash pop || echo "Нет изменений для восстановления"
+          
           git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt data/raw_incoming/deep_raw_collected.txt
           if git diff --staged --quiet; then
             echo "✨ Нет новых изменений"
