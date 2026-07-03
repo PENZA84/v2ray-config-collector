@@ -1,5 +1,5 @@
 # Valid HY2 Configurations - Part 1
-# Total links in this file: 179
+# Total links in this file: 177
 
 hy2://00dcd873-9211-4d61-ad35-87999906e5c8@185.75.135.220:443
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.212.157:443?insecure=1&sni=haneda.lol#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20-%20NA%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
@@ -8,7 +8,6 @@ hy2://148097c2-cd69-4015-992f-5939c08b9ab8@158.180.84.138:443?mport=22000-22999#
 hy2://1ab02865393bfa6d@5.161.213.184:443/?insecure=1&sni=www.google.com&obfs=salamander&obfs-password=d5a9baeec9b61a44#⭐@mshojaei77
 hy2://1ab02865393bfa6d@5.161.213.184:443?insecure=1&obfs=salamander&obfs-password=d5a9baeec9b61a44&sni=www.google.com#رایگان
 hy2://1ab02865393bfa6d@5.161.213.184:443?insecure=1&obfs=salamander&obfs-password=d5a9baeec9b61a44&sni=www.google.com#⭐@mshojaei77
-hy2://1ab02865393bfa6d@5.161.213.184:443?insecure=1&sni=www.google.com&obfs=salamander&obfs-password=d5a9baeec9b61a44#⭐@mshojaei77
 hy2://1ab02865393bfa6d@5.161.213.184:443?obfs=salamander&obfs-password=d5a9baeec9b61a44&insecure=1&sni=www.google.com#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%20-%20Ashburn%20%F0%9F%8C%8E%20HY2-UDP-TLS%204%E2%83%A3
 hy2://25cccf16-5693-4c6e-9bb9-0e38da7d4475@38.54.4.57:443
 hy2://2d068322-b0e3-4c35-991e-58d46d8775f8@45.118.132.243:443?insecure=1&sni=yup.441122.xyz#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%20-%20Singapore%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
@@ -134,9 +133,8 @@ hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443/?insecure=1&sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#>>@oneclickvpnkeys
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443/?insecure=1&sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#🇦🇪
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443/?sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#🇦🇪
-hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?insecure=1&sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%232%20%5Bfast%5D
-hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3&insecure=1&sni=hy2.aspidnet.xyz#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%231%20%5Bfast%5D
-hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?security=tls&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3&insecure=1&sni=hy2.aspidnet.xyz#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40prrofile_purple%20%231%20%5Bfast%5D
+hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?insecure=1&sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%232%20%5Bmedium%5D
+hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3&insecure=1&sni=hy2.aspidnet.xyz#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%231%20%5Bmedium%5D
 hy2://prlD*e!1b3Yipr$D795%3F@140.82.33.237:443/?insecure=1&sni=google.com&obfs=salamander&obfs-password=prlD*e%211b3Yipr%24D795%3F#⭐@mshojaei77
 hy2://prlD*e!1b3Yipr$D795%3F@140.82.33.237:443?insecure=1&sni=google.com&obfs=salamander&obfs-password=prlD*e%211b3Yipr%24D795%3F#⭐@mshojaei77
 hy2://prlD*e!1b3Yipr$D795%3F@140.82.33.237:443?obfs=salamander&obfs-password=prlD*e%211b3Yipr%24D795%3F&insecure=1&sni=google.com#%F0%9F%87%A9%F0%9F%87%AA%20Germany%20-%20Frankfurt%20am%20Main%20%F0%9F%8C%8D%20HY2-UDP-TLS%204%E2%83%A3
