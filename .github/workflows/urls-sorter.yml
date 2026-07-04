@@ -21,21 +21,16 @@ jobs:
       - name: Prepare folders
         run: mkdir -p urls/urls
 
-      - name: 🔀 Разбиение на чанки
+      - name: 🔀 Разбиение на чанки и очистка исходника
         run: python urls/splitter.py
 
-      - name: Commit chunks
-        run: |
-          git config --global user.name 'github-actions[bot]'
-          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git switch main || git checkout main
-          
-          git stash -u || echo "Нет изменений для скрытия"
-          git pull --rebase origin main
-          git stash pop || echo "Нет изменений для восстановления"
-          
-          git add urls/urls/ urls/source_urls.txt
-          git diff --staged --quiet || git commit -m "🧹 Чанки созданы" && git push
+      # 📦 Надежно передаем чанки ворверам через облачное хранилище GitHub
+      - name: 📦 Временное сохранение чанков
+        uses: actions/upload-artifact@v4
+        with:
+          name: split-chunks
+          path: urls/urls/
+          retention-days: 1
 
   process:
     needs: splitter
@@ -44,7 +39,7 @@ jobs:
       contents: write
     strategy:
       matrix:
-        window: [0,1,2,3,4,5,6,7,8,9]
+        window: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
     steps:
       - uses: actions/checkout@v4
@@ -57,10 +52,16 @@ jobs:
       - name: Install aiohttp
         run: pip install aiohttp
 
+      # 📥 Разворачиваем папку urls/urls/ с нужным чанком прямо на этот изолированный сервер матрицы
+      - name: 📥 Загрузка чанков для обработки
+        uses: actions/download-artifact@v4
+        with:
+          name: split-chunks
+          path: urls/urls/
+
       - name: ⚡ Обработка окна ${{ matrix.window }}
         run: python urls/sorter.py --window ${{ matrix.window }}
 
-      # Артефакт забирает только сгенерированные текстовики из папки urls/
       - name: 📦 Сохранение логов окна в облачный архив
         uses: actions/upload-artifact@v4
         with:
@@ -94,7 +95,7 @@ jobs:
 
           mkdir -p urls
 
-          # Объединяем только полезные файлы
+          # Объединяем полученные куски в чистые файлы результатов
           cat temp_artifacts/factory_valid_*.txt > urls/factory_valid.txt 2>/dev/null || true
           cat temp_artifacts/url_checks_*.txt > urls/url_checks.txt 2>/dev/null || true
           cat temp_artifacts/misc_*.txt > urls/misc.txt 2>/dev/null || true
@@ -104,7 +105,6 @@ jobs:
 
       - name: Финальный Commit
         run: |
-          # В коммит идут исключительно чистые отсортированные базы
           git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt
           
           if git diff --staged --quiet; then
