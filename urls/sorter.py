@@ -5,8 +5,10 @@ import argparse
 
 print("=== sorter.py запущен ===")
 
-BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3']
+# Список расширений-мусора, включая JS и CSS
+BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.js', '.css']
 
+# Ключевые слова, дополненные для моментального бана статического кода
 BAD_KW = [
     'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
     'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto',
@@ -14,7 +16,7 @@ BAD_KW = [
     'tvlnn.com', 'techcrunch.com', 'gugu3.com/', 'donate', 'instagram', 'wikipedia',
     'videosearch', 'artist', 'tv', 'tv.', 'article', 'google.com', 'translate.google',
     'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
-    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news'
+    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news','.js', '.css',
 ]
 
 async def deep_check(session, url: str):
@@ -22,6 +24,13 @@ async def deep_check(session, url: str):
         async with session.get(url, timeout=12, allow_redirects=True) as resp:
             if resp.status != 200:
                 return "dead"
+            
+            # Дополнительный барьер: проверяем заголовки контента от сервера
+            content_type = resp.headers.get('Content-Type', '').lower()
+            if 'javascript' in content_type or 'css' in content_type:
+                print(f"   🗑 Перехвачен скрытый JS/CSS код через Content-Type: {url}")
+                return "dead"
+
             text = await resp.text()
             text_lower = text.lower()
             url_lower = url.lower()
@@ -93,7 +102,7 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение в уникальные файлы окна
+    # Сохранение результатов строго внутри изолированной структуры папки urls/
     for name, data in [
         (f'factory_valid_{window_id}.txt', factory),
         (f'url_checks_{window_id}.txt', url_checks),
@@ -105,14 +114,14 @@ async def process_window(window_id: int):
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
-            print(f"   💾 Сохранено {filename}: {len(data)} строк")
+            print(f"    💾 Сохранено {filename}: {len(data)} строк")
 
     if dead:
         dead_file = f'urls/dead_{window_id}.txt'
         os.makedirs(os.path.dirname(dead_file), exist_ok=True)
         with open(dead_file, 'w', encoding='utf-8') as f:
             f.write('\n'.join(dead) + '\n')
-        print(f"   💾 Сохранено dead_{window_id}.txt: {len(dead)}")
+        print(f"    💾 Сохранено dead_{window_id}.txt: {len(dead)}")
 
     print(f"✅ [Окно {window_id}] Завершено")
 
