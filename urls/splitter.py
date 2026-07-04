@@ -1,117 +1,60 @@
-import asyncio
-import aiohttp
 import os
-import argparse
-import re
 
-print("=== sorter.py запущен ===")
-
-BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.js', '.css']
-BAD_KW = [
-    'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
-    'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto',
-    'blog.', 'medium.com', 'substack', 'telegra.ph', 'happ.su', 'bintv.net', 'applnn.com',
-    'tvlnn.com', 'techcrunch.com', 'gugu3.com/', 'donate', 'instagram', 'wikipedia',
-    'videosearch', 'artist', 'tv', 'tv.', 'article', 'google.com', 'translate.google',
-    'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
-    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news'
-]
-
-async def deep_check(session, url: str):
-    try:
-        async with session.get(url, timeout=12, allow_redirects=True) as resp:
-            if resp.status != 200:
-                return "dead"
-
-            text = await resp.text()
-            text_lower = text.lower()
-            url_lower = url.lower()
-           
-            if 't.me/proxy' in url_lower or 'mtproto' in url_lower:
-                return "dead"
-
-            if ('t.me/' in url_lower or '.m3u' in url_lower or '.m3u8' in url_lower or '#extm3u' in text_lower):
-                return "misc"
-
-            if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray', 'freeclashnode', 'clashnodes', 'uploads/', '.txt']):
-                return "factory"
-
-            if re.search(r'[A-Za-z0-9+/=]{60,}', text):
-                return "factory"
-
-            if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
-                return "factory"
-
-            if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
-                return "factory"
-           
-            http_count = sum(1 for line in text.splitlines() if line.strip().startswith(('http://', 'https://')))
-            if http_count >= 2:
-                return "url_check"
-           
-            return "filtered"
-    except Exception:
-        return "dead"
-
-async def process_window(window_id: int):
+def main():
+    input_file = 'urls/source_urls.txt'
     chunks_dir = 'urls/urls'
-    
-    # 🔥 ПРЯМОЙ МАППИНГ: Окно X ищет строго файл chunk_X.txt
-    target_file = f"chunk_{window_id}.txt"
-    full_path = os.path.join(chunks_dir, target_file)
+    os.makedirs(chunks_dir, exist_ok=True)
 
-    if not os.path.exists(full_path):
-        print(f"❌ Окно {window_id}: Целевой файл {target_file} не найден в {chunks_dir}!")
+    # 🧹 Очищаем папку от старых чанков перед новой генерацией
+    if os.path.exists(chunks_dir):
+        for f in os.listdir(chunks_dir):
+            if f.startswith('chunk_'):
+                try:
+                    os.remove(os.path.join(chunks_dir, f))
+                except Exception:
+                    pass
+
+    if not os.path.exists(input_file):
+        print("❌ source_urls.txt не найден")
         return
 
-    print(f"🚀 [Окно {window_id}] Начинаю обработку файла: {target_file}")
+    with open(input_file, 'r', encoding='utf-8') as f:
+        urls = [line.strip() for line in f if line.strip().startswith(('http://', 'https://'))]
 
-    factory, url_checks, filtered, dead, misc = [], [], [], [], []
+    total_urls = len(urls)
+    print(f"🔍 Всего валидных ссылок: {total_urls}")
+    
+    chunks_count = 10
+    # Вычисляем размер порции, чтобы распределить ссылки ровно на 10 файлов
+    urls_per_chunk = (total_urls + chunks_count - 1) // chunks_count if total_urls > 0 else 0
+    print(f"📦 Распределяю примерно по {urls_per_chunk} ссылок на один чанк...\n")
 
-    with open(full_path, 'r', encoding='utf-8') as f:
-        urls = [line.strip() for line in f if line.strip()]
+    # Создаем ровно 10 чанков (от chunk_0.txt до chunk_9.txt)
+    for batch_num in range(chunks_count):
+        start_idx = batch_num * urls_per_chunk
+        end_idx = start_idx + urls_per_chunk
+        batch = urls[start_idx:end_idx]
+        
+        chunk_file = f"{chunks_dir}/chunk_{batch_num}.txt"
+        with open(chunk_file, 'w', encoding='utf-8') as f:
+            if batch:
+                f.write('\n'.join(batch) + '\n')
+        
+        print(f"✅ Создан {chunk_file} ({len(batch)} ссылок) для Окна {batch_num}")
 
-    async with aiohttp.ClientSession() as session:
-        for url in urls:
-            url_lower = url.lower()
-            if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
-                dead.append(url)
-                continue
+    # === ПРИНУДИТЕЛЬНАЯ ОЧИСТКА ИСХОДНИКА ===
+    with open(input_file, 'w', encoding='utf-8') as f:
+        f.write("")
+    print("\n🧹 source_urls.txt полностью очищен")
 
-            category = await deep_check(session, url)
-            if category == "factory":
-                factory.append(url)
-            elif category == "url_check":
-                url_checks.append(url)
-            elif category == "misc":
-                misc.append(url)
-            elif category == "dead":
-                dead.append(url)
-            else:
-                filtered.append(url)
+    # === Commit пустого source_urls.txt ===
+    print("📤 Отправляем пустой исходник в репозиторий...")
+    os.system('git config --global user.name "github-actions[bot]"')
+    os.system('git config --global user.email "github-actions[bot]@users.noreply.github.com"')
+    os.system('git add urls/source_urls.txt')
+    os.system('git diff --staged --quiet || git commit -m "🧹 source_urls.txt очищен" && git push')
 
-    # 📁 Сохраняем результаты во временные файлы с суффиксом окна
-    for base_path, data in [
-        ('urls/factory_valid', factory),
-        ('urls/url_checks', url_checks),
-        ('urls/misc', misc),
-        ('urls/filtered_results', filtered)
-    ]:
-        if data:
-            filename = f"{base_path}_{window_id}.txt"
-            os.makedirs(os.path.dirname(filename), exist_ok=True)
-            with open(filename, 'w', encoding='utf-8') as f:
-                f.write('\n'.join(data) + '\n')
-            print(f"💾 Временное сохранение: {filename} ({len(data)} строк)")
-
-    print(f"✅ [Окно {window_id}] Успешно завершено.")
+    print(f"🎉 Нарезка завершена. Подготовлено {chunks_count} файлов.")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument('--window', type=int, default=0)
-    args = parser.parse_args()
-
-    if os.name == 'nt':
-        asyncio.set_event_loop_policy(asyncio.WindowsSelectorEventLoopPolicy())
-
-    asyncio.run(process_window(args.window))
+    main()
