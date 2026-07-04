@@ -5,10 +5,8 @@ import argparse
 
 print("=== sorter.py запущен ===")
 
-# Список расширений-мусора, включая JS и CSS
 BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.js', '.css']
 
-# Ключевые слова, дополненные для моментального бана статического кода
 BAD_KW = [
     'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
     'book', 'quote', 'steam', 'readme', 'youtube', 'boosty', 't.me/proxy', 'mtproto',
@@ -16,7 +14,7 @@ BAD_KW = [
     'tvlnn.com', 'techcrunch.com', 'gugu3.com/', 'donate', 'instagram', 'wikipedia',
     'videosearch', 'artist', 'tv', 'tv.', 'article', 'google.com', 'translate.google',
     'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
-    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news','.js', '.css',
+    'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news'
 ]
 
 async def deep_check(session, url: str):
@@ -24,67 +22,56 @@ async def deep_check(session, url: str):
         async with session.get(url, timeout=12, allow_redirects=True) as resp:
             if resp.status != 200:
                 return "dead"
-            
-            # Дополнительный барьер: проверяем заголовки контента от сервера
-            content_type = resp.headers.get('Content-Type', '').lower()
-            if 'javascript' in content_type or 'css' in content_type:
-                print(f"   🗑 Перехвачен скрытый JS/CSS код через Content-Type: {url}")
-                return "dead"
 
             text = await resp.text()
             text_lower = text.lower()
             url_lower = url.lower()
-            
+           
             if 't.me/proxy' in url_lower or 'mtproto' in url_lower:
-                print(f"   🗑 Telegram proxy (мусор): {url}")
+                print(f" 🗑 Telegram proxy (мусор): {url}")
                 return "dead"
 
             if ('t.me/' in url_lower or '.m3u' in url_lower or '.m3u8' in url_lower or '#extm3u' in text_lower):
-                print(f"   📁 Miscellaneous (Telegram/m3u): {url}")
+                print(f" 📁 Miscellaneous (Telegram/m3u): {url}")
                 return "misc"
 
-            if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray']):
-                print(f"   ✅ Factory (raw список): {url}")
+            if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray', 'freeclashnode', 'clashnodes', 'uploads/', '.txt']):
+                print(f" ✅ Factory (raw список / .txt): {url}")
+                return "factory"
+
+            if re.search(r'[A-Za-z0-9+/=]{80,}', text):
+                print(f" ✅ Factory (Base64): {url}")
                 return "factory"
 
             if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
-                print(f"   ✅ Factory (протокол): {url}")
+                print(f" ✅ Factory (протокол): {url}")
                 return "factory"
+
             if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
-                print(f"   ✅ Factory (subscription): {url}")
+                print(f" ✅ Factory (subscription): {url}")
                 return "factory"
-            
+           
             http_count = sum(1 for line in text.splitlines() if line.strip().startswith(('http://', 'https://')))
             if http_count >= 5:
-                print(f"   🔗 Url_check (много ссылок): {url}")
+                print(f" 🔗 Url_check (много ссылок): {url}")
                 return "url_check"
-            
-            print(f"   🗑 Filtered: {url}")
+           
+            print(f" 🗑 Filtered: {url}")
             return "filtered"
     except Exception as e:
-        print(f"   ❌ Ошибка: {url} | {e}")
+        print(f" ❌ Ошибка: {url} | {e}")
         return "dead"
 
 async def process_window(window_id: int):
-    # Умный динамический поиск папки с чанками
-    possible_dirs = ['urls/urls', 'urls', '.']
-    chunks_dir = None
-    
-    for d in possible_dirs:
-        if os.path.exists(d):
-            files = [f for f in os.listdir(d) if f.startswith('chunk_')]
-            if files:
-                chunks_dir = d
-                break
-                
-    if not chunks_dir:
-        print(f"❌ Окно {window_id}: Ни в одной из папок (urls/urls, urls, .) файлы чанков 'chunk_' не найдены!")
+    chunks_dir = 'urls/urls'
+    if not os.path.exists(chunks_dir):
+        print(f"❌ Окно {window_id}: Папка чанков не найдена!")
         return
 
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
     my_chunks = [f for i, f in enumerate(chunk_files) if i % 10 == window_id]
 
-    print(f"🚀 [Окно {window_id}] Папка чанков: {chunks_dir} | Взято в работу: {len(my_chunks)} из {len(chunk_files)} доступных")
+    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)}")
 
     factory, url_checks, filtered, dead, misc = [], [], [], [], []
 
@@ -112,28 +99,27 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение результатов строго внутри изолированной структуры папки urls/
-    for name, data in [
-        (f'factory_valid_{window_id}.txt', factory),
-        (f'url_checks_{window_id}.txt', url_checks),
-        (f'misc_{window_id}.txt', misc),
-        (f'filtered_{window_id}.txt', filtered)
+    for filename, data in [
+        ('urls/factory_valid.txt', factory),
+        ('urls/url_checks.txt', url_checks),
+        ('urls/misc.txt', misc),
+        ('urls/filtered_results.txt', filtered)
     ]:
         if data:
-            filename = f'urls/{name}'
             os.makedirs(os.path.dirname(filename), exist_ok=True)
-            with open(filename, 'w', encoding='utf-8') as f:
+            with open(filename, 'a', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
-            print(f"    💾 Сохранено {filename}: {len(data)} строк")
+            print(f"   💾 Сохранено в {filename}: {len(data)} строк")
 
     if dead:
-        dead_file = f'urls/dead_{window_id}.txt'
+        dead_file = 'data/raw_incoming/deep_raw_collected.txt'
         os.makedirs(os.path.dirname(dead_file), exist_ok=True)
-        with open(dead_file, 'w', encoding='utf-8') as f:
+        with open(dead_file, 'a', encoding='utf-8') as f:
+            f.write(f"\n# === Dead from window {window_id} ===\n")
             f.write('\n'.join(dead) + '\n')
-        print(f"    💾 Сохранено dead_{window_id}.txt: {len(dead)}")
+        print(f"   💾 Сохранено Dead: {len(dead)}")
 
-    print(f"✅ [Окно {window_id}] Завершено")
+    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
