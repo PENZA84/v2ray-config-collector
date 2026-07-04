@@ -2,6 +2,7 @@ import asyncio
 import aiohttp
 import os
 import argparse
+import re  # Модуль регулярных выражений для проверки Base64
 
 print("=== sorter.py запущен ===")
 
@@ -95,31 +96,25 @@ async def process_window(window_id: int):
                 elif category == "misc":
                     misc.append(url)
                 elif category == "dead":
-                    dead.append(url)
+                    dead.append(url)  # Просто считаем количество плохих ссылок для лога
                 else:
                     filtered.append(url)
 
-    for filename, data in [
-        ('urls/factory_valid.txt', factory),
-        ('urls/url_checks.txt', url_checks),
-        ('urls/misc.txt', misc),
-        ('urls/filtered_results.txt', filtered)
+    # 📁 Сохраняем ТОЛЬКО нужные категории
+    for base_path, data in [
+        ('urls/factory_valid', factory),
+        ('urls/url_checks', url_checks),
+        ('urls/misc', misc),
+        ('urls/filtered_results', filtered)
     ]:
         if data:
+            filename = f"{base_path}_{window_id}.txt"
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, 'a', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
-            print(f"   💾 Сохранено в {filename}: {len(data)} строк")
+            print(f"    💾 Сохранено в {filename}: {len(data)} строк")
 
-    if dead:
-        dead_file = 'data/raw_incoming/deep_raw_collected.txt'
-        os.makedirs(os.path.dirname(dead_file), exist_ok=True)
-        with open(dead_file, 'a', encoding='utf-8') as f:
-            f.write(f"\n# === Dead from window {window_id} ===\n")
-            f.write('\n'.join(dead) + '\n')
-        print(f"   💾 Сохранено Dead: {len(dead)}")
-
-    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)}, Dead: {len(dead)}")
+    print(f"✅ [Окно {window_id}] Завершено → Factory: {len(factory)}, Url_checks: {len(url_checks)}, Misc: {len(misc)}, Filtered: {len(filtered)} | 🗑 Пропущено мусора: {len(dead)}")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
