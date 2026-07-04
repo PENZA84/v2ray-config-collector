@@ -39,7 +39,7 @@ async def deep_check(session, url: str):
                 print(f" ✅ Factory (raw список / .txt): {url}")
                 return "factory"
 
-            if re.search(r'[A-Za-z0-9+/=]{80,}', text):
+            if re.search(r'[A-Za-z0-9+/=]{60,}', text):
                 print(f" ✅ Factory (Base64): {url}")
                 return "factory"
 
@@ -52,7 +52,7 @@ async def deep_check(session, url: str):
                 return "factory"
            
             http_count = sum(1 for line in text.splitlines() if line.strip().startswith(('http://', 'https://')))
-            if http_count >= 5:
+            if http_count >= 2:
                 print(f" 🔗 Url_check (много ссылок): {url}")
                 return "url_check"
            
