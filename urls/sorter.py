@@ -66,15 +66,25 @@ async def deep_check(session, url: str):
         return "dead"
 
 async def process_window(window_id: int):
-    chunks_dir = 'urls/urls'
-    if not os.path.exists(chunks_dir):
-        print(f"❌ Окно {window_id}: Папка чанков не найдена!")
+    # Умный динамический поиск папки с чанками
+    possible_dirs = ['urls/urls', 'urls', '.']
+    chunks_dir = None
+    
+    for d in possible_dirs:
+        if os.path.exists(d):
+            files = [f for f in os.listdir(d) if f.startswith('chunk_')]
+            if files:
+                chunks_dir = d
+                break
+                
+    if not chunks_dir:
+        print(f"❌ Окно {window_id}: Ни в одной из папок (urls/urls, urls, .) файлы чанков 'chunk_' не найдены!")
         return
 
     chunk_files = sorted([f for f in os.listdir(chunks_dir) if f.startswith('chunk_')])
     my_chunks = [f for i, f in enumerate(chunk_files) if i % 10 == window_id]
 
-    print(f"🚀 [Окно {window_id}] Найдено чанков: {len(my_chunks)}")
+    print(f"🚀 [Окно {window_id}] Папка чанков: {chunks_dir} | Взято в работу: {len(my_chunks)} из {len(chunk_files)} доступных")
 
     factory, url_checks, filtered, dead, misc = [], [], [], [], []
 
