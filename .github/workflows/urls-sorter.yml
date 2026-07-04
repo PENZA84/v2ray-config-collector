@@ -19,7 +19,7 @@ jobs:
           python-version: '3.12'
 
       - name: Prepare folders
-        run: mkdir -p urls/urls data/raw_incoming
+        run: mkdir -p urls/urls
 
       - name: 🔀 Разбиение на чанки
         run: python urls/splitter.py
@@ -30,12 +30,8 @@ jobs:
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git switch main || git checkout main
           
-          # 🛡️ Прячем новые чанки и изменения перед обновлением ветки
           git stash -u || echo "Нет изменений для скрытия"
-          
           git pull --rebase origin main
-          
-          # 🔓 Возвращаем чанки на место для коммита
           git stash pop || echo "Нет изменений для восстановления"
           
           git add urls/urls/ urls/source_urls.txt
@@ -52,8 +48,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - name: Setup Python
         uses: actions/setup-python@v5
@@ -66,6 +60,13 @@ jobs:
       - name: ⚡ Обработка окна ${{ matrix.window }}
         run: python urls/sorter.py --window ${{ matrix.window }}
 
+      - name: 📦 Сохранение логов окна в облачный архив
+        uses: actions/upload-artifact@v4
+        with:
+          name: chunk-results-${{ matrix.window }}
+          path: urls/*_${{ matrix.window }}.txt
+          if-no-files-found: ignore
+
   merge-results:
     needs: process
     runs-on: ubuntu-latest
@@ -76,34 +77,41 @@ jobs:
         with:
           fetch-depth: 0
 
-      - name: Склейка результатов
-        run: |
-          cat urls/factory_valid_*.txt > urls/factory_valid.txt 2>/dev/null || true
-          cat urls/url_checks_*.txt > urls/url_checks.txt 2>/dev/null || true
-          cat urls/misc_*.txt > urls/misc.txt 2>/dev/null || true
-          cat urls/filtered_*.txt > urls/filtered_results.txt 2>/dev/null || true
-          cat urls/dead_*.txt >> data/raw_incoming/deep_raw_collected.txt 2>/dev/null || true
+      - name: 📥 Сбор логов со всех 10 серверов матрицы
+        uses: actions/download-artifact@v4
+        with:
+          pattern: chunk-results-*
+          path: urls/
+          merge-multiple: true
 
-          rm -f urls/*_[0-9]*.txt
-
-      - name: Финальный Commit
+      - name: Склейка результатов и защита от конфликтов
         run: |
+          # Временно переносим скачанные логи окон во временный буфер
+          mkdir -p temp_chunks
+          mv urls/*_[0-9]*.txt temp_chunks/ 2>/dev/null || true
+
+          # Синхронизируем репозиторий, пока рабочая директория пуста
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
           git switch main || git checkout main
-          
-          # 🛡️ Безопасный сейф: временно убираем склеенную базу прокси из-под удара rebase
-          git stash || echo "Нет изменений для скрытия"
-          
-          git pull --rebase origin main
-          
-          # 🔓 Возвращаем наши свежие склеенные результаты в рабочую область
-          git stash pop || echo "Нет изменений для восстановления"
-          
-          git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt data/raw_incoming/deep_raw_collected.txt
+          git pull origin main
+
+          # Объединяем логи окон напрямую в файлы папки urls/
+          cat temp_chunks/factory_valid_*.txt > urls/factory_valid.txt 2>/dev/null || true
+          cat temp_chunks/url_checks_*.txt > urls/url_checks.txt 2>/dev/null || true
+          cat temp_chunks/misc_*.txt > urls/misc.txt 2>/dev/null || true
+          cat temp_chunks/filtered_*.txt > urls/filtered_results.txt 2>/dev/null || true
+          cat temp_chunks/dead_*.txt >> urls/dead.txt 2>/dev/null || true
+
+          # Удаляем временный буфер
+          rm -rf temp_chunks
+
+      - name: Финальный Commit
+        run: |
+          git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt urls/dead.txt
           if git diff --staged --quiet; then
-            echo "✨ Нет новых изменений"
+            echo "✨ Нет новых изменений для отправки"
           else
             git commit -m "🧹 Сортировщик: склейка результатов 💋"
-            git push
+            git push origin main
           fi
