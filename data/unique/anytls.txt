@@ -1,6 +1,9 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 3
+# Total links in this file: 6
 
-anytls://ceeb8370-d87a-40c7-b8b9-566716210763@siyuetest.dickaws.top:45678#[AnyTLS]_🇸🇬_🇸🇬新加坡-02
+anytls://383737a2-a196-44b6-a9ac-4f8cc23c9637@107.173.7.186:56864#United_States_Buffalo_anytls_7111
+anytls://91df5a86-fcdd-11ef-94aa-f23c913c8d2b@56d758ed-teisg0-tuklme-ueq.se.hyhuawei.com:443#🇺🇸_US_275_|_⬇️_347KB/s
+anytls://a6ddfc37-05eb-11ed-af40-f23c91cfbbc9@465848e0-tcxds0-tkhmfr-1jm8i.los.hyhuawei.com:443#🇺🇸_美国_|_USA_17-2
+anytls://b02327ac-a49a-11ef-a673-f23c913c8d2b@3b692aed-tekn40-tqruo0-1pqhp.se.hyhuawei.com:443#🇺🇸_US_260_|_⬇️_1MB/s
 anytls://github.com%2FAlvin9999-newpac%2Ffanqiang@62.210.7.112:55770?security=tls&sni=bing.com&allowInsecure=1&type=tcp#github-anytls
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
