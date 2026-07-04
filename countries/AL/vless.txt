@@ -1,2 +1,0 @@
-vless://0970324b-8c61-4ae7-8c3f-385a6f1e17e4@109.172.9.100:443?type=ws&security=tls&path=/&sni=vpn47.cc.cd&fp=chrome#AL
-vless://15a54c93-49ca-4e6c-86e5-d337b338cd9d@45.89.60.64:443?encryption=none&type=grpc&mode=gun&security=reality&sni=ads.x5.ru&fp=safari&pbk=wSQIBnAc0cYO9JitaNcgZ2LwkTix0_dXVpDjnZxDrCE#%F0%9F%87%A6%F0%9F%87%B1%20AL%20%7C%2045.89.60.64
