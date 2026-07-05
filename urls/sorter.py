@@ -28,6 +28,24 @@ async def deep_check(session, url: str):
             text_lower = text.lower()
             url_lower = url.lower()
            
+            # 📌 ШАГ 1: Безоговорочный приоритет Завода
+            # Если внутри есть хоть один живой прокси-протокол — забираем на Завод сразу!
+            has_proxies = any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://', 'socks://', 'socks5://'])
+            if has_proxies:
+                print(f" ✅ Factory (БЕЗОГОВОРОЧНО по живому протоколу): {url}")
+                return "factory"
+
+            # 📌 ШАГ 2: Определение чистых хабов-матрёшек (url_checks)
+            # Считаем количество вложенных http-ссылок внутри контента
+            lines = text.splitlines()
+            http_count = sum(1 for line in lines if line.strip().startswith(('http://', 'https://')))
+            
+            # Уходит в url_checks ТОЛЬКО если прокси внутри нет, но есть куча других ссылок
+            if http_count >= 2:
+                print(f" 🔗 Url_check (чистый хаб вложенных ссылок): {url}")
+                return "url_check"
+
+            # 📌 ШАГ 3: Остальные стандартные проверки для файлов без прокси и без ссылок
             if 't.me/proxy' in url_lower or 'mtproto' in url_lower:
                 print(f" 🗑 Telegram proxy (мусор): {url}")
                 return "dead"
@@ -46,18 +64,9 @@ async def deep_check(session, url: str):
                 print(f" ✅ Factory (Base64): {url}")
                 return "factory"
 
-            if any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://']):
-                print(f" ✅ Factory (протокол): {url}")
-                return "factory"
-
             if any(sign in text_lower for sign in ['#profile-title', '#subscription-userinfo', 'clash', 'xray', 'v2ray']):
                 print(f" ✅ Factory (subscription): {url}")
                 return "factory"
-           
-            http_count = sum(1 for line in text.splitlines() if line.strip().startswith(('http://', 'https://')))
-            if http_count >= 2:
-                print(f" 🔗 Url_check (много ссылок): {url}")
-                return "url_check"
            
             print(f" 🔗 Filtered (Интересное/Остальное): {url}")
             return "filtered"
@@ -68,7 +77,6 @@ async def deep_check(session, url: str):
 async def process_window(window_id: int):
     chunks_dir = 'urls/urls'
     
-    # Умный поиск файла чанка (проверяет варианты с разным количеством нулей и смещением индекса)
     possible_files = [
         f"chunk_{window_id}.txt",
         f"chunk_{window_id:02d}.txt",
@@ -86,7 +94,6 @@ async def process_window(window_id: int):
 
     if not target_file:
         print(f"❌ Окно {window_id}: Ни один из файлов чанков не найден в директории {chunks_dir}!")
-        print(f"Проверенные варианты названий: {possible_files}")
         return
 
     full_path = os.path.join(chunks_dir, target_file)
@@ -101,12 +108,15 @@ async def process_window(window_id: int):
         for url in urls:
             url_lower = url.lower()
             
-            # Проверяем, является ли ссылка прямым указанием на сырой файл конфигураций (raw/batch/.txt)
-            is_raw_config = any(r in url_lower for r in ['/raw/', 'raw.githubusercontent', '.txt', '/proxies', '/batch'])
+            is_raw_config = any(r in url_lower for r in ['/raw/', 'raw.githubusercontent', '.txt', '/proxies', '/batch', '/batches/'])
             
-            # Если ссылка содержит мусорные маркеры и это НЕ прямая ссылка на конфиг-файл -> в Бункер
-            if (any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW)) and not is_raw_config:
-                print(f" 🗑 Мусор по фильтру -> В БУНКЕР: {url}")
+            if any(ext in url_lower for ext in BAD_EXT):
+                print(f" 🗑 Мусор по расширению -> В БУНКЕР: {url}")
+                deep_raw_collected.append(url)
+                continue
+
+            if any(kw in url_lower for kw in BAD_KW) and not is_raw_config:
+                print(f" 🗑 Мусор по ключевому слову -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
@@ -121,14 +131,12 @@ async def process_window(window_id: int):
                 print(f" ☣️ Нерабочая ссылка -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
             else:
-                # Защита: если это обычная страница репозитория (HTML гитхаба без прокси-протоколов внутри)
-                if any(kw in url_lower for kw in ['github.com', 'gitlab.com', 'bitbucket.org']):
+                if any(kw in url_lower for kw in ['github.com', 'gitlab.com', 'bitbucket.org']) and not is_raw_config:
                     print(f" 🗑 Страница репозитория без прокси -> В БУНКЕР: {url}")
                     deep_raw_collected.append(url)
                 else:
                     filtered.append(url)
 
-    # Сохраняем промежуточные результаты
     for base_path, data in [
         ('urls/factory_valid', factory),
         ('urls/url_checks', url_checks),
