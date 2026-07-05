@@ -1,4 +1,0 @@
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@38.54.45.184:443?encryption=none&flow=xtls-rprx-vision&security=tls&sni=r1.mizulina.top&fp=chrome&insecure=0&allowInsecure=0&type=tcp&headerType=none#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B7%20AR%20%7C%20VLESS%20%7C%2031739
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@38.54.45.184:443?flow=xtls-rprx-vision&fp=edge&security=tls&sni=r1.mizulina.top#%5BOpenRay%5D%20%F0%9F%87%A6%F0%9F%87%B7%20AR-1
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@38.54.45.184:443?flow=xtls-rprx-vision-udp443&fp=edge&security=tls&sni=r1.mizulina.top#%5BOpenRay%5D%20%F0%9F%87%A6%F0%9F%87%B7%20AR-2
-vless://afcac633-0e1a-46c3-bef2-cc01cc0097c8@38.54.45.184:443?type=tcp&security=tls&sni=r1.mizulina.top&fp=chrome&flow=xtls-rprx-vision#AR

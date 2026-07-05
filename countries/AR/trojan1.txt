@@ -1,2 +1,0 @@
-trojan://f25d1510-3763-4fcf-9804-86d6c1566629@31.40.212.163:443?sni=data.amazon-azure.com#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B7%20AR%20%7C%20TROJAN%20%7C%2015093
-trojan://feab64f1-6a31-44c9-b502-19712d7af318@31.40.212.163:443?sni=data.amazon-azure.com&peer=data.amazon-azure.com&security=tls#AR

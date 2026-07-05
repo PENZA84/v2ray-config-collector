@@ -1,2 +1,0 @@
-vless://8584983e-e4ac-4fd9-96b9-7f4db8dc5790@38.180.185.222:443?flow=xtls-rprx-vision&fp=firefox&pbk=roCvVZ0atQ-_68OSDPuknzHchm6djGzQB4Ydl5n31Fg&security=reality&sni=www.microsoft.com&type=tcp#v2go%20%7C%20%F0%9F%87%A6%F0%9F%87%B7%20AR%20%7C%20VLESS%20%7C%2027880
-vless://8584983e-e4ac-4fd9-96b9-7f4db8dc5790@38.180.185.222:443?type=tcp&security=reality&sni=www.microsoft.com&fp=firefox&flow=xtls-rprx-vision&pbk=roCvVZ0atQ-_68OSDPuknzHchm6djGzQB4Ydl5n31Fg#AR
