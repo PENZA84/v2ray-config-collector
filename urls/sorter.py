@@ -67,14 +67,30 @@ async def deep_check(session, url: str):
 
 async def process_window(window_id: int):
     chunks_dir = 'urls/urls'
-    target_file = f"chunk_{window_id}.txt"
-    full_path = os.path.join(chunks_dir, target_file)
+    
+    # Умный поиск файла чанка (проверяет варианты с разным количеством нулей и смещением индекса)
+    possible_files = [
+        f"chunk_{window_id}.txt",
+        f"chunk_{window_id:02d}.txt",
+        f"chunk_{window_id:03d}.txt",
+        f"chunk_{window_id+1}.txt",
+        f"chunk_{window_id+1:02d}.txt",
+        f"chunk_{window_id+1:03d}.txt"
+    ]
+    
+    target_file = None
+    for pf in possible_files:
+        if os.path.exists(os.path.join(chunks_dir, pf)):
+            target_file = pf
+            break
 
-    if not os.path.exists(full_path):
-        print(f"❌ Окно {window_id}: Файл {target_file} не найден в директории {chunks_dir}!")
+    if not target_file:
+        print(f"❌ Окно {window_id}: Ни один из файлов чанков не найден в директории {chunks_dir}!")
+        print(f"Проверенные варианты названий: {possible_files}")
         return
 
-    print(f"🚀 [Окно {window_id}] Запуск обработки файла: {target_file}")
+    full_path = os.path.join(chunks_dir, target_file)
+    print(f"🚀 [Окно {window_id}] Успешно нашли и запускаем файл: {target_file}")
 
     factory, url_checks, filtered, misc, deep_raw_collected = [], [], [], [], []
 
@@ -85,7 +101,11 @@ async def process_window(window_id: int):
         for url in urls:
             url_lower = url.lower()
             
-            if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
+            # Проверяем, является ли ссылка прямым указанием на сырой файл конфигураций (raw/batch/.txt)
+            is_raw_config = any(r in url_lower for r in ['/raw/', 'raw.githubusercontent', '.txt', '/proxies', '/batch'])
+            
+            # Если ссылка содержит мусорные маркеры и это НЕ прямая ссылка на конфиг-файл -> в Бункер
+            if (any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW)) and not is_raw_config:
                 print(f" 🗑 Мусор по фильтру -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
@@ -101,9 +121,14 @@ async def process_window(window_id: int):
                 print(f" ☣️ Нерабочая ссылка -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
             else:
-                filtered.append(url)
+                # Защита: если это обычная страница репозитория (HTML гитхаба без прокси-протоколов внутри)
+                if any(kw in url_lower for kw in ['github.com', 'gitlab.com', 'bitbucket.org']):
+                    print(f" 🗑 Страница репозитория без прокси -> В БУНКЕР: {url}")
+                    deep_raw_collected.append(url)
+                else:
+                    filtered.append(url)
 
-    # 📁 Сохраняем временные файлы для последующей сборки артефактов воркфлоу
+    # Сохраняем промежуточные результаты
     for base_path, data in [
         ('urls/factory_valid', factory),
         ('urls/url_checks', url_checks),
@@ -116,9 +141,9 @@ async def process_window(window_id: int):
             os.makedirs(os.path.dirname(filename), exist_ok=True)
             with open(filename, 'w', encoding='utf-8') as f:
                 f.write('\n'.join(data) + '\n')
-            print(f" 💾 Результаты записаны во временный файл: {filename} ({len(data)} строк)")
+            print(f" 💾 Результаты записаны: {filename} ({len(data)} строк)")
 
-    print(f"✅ [Окно {window_id}] Успешно отработало.")
+    print(f"✅ [Окно {window_id}] Обработка завершена.")
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
