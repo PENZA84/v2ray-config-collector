@@ -2,7 +2,7 @@ import asyncio
 import aiohttp
 import os
 import argparse
-import re  # Исправлено: добавлен модуль регулярных выражений
+import re
 
 print("=== sorter.py запущен ===")
 
@@ -24,7 +24,6 @@ async def deep_check(session, url: str):
             if resp.status != 200:
                 return "dead"
 
-            # Исправлено: errors='ignore' спасает от аварийного завершения на бинарных данных / неверных кодировках
             text = await resp.text(errors='ignore')
             text_lower = text.lower()
             url_lower = url.lower()
@@ -37,11 +36,13 @@ async def deep_check(session, url: str):
                 print(f" 📁 Miscellaneous (Telegram/m3u): {url}")
                 return "misc"
 
+            is_html = 'text/html' in resp.headers.get('Content-Type', '').lower() or any(tag in text_lower for tag in ['<!doctype html', '<html', '<body'])
+
             if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray', 'freeclashnode', 'clashnodes', 'uploads/', '.txt']):
                 print(f" ✅ Factory (raw список / .txt): {url}")
                 return "factory"
 
-            if re.search(r'[A-Za-z0-9+/=]{60,}', text):
+            if not is_html and re.search(r'[A-Za-z0-9+/=]{60,}', text):
                 print(f" ✅ Factory (Base64): {url}")
                 return "factory"
 
@@ -58,16 +59,14 @@ async def deep_check(session, url: str):
                 print(f" 🔗 Url_check (много ссылок): {url}")
                 return "url_check"
            
-            print(f" 🗑 Filtered: {url}")
+            print(f" 🔗 Filtered (Интересное/Остальное): {url}")
             return "filtered"
     except Exception as e:
-        print(f" ❌ Ошибка сети / таймаут: {url} | {e}")
+        print(f" ❌ Ошибка сети / таймаут (Мертвая ссылка): {url} | {e}")
         return "dead"
 
 async def process_window(window_id: int):
     chunks_dir = 'urls/urls'
-    
-    # 🔥 Прямая связь: Матрица №5 берет строго файл chunk_5.txt
     target_file = f"chunk_{window_id}.txt"
     full_path = os.path.join(chunks_dir, target_file)
 
@@ -77,7 +76,7 @@ async def process_window(window_id: int):
 
     print(f"🚀 [Окно {window_id}] Запуск обработки файла: {target_file}")
 
-    factory, url_checks, filtered, dead, misc = [], [], [], [], []
+    factory, url_checks, filtered, misc, deep_raw_collected = [], [], [], [], []
 
     with open(full_path, 'r', encoding='utf-8') as f:
         urls = [line.strip() for line in f if line.strip()]
@@ -85,8 +84,10 @@ async def process_window(window_id: int):
     async with aiohttp.ClientSession() as session:
         for url in urls:
             url_lower = url.lower()
+            
             if any(ext in url_lower for ext in BAD_EXT) or any(kw in url_lower for kw in BAD_KW):
-                dead.append(url)
+                print(f" 🗑 Мусор по фильтру -> В БУНКЕР: {url}")
+                deep_raw_collected.append(url)
                 continue
 
             category = await deep_check(session, url)
@@ -97,16 +98,18 @@ async def process_window(window_id: int):
             elif category == "misc":
                 misc.append(url)
             elif category == "dead":
-                dead.append(url)
+                print(f" ☣️ Нерабочая ссылка -> В БУНКЕР: {url}")
+                deep_raw_collected.append(url)
             else:
                 filtered.append(url)
 
-    # 📁 Сохраняем временные файлы для последующей сборки артефактов
+    # 📁 Сохраняем временные файлы для последующей сборки артефактов воркфлоу
     for base_path, data in [
         ('urls/factory_valid', factory),
         ('urls/url_checks', url_checks),
         ('urls/misc', misc),
-        ('urls/filtered_results', filtered)
+        ('urls/filtered_results', filtered),
+        ('urls/deep_raw_collected', deep_raw_collected)
     ]:
         if data:
             filename = f"{base_path}_{window_id}.txt"
