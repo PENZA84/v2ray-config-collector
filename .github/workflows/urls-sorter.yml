@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
 
 jobs:
+  # 🔀 ЭТАП 1: Подготовка папок и нарезка на 10 чанков
   splitter:
     runs-on: ubuntu-latest
     permissions: 
@@ -24,7 +25,7 @@ jobs:
       - name: 🔀 Разбиение на чанки и очистка исходника
         run: python urls/splitter.py
 
-      # 📦 Надежно передаем чанки ворверам через облачное хранилище GitHub
+      # 📦 Надежно передаем чанки воркерам через облачное хранилище GitHub
       - name: 📦 Временное сохранение чанков
         uses: actions/upload-artifact@v4
         with:
@@ -32,12 +33,14 @@ jobs:
           path: urls/urls/
           retention-days: 1
 
+  # ⚡ ЭТАП 2: Параллельный глубокий анализ на 10 изолированных серверах
   process:
     needs: splitter
     runs-on: ubuntu-latest
     permissions: 
       contents: write
     strategy:
+      fail-fast: false  # 🔥 Защита: падение или таймаут одного окна матрицы не отменит остальные потоки
       matrix:
         window: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -69,8 +72,12 @@ jobs:
           path: urls/*_${{ matrix.window }}.txt
           if-no-files-found: ignore
 
+  # 🤝 ЭТАП 3: Финальный сбор логов со всех серверов и склейка баз Завода
   merge-results:
     needs: process
+    # 🔥 АБСОЛЮТНЫЙ ЩИТ МОНОЛИТА: Запускается всегда, когда сборка не отменена вручную и не упала глобально.
+    # Этот триггер намертво лечит баги матричных статусов и принудительно запускает склейку!
+    if: ${{ !cancelled() && !failed() }}
     runs-on: ubuntu-latest
     permissions: 
       contents: write
