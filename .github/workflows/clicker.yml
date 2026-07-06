@@ -3,7 +3,7 @@ name: '🤖 Автоматический Кликер Профилей 🎯'
 on:
   workflow_dispatch:
   schedule:
-    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+    - cron: '0 */6 * * *'
 
 jobs:
   run-clicker:
@@ -32,4 +32,6 @@ jobs:
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add clicker/extracted_urls.txt
-          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Кликер: Обновлен список извлеченных URL" && git push)
+          
+          # Если изменения есть — стягиваем новые базы от сортировщика через rebase и плавно пушим
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Кликер: Обновлен список извлеченных URL" && git pull --rebase origin main && git push)
