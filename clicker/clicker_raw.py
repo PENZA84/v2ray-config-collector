@@ -4,16 +4,14 @@ import os
 import re
 import argparse
 
-print("=== clicker_raw.py [Сборщик чистых прокси и подписок] запущен ===")
+print("🚀 === clicker_raw.py [Сборщик чистых прокси и подписок] запущен ===")
 
-# Полностью исключаем домены со спамом и статистикой (из скриншотов 1816, 1820)
 BLOCK_DOMAINS = [
     'youtube.com', 'youtu.be', 'api.github.com', 'avatars.githubusercontent.com',
     'camo.githubusercontent.com', 'githubcopilot.com', 'schema.org', 'w3.org',
     'collector.github.com', 'google.com', 'yandex', '.ru'
 ]
 
-# Исключаем загрузку тяжелой статики
 SKIP_EXTENSIONS = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.pdf']
 
 def convert_to_raw(url: str) -> str:
@@ -33,12 +31,10 @@ async def fetch_clean_urls(session, target_url: str):
                 return []
 
             text = await resp.text(errors='ignore')
-            # Поиск любых строк, похожих на ссылки
             found_urls = re.findall(r'https?://[^\s"\'>]+', text)
             clean_set = set()
 
             for url in found_urls:
-                # Жесткая очистка от остатков HTML-тегов и экранирования строк
                 for junk in ['&quot;', '\\u003c', '</a', '\\u003e', '\\', '"', "'", '<', '>', '}', '{', ']', '[']:
                     if junk in url:
                         url = url.split(junk)[0]
@@ -74,10 +70,10 @@ async def main():
         source_urls = [line.strip() for line in f if line.strip()]
 
     if not source_urls:
-        print("Список profiles.txt пуст.")
+        print("📭 Список profiles.txt пуст.")
         return
 
-    print(f"Обработка источников: {len(source_urls)} шт.")
+    print(f"📡 Обработка источников: {len(source_urls)} шт.")
     final_urls = set()
 
     async with aiohttp.ClientSession() as session:
@@ -92,7 +88,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! Сгенерирован чистый список без мусора. Ссылок: {len(final_urls)}")
+    print(f"💾 Готово! База полностью очищена. Ссылок сохранено: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
