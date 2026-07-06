@@ -4,7 +4,7 @@ import os
 import argparse
 import re
 
-print("=== sorter.py [Абсолютный Монолит V3.1] запущен ===")
+print("=== sorter.py [Абсолютный Монолит V3.5] запущен ===")
 
 # =====================================================================
 # 🔥 ГЛОБАЛЬНЫЕ БАЗЫ ФИЛЬТРАЦИИ (НАСТРОЙКА ЗАВОДА)
@@ -17,22 +17,25 @@ BAD_EXT = [
     '.gif', '.dmg', '.7z'
 ]
 
-# 🛑 2. БЕЗУСЛОВНЫЙ БАН (Уничтожаются мгновенно, даже если это raw/txt ссылки)
-# Сюда улетают лицензии, корпоративный шум, медиа-порталы и мусорные сервисы
+# 🛑 2. БЕЗУСЛОВНЫЙ БАН (Уничтожаются мгновенно на входе, без исключений!)
 ALWAYS_BAD_KW = [
+    'wrestletalk.com',             # Уничтожаем мусорный рестлинг-портал вместе с его шопом
+    'videolan.org',                # Выжигаем VLC и медиаплеерный софт полностью
+    'youtube.com', 'youtu.be',     # Выжигаем официальные домены Ютуба
+    'license',                     # Намертво блокирует LICENSE.txt и любые файлы лицензий
+    'amazonaws.com',               # Защита от мусорных S3-хранилищ Амазона
     'opera.com', 'ubuntu.com', 'ashampoo.com', 'twitter.com', 'x.com', 'rt.com', 
     'tf1.fr', 'testingcatalog.com', 'thegamer.com', 'tomsguide.com', 'safewise.com', 
     'techradar.com', 'startnext.com', 'pixiv.net', 'zap-mag.ru', 'zava.io', 'yoyapai.com',
     'amnezia.org/documentation', 'amnezia.org/ru/documentation', 'doc.qt.io', 
     'docs.ansible.com', 'docs.astral.sh', 'docs.aws.amazon.com', 'docs.breezometer.com',
     'docs.cherry-ai.com', 'docs.cloudbees.com', 'docs.coolercontrol.org', 'docs.gramaddict.org',
-    'todo.txt', 'activefilerecovery', 
-    'license',       # Намертво выжигает LICENSE.txt на GitHub до траты сетевых запросов
-    'amazonaws.com'  # 🔥 ЗАЩИТА: Выкашивает мусорные S3-хранилища Амазона прямо в бункер
+    'todo.txt', 'activefilerecovery'
 ]
 
-# 🛑 3. БАН СТРАНИЦ-ОБОЛОЧЕК (Если это сырой конфиг /raw/ или .txt — пропускаем внутрь!)
+# 🛑 3. БАН СТРАНИЦ-ОБОЛОЧЕК (Если это сырой конфиг /raw/ или .txt — пропускаем внутрь)
 BAD_KW = [
+    'shop', 'youtube',             # ⚡️ Перехват магазинов и ссылок-перенаправлений на ютуб-страницы
     'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
     'book', 'quote', 'steam', 'readme', 'boosty', 't.me/proxy', 'mtproto',
     'blog.', 'medium.com', 'substack', 'telegra.ph', 'happ.su', 'bintv.net', 'applnn.com',
@@ -69,7 +72,7 @@ async def deep_check(session, url: str):
                 print(f" ✅ Factory (Raw/Txt подписка): {url}")
                 return "factory"
 
-            # Поиск Base64 только в не-HTML страницах
+            # Поиск Base64 только в гарантированно НЕ-HTML страницах
             if not is_html and re.search(r'[A-Za-z0-9+/=]{60,}', text):
                 print(f" ✅ Factory (Чистый Base64 маркер): {url}")
                 return "factory"
@@ -91,7 +94,7 @@ async def deep_check(session, url: str):
                     print(f" 🔗 Url_check (Сырой хаб ссылок): {url}")
                     return "url_check"
             
-            print(f" 🔗 Filtered (Остальной потенциальный интерес): {url}")
+            print(f" 🔗 Filtered (Остальной потенциальный interest): {url}")
             return "filtered"
     except Exception as e:
         print(f" ❌ Ошибка сети (Мертвая ссылка): {url} | {e}")
@@ -127,41 +130,47 @@ async def process_window(window_id: int):
         for url in urls:
             url_lower = url.lower()
             
-            # 🛑 ПЕРЕХВАТ 1: Telegram Веб-каналы уходят строго в misc
+            # 🛑 ПЕРЕХВАТ 1: Тотальный мгновенный бан мусора (Рестлинг, VLC, Ютуб, Лицензии, Расширения)
+            if any(junk in url_lower for junk in ALWAYS_BAD_KW) or any(ext in url_lower for ext in BAD_EXT):
+                print(f" 🗑 Тотальный бан (Мусор/WrestleTalk) -> В БУНКЕР: {url}")
+                deep_raw_collected.append(url)
+                continue
+
+            # 🛑 ПЕРЕХВАТ 2: Telegram Веб-каналы уходят строго в misc
             if 't.me/' in url_lower:
                 print(f" 📁 Telegram Ссылка -> Строго в misc: {url}")
                 misc.append(url)
                 continue
 
-            # 🛑 ПЕРЕХВАТ 2: Криптовалютный мусор
+            # 🛑 ПЕРЕХВАТ 3: Голые IP-адреса и цифровые прокси
+            if re.search(r'^https?://[\d\.]+(?::\d+)?(?:/|$)', url_lower):
+                print(f" 🗑 Цифровой IP-адрес/прокси -> В БУНКЕР: {url}")
+                deep_raw_collected.append(url)
+                continue
+
+            # 🛑 ПЕРЕХВАТ 4: Криптовалютный мусор
             if any(c in url_lower for c in ['novadax.com', 'coinbase.com', 'cryptocurrency', 'cryptocurrencies', 'blockchain', 'coincap.io', 'bnbchain.org']):
                 print(f" 🗑 Крипто-мусор -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
-            # 🛑 ПЕРЕХВАТ 3: Безусловный бан глобального мусора (Лицензии, личные доки, медиа, Амазон)
-            if any(junk in url_lower for junk in ALWAYS_BAD_KW) or any(ext in url_lower for ext in BAD_EXT):
-                print(f" 🗑 Тотальный мусор/документация -> В БУНКЕР: {url}")
-                deep_raw_collected.append(url)
-                continue
-
-            # Проверка флага сырых данных для ИИ и Оболочек
+            # Флаг для проверки сырых конфигураций
             is_raw_config = any(r in url_lower for r in ['/raw/', 'raw.githubusercontent', '.txt', '/proxies'])
 
-            # 🛑 ПЕРЕХВАТ 4: Шлюз для ИИ-сервисов (если это не прямая ссылка на конфиг)
+            # 🛑 ПЕРЕХВАТ 5: Шлюз для ИИ-сервисов (если это не прямая ссылка на конфиг)
             AI_SERVICES = ['grok.com', 'rask.ai', 'openai.com', 'claude.ai', 'huggingface.co', 'gemini.com']
             if any(ai in url_lower for ai in AI_SERVICES) and not is_raw_config:
                 print(f" 🤖 AI Сервис -> Строго в filtered_results: {url}")
                 filtered.append(url)
                 continue
 
-            # 🛑 ПЕРЕХВАТ 5: Обычный черный список ключевых слов (с поблажкой для raw)
+            # 🛑 ПЕРЕХВАТ 6: Стандартный черный список ключевых слов (с поблажкой для shop/youtube в .txt)
             if any(kw in url_lower for kw in BAD_KW) and not is_raw_config:
-                print(f" 🗑 Мусорное ключевое слово -> В БУНКЕР: {url}")
+                print(f" 🗑 Мусорная страница/Шоп/Соцсеть -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
-            # Глубокий сетевой анализ выживших кандидатов
+            # Если кандидат выжил — отправляем на глубокий сетевой анализ
             category = await deep_check(session, url)
             if category == "factory":
                 factory.append(url)
@@ -178,7 +187,7 @@ async def process_window(window_id: int):
                 else:
                     filtered.append(url)
 
-    # Сохранение результатов
+    # Сохранение результатов на Заводе
     for base_path, data in [
         ('urls/factory_valid', factory),
         ('urls/url_checks', url_checks),
