@@ -4,12 +4,13 @@ import os
 import re
 import argparse
 
-print("🚀 === clicker_raw.py [Сборщик чистых прокси и подписок] запущен ===")
+print("🚀 === clicker_raw.py [Сборщик сырых ссылок] запущен ===")
 
+# Фильтруем только явный системный хлам, чтобы не испортить базу подписок
 BLOCK_DOMAINS = [
-    'youtube.com', 'youtu.be', 'api.github.com', 'avatars.githubusercontent.com',
-    'camo.githubusercontent.com', 'githubcopilot.com', 'schema.org', 'w3.org',
-    'collector.github.com', 'google.com', 'yandex', '.ru'
+    'api.github.com', 'avatars.githubusercontent.com', 'camo.githubusercontent.com',
+    'githubcopilot.com', 'schema.org', 'w3.org', 'collector.github.com',
+    'desktop.github.com', 'docs.github.com', 'archiveprogram.github.com'
 ]
 
 SKIP_EXTENSIONS = ['.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', '.pdf']
@@ -31,14 +32,12 @@ async def fetch_clean_urls(session, target_url: str):
                 return []
 
             text = await resp.text(errors='ignore')
-            found_urls = re.findall(r'https?://[^\s"\'>]+', text)
+            
+            # Строгий сбор ссылок без мусорных хвостов гитхабовского кода
+            found_urls = re.findall(r'https?://[^\s"\'><\\{}()\[\]]+', text)
             clean_set = set()
 
             for url in found_urls:
-                for junk in ['&quot;', '\\u003c', '</a', '\\u003e', '\\', '"', "'", '<', '>', '}', '{', ']', '[']:
-                    if junk in url:
-                        url = url.split(junk)[0]
-                
                 url = url.rstrip('.,;)精神\\/')
                 url_lower = url.lower()
 
@@ -59,7 +58,8 @@ async def fetch_clean_urls(session, target_url: str):
 async def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--input', type=str, default='clicker/profiles.txt')
-    parser.add_argument('--output', type=str, default='clicker/extracted_urls.txt')
+    # Новый файл для сохранения результатов парсинга:
+    parser.add_argument('--output', type=str, default='clicker/raw_links.txt')
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -73,7 +73,7 @@ async def main():
         print("📭 Список profiles.txt пуст.")
         return
 
-    print(f"📡 Обработка источников: {len(source_urls)} шт.")
+    print(f"📡 Сбор базы из источников: {len(source_urls)} шт.")
     final_urls = set()
 
     async with aiohttp.ClientSession() as session:
@@ -88,7 +88,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! База полностью очищена. Ссылок сохранено: {len(final_urls)}")
+    print(f"💾 Готово! Новый список сырых ссылок сохранен в {args.output}. Всего: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
