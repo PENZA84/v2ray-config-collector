@@ -4,7 +4,7 @@ import os
 import argparse
 import re
 
-print("=== sorter.py [Абсолютный Монолит V3.0] запущен ===")
+print("=== sorter.py [Абсолютный Монолит V3.1] запущен ===")
 
 # =====================================================================
 # 🔥 ГЛОБАЛЬНЫЕ БАЗЫ ФИЛЬТРАЦИИ (НАСТРОЙКА ЗАВОДА)
@@ -27,7 +27,8 @@ ALWAYS_BAD_KW = [
     'docs.ansible.com', 'docs.astral.sh', 'docs.aws.amazon.com', 'docs.breezometer.com',
     'docs.cherry-ai.com', 'docs.cloudbees.com', 'docs.coolercontrol.org', 'docs.gramaddict.org',
     'todo.txt', 'activefilerecovery', 
-    'license'  # Намертво выжигает LICENSE.txt на GitHub до траты сетевых запросов
+    'license',       # Намертво выжигает LICENSE.txt на GitHub до траты сетевых запросов
+    'amazonaws.com'  # 🔥 ЗАЩИТА: Выкашивает мусорные S3-хранилища Амазона прямо в бункер
 ]
 
 # 🛑 3. БАН СТРАНИЦ-ОБОЛОЧЕК (Если это сырой конфиг /raw/ или .txt — пропускаем внутрь!)
@@ -89,7 +90,7 @@ async def deep_check(session, url: str):
                 if http_count >= 2:
                     print(f" 🔗 Url_check (Сырой хаб ссылок): {url}")
                     return "url_check"
-           
+            
             print(f" 🔗 Filtered (Остальной потенциальный интерес): {url}")
             return "filtered"
     except Exception as e:
@@ -138,7 +139,7 @@ async def process_window(window_id: int):
                 deep_raw_collected.append(url)
                 continue
 
-            # 🛑 ПЕРЕХВАТ 3: Безусловный бан глобального мусора (Лицензии, личные доки, медиа)
+            # 🛑 ПЕРЕХВАТ 3: Безусловный бан глобального мусора (Лицензии, личные доки, медиа, Амазон)
             if any(junk in url_lower for junk in ALWAYS_BAD_KW) or any(ext in url_lower for ext in BAD_EXT):
                 print(f" 🗑 Тотальный мусор/документация -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
