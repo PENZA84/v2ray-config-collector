@@ -1,0 +1,33 @@
+name: Автоматический кликер профилей
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 */6 * * *' # Запуск каждые 6 часов
+
+jobs:
+  run-clicker:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Извлечение репозитория
+        uses: actions/checkout@v4
+
+      - name: Установка Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Установка зависимостей
+        run: |
+          python -m pip install --upgrade pip
+          pip install aiohttp
+
+      - name: Запуск прокликивания страниц
+        run: python clicker/clicker.py
+
+      - name: Фиксация и отправка изменений
+        run: |
+          git config --global user.name "github-actions[bot]"
+          git config --global user.email "github-actions[bot]@users.noreply.github.com"
+          git add clicker/extracted_urls.txt
+          git diff --quiet && git diff --staged --quiet || (git commit -m "🤖 Кликер: Обновлен список извлеченных URL" && git push)
