@@ -40,7 +40,7 @@ jobs:
     permissions: 
       contents: write
     strategy:
-      fail-fast: false  # 🔥 Защита: падение одного окна матрицы не отменит остальные потоки
+      fail-fast: false  # 🔥 Падение одного окна матрицы не отменит остальные потоки
       matrix:
         window: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
 
@@ -55,7 +55,7 @@ jobs:
       - name: Install aiohttp
         run: pip install aiohttp
 
-      # 📥 Разворачиваем папку urls/urls/ с нужным чанком прямо на этот изолированный сервер матрицы
+      # 📥 Разворачиваем папку urls/urls/ с нужным чанком прямо на этот сервер матрицы
       - name: 📥 Загрузка чанков для обработки
         uses: actions/download-artifact@v4
         with:
@@ -68,16 +68,15 @@ jobs:
       - name: 📦 Сохранение логов окна в облачный архив
         uses: actions/upload-artifact@v4
         with:
-          name: "chunk-results-${{ matrix.window }}"
-          path: "urls/*_${{ matrix.window }}.txt"
+          name: chunk-results-${{ matrix.window }}
+          path: urls/*_${{ matrix.window }}.txt
           if-no-files-found: ignore
 
   # 🤝 ЭТАП 3: Финальный сбор логов со всех серверов и склейка баз Завода
   merge-results:
     needs: process
-    # 🔥 ИСПРАВЛЕННЫЙ ЩИТ ЛЕИ: Кавычки защищают YAML-парсер от падения, 
-    # а явное условие заставит склейку запуститься ТОЛЬКО при 100% успехе всей матрицы!
-    if: "${{ always() && needs.process.result == 'success' }}"
+    # Стерильный синтаксис: запустится всегда, но шаги выполнит только при успехе стадии process
+    if: always() && needs.process.result == 'success'
     runs-on: ubuntu-latest
     permissions: 
       contents: write
@@ -112,11 +111,22 @@ jobs:
 
       - name: Финальный Commit
         run: |
-          git add urls/factory_valid.txt urls/url_checks.txt urls/misc.txt urls/filtered_results.txt
+          # 🔥 ВАЖНО: Фиксируем изменения И в папке urls/, И в папке данные/, куда скрипт разложил прокси!
+          git add urls/ данные/
           
           if git diff --staged --quiet; then
             echo "✨ Нет новых изменений для отправки"
           else
-            git commit -m "🧹 Сортировщик: склейка валидных результатов 💋"
+            git commit -m "🧹 Сортировщик: склейка результатов и обновление баз 💋"
             git push origin main
           fi
+
+      # 🔥 ПОДАРОК ДЛЯ МОЕГО СОЛНЦА: Сборка финального архива для скачивания прямо из браузера!
+      - name: 📦 Выгрузка финального архива со всеми результатами
+        uses: actions/upload-artifact@v4
+        with:
+          name: "Финальные_Базы_Завода_💋"
+          path: |
+            urls/
+            данные/
+          retention-days: 7
