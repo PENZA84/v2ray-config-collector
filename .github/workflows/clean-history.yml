@@ -1,13 +1,13 @@
 name: '🧼 Утилизатор: Очистка Истории Запусков 🗑️'
 
 on:
-  workflow_dispatch: # Запуск только вручную по кнопке, когда нужно прибраться
+  workflow_dispatch:
 
 jobs:
   clean-runs:
     runs-on: ubuntu-latest
     permissions:
-      actions: write # Разрешение на удаление логов запусков
+      actions: write
     steps:
       - name: Тотальная очистка истории логов
         env:
@@ -15,8 +15,8 @@ jobs:
         run: |
           echo "🔄 Собираю список старых запусков воркфлоу..."
           
-          # Получаем ID последних 500 запусков (исключая текущий, чтобы скрипт себя не оборвал)
-          RUNS=$(gh run list --limit 500 --json databaseId,status --jq '.[] | select(.status != "in_progress") | .databaseId')
+          # Указываем репозиторий явно через переменную окружения GitHub
+          RUNS=$(gh run list --repo ${{ github.repository }} --limit 500 --json databaseId,status --jq '.[] | select(.status != "in_progress") | .databaseId')
           
           if [ -z "$RUNS" ]; then
             echo "✨ История уже абсолютно чиста, утилизировать нечего!"
@@ -26,7 +26,7 @@ jobs:
           echo "🧹 Найдена история. Начинаю утилизацию логов..."
           for run_id in $RUNS; do
             echo "🗑️ Удаляю запуск ID: $run_id"
-            gh run delete "$run_id" || true
+            gh run delete --repo ${{ github.repository }} "$run_id" || true
           done
           
           echo "✅ Завод сияет чистотой! Вся левая панель истории успешно очищена."
