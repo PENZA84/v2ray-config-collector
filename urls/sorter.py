@@ -4,12 +4,33 @@ import os
 import argparse
 import re
 
-print("=== sorter.py [Монолит V2.1] запущен ===")
+print("=== sorter.py [Абсолютный Монолит V3.0] запущен ===")
 
-# Список строго запрещенных расширений (добавлен .7z и .dmg)
-BAD_EXT = ['.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', '.mp4', '.mp3', '.js', '.css', '.sh', '.png', '.jpg', '.jpeg', '.gif', '.dmg', '.7z']
+# =====================================================================
+# 🔥 ГЛОБАЛЬНЫЕ БАЗЫ ФИЛЬТРАЦИИ (НАСТРОЙКА ЗАВОДА)
+# =====================================================================
 
-# Ключевые слова для фильтрации внутри deep_check
+# 🛑 1. СТРОГО ЗАПРЕЩЕННЫЕ РАСШИРЕНИЯ (Блокируются всегда и везде)
+BAD_EXT = [
+    '.lua', '.luau', '.apk', '.exe', '.zip', '.rar', '.tar', '.pdf', 
+    '.mp4', '.mp3', '.js', '.css', '.sh', '.png', '.jpg', '.jpeg', 
+    '.gif', '.dmg', '.7z'
+]
+
+# 🛑 2. БЕЗУСЛОВНЫЙ БАН (Уничтожаются мгновенно, даже если это raw/txt ссылки)
+# Сюда улетают лицензии, корпоративный шум, медиа-порталы и мусорные сервисы
+ALWAYS_BAD_KW = [
+    'opera.com', 'ubuntu.com', 'ashampoo.com', 'twitter.com', 'x.com', 'rt.com', 
+    'tf1.fr', 'testingcatalog.com', 'thegamer.com', 'tomsguide.com', 'safewise.com', 
+    'techradar.com', 'startnext.com', 'pixiv.net', 'zap-mag.ru', 'zava.io', 'yoyapai.com',
+    'amnezia.org/documentation', 'amnezia.org/ru/documentation', 'doc.qt.io', 
+    'docs.ansible.com', 'docs.astral.sh', 'docs.aws.amazon.com', 'docs.breezometer.com',
+    'docs.cherry-ai.com', 'docs.cloudbees.com', 'docs.coolercontrol.org', 'docs.gramaddict.org',
+    'todo.txt', 'activefilerecovery', 
+    'license'  # Намертво выжигает LICENSE.txt на GitHub до траты сетевых запросов
+]
+
+# 🛑 3. БАН СТРАНИЦ-ОБОЛОЧЕК (Если это сырой конфиг /raw/ или .txt — пропускаем внутрь!)
 BAD_KW = [
     'apple.com', 'releases', 'hiddify', 'karing', 'pywarp', 'docker', 'facebook', 'music',
     'book', 'quote', 'steam', 'readme', 'boosty', 't.me/proxy', 'mtproto',
@@ -19,6 +40,10 @@ BAD_KW = [
     'translate', 'microsoft.com', 'bing.com', 'outlook.com', 'github.com', 'gitlab.com',
     'bitbucket.org', 'wikipedia.org', 'wiki', 'msn.com', 'news'
 ]
+
+# =====================================================================
+# ⚙️ ИСПОЛНИТЕЛЬНОЕ ЯДРО
+# =====================================================================
 
 async def deep_check(session, url: str):
     try:
@@ -30,7 +55,7 @@ async def deep_check(session, url: str):
             text_lower = text.lower()
             url_lower = url.lower()
 
-            # 📌 ШАГ 1: Поиск живых прокси-протоколов (Основная задача Завода)
+            # Шаг 1: Поиск живых прокси-протоколов
             has_proxies = any(p in text_lower for p in ['vless://', 'vmess://', 'ss://', 'trojan://', 'hy2://', 'hysteria2://', 'socks://', 'socks5://'])
             if has_proxies:
                 print(f" ✅ Factory (Живой протокол): {url}")
@@ -38,12 +63,12 @@ async def deep_check(session, url: str):
 
             is_html = 'text/html' in resp.headers.get('Content-Type', '').lower() or any(tag in text_lower for tag in ['<!doctype html', '<html', '<body'])
 
-            # 📌 ШАГ 2: Проверка на сырые списки / txt конфигурации
+            # Шаг 2: Проверка на сырые списки / txt конфигурации
             if any(x in url_lower for x in ['/https.txt', '/proxies', '/free-proxy', '/proxy-list', '/clash', '/v2ray', '/xray', 'freeclashnode', 'clashnodes', 'uploads/', '.txt']):
                 print(f" ✅ Factory (Raw/Txt подписка): {url}")
                 return "factory"
 
-            # Фикс ложных срабатываний: Base64 ищем ТОЛЬКО если это не стандартный HTML-сайт
+            # Поиск Base64 только в не-HTML страницах
             if not is_html and re.search(r'[A-Za-z0-9+/=]{60,}', text):
                 print(f" ✅ Factory (Чистый Base64 маркер): {url}")
                 return "factory"
@@ -52,12 +77,12 @@ async def deep_check(session, url: str):
                 print(f" ✅ Factory (Subscription подпись): {url}")
                 return "factory"
 
-            # 📌 ШАГ 3: Определение медиа-потоков
+            # Шаг 3: Определение медиа-потоков
             if ('.m3u' in url_lower or '.m3u8' in url_lower or '#extm3u' in text_lower):
                 print(f" 📁 Miscellaneous (m3u): {url}")
                 return "misc"
 
-            # 📌 ШАГ 4: Поиск агрегаторов ссылок (url_checks) - Строго для не-HTML контента
+            # Шаг 4: Поиск хабов ссылок
             if not is_html:
                 lines = text.splitlines()
                 http_count = sum(1 for line in lines if line.strip().startswith(('http://', 'https://')))
@@ -101,49 +126,41 @@ async def process_window(window_id: int):
         for url in urls:
             url_lower = url.lower()
             
-            # 🛑 1. ИЗОЛЯЦИЯ ТЕЛЕГРАМА: Веб-версии каналов больше не пройдут в url_checks
+            # 🛑 ПЕРЕХВАТ 1: Telegram Веб-каналы уходят строго в misc
             if 't.me/' in url_lower:
                 print(f" 📁 Telegram Ссылка -> Строго в misc: {url}")
                 misc.append(url)
                 continue
 
-            # 🛑 2. ФИЛЬТР НЕИНТЕРЕСНОЙ КРИПТЫ
+            # 🛑 ПЕРЕХВАТ 2: Криптовалютный мусор
             if any(c in url_lower for c in ['novadax.com', 'coinbase.com', 'cryptocurrency', 'cryptocurrencies', 'blockchain', 'coincap.io', 'bnbchain.org']):
                 print(f" 🗑 Крипто-мусор -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
-            # 🛑 3. БЕЗУСЛОВНЫЙ БАН КОРПОРАТИВНОГО ШУМА, МЕДИА, АРХИВОВ И ТЕКСТОВЫХ ТАСК-МЕНЕДЖЕРОВ
-            COMMON_JUNK = [
-                'opera.com', 'ubuntu.com', 'ashampoo.com', 'twitter.com', 'x.com', 'rt.com', 
-                'tf1.fr', 'testingcatalog.com', 'thegamer.com', 'tomsguide.com', 'safewise.com', 
-                'techradar.com', 'startnext.com', 'pixiv.net', 'zap-mag.ru', 'zava.io', 'yoyapai.com',
-                'amnezia.org/documentation', 'amnezia.org/ru/documentation', 'doc.qt.io', 
-                'docs.ansible.com', 'docs.astral.sh', 'docs.aws.amazon.com', 'docs.breezometer.com',
-                'docs.cherry-ai.com', 'docs.cloudbees.com', 'docs.coolercontrol.org', 'docs.gramaddict.org',
-                'todo.txt', 'activefilerecovery'  # Фильтр для todo.txt и архивов восстановления
-            ]
-            if any(junk in url_lower for junk in COMMON_JUNK) or any(ext in url_lower for ext in BAD_EXT):
-                print(f" 🗑 Безусловный мусор/документация -> В БУНКЕР: {url}")
+            # 🛑 ПЕРЕХВАТ 3: Безусловный бан глобального мусора (Лицензии, личные доки, медиа)
+            if any(junk in url_lower for junk in ALWAYS_BAD_KW) or any(ext in url_lower for ext in BAD_EXT):
+                print(f" 🗑 Тотальный мусор/документация -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
-            # 🛑 4. РАСПРЕДЕЛЕНИЕ ИИ-СЕРВИСОВ: Защита от попадания в Завод (factory_valid)
-            AI_SERVICES = ['grok.com', 'rask.ai', 'openai.com', 'claude.ai', 'huggingface.co', 'gemini.com']
+            # Проверка флага сырых данных для ИИ и Оболочек
             is_raw_config = any(r in url_lower for r in ['/raw/', 'raw.githubusercontent', '.txt', '/proxies'])
-            
+
+            # 🛑 ПЕРЕХВАТ 4: Шлюз для ИИ-сервисов (если это не прямая ссылка на конфиг)
+            AI_SERVICES = ['grok.com', 'rask.ai', 'openai.com', 'claude.ai', 'huggingface.co', 'gemini.com']
             if any(ai in url_lower for ai in AI_SERVICES) and not is_raw_config:
-                print(f" 🤖 AI Сервис -> Строго в filtered_results (Интерес): {url}")
+                print(f" 🤖 AI Сервис -> Строго в filtered_results: {url}")
                 filtered.append(url)
                 continue
 
-            # 🛑 5. Стандартный черный список ключевых слов для страниц без raw-данных
+            # 🛑 ПЕРЕХВАТ 5: Обычный черный список ключевых слов (с поблажкой для raw)
             if any(kw in url_lower for kw in BAD_KW) and not is_raw_config:
                 print(f" 🗑 Мусорное ключевое слово -> В БУНКЕР: {url}")
                 deep_raw_collected.append(url)
                 continue
 
-            # Сетевой анализ для оставшихся потенциальных кандидатов
+            # Глубокий сетевой анализ выживших кандидатов
             category = await deep_check(session, url)
             if category == "factory":
                 factory.append(url)
@@ -155,12 +172,12 @@ async def process_window(window_id: int):
                 deep_raw_collected.append(url)
             else:
                 if any(kw in url_lower for kw in ['github.com', 'gitlab.com', 'bitbucket.org']) and not is_raw_config:
-                    print(f" 🗑 Страница репозитория без raw-файлов -> В БУНКЕР: {url}")
+                    print(f" 🗑 Репозиторий без raw-данных -> В БУНКЕР: {url}")
                     deep_raw_collected.append(url)
                 else:
                     filtered.append(url)
 
-    # Запись по файлам
+    # Сохранение результатов
     for base_path, data in [
         ('urls/factory_valid', factory),
         ('urls/url_checks', url_checks),
