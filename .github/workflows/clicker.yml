@@ -1,4 +1,4 @@
-name: Автоматический кликер профилей
+name: '🤖 Автоматический Кликер Профилей 🎯'
 
 on:
   workflow_dispatch:
@@ -8,6 +8,8 @@ on:
 jobs:
   run-clicker:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - name: Извлечение репозитория
         uses: actions/checkout@v4
