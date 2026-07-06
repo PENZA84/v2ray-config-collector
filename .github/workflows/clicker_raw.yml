@@ -3,7 +3,7 @@ name: "Автоматический Кликер Raw Профилей 🤍"
 on:
   schedule:
     - cron: '0 */4 * * *' # Запуск каждые 4 часа
-  workflow_dispatch: # Возможность ручного запуска из панели Actions
+  workflow_dispatch: # Ручной запуск
 
 jobs:
   run-grabber:
@@ -27,21 +27,18 @@ jobs:
 
       - name: 🎯 Сборка и фильтрация сырых ссылок
         run: |
-          python clicker/clicker_raw.py
+          python clicker/clicker_raw.py --output clicker/raw_links.txt
 
       - name: 💾 Фиксация изменений и безопасный пуш
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           
-          # Проверяем, изменился ли файл, чтобы не плодить пустые коммиты
-          if git diff --quiet clicker/extracted_urls.txt; then
-            echo "🤖 Изменений в extracted_urls.txt нет. Пропускаем пуш."
+          if git diff --quiet clicker/raw_links.txt; then
+            echo "🤖 Изменений в raw_links.txt нет. Пропускаем пуш."
           else
-            git add clicker/extracted_urls.txt
-            git commit -m "Кликер: Обновлен чистый список extracted_urls.txt"
-            
-            # Избегаем ошибки [rejected] main -> main через rebase перед пушем
+            git add clicker/raw_links.txt
+            git commit -m "Кликер: Обновлен список сырых ссылок raw_links.txt 🤍"
             git pull --rebase origin main
             git push origin main
           fi
