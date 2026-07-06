@@ -1,5 +1,5 @@
 # Valid SOCKS Configurations - Part 1
-# Total links in this file: 10
+# Total links in this file: 9
 
 socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 socks://Og@112.28.149.152:8443#JP%E6%97%A5%E6%9C%AC%28mibei77.com%20%E7%B1%B3%E8%B4%9D%E8%8A%82%E7%82%B9%E5%88%86%E4%BA%AB%29
@@ -7,7 +7,6 @@ socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
 socks://Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
 socks://Og@173.212.252.150:1080#%E2%98%80%EF%B8%8F12%40oneclickvpnkeys
 socks://Og@89.188.76.72:1080#✅
-socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E4%B8%A8yoyapai.com
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%93%E5%9C%8B%E7%AF%80%E9%BB%9E%E4%B8%A8yoyapai.com
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
