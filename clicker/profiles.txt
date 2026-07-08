@@ -1,2 +1,3 @@
 https://github.com/PENZA84/Auto_proxy/tree/main
 https://github.com/PENZA84/V2RayAggregator/tree/master
+https://github.com/PENZA84/goida-vpn-configs/tree/main
