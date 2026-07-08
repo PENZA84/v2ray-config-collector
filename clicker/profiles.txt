@@ -1,1 +1,2 @@
 https://github.com/PENZA84/Auto_proxy/tree/main
+https://github.com/PENZA84/V2RayAggregator/tree/master
