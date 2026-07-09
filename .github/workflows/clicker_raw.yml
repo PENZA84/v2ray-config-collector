@@ -2,8 +2,8 @@ name: "Автоматический Кликер Raw Профилей 🤍"
 
 on:
   schedule:
-    - cron: '0 */4 * * *' # Запуск каждые 4 часа
-  workflow_dispatch: # Ручной запуск
+ on:
+  workflow_dispatch: # Запуск ТОЛЬКО вручную по кнопке
 
 jobs:
   run-grabber:
