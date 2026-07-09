@@ -1,8 +1,6 @@
 name: "Автоматический Кликер Raw Профилей 🤍"
 
 on:
-  schedule:
- on:
   workflow_dispatch: # Запуск ТОЛЬКО вручную по кнопке
 
 jobs:
@@ -14,7 +12,7 @@ jobs:
         with:
           persist-credentials: true
 
-      - name: 🛠️ Настройка среды Python 3.11
+          - name: 🛠️ Настройка среды Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11' # Стабильная версия, на которой Playwright летает без ошибок
