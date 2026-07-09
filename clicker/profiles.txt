@@ -9,7 +9,6 @@ https://github.com/PENZA84/PSG/tree/main
 https://github.com/PENZA84/Config-Collector
 https://github.com/PENZA84/v2go/tree/main
 https://github.com/PENZA84/v2r
-https://github.com/PENZA84/PSG
 https://github.com/PENZA84/SubConfigShuffler
 https://github.com/PENZA84/gfwlist
 https://github.com/PENZA84/V.O.I.D-VPN_Bypass
