@@ -4,28 +4,30 @@ import os
 import re
 import argparse
 
-print("🚀 === clicker_raw.py [Заводской Экстрактор + Блок Медиа-Мусора V5.9] запущен ===")
+print("🚀 === clicker_raw.py [Заводской Экстрактор + Блок Маркетинга GitHub V6.1] запущен ===")
 
-# Полный список системного мусора (добавили пользовательские картинки Гитхаба)
+# Полный список системных мусорных доменов
 BLOCK_DOMAINS = [
     'api.github.com', 'avatars.githubusercontent.com', 'camo.githubusercontent.com',
     'githubcopilot.com', 'schema.org', 'w3.org', 'collector.github.com',
     'desktop.github.com', 'docs.github.com', 'archiveprogram.github.com',
     'github.blog', 'star-history.com', 'img.shields.io', 'visitor-badge.laobi.icu',
     'dzen.ru', 'vk.com', 'vk.ru', 'youtube.com', 'youtu.be', 't.me/avencoreschat',
-    # Блокировка картинок: из логов, обложек и пользовательских вложений в Issues/Readme
     'private-user-images.githubusercontent.com', 'opengraph.githubassets.com',
-    'user-images.githubusercontent.com',
-    # Вспомогательные сервисы
+    'user-images.githubusercontent.com', 'play.google.com',
     'github.community', 'githubassets.com', 'maintainers.github.com', 
     'securitylab.github.com', 'skills.github.com', 'stars.github.com', 
     'support.github.com', 'windows.github.com', 'githubstatus.com'
 ]
 
-# КЛЮЧЕВЫЕ СЛОВА-ПАРАЗИТЫ: релизы, ветки, воркфлоу
+# КЛЮЧЕВЫЕ СЛОВА-ПАРАЗИТЫ: Добавили всю маркетингово-системную разметку Гитхаба
 BLOCK_KEYWORDS = [
     '/releases', '/download', '/changelog', '/issues', '/pulls', 
-    '.github/workflows/', '/tree/', '/tags/'
+    '.github/workflows/', '/tree/', '/tags/',
+    # Твой новый улов: вычищаем разделы продаж, статей, трендов и обсуждений
+    '/marketplace', '/mcp', '/open-source/', '/orgs/', '/partners', 
+    '/pricing', '/resources', '/security', '/solutions', '/team', 
+    '/topics', '/trending', '/trust-center'
 ]
 
 # ИСКЛЮЧЕНИЯ: Расширения файлов, которые летят в помойку сразу
@@ -117,7 +119,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! Пользовательские скриншоты с user-images забанены. Результат в {args.output}. Всего: {len(final_urls)}")
+    print(f"💾 Готово! Вся маркетинговая экосистема GitHub отсечена. Результат в {args.output}. Всего: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
