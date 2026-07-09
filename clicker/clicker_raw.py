@@ -4,17 +4,19 @@ import os
 import re
 import argparse
 
-print("🚀 === clicker_raw.py [Заводской Экстрактор + Блок Сервисов GitHub V5.8] запущен ===")
+print("🚀 === clicker_raw.py [Заводской Экстрактор + Блок Медиа-Мусора V5.9] запущен ===")
 
-# Полный список системного мусора (добавили всю экосистему вспомогательных сайтов GitHub)
+# Полный список системного мусора (добавили пользовательские картинки Гитхаба)
 BLOCK_DOMAINS = [
     'api.github.com', 'avatars.githubusercontent.com', 'camo.githubusercontent.com',
     'githubcopilot.com', 'schema.org', 'w3.org', 'collector.github.com',
     'desktop.github.com', 'docs.github.com', 'archiveprogram.github.com',
     'github.blog', 'star-history.com', 'img.shields.io', 'visitor-badge.laobi.icu',
     'dzen.ru', 'vk.com', 'vk.ru', 'youtube.com', 'youtu.be', 't.me/avencoreschat',
-    'private-user-images.githubusercontent.com',
-    # Твоя новая партия — блокируем маркетинг, саппорт, форумы и статику Гитхаба
+    # Блокировка картинок: из логов, обложек и пользовательских вложений в Issues/Readme
+    'private-user-images.githubusercontent.com', 'opengraph.githubassets.com',
+    'user-images.githubusercontent.com',
+    # Вспомогательные сервисы
     'github.community', 'githubassets.com', 'maintainers.github.com', 
     'securitylab.github.com', 'skills.github.com', 'stars.github.com', 
     'support.github.com', 'windows.github.com', 'githubstatus.com'
@@ -115,7 +117,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! Вспомогательные сайты GitHub полностью отфильтрованы. Результат в {args.output}. Всего: {len(final_urls)}")
+    print(f"💾 Готово! Пользовательские скриншоты с user-images забанены. Результат в {args.output}. Всего: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
