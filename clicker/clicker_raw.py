@@ -4,25 +4,29 @@ import os
 import re
 import argparse
 
-print("🚀 === clicker_raw.py [Заводской Экстрактор + Фильтр Репозиториев V5.6] запущен ===")
+print("🚀 === clicker_raw.py [Заводской Экстрактор + Блок Сервисов GitHub V5.8] запущен ===")
 
-# Системный мусор и левые домены
+# Полный список системного мусора (добавили всю экосистему вспомогательных сайтов GitHub)
 BLOCK_DOMAINS = [
     'api.github.com', 'avatars.githubusercontent.com', 'camo.githubusercontent.com',
     'githubcopilot.com', 'schema.org', 'w3.org', 'collector.github.com',
     'desktop.github.com', 'docs.github.com', 'archiveprogram.github.com',
     'github.blog', 'star-history.com', 'img.shields.io', 'visitor-badge.laobi.icu',
     'dzen.ru', 'vk.com', 'vk.ru', 'youtube.com', 'youtu.be', 't.me/avencoreschat',
-    'private-user-images.githubusercontent.com', 'opengraph.githubassets.com'
+    'private-user-images.githubusercontent.com',
+    # Твоя новая партия — блокируем маркетинг, саппорт, форумы и статику Гитхаба
+    'github.community', 'githubassets.com', 'maintainers.github.com', 
+    'securitylab.github.com', 'skills.github.com', 'stars.github.com', 
+    'support.github.com', 'windows.github.com', 'githubstatus.com'
 ]
 
-# КЛЮЧЕВЫЕ СЛОВА-ПАРАЗИТЫ: Добавлен '/tree/' для уничтожения ссылок на ветки (типа /tree/master)
+# КЛЮЧЕВЫЕ СЛОВА-ПАРАЗИТЫ: релизы, ветки, воркфлоу
 BLOCK_KEYWORDS = [
-    '/releases/', '/download', '/changelog', '/issues', '/pulls', 
-    '.github/workflows/', '/tree/'
+    '/releases', '/download', '/changelog', '/issues', '/pulls', 
+    '.github/workflows/', '/tree/', '/tags/'
 ]
 
-# ИСКЛЮЧЕНИЯ: Добавлен '.git' — ссылки на клоны репозиториев теперь полностью запрещены
+# ИСКЛЮЧЕНИЯ: Расширения файлов, которые летят в помойку сразу
 SKIP_EXTENSIONS = [
     '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', 
     '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git'
@@ -46,7 +50,7 @@ async def fetch_clean_urls(session, target_url: str):
 
             text = await resp.text(errors='ignore')
             
-            # Наш жесткий текстовый заслон от системного кода воркфлоу и разметки Clash
+            # Текстовый заслон от системного кода GitHub Actions и разметки Clash
             if any(marker in text for marker in ['workflow_dispatch:', 'runs-on:', 'jobs:', 'health-check:', 'proxy-groups:', 'steps:']):
                 return []
 
@@ -54,7 +58,7 @@ async def fetch_clean_urls(session, target_url: str):
             clean_set = set()
 
             for url in found_urls:
-                # Очищаем хвосты (кавычки, скобки и HTML-ошметки из логов)
+                # Очищаем хвосты гитхабовского лога
                 url = url.rstrip('.,;)精神\\/&\"\'')
                 url_lower = url.lower()
 
@@ -69,7 +73,7 @@ async def fetch_clean_urls(session, target_url: str):
                 if url_lower in ['https://github.com', 'https://github.com/']:
                     continue
 
-                # Дополнительный фильтр ложных YAML генераторов
+                # Дополнительный фильтр ложных YAML/YML генераторов
                 if url_lower.endswith('.yaml') or url_lower.endswith('.yml'):
                     if any(k in url_lower for k in ['clash', 'provider', 'v2rayse.com', '/update/']):
                         continue
@@ -111,7 +115,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! Веб-ссылки на репозитории (.git и /tree/) полностью заблокированы. Результат в {args.output}. Всего: {len(final_urls)}")
+    print(f"💾 Готово! Вспомогательные сайты GitHub полностью отфильтрованы. Результат в {args.output}. Всего: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
