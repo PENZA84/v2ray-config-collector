@@ -21,8 +21,8 @@ BLOCK_DOMAINS = [
 
 # 🚫 ЧЕРНЫЙ СПИСОК ПУТЕЙ — папки, где нет протоколов и конфигов
 BLOCK_KEYWORDS = [
-    '.github/workflows/',   # Папка с кодом для GitHub Actions
-    '/releases',            # Раздел релизов
+    '.github/workflows',   # Папка с кодом для GitHub Actions
+    'releases',            # Раздел релизов
     '/release',             # Папка с названием release
     '/download', '/changelog', '/issues', '/pulls',
     '/tags/', '/marketplace', '/mcp', '/open-source/',
