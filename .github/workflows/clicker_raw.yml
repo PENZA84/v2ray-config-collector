@@ -14,16 +14,18 @@ jobs:
         with:
           persist-credentials: true
 
-      - name: 🛠️ Настройка среды Python 3.14
+      - name: 🛠️ Настройка среды Python 3.11
         uses: actions/setup-python@v5
         with:
-          python-version: '3.14'
+          python-version: '3.11' # Стабильная версия, на которой Playwright летает без ошибок
           cache: 'pip'
 
-      - name: 🚀 Установка необходимых библиотек
+      - name: 🚀 Установка библиотек и скрытого браузера Chromium
         run: |
           python -m pip install --upgrade pip
-          pip install aiohttp
+          pip install aiohttp playwright
+          # Скачиваем сам Chromium и системные зависимости для Linux
+          playwright install --with-deps chromium
 
       - name: 🎯 Сборка и фильтрация сырых ссылок
         run: |
