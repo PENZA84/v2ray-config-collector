@@ -4,22 +4,28 @@ import os
 import re
 import argparse
 
-print("🚀 === clicker_raw.py [Сборщик сырых ссылок] запущен ===")
+print("🚀 === clicker_raw.py [Заводской Экстрактор + Фильтр Репозиториев V5.6] запущен ===")
 
-# Расширенный список системного хлама и маркетинга (больше никакого мусора в сырье!)
+# Системный мусор и левые домены
 BLOCK_DOMAINS = [
     'api.github.com', 'avatars.githubusercontent.com', 'camo.githubusercontent.com',
     'githubcopilot.com', 'schema.org', 'w3.org', 'collector.github.com',
     'desktop.github.com', 'docs.github.com', 'archiveprogram.github.com',
-    'github.blog', 'github-cloud.s3.amazonaws.com', 'opengraph.githubassets.com',
-    'private-user-images.githubusercontent.com', 'play.google.com', 'apps.apple.com',
-    'python.org', 'opensource.org'
+    'github.blog', 'star-history.com', 'img.shields.io', 'visitor-badge.laobi.icu',
+    'dzen.ru', 'vk.com', 'vk.ru', 'youtube.com', 'youtu.be', 't.me/avencoreschat',
+    'private-user-images.githubusercontent.com', 'opengraph.githubassets.com'
 ]
 
-# Сюда улетают все приложения, архивы и веб-стили. .yaml, .yml и .txt НЕ ТРОГАЕМ!
+# КЛЮЧЕВЫЕ СЛОВА-ПАРАЗИТЫ: Добавлен '/tree/' для уничтожения ссылок на ветки (типа /tree/master)
+BLOCK_KEYWORDS = [
+    '/releases/', '/download', '/changelog', '/issues', '/pulls', 
+    '.github/workflows/', '/tree/'
+]
+
+# ИСКЛЮЧЕНИЯ: Добавлен '.git' — ссылки на клоны репозиториев теперь полностью запрещены
 SKIP_EXTENSIONS = [
     '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2', 
-    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg'
+    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git'
 ]
 
 def convert_to_raw(url: str) -> str:
@@ -34,19 +40,22 @@ def convert_to_raw(url: str) -> str:
 async def fetch_clean_urls(session, target_url: str):
     raw_url = convert_to_raw(target_url)
     try:
-        # УВЕЛИЧЕНО ДО 90 СЕКУНД: Спокойно переваривает тяжелые архивы, папки и огромные файлы вилок
         async with session.get(raw_url, timeout=90, allow_redirects=True) as resp:
             if resp.status != 200:
                 return []
 
             text = await resp.text(errors='ignore')
             
-            # Строгий сбор ссылок без мусорных хвостов гитхабовского кода
+            # Наш жесткий текстовый заслон от системного кода воркфлоу и разметки Clash
+            if any(marker in text for marker in ['workflow_dispatch:', 'runs-on:', 'jobs:', 'health-check:', 'proxy-groups:', 'steps:']):
+                return []
+
             found_urls = re.findall(r'https?://[^\s"\'><\\{}()\[\]]+', text)
             clean_set = set()
 
             for url in found_urls:
-                url = url.rstrip('.,;)精神\\/')
+                # Очищаем хвосты (кавычки, скобки и HTML-ошметки из логов)
+                url = url.rstrip('.,;)精神\\/&\"\'')
                 url_lower = url.lower()
 
                 if not url or len(url) < 10:
@@ -55,12 +64,15 @@ async def fetch_clean_urls(session, target_url: str):
                     continue
                 if any(domain in url_lower for domain in BLOCK_DOMAINS):
                     continue
+                if any(keyword in url_lower for keyword in BLOCK_KEYWORDS):
+                    continue
                 if url_lower in ['https://github.com', 'https://github.com/']:
                     continue
-                
-                # Жесткий отсев страниц релизов, тегов, обновлений и загрузок софта
-                if any(garbage in url_lower for garbage in ['/releases/', '/changelog', '/tags/', '/download']):
-                    continue
+
+                # Дополнительный фильтр ложных YAML генераторов
+                if url_lower.endswith('.yaml') or url_lower.endswith('.yml'):
+                    if any(k in url_lower for k in ['clash', 'provider', 'v2rayse.com', '/update/']):
+                        continue
 
                 clean_set.add(url)
             return list(clean_set)
@@ -99,7 +111,7 @@ async def main():
         for link in sorted(final_urls):
             f.write(f"{link}\n")
 
-    print(f"💾 Готово! Новый список сырых ссылок сохранен in {args.output}. Всего: {len(final_urls)}")
+    print(f"💾 Готово! Веб-ссылки на репозитории (.git и /tree/) полностью заблокированы. Результат в {args.output}. Всего: {len(final_urls)}")
 
 if __name__ == "__main__":
     if os.name == 'nt':
