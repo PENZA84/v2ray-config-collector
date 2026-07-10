@@ -33,7 +33,7 @@ BLOCK_KEYWORDS = [
 
 SKIP_EXTENSIONS = [
     '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2',
-    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api'
+    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api', '.images'
 ]
 
 def parse_repo_and_path(url: str) -> str:
