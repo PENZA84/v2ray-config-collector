@@ -23,12 +23,12 @@ BLOCK_DOMAINS = [
 BLOCK_KEYWORDS = [
     '.github/workflows', 'releases', '/release',  '/__pycache__ ', '/download', '/changelog', '/issues', '/pulls',
     '/tags/', '/marketplace', '/mcp', '/open-source/', '/orgs/', '/partners', '/pricing', '/resources', '/security', '/solutions',
-    '/team', '/topics', '/trending', '/trust-center', '/features', '/enterprise', '/premium-support', '/startups', '/copilot', '/codespaces', '/code-review', '.s3.amazonaws.com '
+    '/team', '/topics', '/trending', '/trust-center', '/features', '/enterprise', '/premium-support', '/startups', '/copilot', '/codespaces', '/code-review', '.s3.amazonaws.com'
 ]
 
 SKIP_EXTENSIONS = [
     '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2',
-    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api', '.images', 
+    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api', '.images', '.py'
 ]
 
 def parse_repo_and_path(url: str) -> str:
