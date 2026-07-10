@@ -16,7 +16,7 @@ BLOCK_DOMAINS = [
     'opengraph.githubassets.com', 'user-images.githubusercontent.com', 'play.google.com',
     'github.community', 'githubassets.com', 'maintainers.github.com',
     'securitylab.github.com', 'skills.github.com', 'stars.github.com',
-    'support.github.com', 'windows.github.com', 'githubstatus.com', 'cdn.jsdelivr.net'
+    'support.github.com', 'windows.github.com', 'githubstatus.com', 'cdn.jsdelivr.net', '.LICENSE '
 ]
 
 # 🚫 ЧЕРНЫЙ СПИСОК ПУТЕЙ — папки, где нет протоколов и конфигов
