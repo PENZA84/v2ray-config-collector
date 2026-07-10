@@ -55,13 +55,11 @@ https://github.com/PENZA84/sub-aggregator
 https://github.com/PENZA84/multi-proxy-config-fetcher/tree/main
 https://github.com/PENZA84/Proxy-Hunter/tree/main
 https://github.com/PENZA84/V2Ray-CleanIPs-Servers/tree/main
-https://github.com/PENZA84/IPextract/tree/main
 https://github.com/PENZA84/proxy-scraper-ak/tree/main
 https://github.com/PENZA84/SubCrawler/tree/main
 https://github.com/PENZA84/vpn-vless-configs-russia/tree/main
 https://github.com/PENZA84/SmartSub
 https://github.com/PENZA84/free-v2ray-2026/tree/main
-https://github.com/PENZA84/Sub-Config-Extractor/tree/main
 https://github.com/PENZA84/vpn-aggregator/tree/main
 https://github.com/PENZA84/free-nodes/tree/main
 https://github.com/PENZA84/proxylistdaily/tree/main
