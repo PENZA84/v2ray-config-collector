@@ -5,7 +5,6 @@ https://github.com/PENZA84/v2ray-configs-1
 https://github.com/PENZA84/multi-proxy-config-fetcher
 https://github.com/PENZA84/v2go
 https://github.com/PENZA84/SolVPN
-https://github.com/PENZA84/PSG/tree/main
 https://github.com/PENZA84/Config-Collector
 https://github.com/PENZA84/v2go/tree/main
 https://github.com/PENZA84/v2r
