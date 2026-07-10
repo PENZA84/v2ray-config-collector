@@ -21,14 +21,9 @@ BLOCK_DOMAINS = [
 
 # 🚫 ЧЕРНЫЙ СПИСОК ПУТЕЙ — папки, где нет протоколов и конфигов
 BLOCK_KEYWORDS = [
-    '.github/workflows',   # Папка с кодом для GitHub Actions
-    'releases',            # Раздел релизов
-    '/release',             # Папка с названием release
-    '/download', '/changelog', '/issues', '/pulls',
-    '/tags/', '/marketplace', '/mcp', '/open-source/',
-    '/orgs/', '/partners', '/pricing', '/resources', '/security', '/solutions',
-    '/team', '/topics', '/trending', '/trust-center', '/features',
-    '/enterprise', '/premium-support', '/startups', '/copilot', '/codespaces', '/code-review'
+    '.github/workflows', 'releases', '/release',  '/__pycache__ ', '/download', '/changelog', '/issues', '/pulls',
+    '/tags/', '/marketplace', '/mcp', '/open-source/', '/orgs/', '/partners', '/pricing', '/resources', '/security', '/solutions',
+    '/team', '/topics', '/trending', '/trust-center', '/features', '/enterprise', '/premium-support', '/startups', '/copilot', '/codespaces', '/code-review'
 ]
 
 SKIP_EXTENSIONS = [
