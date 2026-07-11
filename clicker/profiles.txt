@@ -78,8 +78,4 @@ https://github.com/PENZA84/list
 https://github.com/PENZA84/FARSI-telegram-configs-collector
 https://github.com/PENZA84/collectSub_m
 https://github.com/PENZA84/openproxylist
-https://github.com/PENZA84/pub/tree/main
-https://github.com/PENZA84/FNET00BOT
-https://github.com/PENZA84/v2ray-worker-sub
-https://github.com/PENZA84/FreeVPN/tree/main
-https://github.com/PENZA84/Nyx/tree/main
+
