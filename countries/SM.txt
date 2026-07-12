@@ -1,0 +1,5 @@
+trojan://v2TkL6FH3h@104.16.72.50:443?allowInsecure=0&sni=sm.farxmode.ir&ws=1&wspath=%2Fda#RELAY%F0%9F%9A%A9%20%7C%20sm.farxmode.ir-443%20%7C%202.84ms
+trojan://v2TkL6FH3h@104.16.72.50:443?allowInsecure=1&sni=sm.farxmode.ir&ws=1&wspath=%2Fda#RELAY%F0%9F%9A%A9%20%7C%20sm.farxmode.ir-443%20%7C%20411.85ms
+trojan://v2TkL6FH3h@104.16.72.50:443?path=/da&security=tls&insecure=0&host=sm.farxmode.ir&fp=chrome&type=ws&allowInsecure=0&sni=sm.farxmode.ir#5301.%20%F0%9F%87%A9%F0%9F%87%AA%20TROJAN%20%7C%20SNI%3A%20sm.farxmode.ir%20%7C%20TG%3A%20%40wlrustg
+trojan://v2TkL6FH3h@45.130.125.2:443?type=ws&security=tls&path=/da&alpn=-@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN---@SRCVPN&host=sm.farxmode.ir&sni=sm.farxmode.ir&fp=chrome&insecure=0&allowInsecure=0#5302.%20%F0%9F%87%A9%F0%9F%87%AA%20TROJAN%20%7C%20SNI%3A%20sm.farxmode.ir%20%7C%20TG%3A%20%40wlrustg
+trojan://bpb-trojan@5.180.182.128:443?security=tls&sni=yorsunx.xyz&type=ws&host=yorsunx.xyz&path=%2Ftr%3Fed%3D2560#05-09%20BPB%20yorsunx.xyz%20SM%20v4

@@ -1,0 +1,2 @@
+trojan://a1e12464-9208-4583-bd21-ab6889fdd242@139.162.46.222:443?allowInsecure=1&peer=cdn.qchwnd.moe&tfo=1#%F0%9F%87%B8%F0%9F%87%AC%20%5B%E6%B5%8B%E8%AF%95-CM%5D%E6%96%B0%E5%8A%A0%E5%9D%A1%E2%80%A20x
+trojan://a1e12464-9208-4583-bd21-ab6889fdd242@139.162.46.222:443?allowInsecure=1&sni=cdn.qchwnd.moe#%F0%9F%87%B8%F0%9F%87%AC%20%5B%E6%B5%8B%E8%AF%95-CM%5D%E6%96%B0%E5%8A%A0%E5%9D%A1%E2%80%A20x

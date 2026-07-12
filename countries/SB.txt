@@ -1,0 +1,1 @@
+vless://1988a5e0-a4b0-4d80-a6f2-d2357db53f48@ip.sb:8880?encryption=none&security=none&fp=random&type=ws&host=918.hebav63406.workers.dev&path=%2F%3Fed%3D2048#SB

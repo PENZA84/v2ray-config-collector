@@ -1,0 +1,1 @@
+trojan://dh-Ws-YoJIgTYLZ-A5VljeduVse-vhDl7Q@185.137.157.138:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#@VIProxysvless://54d91e99-3107-4e16-a342-37c88f294503@hoooossssttt1.sd.noafra.ir:80?security=none&encryption=none&host=play.google.com&headerType=http&type=tcp%F0%9F%87%A9%F0%9F%87%AA%40FreakConfig

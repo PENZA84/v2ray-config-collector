@@ -1,0 +1,1 @@
+trojan://MITIVPN@162.159.38.62:443?insecure=0&sni=Win-use-Cv-o.Maqror.ir&path=/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN=U-s-W&type=ws&alpn=http/1.1&security=tls&fp=chrome&allowInsecure=0&host=bvck-oizksj-sWin-usje-C-o.Maqror.ir#5021.%20TROJAN%20%7C%20SNI%3A%20Win-use-Cv-o.Maqror.ir%20%7C%20TG%3A%20%40wlrustg

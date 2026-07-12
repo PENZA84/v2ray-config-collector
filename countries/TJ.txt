@@ -1,0 +1,2 @@
+trojan://9yu6m5okr@104.21.50.5:443?allowInsecure=0&sni=production.tj.ojan.workers.dev&ws=1&wspath=%2FTelegram-%40V2ray_Alpha%2F%3Fed%3D2560#RELAY%F0%9F%9A%A9%20%7C%20production.tj.ojan.workers.dev-443%20%7C%203ms
+trojan://9yu6m5okr@172.67.198.177:443?allowInsecure=0&sni=production.tj.ojan.workers.dev&ws=1&wspath=%2FTelegram-%40V2ray_Alpha%2F%3Fed%3D2560#RELAY%F0%9F%9A%A9%20%7C%20production.tj.ojan.workers.dev-443%20%7C%203.18ms
