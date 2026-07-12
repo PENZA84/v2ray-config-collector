@@ -1,2 +1,0 @@
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2F%3Fproxyip%3Dproxyip.kr.fxxk.dedyn.io#%E9%9F%A9%E5%9B%BD_Jeollanam-do
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2Fblue#%E9%9F%A9%E5%9B%BD_Jeollanam-do

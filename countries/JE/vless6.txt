@@ -1,2 +1,0 @@
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@198.62.62.234:443?path=/blue&security=tls&encryption=none&type=ws&sni=je.ylks01.eu.org#3229.%20VLESS%20%7C%20SNI%3A%20je.ylks01.eu.org%20%7C%20TG%3A%20%40wlrustg
-vless://a13df940-020c-465f-bc89-ee5279b5cd6a@198.62.62.64:443?path=/blue&security=tls&encryption=none&type=ws&sni=je.ylks01.eu.org#3230.%20VLESS%20%7C%20SNI%3A%20je.ylks01.eu.org%20%7C%20TG%3A%20%40wlrustg

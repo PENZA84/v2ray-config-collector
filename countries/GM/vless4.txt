@@ -1,2 +1,0 @@
-vless://6bee9ea2-62f6-4b1d-8d7d-041bdd4d3e12@speedtest.net:80?path=%2Fadmin&security=none&encryption=none&host=Gn85.io&type=ws#GM%F0%9F%87%A9%F0%9F%87%AA
-vless://73796e63-0000-4000-8000-000000000000@104.21.12.21:443?type=ws&security=tls&sni=nahan-core.fatitelegram.workers.dev&path=%2Fsync#🇮🇹_|_@WhiteDNS_|_IT2|16.2MB/s|DNSOK|GPT⁺|GM-IT|SP-IT

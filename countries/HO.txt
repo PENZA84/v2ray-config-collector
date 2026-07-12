@@ -1,9 +1,0 @@
-vless://fcd7f0c6-aee7-40cd-bf19-847a49d4cc9d@103.153.254.178:40007?encryption=none&type=tcp#//Vietnam/Ho
-vless://fe422413-ef38-4455-8afa-0128e08e8e4e@45.40.59.248:443/?type=ws&encryption=none&host=vn.qhahd.shop&path=%2Fbing&security=tls&sni=vn.qhahd.shop#%40Ho
-vless://9f135709-60a1-4a9b-b31c-78d326d8752a@104.18.152.233:443?security=tls&sni=www.middle.cc.cd&alpn=h3,h2,http/1.1&allowInsecure=1&fp=firefox&type=tcp&encryption=none#ho%20yah%20@v2ray_vpn_ir
-vless://a8036e83-fd91-4fd6-8c20-ac340966536c@154.211.8.150:2096/?type=ws&encryption=none&host=ngedx.ambercc.filegear-sg.me#%40Ho
-vless://74f829f3-480b-4e7f-8039-9418d055375b@156.59.130.103:8080?security=none&fp=chrome&type=ws&path=/?ed%3D2048&host=zebelkhan10.fallahpour25.workers.dev&packetEncoding=xudp&encryption=none#%F0%9F%87%BB%F0%9F%87%B3%20Vietnam%20-%20Ho%20Chi%20Minh%20City%20%F0%9F%8C%8F%20VL-WS-NA%204%E2%83%A3
-vless://74f829f3-480b-4e7f-8039-9418d055375b@156.59.130.103:80?security=none&fp=chrome&type=ws&path=/?ed%3D2048&host=zebelkhan10.fallahpour25.workers.dev&packetEncoding=xudp&encryption=none#%F0%9F%87%BB%F0%9F%87%B3%20Vietnam%20-%20Ho%20Chi%20Minh%20City%20%F0%9F%8C%8F%20VL-WS-NA%204%E2%83%A3
-vless://74f829f3-480b-4e7f-8039-9418d055375b@156.59.130.103:8443?security=tls&sni=zebelkhan10.fallahpour25.workers.dev&allowInsecure=1&fp=chrome&type=ws&path=/?ed%3D2048&host=zebelkhan10.fallahpour25.workers.dev&packetEncoding=xudp&encryption=none#%F0%9F%87%BB%F0%9F%87%B3%20Vietnam%20-%20Ho%20Chi%20Minh%20City%20%F0%9F%8C%8F%20VL-WS-TLS%204%E2%83%A3
-vless://0b3b8269-232d-4c87-8a97-75d110c83850@156.59.130.103:443?security=tls&sni=ylks6.ylks.link&allowInsecure=1&fp=chrome&type=ws&packetEncoding=xudp&encryption=none#%F0%9F%87%BB%F0%9F%87%B3%20Vietnam%20-%20Ho%20Chi%20Minh%20City%20%F0%9F%8C%8F%20VL-WS-TLS%204%E2%83%A3
-vless://102e5f34-1913-4dd3-a1f2-f831d891a490@104.16.186.41:443/?type=ws&encryption=none&host=cr7.traneh.dpdns.org&security=tls&sni=cr7.traneh.dpdns.org#%40Ho

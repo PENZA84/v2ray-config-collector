@@ -1,4 +1,0 @@
-vless://739f0fe7-1ba1-4b64-9a60-87b13a79d4be@104.16.72.251:2053?encryption=none&security=tls&type=ws&headerType=none&path=/&sni=cdn-p1.persia.my&fp=chrome&alpn=h3,h2,http/1.1#2683.%20VLESS%20%7C%20SNI%3A%20cdn-p1.persia.my%20%7C%20TG%3A%20%40wlrustg
-vless://739f0fe7-1ba1-4b64-9a60-87b13a79d4be@14.102.228.201:2053?encryption=none&security=tls&type=ws&headerType=none&path=/&sni=node-i1.persia.my&fp=chrome&alpn=h3,h2,http/1.1#2684.%20VLESS%20%7C%20SNI%3A%20node-i1.persia.my%20%7C%20TG%3A%20%40wlrustg
-vless://739f0fe7-1ba1-4b64-9a60-87b13a79d4be@91.193.58.201:2096?encryption=none&security=tls&type=ws&headerType=none&path=/&sni=cache-h2.persia.my&fp=chrome&alpn=h3,h2,http/1.1#2690.%20VLESS%20%7C%20SNI%3A%20cache-h2.persia.my%20%7C%20TG%3A%20%40wlrustg
-vless://7b102311-43fd-4e8f-877e-8090623c101d@8.35.211.205:2087?type=ws&security=tls&path=/&sni=round-art-52ee.eadfgv.workers.dev&fp=chrome#MY

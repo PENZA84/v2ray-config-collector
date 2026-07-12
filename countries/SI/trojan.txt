@@ -1,5 +1,0 @@
-trojan://Aimer@92.53.190.161:2087/?type=tcp&security=tls&sni=epccf.ambercc.filegear-sg.me#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%AE%20SI%20%7C%20TROJAN%20%7C%204868
-trojan://Aimer@92.53.190.161:2087?sni=epmo.ambercc.filegear-sg.me&peer=epmo.ambercc.filegear-sg.me&security=tls#SI
-trojan://J6l5CNfvA6@92.53.191.73:443?sni=uk3333ip6.hajhesam.biz.id&peer=uk3333ip6.hajhesam.biz.id&security=tls#SI
-trojan://NISHIKUITAN111@92.53.190.218:443/?type=ws&host=za.ylks.xyz&path=%2F&security=tls&sni=za.ylks.xyz#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%AE%20SI%20%7C%20TROJAN%20%7C%206602
-trojan://NISHIKUITAN111@92.53.191.173:443/?type=tcp&security=tls#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%AE%20SI%20%7C%20TROJAN%20%7C%206185

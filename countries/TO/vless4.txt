@@ -1,4 +1,0 @@
-vless://66c85596-f209-4660-a900-492f95b31c59@104.17.147.22:80?path=%2F%3Fed%3D1024&security=none&encryption=none&host=www.speedtest.net.zula.ir.azaronline.Org%3A&type=ws#Join%20To%3A%40IRAN_V2RAY1%20%F0%9F%87%A9%F0%9F%87%AA
-vless://6d420083-4bb5-4a50-ad4a-44e35da0a26f@151.101.3.8:80?path=%2FVpnWedbaz---VpnWedBaZ%3Fed%3D443&security=none&encryption=none&host=Tehran2.Org&type=ws#Join%20To%40IRAN_V2RAY1
-vless://71ed6628-5870-4d19-8a52-f2a3ba3d4898@63.141.128.98:443?path=%2F%3Fed%3D2560&security=tls&encryption=none&host=vb.zhuk.us.kg&type=ws&sni=vb.zhuk.us.kg#bya%20to%20%40IRAN_V2RAY1
-vless://7f3b2f37-819e-49ee-9f5c-215467bfde61@172.67.204.39:443?path=/TELEGRAM-MARAMBASHI-MARAMBASHI/?ed=2048&security=tls&encryption=none&host=turkmenistan.armanibash.Shop.&fp=chrome&type=ws&sni=turkmenistan.armanibash.Shop.#Join+To+:+@IRAN_V2RAY1

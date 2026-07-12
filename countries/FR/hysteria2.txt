@@ -1,3 +1,0 @@
-hysteria2://dongtaiwang.com@62.210.124.146:22000/?insecure=1&sni=www.microsoft.com#%3E%3E%40oneclickvpnkeys%3A%3AFR
-hysteria2://f40b1e441addaec3@45.76.44.57:443/?sni=google.co&obfs=salamander&obfs-password=2db7b42a&insecure=1#%F0%9F%94%92%20HYSTERIA-UDP%20%F0%9F%87%AB%F0%9F%87%B7%20FR-45.76.44.57%3A443
-hysteria2://y0qochAspE+u-HLfrip-@217.69.9.125:443/?sni=Google.com&obfs=salamander&obfs-password=2pU%21%26Brls%210exuP%2B%214so&insecure=1#%F0%9F%94%92%20HYSTERIA-UDP%20%F0%9F%87%AB%F0%9F%87%B7%20FR-217.69.9.125%3A443

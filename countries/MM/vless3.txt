@@ -1,2 +1,0 @@
-vless://5d90024b-871e-4fc4-806c-325edf601c59@speedtest.net:443?security=tls&sni=speedtest.net&fp=firefox&type=ws&path=/&host=setipsssss.ir&encryption=none#mm-fr9gr9a2
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@188.114.99.243:2096?encryption=none&security=tls&sni=sni.111000.indevs.in&type=ws&host=sni.111000.indevs.in&path=/?ed%3D2560&packetEncoding=xudp#mm

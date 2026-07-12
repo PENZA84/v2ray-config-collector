@@ -1,1 +1,0 @@
-vless://b2bfb4f3-f4c3-4323-9810-a086fef2f25d@199.232.78.159:443?security=tls&type=ws&path=%2F&host=pan1.global.ssl.fastly.net&sni=default.ssl.fastly.net&fp=chrome#%40github%20tonygyf%F0%9F%87%B3%F0%9F%87%B1NL_5%7C5.8MB%2Fs%7CGPT%E2%81%BA%7CYT-NL%7CNF%7CD%2B%7C0%25

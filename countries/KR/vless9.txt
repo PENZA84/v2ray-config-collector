@@ -1,2 +1,0 @@
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@193.122.96.233:443?type=tcp&security=none&path=telegram#KR
-vless://fc487688-af40-4393-ae6c-6b80188a65b4@afrcloud22.mmv.kr:443/?path=/216.128.140.218=443#TELEGRAM-anotherme_night---#TELEGRAM-anotherme_night---#TELEGRAM-anotherme_night---#TELEGRAM-anotherme_night---#TELEGRAM-anotherme_night&security=tls&encryption=none&host=afrcloud22.mmv.kr&type=ws&sni=afrcloud22.mmv.kr#@v2rays_ha

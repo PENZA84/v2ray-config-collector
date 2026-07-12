@@ -1,1 +1,0 @@
-vless://826e43d2-dbe9-41a6-bbf8-3aed2f93f5d4@172.66.47.44:443?encryption=none&security=tls&sni=pardazeshvpn-tg20.pages.dev&fp=randomized&type=ws&host=pardazeshvpn-tg20.pages.dev&path=%2F%3Fed#%28S2%29%20-%20EA%20305

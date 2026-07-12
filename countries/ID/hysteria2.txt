@@ -1,1 +1,0 @@
-hysteria2://4f37f7c4-9cab-413a-938e-4cd19b0f93b4@45.11.1.62:443?insecure=1&sni=www.microsoft.com#Channel%20id%3A%20%40ShadowProxy66%F0%9F%87%AF%F0%9F%87%B5

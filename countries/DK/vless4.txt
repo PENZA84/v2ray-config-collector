@@ -1,2 +1,0 @@
-vless://6ba20a61-9ca7-4f9e-ac38-95f63c888a95@193.180.211.106:443?type=tcp&security=reality&sni=www.google.com&fp=chrome&flow=xtls-rprx-vision&pbk=9ScHOKzJC7yKULZTUXzLHqW1YdVm1iuAztbg3uyU4W4&sid=3b5f17c573589047#DK
-vless://6ba20a61-9ca7-4f9e-ac38-95f63c888a95@77.37.97.59:443?type=tcp&security=reality&sni=www.ign.com&fp=chrome&flow=xtls-rprx-vision&pbk=4GnPOZT2sf7WGkjOhOuBckj5VkTWkV_PZ6bw_hBC0nI&sid=dd53608f91a83f5a#DK

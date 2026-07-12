@@ -1,5 +1,0 @@
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@185.133.35.20:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=us.laoyoutiao.link#BR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@185.133.35.213:8880?type=ws&security=none#BR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@185.133.35.63:8880?type=ws&security=false&path=/Telegram&fp=chrome#BR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@185.133.35.63:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=jp.laoyoutiao.link#BR
-vless://fee8813d-3a9c-4749-b0af-47e5e12e8b3a@152.236.3.28:8443?type=grpc&security=reality&sni=addons.mozilla.org&fp=chrome&pbk=56QUSkgaBUAruo4LoZnfo6z6Y4CGZRTx1zdNLYKKGRk&sid=530db35e324c3aa5#BR

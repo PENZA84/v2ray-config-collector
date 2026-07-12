@@ -1,5 +1,0 @@
-vless://2d5525e1-1aac-54ca-9e96-7fb552b0e6b9@185.146.173.46:443?path=%2Fvless&security=tls&encryption=none&host=pt1.vless.site&type=ws&sni=pt1.vless.site#PT🇵🇹
-vless://2d5525e1-1aac-54ca-9e96-7fb552b0e6b9@190.93.247.155:80?path=%2Fvless&security=none&encryption=none&host=Pt1.vless.site.&type=ws#PT🇵🇹
-vless://2f4ccd8c-241a-4900-9e1e-3c8a51826096@64.188.64.72:443?type=tcp&security=reality&sni=google.com&fp=randomized&flow=xtls-rprx-vision&pbk=8YhxIt59OyCh3hGT8mbByjMi040LIsSbLXGCstIqeXU&sid=aca2849be8b47f1b#PT
-vless://318eedfe-06ef-5ab9-8063-84d714e3be3c@185.146.173.69:80?path=%2Fvless&security=none&encryption=none&host=Pt1.vless.site.&type=ws#PT🇵🇹
-vless://318eedfe-06ef-5ab9-8063-84d714e3be3c@190.93.247.155:443?path=%2Fvless&security=tls&encryption=none&host=pt1.vless.site&type=ws&sni=pt1.vless.site#PT🇵🇹

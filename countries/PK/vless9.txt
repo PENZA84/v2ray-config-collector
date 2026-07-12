@@ -1,2 +1,0 @@
-vless://f98ab063-1dfb-41da-b875-fc50f6bdc174@45.197.134.27:8443/?type=tcp&encryption=none&flow=xtls-rprx-vision&sni=storage.yandex.net&fp=chrome&security=reality&pbk=8qHRGcCezzSu4S-Cz9l19BNRLWm4MkaSwZV3dNrLEwc&sid=445ab326fc7c90ac#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20VLESS%20%7C%2036071
-vless://f98ab063-1dfb-41da-b875-fc50f6bdc174@45.197.134.27:8443?type=tcp&security=reality&sni=storage.yandex.net&fp=chrome&flow=xtls-rprx-vision&pbk=8qHRGcCezzSu4S-Cz9l19BNRLWm4MkaSwZV3dNrLEwc&sid=445ab326fc7c90ac#PK

@@ -1,1 +1,0 @@
-vless://784646e5-8e84-4672-8670-efc9cafcd2cc@154.83.2.235:443?type=ws&security=tls&path=/&sni=cvarad3.taban-rason.space&fp=chrome#PH

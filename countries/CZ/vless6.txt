@@ -1,6 +1,0 @@
-vless://9f3c4ab7-ea26-4d96-91a9-c85ff64ad9a0@195.85.23.13:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=Telegram-channel-WangCai2#CZ
-vless://a5f3cdb6-cd7c-4289-9551-ec6f91a51e68@195.85.23.58:443?type=ws&security=tls&path=/?ed=2048&sni=sweet-sound-523a.66500-280b-471c-b2b8-d68b7f9960014.workers.dev&fp=chrome#CZ
-vless://ac100002-eb6f-11f0-8d36-0242cf03305a@194.87.133.111:443?security=reality&sni=eh.vk.com&fp=random&pbk=BcwI4K4lJ70ypESvST9HkyMts9PFEtNYFWPvfzcf0AU&type=tcp&flow=xtls-rprx-vision&sid=983a1875c8259550#v2go%20%7C%20%F0%9F%87%A8%F0%9F%87%BF%20CZ%20%7C%20VLESS%20%7C%2031533
-vless://ac100002-eb6f-11f0-8d36-0242cf03305a@194.87.133.111:443?type=tcp&security=reality&sni=eh.vk.com&fp=random&flow=xtls-rprx-vision&pbk=BcwI4K4lJ70ypESvST9HkyMts9PFEtNYFWPvfzcf0AU&sid=983a1875c8259550#CZ
-vless://b5441b0d-2147-4898-8a6a-9b2c87f58382@154.197.108.3:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#CZ
-vless://b5441b0d-2147-4898-8a6a-9b2c87f58382@154.197.108.3:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=Telegram-channel-WangCai2#CZ

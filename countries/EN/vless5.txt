@@ -1,2 +1,0 @@
-vless://9b1361ce-fb52-48be-9cd6-6db6d54b6da4@104.24.248.218:443?path=%2Fv2rayroad&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&insecure=0&host=hotchoclate.graphapp.ir&fp=chrome&type=ws&allowInsecure=0&sni=hotchoclate.graphapp.ir#EN%40v2rayroad
-vless://9b1361ce-fb52-48be-9cd6-6db6d54b6da4@162.159.194.86:443?path=%2Fv2rayroad&security=tls&alpn=h2%2Chttp%2F1.1&encryption=none&insecure=0&host=hotchoclate.graphapp.ir&fp=chrome&type=ws&allowInsecure=0&sni=hotchoclate.graphapp.ir#EN%40v2rayroad

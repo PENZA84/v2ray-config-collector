@@ -1,1 +1,0 @@
-vless://ec880e3c-2817-4b89-9887-ccc1fb7e3a52@104.21.7.27:443?encryption=none&security=tls&sni=steel.footballlovernews.com&type=ws&host=steel.footballlovernews.com&path=%2Fsteel#%28S2%29%20-%20EA%20205

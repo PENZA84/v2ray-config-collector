@@ -1,2 +1,0 @@
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@185.162.228.21:2052/?type=xhttp&encryption=none&flow=&host=cdn3.goofymoofy.com&path=/pabloping&mode=auto#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B2%20IM%20%7C%20VLESS%20%7C%2021878
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@185.162.229.21:2052?encryption=none&security=none&type=xhttp&host=cdn3.goofymoofy.com&path=%2Fpabloping&mode=auto#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B2%20IM%20%7C%20VLESS%20%7C%2021879

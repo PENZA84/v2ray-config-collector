@@ -1,1 +1,0 @@
-ss://1e2c0b2f-bc2c-595a-93e5-2579e980e530@77.91.100.41:443?security=tls&sni=zula.ir&allowInsecure=1&fp=chrome&type=ws&path=/vless&host=77.91.100.41&encryption=none#Rayan%20-%20SSM%20-%20WSDR%20-%20BG%20-%20I%20-%20%F0%9F%9F%A1%20t.me/Rayan_Config

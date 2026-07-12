@@ -1,5 +1,0 @@
-vless://7221e360-b025-45c6-87af-f42c256d778f@8.47.69.6:8443?type=ws&security=tls&sni=dl6.torian.ir&fp=firefox#SK
-vless://7e544a9d-7667-413b-bbb0-b3bb1aac6d77@8.47.69.0:443?type=ws&security=tls&path=/rsedgws&sni=shegeftihaaa.net#SK
-vless://7fc0fd86-79a9-48dd-87e8-669758e9ffa8@185.48.251.195:448?encryption=none&fp=&pbk=ncuqENP8uAV8w18kOQJlfWCC7dWjnUY1UY_5Iwtf21o&security=reality&sid=181c8972132cca60&sni=www.samsung.com&type=tcp#v2go%20%7C%20%F0%9F%87%B8%F0%9F%87%B0%20SK%20%7C%20VLESS%20%7C%2027583
-vless://7fc0fd86-79a9-48dd-87e8-669758e9ffa8@185.48.251.195:448?type=tcp&security=reality&sni=www.samsung.com&fp=chrome&pbk=ncuqENP8uAV8w18kOQJlfWCC7dWjnUY1UY_5Iwtf21o&sid=181c8972132cca60#SK
-vless://7fc0fd86-79a9-48dd-87e8-669758e9ffa8@185.48.251.195:448?type=tcp&security=reality&sni=www.samsung.com&pbk=ncuqENP8uAV8w18kOQJlfWCC7dWjnUY1UY_5Iwtf21o&sid=181c8972132cca60#SK

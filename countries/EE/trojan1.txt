@@ -1,7 +1,0 @@
-trojan://bpb-trojan@45.80.110.224:443/?type=tcp&security=tls&sni=bpb.my79801.com#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%AA%20EE%20%7C%20TROJAN%20%7C%203699
-trojan://bpb-trojan@45.80.110.224:443?allowInsecure=0&sni=bpb.my79801.com#%F0%9F%87%AA%F0%9F%87%AAEE%28AzadNet.t.me%29
-trojan://bpb-trojan@45.80.110.224:443?sni=bpb.my79801.com&peer=bpb.my79801.com&security=tls#EE
-trojan://pjqRC5wfEFhYTyiaKF@45.139.194.60:443?sni=ee-1.tr202604.com&allowInsecure=1&type=tcp#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%AA%20EE%20%7C%20TROJAN%20%7C%2015385
-trojan://q2jXRWncMA7pQren_VjQKhSQfoBWK_@91.184.250.116:2083?security=tls&sni=xo.e0f.cx&type=ws&host=xo.e0f.cx&path=/trojan-ws#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%AA%20EE%20%7C%20TROJAN%20%7C%2015377
-trojan://ttfang@45.80.108.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%AA%20EE%20%7C%20TROJAN%20%7C%2015496
-trojan://ttfang@45.80.110.216:2096?security=tls&sni=ttfang.fange.me&type=ws&path=Telegram&Host=ttfang.fange.me#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%AA%20EE%20%7C%20TROJAN%20%7C%2015497

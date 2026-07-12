@@ -1,3 +1,0 @@
-vless://9e76cfb8-b7a6-40f6-c2aa-9905aa19f31b@47.83.153.19:59750?type=tcp&security=tls&sni=www.amd.com#DR-Anv_🇭🇰_HK-53
-vless://a00d89f6-ab7e-4e30-a5e5-54c701d62c93@178.236.16.98:35728?type=tcp&security=tls&sni=yahoo.com#DR-Anv_🇰🇿_KZ-11
-vless://a73b8135-ec7a-4f70-bac6-81fbccad4515@188.114.97.3:443?type=ws&security=tls&sni=labeller.neonime83.workers.dev&path=%2F#DR-Anv_🇨🇦_CA-11855

@@ -1,1 +1,0 @@
-vless://42c63fdd-8f5f-42c5-8327-4fc7f80de4c2@188.114.98.0:2053?path=%2Flatest%3Fed%3D2560&security=tls&encryption=none&insecure=0&host=hz.badomzamini.uk&fp=chrome&type=ws&allowInsecure=0&sni=hz.badomzamini.uk#%F0%9F%87%AE%F0%9F%87%B9%20%40ZV

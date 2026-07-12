@@ -1,2 +1,0 @@
-vless://bacfc613-672e-5078-b489-3752f8ed0a60@indeed.com:2096?security=tls&sni=aboutus.CpIForpErsIa.uk&alpn=http/11.1&fp=randomized&type=ws&path=vless-ws/?ed%3D2048&host=aboutus.CpIForpErsIa.uk&encryption=none#RELAY%F0%9F%9A%A9%20%7C%20aboutus.CpIForpErsIa.uk-2096%20%7C%202.32ms
-vless://caa3af29-3b04-4099-9772-c64a1b7cca34@45.43.75.199:7443?security=reality&encryption=none&pbk=5QAO98ot2U7TcGs_f6EEaQjCzNOJLNHqPf6smYsdFVI&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=chat.deepseek.com&sid=be0ce047#%F0%9F%87%AC%F0%9F%87%A7%20UK-2004

@@ -1,1 +1,0 @@
-ss://91e120bc-159a-4390-b4e1-197b19602ea0@87.120.93.240:443/?type=tcp&encryption=none&flow=xtls-rprx-vision&security=tls&sni=sub.sbrf-cdn342.ru&fp=chrome#%3E%3E%40v2ray_configs_pool%3A%3AXX%20%283%29

@@ -1,3 +1,0 @@
-vmess://eyJhZGQiOiIxMDMuMTY2LjE4My4xNTEiLCJhaWQiOiIwIiwiYWxwbiI6IiIsImZwIjoiIiwiaG9zdCI6ImRsLmtndm4uZ2FyZW5hbm93LmNvbSIsImlkIjoiNzkzZDE5NmUtZGExYS00M2RlLTgzODEtNjBmMjg4MGI0Y2I0IiwibmV0Ijoid3MiLCJwYXRoIjoiIiwicG9ydCI6IjgwIiwicHMiOiJOZWtvIEhOIDLwn4e78J+Hs01heFNwZWVk8J+UpSIsInNjeSI6ImF1dG8iLCJzbmkiOiIiLCJ0bHMiOiIiLCJ0eXBlIjoiIiwidiI6IjIifQ==
-vless://8c890ebc-d441-4404-af2d-10faa5323b85@103.82.26.219:80?fragment=&security=none&encryption=none&host=m.tiktok.com&headerType=http&type=tcp#Sever+4+HN+%F0%9F%87%BB%F0%9F%87%B3%E2%9A%A1%E2%9A%A1%E2%9A%A1+Viettel
-vless://8c890ebc-d441-4404-af2d-10faa5323b85@103.82.26.219:80?fragment=&security=none&encryption=none&host=m.tiktok.com&headerType=http&type=tcp#Sever+4+HN++%F0%9F%87%BB%F0%9F%87%B3%E2%9A%A1%E2%9A%A1%E2%9A%A1Vina

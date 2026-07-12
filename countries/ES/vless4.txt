@@ -1,7 +1,0 @@
-vless://6d94e925-3661-4590-9fd6-f5c4aa903612@151.101.132.157:443?type=ws&host=aklisvpn.com&path=/#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%B8%20ES%20%7C%20VLESS%20%7C%2026437
-vless://6d94e925-3661-4590-9fd6-f5c4aa903612@151.101.132.157:443?type=ws&security=none#ES
-vless://6d94e925-3661-4590-9fd6-f5c4aa903612@151.101.132.157:443?type=ws&security=none&path=/#ES
-vless://780161d1-a345-45d4-96fb-c2c4b88bf151@185.238.228.33:443/?type=ws&encryption=none&host=dd.gevom47953.workers.dev&path=%2F&security=tls&sni=dd.gevom47953.workers.dev&fp=chrome#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%B8%20ES%20%7C%20VLESS%20%7C%205573
-vless://780161d1-a345-45d4-96fb-c2c4b88bf151@185.238.228.33:443?type=ws&security=tls&path=/&sni=dd.gevom47953.workers.dev&fp=chrome#ES
-vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@109.234.211.106:443?path=/Telegram-Channel--Masir-Sefid&security=tls&encryption=none&echfq=none&host=vps.masir-sefid-4.shop&fp=chrome&allowinsecure=0&type=ws&sni=vps.masir-sefid-4.shop#v2go%20%7C%20%F0%9F%87%AA%F0%9F%87%B8%20ES%20%7C%20VLESS%20%7C%2027646
-vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@109.234.211.106:443?type=ws&security=tls&path=/Telegram-Channel--Masir-Sefid&sni=vps.masir-sefid-4.shop&fp=chrome#ES

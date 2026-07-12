@@ -1,1 +1,0 @@
-vless://77c911b4-c1c8-4c07-9e73-4d3523046280@144.31.156.185:443?flow=xtls-rprx-vision&fp=firefox&pbk=Fhl5LbHHu05uMYcE2_uyFONbSkibFf4rpfI4RmamjG4&security=reality&sid=9dab89379839&sni=fl-1.ladaclubs.xyz&type=tcp#%F0%9F%87%AB%F0%9F%87%AE%20%D0%A4%D0%B8%D0%BD%D0%BB%D1%8F%D0%BD%D0%B4%D0%B8%D1%8F%2014%20%7C%20CS

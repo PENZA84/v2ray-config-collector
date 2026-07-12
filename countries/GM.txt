@@ -1,5 +1,0 @@
-ss://cabbfe13-038b-4dbb-9c45-5079c829abfa@104.26.14.137:8080/?type=ws&encryption=none&host=tr-cd.sublink-vip2.com&path=%2F#%F0%9F%87%A9%F0%9F%87%AA%20%7C%20%40WhiteDNS%20%7C%20DE18%7C18.6MB%2Fs%7CGPT%E2%81%BA%7CGM-DE%7CCL-DE%7CSP-DE
-vless://cabbfe13-038b-4dbb-9c45-5079c829abfa@104.26.14.137:8080/?type=ws&encryption=none&host=tr-cd.sublink-vip2.com&path=%2F#%F0%9F%87%A9%F0%9F%87%AA%20%7C%20%40WhiteDNS%20%7C%20DE18%7C18.6MB%2Fs%7CGPT%E2%81%BA%7CGM-DE%7CCL-DE%7CSP-DE
-vless://97ea73b6-2043-4238-903c-a1e3d4a43c96@104.27.66.214:2087?type=ws&security=tls&sni=amphetamine.adaspoloandco.com&path=%2Fdownload.php#🇫🇮_|_@WhiteDNS_|_FI2|2.6MB/s|DNSOK|GPT⁺|GM-FI|CL-FI
-vless://6bee9ea2-62f6-4b1d-8d7d-041bdd4d3e12@speedtest.net:80?path=%2Fadmin&security=none&encryption=none&host=Gn85.io&type=ws#GM%F0%9F%87%A9%F0%9F%87%AA
-vless://73796e63-0000-4000-8000-000000000000@104.21.12.21:443?type=ws&security=tls&sni=nahan-core.fatitelegram.workers.dev&path=%2Fsync#🇮🇹_|_@WhiteDNS_|_IT2|16.2MB/s|DNSOK|GPT⁺|GM-IT|SP-IT

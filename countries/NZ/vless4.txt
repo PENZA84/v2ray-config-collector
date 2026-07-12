@@ -1,2 +1,0 @@
-vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@114.129.43.151:2087?path=/Telegram-Channel---Masir-Sefid&security=tls&encryption=none&echfq=none&host=vps.masir-sefid-4.shop&fp=chrome&allowinsecure=0&type=ws&sni=vps.masir-sefid-4.shop#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20VLESS%20%7C%2027647
-vless://82ef9d5e-eba6-4ce6-9dea-d296d0ff495d@114.129.43.151:2087?type=ws&security=tls&path=/Telegram-Channel---Masir-Sefid&sni=vps.masir-sefid-4.shop&fp=chrome#NZ

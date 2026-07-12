@@ -1,1 +1,0 @@
-vless://8b371d73-9001-47a3-bdd5-df3eb8d5c378@190.93.245.58:2053?type=grpc&encryption=none&security=tls&path=%2f&serviceName=VALdGZ9k#%F0%9F%87%A8%F0%9F%87%B7%E2%8C%82CR%E2%8C%82%E1%8F%9E%E1%9D%AA%E1%91%8E%E1%91%8C%E1%91%AD%F0%96%A1%BA%D9%84%D9%88%D9%86%D8%A7%D9%BE%E2%8C%8225

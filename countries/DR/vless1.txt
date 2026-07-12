@@ -1,2 +1,0 @@
-vless://25f86cb1-2140-4085-abcb-c3a0ea7a4be0@152.228.162.19:80?type=ws&path=%2Fvless%2F#DR-Anv_🇫🇷_FR-513
-vless://2a9ed01e-5455-44b4-a66a-76ee8165f0ac@77.73.232.61:19747?type=tcp&security=tls&sni=yahoo.com#DR-Anv_🇰🇿_KZ-27

@@ -1,8 +1,0 @@
-vless://40c708ca-42e4-4224-a12d-1dbd7ef1e0b7@185.133.35.77:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#BR
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@185.133.35.21:2052?encryption=none&security=none&type=xhttp&host=cdn3.goofymoofy.com&path=%2Fpabloping&mode=auto#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%B7%20BR%20%7C%20VLESS%20%7C%2021873
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@185.133.35.21:2052?type=xhttp&security=none&path=/pabloping#BR
-vless://46df0d48-8dea-49ab-974e-2256e4c2b1b8@185.133.35.118:80?type=ws&security=none&path=/-LiV2ry@LIGHTNING6-TEL--@LIGHTNING6-TEL--@LIGHTNING6-TEL--@LIGHTNING6-JOIN-@LIGHTNING6-TEL--@LIGHTNING6-JOIN-@LIGHTNING6-TEL-@LIGHTNING6-TEL--@LIGHTNING6-JOIN-@LIGHTNING6-TEL--@LIGHTNING6?ed=2048#BR
-vless://48198295-b7ba-4b5c-8d85-085d55a6c869@185.133.35.115:443?security=tls&sni=ap.ylks.xyz&type=ws&host=ap.ylks.xyz&path=%2Fblue#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%B7%20BR%20%7C%20VLESS%20%7C%2022502
-vless://48198295-b7ba-4b5c-8d85-085d55a6c869@185.133.35.115:443?type=ws&security=tls&path=/blue&sni=ap.ylks.xyz#BR
-vless://48198295-b7ba-4b5c-8d85-085d55a6c869@185.133.35.205:443?type=ws&security=tls&path=/?proxyip=proxyip.oracle.fxxk.dedyn.io&sni=xz.ylks.xyz#BR
-vless://4b184bbb-c4d6-42ae-b447-aa85d8294967@191.44.99.185:443?type=ws&security=tls&path=/?ed=2560&sni=qeztrg7u.akscasx.workers.dev&fp=chrome#BR

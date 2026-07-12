@@ -1,8 +1,0 @@
-trojan://8r%3C%5B9%27l6hAO%238ZQi@146.103.106.115:2053?allowInsecure=0&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%A7%F0%9F%87%AABE%28AzadNet.t.me%29%20%281%29
-trojan://8r%3C%5B9%27l6hAO%238ZQi@146.103.106.115:8443?allowInsecure=0&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%A7%F0%9F%87%AABE%28AzadNet.t.me%29%20%283%29
-trojan://8r%3C%5B9%27l6hAO%238ZQi@59.0.95.106:32773?security=tls&sni=Koma-YT.PAGeS.Dev&insecure=1&allowInsecure=1&type=ws&host=Koma-YT.PAGeS.Dev&path=%2FtrTelegram%F0%9F%87%A8%F0%9F%87%B3%20%40WangCai2#%E9%9F%A9%E5%9B%BD-YouTube%40%E5%B0%8F%E9%9D%92%E7%A7%91%E5%AD%A6%E7%BD%91E4%25BE%259B%E8%B4%A7%E4%BB%B7%E6%A0%BC%E5%92%8C
-trojan://JaFKnqNcvnBT63t3rquidGsln@94.126.225.96:443/?type=tcp&security=tls&sni=hl-freedom-1.undef.network#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2013359
-trojan://MiTiVPN@151.101.10.10:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2013471
-trojan://MiTiVPN@151.101.8.8:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2013571
-trojan://MiTiVPN@151.101.9.242:443/?type=ws&host=www.f6r.ir&path=/?ed=2560&Telegram#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2013581
-trojan://MiTiVPN@151.101.9.9:80?ed=2560&eh=Sec-WebSocket-Protocol&host=cdn2-mitivpn.global.ssl.fastly.net&path=/?ed=2560&https://t.me/WangCai2&security=none&type=ws#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AA%20BE%20%7C%20TROJAN%20%7C%2013593

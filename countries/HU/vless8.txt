@@ -1,2 +1,0 @@
-vless://ed6f01ea-bba8-41f9-b2db-bf8f6e210307@217.13.111.42:443?type=tcp&security=reality&sni=max.ru&fp=chrome&pbk=drY21DHNOr6ezJLA2B10mzTExeJ9-gVBfTBNLwVBtWI#HU
-vless://ed6f01ea-bba8-41f9-b2db-bf8f6e210307@217.13.111.42:443?type=tcp&security=reality&sni=max.ru&fp=chrome&pbk=drY21DHNOr6ezJLA2B10mzTExeJ9-gVBfTBNLwVBtWI#v2go%20%7C%20%F0%9F%87%AD%F0%9F%87%BA%20HU%20%7C%20VLESS%20%7C%2035089

@@ -1,3 +1,0 @@
-trojan://a4408756-1d34-4df0-a6c9-e63226e0ab93@203.159.92.232:443/?type=tcp&security=tls&sni=data.amazon-azure.com&allowInsecure=1#v2go%20%7C%20%F0%9F%87%B9%F0%9F%87%AD%20TH%20%7C%20TROJAN%20%7C%2014319
-trojan://a4408756-1d34-4df0-a6c9-e63226e0ab93@203.159.92.232:443?allowInsecure=1&sni=data.amazon-azure.com#%F0%9F%87%B9%F0%9F%87%ADTH%28AzadNet.t.me%29%20%281%29
-trojan://a4408756-1d34-4df0-a6c9-e63226e0ab93@203.159.92.232:443?sni=data.amazon-azure.com&peer=data.amazon-azure.com&security=tls#TH

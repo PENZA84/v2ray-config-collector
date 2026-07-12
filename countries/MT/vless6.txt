@@ -1,2 +1,0 @@
-vless://b5441b0d-2147-4898-8a6a-9b2c87f58382@193.227.99.3:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#MT
-vless://b5441b0d-2147-4898-8a6a-9b2c87f58382@193.227.99.3:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=Telegram-channel-WangCai2#MT

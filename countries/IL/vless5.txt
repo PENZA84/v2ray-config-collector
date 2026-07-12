@@ -1,1 +1,0 @@
-vless://8624ba0f-d03e-48de-9df6-b7fcff482ea2@185.21.8.105:443?type=ws&security=tls&path=/?ed=2560&sni=x1htl81r.njcdoaw.workers.dev&fp=chrome#IL

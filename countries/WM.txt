@@ -1,1 +1,0 @@
-trojan://bpb-trojan@russia.com:443?security=tls&sni=wm.26.cloudns.ch&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=wm.26.cloudns.ch&path=%2Ftr%3Fed%3D2560#wm.26.cloudns.ch

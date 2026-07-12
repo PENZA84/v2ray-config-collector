@@ -1,1 +1,0 @@
-trojan://MiTiVPN@104.16.72.41:443?path=/MiTiVPN=Se&security=tls&alpn=http/1.1&insecure=0&host=sw.App-Cloud.ir&fp=chrome&type=ws&allowInsecure=0&sni=sw.App-Cloud.ir#1375.%20TROJAN%20%7C%20SNI%3A%20sw.App-Cloud.ir%20%7C%20TG%3A%20%40wlrustg

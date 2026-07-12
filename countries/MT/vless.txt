@@ -1,6 +1,0 @@
-vless://0132166f-e702-48ed-a9e7-b07af768faf8@193.227.99.251:8880/?type=ws&encryption=none&host=cf.d3z.net&path=%2FTelegram%D9%8B%DA%BA%E2%80%A1%C2%A8%D9%8B%DA%BA%E2%80%A1%C2%B3#v2go%20%7C%20%F0%9F%87%B2%F0%9F%87%B9%20MT%20%7C%20VLESS%20%7C%203865
-vless://0132166f-e702-48ed-a9e7-b07af768faf8@193.227.99.251:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#MT
-vless://0132166f-e702-48ed-a9e7-b07af768faf8@193.227.99.251:8880?type=ws&security=none&path=/Telegramًں‡¨ًں‡³#MT
-vless://0132166f-e702-48ed-a9e7-b07af768faf8@193.227.99.251:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=Telegram-channel-WangCai2#MT
-vless://1a25f8ad-cad2-4e93-b5bf-34e42bcac02a@193.227.99.148:2096?path=%2F%3Fed%3D2560%26Telegram%F0%9F%87%A8%F0%9F%87%B3%2B%40WangCai2&security=tls&encryption=none&host=sni.111000.v6.rocks&type=ws&sni=sni.111000.v6.rocks#v2go%20%7C%20%F0%9F%87%B2%F0%9F%87%B9%20MT%20%7C%20VLESS%20%7C%2017915
-vless://1a25f8ad-cad2-4e93-b5bf-34e42bcac02a@193.227.99.148:2096?type=ws&security=tls&path=/?ed=2560&Telegram🇨🇳+@WangCai2&sni=sni.111000.v6.rocks#MT

@@ -1,2 +1,0 @@
-vless://eef46bd9-d045-480d-8496-2297ac82838c@111.88.124.98:444?security=reality&encryption=none&pbk=jUTLA3HfU7IVwbRq2ijrXHUB48l-La2jCRBEnblkmGU&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=m.vk.ru&sid=81ee89a0958495fd#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20VLESS%20%7C%2035312
-vless://eef46bd9-d045-480d-8496-2297ac82838c@111.88.124.98:444?type=tcp&security=reality&sni=m.vk.ru&fp=chrome&flow=xtls-rprx-vision&pbk=jUTLA3HfU7IVwbRq2ijrXHUB48l-La2jCRBEnblkmGU&sid=81ee89a0958495fd#PK

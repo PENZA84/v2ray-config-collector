@@ -1,3 +1,0 @@
-trojan://8r%3C%5B9%27l6hAO%238ZQi@212.119.43.74:2053?host=Koma-YT.PAGeS.Dev&path=/trTelegram%F0%9F%87%A8%F0%9F%87%B3+%40WangCai2&security=tls&sni=Koma-YT.PAGeS.Dev&type=ws#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B1%20IL%20%7C%20TROJAN%20%7C%2011989
-trojan://8r%3C%5B9%27l6hAO%238ZQi@5.178.96.130:2053?allowInsecure=0&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%AE%F0%9F%87%B1IL%28AzadNet.t.me%29%20%281%29
-trojan://8r%3C%5B9%27l6hAO%238ZQi@5.178.96.74:2053?allowInsecure=0&sni=Koma-YT.PAGeS.Dev#%F0%9F%87%AE%F0%9F%87%B1IL%28AzadNet.t.me%29

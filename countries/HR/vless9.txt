@@ -1,7 +1,0 @@
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.168:8880?type=ws&security=tls&path=telegram@wangcai2/?ed=2560&sni=kjgx.laoyoutiao.link#HR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.213:8880?type=ws&security=none&sni=jp.laoyoutiao.link#HR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.29:8880?type=ws&security=false&path=/TelegramU0001F1E8U0001F1F3&fp=chrome#HR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.29:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=hk.laoyoutiao.link#HR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.63:8880?encryption=none&security=none&sni=jp.laoyoutiao.link&type=ws&host=jp.laoyoutiao.link&path=%2FTelegram%F0%9F%87%A8%F0%9F%87%B3#v2go%20%7C%20%F0%9F%87%AD%F0%9F%87%B7%20HR%20%7C%20VLESS%20%7C%2036158
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.63:8880?type=ws&security=none&path=/Telegram&sni=jp.laoyoutiao.link#HR
-vless://fab7bf9c-ddb9-4563-8a04-fb01ce6c0fbf@213.182.199.63:8880?type=ws&security=none&path=/Telegram🇨🇳&sni=jp.laoyoutiao.link#HR

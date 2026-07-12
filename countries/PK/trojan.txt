@@ -1,9 +1,0 @@
-trojan://53784f81-7b1a-468e-8792-756a2d4e744e@38.54.79.138:443?allowInsecure=0&sni=data.amazon-azure.com#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20TROJAN%20%7C%209739
-trojan://53784f81-7b1a-468e-8792-756a2d4e744e@38.54.79.138:443?sni=data.amazon-azure.com&peer=data.amazon-azure.com&security=tls#PK
-trojan://S.ibYdZshHTF-ne.M%2B.Fznp_-hyFFnCSix@149.104.104.58:443?security=tls&amp;insecure=0&amp;headerType=none&amp;type=tcp&amp;allowInsecure=0#%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%B0%20PK-1
-trojan://S.ibYdZshHTF-ne.M%2B.Fznp_-hyFFnCSix@149.104.104.58:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0#%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%B0%20PK-1
-trojan://S.ibYdZshHTF-ne.M%2B.Fznp_-hyFFnCSix@149.104.104.58:443?security=tls&insecure=0&headerType=none&type=tcp&allowInsecure=0&sni=149.104.104.58#%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%B0%20PK-2
-trojan://S.ibYdZshHTF-ne.M+.Fznp_-hyFFnCSix@149.104.104.58:443/?type=tcp&security=tls&sni=149.104.104.58#%5BOpenRay%5D%20%F0%9F%87%B5%F0%9F%87%B0%20PK-2
-trojan://S.ibYdZshHTF-ne.M+.Fznp_-hyFFnCSix@149.104.104.58:443?allowInsecure=0#%F0%9F%87%B5%F0%9F%87%B0%5Bopenproxylist.com%5D%20trojan-PK
-trojan://S.ibYdZshHTF-ne.M+.Fznp_-hyFFnCSix@149.104.104.58:443?security=tls&headerType=none&type=tcp#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20TROJAN%20%7C%201419
-trojan://S.ibYdZshHTF-ne.M+.Fznp_-hyFFnCSix@149.104.104.58:443?security=tls&type=tcp&headerType=none&path=%2f#%f0%9f%87%b5%f0%9f%87%b0%20PK%202

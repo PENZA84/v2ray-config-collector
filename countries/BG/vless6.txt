@@ -1,6 +1,0 @@
-vless://9f3c4ab7-ea26-4d96-91a9-c85ff64ad9a0@147.78.140.13:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#BG
-vless://Parsashonam-267@146.75.0.204:80?type=xhttp&security=none&path=/---Parsashonam---Parsashonam---Parsashonam---Parsashonam---Parsashonam---Parsashonam---Parsashonam---Parsashonam---Parsashonam?ed=2048#BG
-vless://TMG_36c2e5e65eb@193.58.121.179:443?type=xhttp&security=reality&path=/DnhhsYB7PX&sni=amazon.com&fp=chrome&pbk=Hjll7YJH6LIwEPg3h5OB2jJ6yYIKuLlAIN2gbMJTuS8&sid=b9#BG
-vless://a37ff029-d240-40b4-8af4-7ae0e34b2567@94.156.232.72:2053?type=tcp&security=tls&sni=teamdocs.su&fp=chrome&flow=xtls-rprx-vision-udp443#BG
-vless://a3a72164-5769-4a49-b8c9-347a223feebf@94.156.154.130:26514?type=tcp&security=reality&sni=www.microsoft.com&fp=chrome&flow=xtls-rprx-vision&pbk=wea2jSrs5Q-bYs8TV7t23iCeBoC5LyPmV0qoOra1aRk&sid=d1f4c253a976#BG
-vless://b5441b0d-2147-4898-8a6a-9b2c87f58382@147.78.140.3:8880?type=ws&security=none&path=/TelegramU0001F1E8U0001F1F3&sni=Telegram-channel-WangCai2#BG

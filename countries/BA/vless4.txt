@@ -1,2 +1,0 @@
-vless://678ac895-92c2-4f27-a9d4-f1a89c5f5365@77.74.228.97:2087?security=tls&sni=mositr.freenods.sbs&type=ws&path=twitterfreecodes#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%A6%20BA%20%7C%20VLESS%20%7C%2025975
-vless://678ac895-92c2-4f27-a9d4-f1a89c5f5365@77.74.228.97:2087?type=ws&security=tls&path=twitterfreecodes&sni=mositr.freenods.sbs#BA

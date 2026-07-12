@@ -1,1 +1,0 @@
-vless://41c55d8d-44dd-4437-90ff-4c1eb869a67c@172.64.145.38:2087?path=/?ed=2560&security=tls&encryption=none&insecure=0&host=gamepc.sorza.ir&fp=chrome&type=ws&allowInsecure=0&sni=digikala.sorza.ir#Em

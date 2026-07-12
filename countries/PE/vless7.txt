@@ -1,2 +1,0 @@
-vless://d70f104e-03a3-45d1-bf30-29dc6f35447d@45.194.10.104:8443?type=tcp&security=reality&sni=storage.yandex.net&fp=chrome&flow=xtls-rprx-vision&pbk=L3X1eh1Jq_6PKJ6LlwjgiWq0XNaDOqCVKgIElJ5nkVA&sid=2cfb5a0ae8ab0cb0#PE
-vless://d70f104e-03a3-45d1-bf30-29dc6f35447d@45.194.10.20:8443?type=tcp&security=reality&sni=storage.yandex.net&fp=firefox&flow=xtls-rprx-vision&pbk=L3X1eh1Jq_6PKJ6LlwjgiWq0XNaDOqCVKgIElJ5nkVA&sid=2cfb5a0ae8ab0cb0#PE

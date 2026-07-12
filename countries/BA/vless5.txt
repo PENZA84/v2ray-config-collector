@@ -1,1 +1,0 @@
-vless://90bf198f-9810-40c8-cb6f-8d7908b576d3@77.74.228.205:8880?type=httpupgrade&security=none&path=/telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER,telegram-NUFiLTER#BA

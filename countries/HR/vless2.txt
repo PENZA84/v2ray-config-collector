@@ -1,3 +1,0 @@
-vless://40c708ca-42e4-4224-a12d-1dbd7ef1e0b7@213.182.199.77:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#HR
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@213.182.199.21:2052/?type=xhttp&encryption=none&flow=&host=cdn3.goofymoofy.com&path=%2Fpabloping&mode=auto#v2go%20%7C%20%F0%9F%87%AD%F0%9F%87%B7%20HR%20%7C%20VLESS%20%7C%2021907
-vless://42e0d02c-b75c-4b9d-bc15-773aa3cbe6bd@213.182.199.21:2052?type=xhttp&security=none&path=/pabloping#HR

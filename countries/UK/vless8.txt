@@ -1,3 +1,0 @@
-vless://e16e9768-240f-4ff2-8c29-36d220ed2aa4@104.16.117.116:443?security=tls&sni=msnghdfy4c1.iraniancpi.uk&alpn=http/1.1&fp=chrome&type=ws&path=/BLsNlVjvcIibUbDFdhZ&host=msnghdfy4c1.iraniancpi.uk&encryption=none#RELAY%F0%9F%9A%A9%20%7C%20msnghdfy4c1.iraniancpi.uk-443%20%7C%203.38ms
-vless://e16e9768-240f-4ff2-8c29-36d220ed2aa4@104.16.118.116:443?security=tls&sni=msnghdfy4c1.iraniancpi.uk&alpn=http/1.1&fp=chrome&type=ws&path=/BLsNlVjvcIibUbDFdhZ&host=msnghdfy4c1.iraniancpi.uk&encryption=none#RELAY%F0%9F%9A%A9%20%7C%20msnghdfy4c1.iraniancpi.uk-443%20%7C%203.68ms
-vless://f421e67c-64f3-45a1-d7b4-40cf42c844f6@88.150.230.52:443?&security=tls&fp=chrome&sni=us2.wxgqlfx.icu&type=ws&headerType=&host=us2.wxgqlfx.icu&path=%2FTG%40wxgqlfx#%F0%9F%87%AC%F0%9F%87%A7%20UK-3843

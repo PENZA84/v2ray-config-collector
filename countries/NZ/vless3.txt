@@ -1,5 +1,0 @@
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.238:2096?Telegram=@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad,@GozargahAzad&path=/?Telegram@WangCai2=&security=tls&encryption=none&insecure=1&host=sni.jpmj.dev&type=ws&allowInsecure=1&sni=sni.jpmj.dev#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20VLESS%20%7C%2024454
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.238:2096?type=ws&security=tls&path=/?Telegram🇨🇳@WangCai2=&sni=sni.jpmj.dev#NZ
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.30:8880/?type=ws&encryption=none&flow=&host=vms.lifetime04.workers.dev&path=%2F#%5BOpenRay%5D%20%F0%9F%87%B3%F0%9F%87%BF%20NZ-1
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.30:8880?encryption=none&type=ws&host=vms.lifetime04.workers.dev&path=/&packetEncoding=xudp#v2go%20%7C%20%F0%9F%87%B3%F0%9F%87%BF%20NZ%20%7C%20VLESS%20%7C%2024453
-vless://6202b230-417c-4d8e-b624-0f71afa9c75d@114.129.43.30:8880?type=ws&security=none&path=/#NZ

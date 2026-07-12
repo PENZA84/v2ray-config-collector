@@ -1,1 +1,0 @@
-vless://ef48d9a3-add0-40a1-8367-ea6a88dc2a92@8.35.211.176:2087?type=ws&security=tls&path=/&sni=node-6796348943-048136.amingtav1341.workers.dev&fp=chrome#MY

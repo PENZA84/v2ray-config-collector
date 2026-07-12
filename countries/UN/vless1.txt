@@ -1,1 +1,0 @@
-vless://25efc727-e853-49ba-9609-3c20009d0e7a@104.18.13.229:2052?encryption=none&security=none&type=ws&host=winbiss-0tpka6-v1.winbiss.workers.dev&path=%2F%3Fed%3D2560#%F0%9F%8C%90%7CUN%7C%40mobilesignal

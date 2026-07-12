@@ -1,3 +1,0 @@
-vless://fccff43c-b628-416f-8926-2fff147980dd@94.228.115.193:443?type=tcp&security=reality&sni=sun9-38.userapi.com&fp=firefox&flow=xtls-rprx-vision&pbk=r6lN34m1nN-xQZ458j5NPD5xJ3_QBF2bGzY4KJEo4ic&sid=abbcd128#TCP,%20VK%20%5BV.O.I.D%5D
-vless://ff6e4b4a-ac5c-442b-bfba-4fae5819ca39@178.250.243.15:443?flow=xtls-rprx-vision&encryption=none&type=tcp&security=reality&fp=qq&sni=m.vk.com&pbk=oqRus6Z_Q1jqJaTEPu7ENbRL0-XKOw54K0jwCCGLtEk&sid=a9c4f17e3b62d8#TCP,%20VK%20%5BV.O.I.D%5D
-vless://ffe5e6a2-2c19-4fc1-8e7f-2d0a5d787066@155.212.172.34:443?type=tcp&security=reality&sni=vkvideo.ru&fp=random&flow=xtls-rprx-vision&pbk=jyfiBUYiL1e88ru9_K3hrieKZVwiI6CkU5mhnH36qm8&sid=afee1a48fd42a87b#TCP%2C%20VK%20%D0%92%D0%B8%D0%B4%D0%B5%D0%BE%20%5BV.O.I.D%5D

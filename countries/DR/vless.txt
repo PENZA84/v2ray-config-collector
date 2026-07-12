@@ -1,7 +1,0 @@
-vless://12d75b7d-8fdf-4785-8d62-d836854e7e63@104.18.13.229:2052?type=ws&path=%2F%3Fed%3D2560#DR-Anv_🇨🇦_CA-11717
-vless://14c80e0e-f7ce-4991-94fc-99a1db4a9b1e@159.89.87.21:28190?type=tcp&security=tls&sni=aws.amazon.com#DR-Anv_🇺🇸_US-11414
-vless://14e1775b-d92c-455b-8db3-e6c6d61909e0@104.21.80.5:80?type=ws#DR-Anv_🇨🇦_CA-12439
-vless://14e1775b-d92c-455b-8db3-e6c6d61909e0@172.67.172.86:80?type=ws#DR-Anv_🇨🇦_CA-12438
-vless://17ebee4e-97ea-4cad-8737-cc228478ca9d@104.16.250.22:443?type=ws&security=tls&sni=lively-brook-c471.nedena3319.workers.dev&path=%2F%3Fed%3D2048#DR-Anv_🇨🇦_CA-11856
-vless://17ebee4e-97ea-4cad-8737-cc228478ca9d@104.18.125.5:80?type=ws&path=%2F%3Fed%3D2048#DR-Anv_🇨🇦_CA-11720
-vless://17ebee4e-97ea-4cad-8737-cc228478ca9d@104.18.185.26:443?type=ws&security=tls&sni=lively-brook-c471.nedena3319.workers.dev&path=%2F%3Fed%3D2048#DR-Anv_🇨🇦_CA-11854

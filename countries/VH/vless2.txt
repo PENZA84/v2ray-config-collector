@@ -1,1 +1,0 @@
-vless://3d7c04ea-0d63-4847-b916-1103cc6a488f@45.130.125.192:8443?mode=auto&path=%2F%3Fed%3D80&security=tls&alpn=h2&encryption=none&insecure=1&fp=chrome&type=http&allowInsecure=1&sni=vh.mojaz-persian-music.ir#2184.%20VLESS%20%7C%20SNI%3A%20vh.mojaz-persian-music.ir%20%7C%20TG%3A%20%40wlrustg

@@ -1,8 +1,0 @@
-vless://c4d69096-4026-4da5-9485-20a3da91cb14@186.246.4.81:443?type=grpc&security=reality&sni=www.aviasales.com&fp=chrome&pbk=d24ax4dGUXqJMY0a4_2W_Y5SbEH2XrrQ3_AcxGa4QFw&sid=c42e8eee#BR
-vless://cb4ef160-3e4e-4835-9799-121b474bae06@152.236.4.12:8443?type=tcp&security=reality&sni=pixelforge.pics&fp=chrome&flow=xtls-rprx-vision&pbk=cynncQk7kKzEQaExg-FN7pMqFaZPSXEi_Ggy7AXXmVg&sid=2356d1ae4b#BR
-vless://cc3a15eb-0a63-486c-8e12-c7be717ebcd4@132.226.163.224:2053?security=tls&sni=bPB005.PAGeS.Dev&type=ws&host=bPB005.PAGeS.Dev&path=%2Ftsk179ptmakaggvh%2Fmtuyljy3ljiznc40oq#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%B7%20BR%20%7C%20VLESS%20%7C%2033325
-vless://cc3a15eb-0a63-486c-8e12-c7be717ebcd4@132.226.163.224:2053?type=ws&security=tls&path=/tsk179ptmakaggvh/mtuyljy3ljiznc40oq&sni=bPB005.PAGeS.Dev#BR
-vless://cfe007e3-f264-4403-b834-70d82e26cade@191.44.112.131:8443?type=tcp&security=reality&sni=www.icloud.com&fp=chrome&flow=xtls-rprx-vision&pbk=CO1cX5I7eLh6PuGuQ--wx-SRgc5pEiBgBbZLiZXKyXk#BR
-vless://d7f943df-d885-4589-93e6-da8b1b2bbde2@188.114.98.42:2053?encryption=none&security=tls&type=ws&sni=hi.univermap.site&host=hi.univermap.site&path=%2f%3fed%3d2560#%F0%9D%90%80%F0%9D%90%B3%F0%9D%90%9A%F0%9D%90%9D%F0%9D%90%8D%F0%9D%90%9E%F0%9D%90%AD%E2%9E%AA%F0%9F%87%A7%F0%9F%87%B7%E2%9E%AABR
-vless://da7d81bc-a3f4-4865-a273-d0efacebc65c@154.91.157.144:8443?flow=xtls-rprx-vision&fp=firefox&pbk=_0HnraldEtXmJMu7t3nEm8VmQXkMWF7dX1Dmz5KceSw&security=reality&sid=57f5917841a2178f&sni=rbc.ru&type=tcp#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%B7%20BR%20%7C%20VLESS%20%7C%2034261
-vless://da7d81bc-a3f4-4865-a273-d0efacebc65c@154.91.157.144:8443?type=tcp&security=reality&sni=rbc.ru&fp=firefox&flow=xtls-rprx-vision&pbk=_0HnraldEtXmJMu7t3nEm8VmQXkMWF7dX1Dmz5KceSw&sid=57f5917841a2178f#BR

@@ -1,1 +1,0 @@
-vless://f06cfdae-269e-44db-9196-4148d7af6812@140.248.69.255:443?encryption=none&type=xhttp&security=tls&sni=default.ssl.fastly.net&alpn=h2,http/1.1&fp=chrome&path=/&host=Freespeed.global.ssl.fastly.net#v2go%20%7C%20%F0%9F%87%A9%F0%9F%87%B0%20DK%20%7C%20VLESS%20%7C%2035526

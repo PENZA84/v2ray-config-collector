@@ -1,1 +1,0 @@
-vless://f798a2c4-c51b-409d-b349-ca8455b36796@188.114.97.4:8443?type=ws&security=tls&sni=chopin.adaspoloandco.com&path=%2Fdownload.php#🇫🇷_|_@WhiteDNS_|_FR4|2.8MB/s|DNSOK|GPT⁺|CL-PL

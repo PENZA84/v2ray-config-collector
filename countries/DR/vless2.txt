@@ -1,5 +1,0 @@
-vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.197:23576?type=tcp&security=tls&sni=fuck.rkn#DR-Anv_🇺🇸_US-9871
-vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.216:23576?type=tcp&security=tls&sni=fuck.rkn#DR-Anv_🇺🇸_US-11399
-vless://48ff2b70-e180-582f-8866-d9a2edeed5f5@15.204.97.219:23576?type=tcp&security=tls&sni=fuck.rkn#DR-Anv_🇺🇸_US-11398
-vless://49d598ee-4dfc-4001-95ca-99a5b6002e3c@tiny-leaf-f59f.my-lla-s-a-njo-s-e.workers.dev:443?type=ws&security=tls&sni=tiny-leaf-f59f.my-lla-s-a-njo-s-e.workers.dev&path=ws#DR-Anv_Dynamic-11763
-vless://4b9063e0-3288-44e9-9aac-80fbfce323a0@83.222.23.81:38065?type=tcp&security=tls&sni=yahoo.com#DR-Anv_🇰🇿_KZ-9

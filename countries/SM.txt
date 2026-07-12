@@ -1,1 +1,0 @@
-trojan://bpb-trojan@5.180.182.128:443?security=tls&sni=yorsunx.xyz&type=ws&host=yorsunx.xyz&path=%2Ftr%3Fed%3D2560#05-09%20BPB%20yorsunx.xyz%20SM%20v4

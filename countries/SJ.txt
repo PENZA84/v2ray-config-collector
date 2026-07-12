@@ -1,1 +1,0 @@
-trojan://HHyBuQthOg@45.130.125.2:443?path=/db&security=tls&insecure=0&host=sj.farxmode.ir&fp=chrome&type=ws&allowInsecure=0&sni=sj.farxmode.ir#1343.%20TROJAN%20%7C%20SNI%3A%20sj.farxmode.ir%20%7C%20TG%3A%20%40wlrustg

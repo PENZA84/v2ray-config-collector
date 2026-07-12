@@ -1,2 +1,0 @@
-vless://8c890ebc-d441-4404-af2d-10faa5323b85@103.82.26.219:80?fragment=&security=none&encryption=none&host=m.tiktok.com&headerType=http&type=tcp#Sever+4+HN+%F0%9F%87%BB%F0%9F%87%B3%E2%9A%A1%E2%9A%A1%E2%9A%A1+Viettel
-vless://8c890ebc-d441-4404-af2d-10faa5323b85@103.82.26.219:80?fragment=&security=none&encryption=none&host=m.tiktok.com&headerType=http&type=tcp#Sever+4+HN++%F0%9F%87%BB%F0%9F%87%B3%E2%9A%A1%E2%9A%A1%E2%9A%A1Vina

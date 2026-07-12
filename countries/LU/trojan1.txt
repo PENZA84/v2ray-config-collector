@@ -1,7 +1,0 @@
-trojan://Z5+!cnPuRr!+X7f&@188.42.89.96:2096/?type=ws&host=little-darkness-6057.edwardferank0923.workers.dev&path=%2Ftrep7IDWJcI0KhhM0u%3Fed%3D2560&security=tls&sni=lITTle-darKness-6057.eDWARDFERaNK0923.WORKERS.dev&alpn=http%2F1.1&fp=randomized#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%207000
-trojan://blue2024@188.42.88.34:443/?type=tcp&security=tls&sni=ta.promote.icu#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%206216
-trojan://gIRrGnuuNm@188.42.88.144:2096?path=%2F&security=tls&host=aa.v2jey.fun&type=ws&sni=aa.v2jey.fun#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%2015101
-trojan://gIRrGnuuNm@188.42.88.144:2096?sni=aa.v2jey.fun&peer=aa.v2jey.fun&security=tls#LU
-trojan://gIRrGnuuNm@188.42.88.252:2096?path=%2F&security=tls&host=aa.v2jey.fun&type=ws&sni=aa.v2jey.fun#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%2015098
-trojan://hlb77pSeqwZWNqRZEJpDcFru@107.189.7.176:30308?type=tcp&security=tls&sni=107.189.7.176&alpn=h2,http/1.1&fp=chrome#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%2015254
-trojan://mitivpn@188.42.88.92:443?path=%2Fed%3Dmitivpn%2Findex.php&security=tls&alpn=http%2F1.1&insecure=0&host=gamingdll.ir&fp=chrome&type=ws&allowInsecure=0&sni=gamingdll.ir#v2go%20%7C%20%F0%9F%87%B1%F0%9F%87%BA%20LU%20%7C%20TROJAN%20%7C%2015334

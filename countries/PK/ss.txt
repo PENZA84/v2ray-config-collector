@@ -1,2 +1,0 @@
-ss://4fdec620-73bb-40a7-a8d5-2570a59f1832@45.197.134.49:8443?encryption=none&flow=xtls-rprx-vision&fp=&pbk=8qHRGcCezzSu4S-Cz9l19BNRLWm4MkaSwZV3dNrLEwc&security=reality&sid=d515d6cfdfe60b02&sni=storage.yandex.net&type=tcp#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20SS%20%7C%202938
-ss://7244a576-0680-ee46-acd8-55809ee12479@103.175.79.2:443?security=reality&encryption=none&pbk=4e-unF1RO2v--E7-X3aqxnCSPaK9QaTfJ7LawAr2bRI&headerType=none&fp=chrome&type=tcp&flow=xtls-rprx-vision&sni=speed.cloudflare.com#v2go%20%7C%20%F0%9F%87%B5%F0%9F%87%B0%20PK%20%7C%20SS%20%7C%208907

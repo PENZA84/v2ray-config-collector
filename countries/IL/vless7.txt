@@ -1,2 +1,0 @@
-vless://d9aff7cc-4e0f-4cd6-bb30-40f083974874@193.202.10.128:443?security=reality&type=grpc&mode=gun&serviceName=grpc&sni=flame.quietgarden.live&fp=random&sid=06d7e21ecb57367a&pbk=fzbtjP1MtR9JYN-pKDJQTWB9I-V_EPEgdteL76Ed5yA&encryption=none#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B1%20IL%20%7C%20VLESS%20%7C%2034178
-vless://d9aff7cc-4e0f-4cd6-bb30-40f083974874@193.202.10.128:443?type=grpc&security=reality&sni=flame.quietgarden.live&fp=random&pbk=fzbtjP1MtR9JYN-pKDJQTWB9I-V_EPEgdteL76Ed5yA&sid=06d7e21ecb57367a#IL

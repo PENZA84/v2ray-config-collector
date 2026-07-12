@@ -1,6 +1,0 @@
-vless://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?flow=xtls-rprx-vision&fp=firefox&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&security=reality&sid=54ce&sni=deepl.com&type=tcp#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-169
-vless://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?flow=xtls-rprx-vision&fp=firefox&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&security=reality&sid=54ce&sni=deepl.com&type=tcp#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B3%20IN%20%7C%20VLESS%20%7C%20315
-vless://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?security=reality&encryption=none&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&headerType=none&fp=firefox&type=tcp&flow=xtls-rprx-vision&sni=deepl.com&sid=54ce#%5BOpenRay%5D%20%F0%9F%87%AE%F0%9F%87%B3%20IN-169
-vless://6ae44ad9-c2cb-4bdf-8e48-6c01fa646372@45.89.106.101:40443?type=tcp&security=reality&sni=deepl.com&fp=firefox&flow=xtls-rprx-vision&pbk=f6MOnGRTqdns7Lut75DSrnFZeiiZ4N04gnj5m-l7KnM&sid=54ce#IN
-vless://71ed6628-5870-4d19-8a52-f2a3ba3d4898@141.148.203.6:443/?type=ws&encryption=none&host=vbba.ylks2024.us.kg&security=tls&sni=vbba.ylks2024.us.kg#v2go%20%7C%20%F0%9F%87%AE%F0%9F%87%B3%20IN%20%7C%20VLESS%20%7C%206155
-vless://71ed6628-5870-4d19-8a52-f2a3ba3d4898@141.148.203.6:443?type=ws&security=tls&sni=vbba.ylks2024.us.kg#IN

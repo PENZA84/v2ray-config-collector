@@ -1,1 +1,0 @@
-vless://c5b129d7-f133-4b34-a9c6-68c9a8f70248@104.26.6.89:80?encryption=none&security=none&type=ws&host=EMotioNaL-peRMIsSiONf1bs65u5f4.EcOTOuRISs.Co.uK&path=%2F#Ping%3A%20129%20%7C%20Delay%3A%204234%20%7C%20%40config%20%7C%20%F0%9F%87%A8%F0%9F%87%A6%20Canada%20Montreal%20%7C%20ISP%3A%20OVH%20SAS%20%7C%20%E2%9C%85%20Geo-OK%20%7C%20%5BG%5D

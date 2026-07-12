@@ -1,4 +1,0 @@
-vless://85b62084-d81e-52cd-a016-944f261d34a0@45.144.165.11:80?mode=auto&path=/&security=none&encryption=none&host=cJ-sPeEdTeSt.EbB.mY&type=xhttp#v2go%20%7C%20%F0%9F%87%B9%F0%9F%87%AD%20TH%20%7C%20VLESS%20%7C%202372
-vless://85b62084-d81e-52cd-a016-944f261d34a0@45.144.165.11:80?type=xhttp&security=none&path=/#TH
-vless://8d5e7f2a-3c1b-4d9e-a6f8-2b5c0e7d4a19@43.164.1.152:666?allow_insecure=0&path=/proxy&security=tls&sni=43.164.1.152&type=ws#v2go%20%7C%20%F0%9F%87%B9%F0%9F%87%AD%20TH%20%7C%20VLESS%20%7C%2028745
-vless://8d5e7f2a-3c1b-4d9e-a6f8-2b5c0e7d4a19@43.164.1.152:666?type=ws&security=tls&path=/proxy&sni=43.164.1.152#TH

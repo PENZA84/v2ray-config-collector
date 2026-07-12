@@ -1,7 +1,0 @@
-vless://3f00f3a1-6d20-49a0-b4c6-8e2c0fea7c2f@94.26.83.213:44443?flow=xtls-rprx-vision&fp=firefox&pbk=vCxg912WUOsuLcCt8EdH28JSYJsgX0VeDtyXoosZEFw&security=reality&sid=fff217dd2e3a2432&sni=de.cluster07.vpnizator.online&type=tcp#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AC%20BG%20%7C%20VLESS%20%7C%2021707
-vless://3f00f3a1-6d20-49a0-b4c6-8e2c0fea7c2f@94.26.83.213:44443?type=tcp&security=reality&sni=de.cluster07.vpnizator.online&fp=firefox&flow=xtls-rprx-vision&pbk=vCxg912WUOsuLcCt8EdH28JSYJsgX0VeDtyXoosZEFw&sid=fff217dd2e3a2432#BG
-vless://3f00f3a1-6d20-49a0-b4c6-8e2c0fea7c2f@94.26.83.213:44444?fp=firefox&pbk=vCxg912WUOsuLcCt8EdH28JSYJsgX0VeDtyXoosZEFw&security=reality&sid=fff217dd2e3a2432&sni=de.cluster07.vpnizator.online&type=grpc#v2go%20%7C%20%F0%9F%87%A7%F0%9F%87%AC%20BG%20%7C%20VLESS%20%7C%2021703
-vless://401374e6-df77-41fb-f638-dad8184f175b@45.142.120.139:443?security=tls&sni=pqh36v4.hiddendom.shop&alpn=h2&type=grpc&encryption=none#%F0%9F%87%A7%F0%9F%87%ACBG%20%7C%20@V2ray_Collector
-vless://40c708ca-42e4-4224-a12d-1dbd7ef1e0b7@147.78.140.77:8880?type=ws&security=none&path=/Telegram&sni=Telegram-channel-WangCai2#BG
-vless://48ac84ef-bcfb-4e20-9f3f-34190894fcc1@146.75.1.8:443?type=xhttp&security=tls&path=/@vmessorg----@vmessorg-----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg----@vmessorg?ed=2480&sni=joinbede_vmessorg.ir&fp=chrome#BG
-vless://512b8741-0eb1-4bf5-abb8-25369c0aa33b@147.78.140.161:2082?type=httpupgrade&security=none&path=/?ed=2082#BG

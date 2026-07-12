@@ -1,2 +1,0 @@
-vless://aa1df27b-d639-560e-88ba-2ed382cf03b8@104.21.25.31:443?path=%2Fvless&security=tls&encryption=none&host=pt1.vless.site&type=ws&sni=pt1.vless.site#PT🇵🇹
-vless://aa1df27b-d639-560e-88ba-2ed382cf03b8@185.146.173.42:80?path=%2Fvless&security=none&encryption=none&host=Pt1.vless.site.&type=ws#PT🇵🇹

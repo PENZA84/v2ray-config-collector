@@ -1,9 +1,0 @@
-hysteria2://123456@192.3.85.237:443?security=tls&insecure=1&sni=bing.com#IR-@V2ray_Alpha-4
-hysteria2://a2678c97b8d79059@46.62.152.236:443#⚡_b2n.ir/v2ray-configs_|_693
-hysteria2://e169856c-7c19-4908-9bdf-448dc846163a@129.151.254.139:443?security=tls&insecure=1&sni=www.bing.com#IR-@V2ray_Alpha-1
-hysteria2://e169856c-7c19-4908-9bdf-448dc846163a@130.162.250.164:443?security=tls&insecure=1&sni=www.bing.com#IR-@V2ray_Alpha-3
-hysteria2://nRSmYP828VP1UwxlAnWEbmEtlLSH5SE7@147.45.154.150:443?security=tls&obfs=salamander&obfs-password=6u33lecx372cssb22nzgu5l5fpdhom4ivqwg4fqby133lzsv3q&insecure=0&sni=anymath.ir#IR-@V2ray_Alpha-05
-hysteria2://sysadmin.sysadmin@104.168.102.17:443?security=tls&insecure=1#Ir-@@V2ray_Alpha-20
-hysteria2://sysadmin.sysadmin@108.174.197.101:443?security=tls&insecure=1#Ir-@@V2ray_Alpha-19
-hysteria2://sysadmin.sysadmin@20.14.96.63:443?security=tls&insecure=1#IR-@V2ray_Alpha-03
-hysteria2://sysadmin.sysadmin@37.123.193.73:443?security=tls&insecure=1#IR-@V2ray_Alpha-04
