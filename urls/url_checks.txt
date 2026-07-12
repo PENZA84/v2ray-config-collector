@@ -1,0 +1,10 @@
+https://raw.githubusercontent.com/PENZA84/-redfree8-config/main/README.md
+https://raw.githubusercontent.com/PENZA84/-redfree8-config/main/README_CN.md
+https://raw.githubusercontent.com/PENZA84/-redfree8-config/main/README_FA.md
+https://raw.githubusercontent.com/PENZA84/-redfree8-config/main/README_RU.md
+https://raw.githubusercontent.com/PENZA84/5ubscrpt10n/main/README.md
+https://raw.githubusercontent.com/PENZA84/FARSI-telegram-configs-collector/main/readme.md
+https://raw.githubusercontent.com/PENZA84/SubCrawler/main/sub/pool/sublists
+https://raw.githubusercontent.com/PENZA84/vless/main/DNS%20over%20HTTPS/Azadi-DNS/README.md
+https://raw.githubusercontent.com/PENZA84/vless/main/DNS%20over%20HTTPS/README.md
+https://raw.githubusercontent.com/geek-spot/Free-Config/main/README.md
