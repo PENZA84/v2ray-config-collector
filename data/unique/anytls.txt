@@ -1,5 +1,5 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 61
+# Total links in this file: 60
 
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@172.245.246.44:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD1
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF2
@@ -16,12 +16,11 @@ anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443#🏳️‍🌈_地点_|是否加速_|_流量消耗倍数_4
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%9C%B0%E7%82%B9%20%7C%E6%98%AF%E5%90%A6%E5%8A%A0%E9%80%9F%20%7C%20%E6%B5%81%E9%87%8F%E6%B6%88%E8%80%97%E5%80%8D%E6%95%B0
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
-anytls://7468649e-cebd-4a76-8470-982e33062086@free.nl1.laodavip.com:443?sni=free.nl1.laodavip.com&insecure=0#%F0%9F%87%B3%F0%9F%87%B1%E8%8D%B7%E5%85%B0%20%7C%E4%B8%8D%E5%8A%A0%E9%80%9F%7C1%E5%80%8D
-anytls://7a2512b4-09ee-11f0-8d46-f23c9313b177@90b96b82-t9l0g0-tclkqs-deip.hkt.east.wctype.com:8300?security=tls&type=tcp&allowInsecure=1&sni=90b96b82-t9l0g0-tclkqs-deip.hkt.east.wctype.com&fp=chrome&udp=1&insecure=1#HK15%EF%BD%9C%E5%AE%B6%E5%AE%BD%EF%BD%9C%E9%9D%9E%E5%B8%B8%E5%AE%89%E5%85%A8
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#🏳️‍🌈_地点_|是否加速_|_流量消耗倍数_3
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%9C%B0%E7%82%B9%20%7C%E6%98%AF%E5%90%A6%E5%8A%A0%E9%80%9F%20%7C%20%E6%B5%81%E9%87%8F%E6%B6%88%E8%80%97%E5%80%8D%E6%95%B0
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
 anytls://a2d12dc9-c111-45ac-b803-87e48f3484d8@160.16.75.254:443?security=tls&type=tcp&allowInsecure=1&sni=gw.alicdn.com&fp=chrome&insecure=1&udp=1#JP9%EF%BD%9C%E6%9C%BA%E6%88%BF%EF%BD%9C%E4%BD%8E%E9%A3%8E%E9%99%A9
+anytls://ba7a37e3-033a-e1ab-06f6-9027aa4630f5@772470be-tcxds0-toa9ad-4w8.los.hyhuawei.com:443#🇺🇸_美国_|_USA_11-1
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106327
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20111896
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20120483
