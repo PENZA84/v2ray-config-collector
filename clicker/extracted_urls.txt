@@ -82,8 +82,8 @@ https://github.community
 https://github.githubassets.com
 https://github.githubassets.com/favicons/favicon
 https://maintainers.github.com
-https://opengraph.githubassets.com/32acb74b0555dec2c27ea2cf9052fc1aa0c57ec83661189d5eba0541bc51c439/PENZA84/IPextract
 https://opengraph.githubassets.com/8f86e46536a3fc22bd34d188e7a67715cb2bb93109620f5b2fc7ac33b028740b/PENZA84/Nyx
+https://opengraph.githubassets.com/d4507c2cad6f0dfeb31dacc23adde85ddfb7cf48f23cea19998e521ed66e4617/PENZA84/IPextract
 https://schema.org/abstract
 https://securitylab.github.com
 https://skills.github.com
