@@ -16,19 +16,31 @@ BLOCK_DOMAINS = [
     'opengraph.githubassets.com', 'user-images.githubusercontent.com', 'play.google.com',
     'github.community', 'githubassets.com', 'maintainers.github.com',
     'securitylab.github.com', 'skills.github.com', 'stars.github.com',
-    'support.github.com', 'windows.github.com', 'githubstatus.com', 'cdn.jsdelivr.net', '.LICENSE '
+    'support.github.com', 'windows.github.com', 'githubstatus.com', 'cdn.jsdelivr.net', '.LICENSE'
 ]
 
-# 🚫 ЧЕРНЫЙ СПИСОК ПУТЕЙ — папки, где нет протоколов и конфигов
+# 🚫 ЧЕРНЫЙ СПИСОК ПУТЕЙ
 BLOCK_KEYWORDS = [
-    '.github/workflows', 'releases', '/release',  '/__pycache__ ', '/download', '/changelog', '/issues', '/pulls',
-    '/tags/', '/marketplace', '/mcp', '/open-source/', '/orgs/', '/partners', '/pricing', '/resources', '/security', '/solutions',
-    '/team', '/topics', '/trending', '/trust-center', '/features', '/enterprise', '/premium-support', '/startups', '/copilot', '/codespaces', '/code-review', '.s3.amazonaws.com'
+    '.github/workflows', 'releases', '/release', '/__pycache__', '/download', '/changelog',
+    '/issues', '/pulls', '/tags/', '/marketplace', '/mcp', '/open-source/', '/orgs/', '/partners',
+    '/pricing', '/resources', '/security', '/solutions', '/team', '/topics', '/trending',
+    '/trust-center', '/features', '/enterprise', '/premium-support', '/startups', '/copilot',
+    '/codespaces', '/code-review', '.s3.amazonaws.com', '/requirements.txt', '.requirements',
+    '/subconverter', 'Docker', '.gitignore', '.editorconfig', '.env.example', '/build.gradle',
+    '/codeQuality.gradle', '/java/', '/config/detekt.yml', '/gradle.properties', '/gradle/wrapper/',
+    '/gradlew', '/litespeed/lite', '/localFilter', '/settings.gradle', 'node.md', '/Workflow.md',
+    '/.gitattributes', 'report', '/.python-version', '/.python', '/go.mod', '/.htaccess', '/.env',
+    '/main/requirements-lock', 'singbox', 'convert-proxies', 'convert', 'status', 'tpl', '/index',
+    'index', '/COPYING', 'COPYING'
 ]
 
+# 🚫 РАСШИРЕНИЯ ФАЙЛОВ
 SKIP_EXTENSIONS = [
     '.css', '.js', '.png', '.jpg', '.jpeg', '.gif', '.svg', '.ico', '.woff', '.woff2',
-    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api', '.images', '.py'
+    '.pdf', '.apk', '.exe', '.zip', '.rar', '.7z', '.dmg', '.git', '.api', '.images', '.py',
+    '.bat', '.sh', '.php', '.mmdb', '.tsx', '.ts', '.pyc', '.log', '.ps1', '.py.backup',
+    '.ini', '.toml', '.txt.bin', '.bin', '.sln', '.cs', '.conf', '.scss', '.mjs', '.rs',
+    '.go', '.sum', '.mod', '.jar', '.properties', '.html', '.yml', '.yaml', '.md'
 ]
 
 def parse_repo_and_path(url: str) -> str:
@@ -131,8 +143,8 @@ async def browse_and_click(page, target_url, final_urls, visited_folders, depth=
 
 async def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument('--input', type=str, default='clicker/profiles.txt')
-    parser.add_argument('--output', type=str, default='clicker/raw_links.txt')
+    parser.add_argument('--input', type=str, default='my_repos_list.txt')
+    parser.add_argument('--output', type=str, default='raw_links.txt')
     args = parser.parse_args()
 
     if not os.path.exists(args.input):
@@ -168,7 +180,6 @@ async def main():
 
         await browser.close()
 
-    os.makedirs(os.path.dirname(args.output), exist_ok=True)
     with open(args.output, 'w', encoding='utf-8') as f:
         f.write("\n".join(sorted(final_urls)) + "\n")
 
