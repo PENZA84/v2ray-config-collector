@@ -78,7 +78,7 @@ async def browse_and_click(page, target_url, final_urls, visited_folders, depth=
         return
 
     pretty_path = parse_repo_and_path(target_url)
-    print(f"   🕵️ [Глубина {depth}] Открываем: {pretty_path}", flush=True)
+    print(f"    🕵️ [Глубина {depth}] Открываем: {pretty_path}", flush=True)
 
     try:
         await page.goto(target_url, timeout=20000, wait_until="domcontentloaded")
@@ -139,7 +139,7 @@ async def browse_and_click(page, target_url, final_urls, visited_folders, depth=
                 final_urls.add(url)
 
     except Exception as e:
-        print(f"   ⚠️ Ошибка на {pretty_path}: {e}", flush=True)
+        print(f"    ⚠️ Ошибка на {pretty_path}: {e}", flush=True)
 
 async def main():
     parser = argparse.ArgumentParser()
