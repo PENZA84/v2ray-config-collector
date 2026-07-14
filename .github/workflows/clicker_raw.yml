@@ -27,7 +27,7 @@ jobs:
 
       - name: 🎯 Сборка и фильтрация сырых ссылок
         run: |
-          python clicker/clicker_raw.py --output clicker/raw_links.txt
+          python clicker/clicker_raw.py --input clicker/my_repos_list.txt --output clicker/raw_links.txt
 
       - name: 💾 Фиксация изменений и безопасный пуш
         run: |
