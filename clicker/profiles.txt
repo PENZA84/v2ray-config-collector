@@ -1,7 +1,10 @@
-https://github.com/PENZA84/pub/tree/main
-https://github.com/PENZA84/FNET00BOT
-https://github.com/PENZA84/v2ray-worker-sub
-https://github.com/PENZA84/FreeVPN/tree/main
-https://github.com/PENZA84/Nyx/tree/main
-https://github.com/PENZA84/PSG/tree/main
-https://github.com/PENZA84/IPextract/tree/main
+https://git.hubp.de/miladtahanian/V2RayScrapeByCountry
+https://github.com/AzadNetCH/Clash
+https://github.com/PENZA84/-redfree8-config
+https://github.com/PENZA84/.proxy
+https://github.com/PENZA84/5ubscrpt10n
+https://github.com/PENZA84/AUTORAY
+https://github.com/PENZA84/AetrisVPN
+https://github.com/PENZA84/AetrisVPN-black-list
+https://github.com/PENZA84/AetrisVPN-white-list-lite
+https://github.com/PENZA84/AirLinkVPN
