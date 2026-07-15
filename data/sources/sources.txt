@@ -80,7 +80,6 @@ https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/TOR-BRIDGES/TOR_BRID
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/TOR-BRIDGES/TOR_BRIDGES_TOP100.txt
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/TOR-BRIDGES/TOR_BRIDGES_VANILLA.txt
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/TOR-BRIDGES/TOR_BRIDGES_WEBTUNNEL.txt
-https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/Vless-Reality-White-Lists-Rus-Mobile-2.txt
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/Vless-Reality-White-Lists-Rus-Mobile.txt
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/WHITE-CIDR-RU-all.txt
 https://git.sr.ht/~igareck/vpn-configs-for-russia/blob/main/WHITE-CIDR-RU-checked.txt
@@ -99,7 +98,6 @@ https://gitea.com/igareck/vpn-configs-for-russia/raw/branch/main/WHITE-CIDR-RU-c
 https://gitea.com/igareck/vpn-configs-for-russia/raw/branch/main/WHITE-SNI-RU-all.txt
 https://github.com/4n0nymou3/multi-proxy-config-fetcher/raw/main/configs/proxy_configs.txt
 https://github.com/4n0nymou3/multi-proxy-config-fetcher/raw/refs/heads/main/configs/proxy_configs.txt
-https://github.com/ALIILAPRO/v2rayNG-Config/blob/main/server.txt
 https://github.com/ALIILAPRO/v2rayNG-Config/raw/refs/heads/main/server.txt
 https://github.com/Anonym0usWork1221/Free-Proxies/raw/refs/heads/main/proxy_files/http_proxies.txt
 https://github.com/Anonym0usWork1221/Free-Proxies/raw/refs/heads/main/proxy_files/https_proxies.txt
@@ -151,8 +149,6 @@ https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batch
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batches/v2ray/batch_012.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batches/v2ray/batch_013.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batches/v2ray/batch_014.txt
-https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batches/v2ray/batch_015.txt
-https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/batches/v2ray/batch_016.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/clash.yaml
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/ss.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/ss_clash.yaml
@@ -162,9 +158,7 @@ https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/proto
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vless_clash.yaml
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vmess.txt
 https://github.com/Delta-Kronecker/V2ray-Config/raw/refs/heads/main/config/protocols/vmess_clash.yaml
-https://github.com/DukeMehdi/FreeList-V2ray-Configs/blob/main/Configs/All-DukeMehdi-Configs.txt
 https://github.com/DukeMehdi/FreeList-V2ray-Configs/raw/refs/heads/main/Configs/All-DukeMehdi-Configs.txt
-https://github.com/Ennzo0/V2ray/blob/main/all.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/All_Configs_base64_Sub.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/Splitted-By-Protocol/ss.txt
 https://github.com/Epodonios/v2ray-configs/raw/main/Splitted-By-Protocol/ssr.txt
@@ -196,7 +190,6 @@ https://github.com/MhdiTaheri/V2rayCollector_Py/raw/refs/heads/main/sub/Mix/mix.
 https://github.com/Mohammadgb0078/IRV2ray/blob/main/vmess.txt
 https://github.com/Mr-Meshky/vify/raw/refs/heads/main/configs/vless.txt
 https://github.com/MuRongPIG/Proxy-Master/blob/main/socks4.txt
-https://github.com/MuRongPIG/Proxy-Master/blob/main/socks5.txt
 https://github.com/Mukhin7/MukhinVPN/raw/main/MukhinVPN.txt
 https://github.com/Orakul74/vpn/raw/main/diamond_glaz.txt
 https://github.com/RezaFKH/V2RaySubscription/blob/main/SubFile.txt
@@ -204,8 +197,6 @@ https://github.com/Shjpr9/Subs/raw/refs/heads/main/sub.txt
 https://github.com/SilentGhostCodes/TestWhiteListVpn/raw/main/config.txt
 https://github.com/SilentGhostCodes/WhiteListVpn/raw/main/Whitelist.txt
 https://github.com/Surfboardv2ray/Proxy-sorter/raw/refs/heads/main/submerge/converted.txt
-https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_css.rbxcdn.com.txt
-https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_css.rbxcdn.com_base64.txt
 https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_google.com.txt
 https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_google.com_base64.txt
 https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_speedtest.tinkoff.ru_base64.txt
@@ -213,11 +204,8 @@ https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_telegram.org.txt
 https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_vk.com_base64.txt
 https://github.com/Syavar/V2ray-Configs/blob/main/OK_TLS_whatsapp.com.txt
 https://github.com/adminaliang/v2ray/raw/refs/heads/main/v2ray
-https://github.com/barry-far/V2ray-Configs/blob/main/Sub10.txt
-https://github.com/barry-far/V2ray-Configs/blob/main/Sub12.txt
 https://github.com/barry-far/V2ray-Configs/blob/main/Sub13.txt
 https://github.com/barry-far/V2ray-Configs/blob/main/Sub14.txt
-https://github.com/barry-far/V2ray-Configs/blob/main/Sub15.txt
 https://github.com/barry-far/V2ray-Configs/blob/main/Sub16.txt
 https://github.com/barry-far/V2ray-Configs/blob/main/Sub19.txt
 https://github.com/barry-far/V2ray-Configs/blob/main/Sub20.txt
@@ -291,9 +279,7 @@ https://github.com/proxifly/free-proxy-list/blob/main/proxies/protocols/socks4/d
 https://github.com/proxifly/free-proxy-list/blob/main/proxies/protocols/socks5/data.txt
 https://github.com/qjlxg/aggregator/raw/refs/heads/main/data/v2ray.txt
 https://github.com/roosterkid/openproxylist/blob/main/SOCKS4_RAW.txt
-https://github.com/roosterkid/openproxylist/blob/main/SOCKS5_RAW.txt
 https://github.com/roosterkid/openproxylist/blob/main/V2RAY.txt
-https://github.com/roosterkid/openproxylist/blob/main/V2RAY_RAW.txt
 https://github.com/roriruri9370/Whitelist-bypass/raw/main/Whitelist
 https://github.com/sakha1370/OpenRay/raw/refs/heads/main/output/all_valid_proxies.txt
 https://github.com/sevcator/5ubscrpt10n/raw/refs/heads/main/working/countries/Romania.txt
@@ -309,7 +295,6 @@ https://github.com/terik21/HiddifySubs-VlessKeys/raw/refs/heads/main/7Sand
 https://github.com/terik21/HiddifySubs-VlessKeys/raw/refs/heads/main/RU_other
 https://github.com/terik21/HiddifySubs-VlessKeys/raw/refs/heads/main/WhiteKeys
 https://github.com/theGreatPeter/v2rayNodes/raw/main/nodes.txt
-https://github.com/v2ray-For-Myanmar/sub/blob/main/v2ray/sub.txt
 https://github.com/vxiaov/free_proxies/raw/refs/heads/main/clash/clash.provider.yaml
 https://github.com/vxiaov/free_proxies/raw/refs/heads/main/links.txt
 https://github.com/vxiaov/free_proxy_ss/raw/main/clash/clash.provider.yaml
@@ -572,7 +557,6 @@ https://node.clashnodes.com/uploads/2026/05/4-20260516.yaml
 https://node.clashnodes.com/uploads/2026/05/4-20260517.txt
 https://node.clashnodes.com/uploads/2026/05/4-20260518.txt
 https://node.clashnodes.com/uploads/2026/05/4-20260519.yaml
-https://node.nodefree.me/2026/05/20260512.txt
 https://nodesfree.github.io/v2raynode/subscribe/v2ray.txt
 https://nodesfree.github.io/v2raynode/v2ray.txt
 https://openproxylist.xyz/http.txt
@@ -725,7 +709,6 @@ https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/outp
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Belarus.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Belgium.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Belize.txt
-https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Brazil.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Bulgaria.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Canada.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/China.txt
@@ -737,7 +720,6 @@ https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/outp
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Finland.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/France.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Germany.txt
-https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Greece.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Hungary.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/India.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Indonesia.txt
@@ -750,7 +732,6 @@ https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/outp
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Latvia.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Lithuania.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Malaysia.txt
-https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Mexico.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Moldova.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Montenegro.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Netherlands.txt
@@ -764,7 +745,6 @@ https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/outp
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Singapore.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/SouthAfrica.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/SouthKorea.txt
-https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/SouthSudan.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Spain.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Sweden.txt
 https://raw.githubusercontent.com/10ium/ScrapeAndCategorize/refs/heads/main/output_configs/Switzerland.txt
@@ -1758,8 +1738,6 @@ https://raw.githubusercontent.com/Jia-Pingwa/mianfeifq-share/main/share.txt
 https://raw.githubusercontent.com/JieErJingFu/FreeNodesV2RayorTrojan_20210113-/main/EncryptedFreeNodes.txt
 https://raw.githubusercontent.com/JoniRousu/einmalzahlungzweihundert/main/bl-zip.txt
 https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/Jsnzkpg/Jsnzkpg
-https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/Jsnzkpg/Jsnzkpg1
-https://raw.githubusercontent.com/Jsnzkpg/Jsnzkpg/Jsnzkpg/Jsnzkpg2
 https://raw.githubusercontent.com/Junely/clash/main/clash_near.txt
 https://raw.githubusercontent.com/Junely/clash/main/template3.yaml
 https://raw.githubusercontent.com/JyanJohn/PisoWifi-BruteForce/main/user.txt
@@ -17871,7 +17849,6 @@ https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/converted/all_
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AE.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AL.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AM.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AR.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AT.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/AU.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/BE.txt
@@ -17881,14 +17858,11 @@ https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/BY.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/BZ.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CA.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CH.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CL.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CN.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CW.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CY.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/CZ.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/DE.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/DK.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/EC.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/EE.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/ES.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/FI.txt
@@ -17899,10 +17873,8 @@ https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/HK.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/HU.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/ID.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IE.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IL.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IN.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IR.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IS.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/IT.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/JP.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/KR.txt
@@ -17912,14 +17884,10 @@ https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/LU.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/LV.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/MD.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/MO.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/MX.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/MY.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/NL.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/NO.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/NZ.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/OM.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/PA.txt
-https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/PE.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/PH.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/PK.txt
 https://raw.githubusercontent.com/PENZA84/OpenRay-VPN/main/output/country/PL.txt
@@ -18203,8 +18171,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/msv2ra
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/msv2raynp/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/mt_proxy/base64/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/mt_proxy/normal/list
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/mtproxy22_v2ray/base64/list
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/mtproxy22_v2ray/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/nepo_v2ray/base64/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/nepo_v2ray/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/netfreedom0/base64/list
@@ -18223,8 +18189,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/outlin
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/outline_ir/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/outlinereleasedkey/base64/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/outlinereleasedkey/normal/list
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/parsashonam/base64/list
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/parsashonam/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/privatevpns/base64/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/privatevpns/normal/list
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/channels/pro_chaneel/base64/list
@@ -18266,8 +18230,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/trojan_ip
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/vmess
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/vmess_domain
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/vmess_ipv4
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/xhttp
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/clash/xhttp_ipv4
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/AE
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/AL
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/AT
@@ -18279,7 +18241,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/norma
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/CY
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/CZ
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/DE
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/ES
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/FI
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/FR
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/GB
@@ -18291,7 +18252,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/norma
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/LT
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/LV
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/NL
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/PL
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/RU
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/SC
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/locations/normal/SE
@@ -18373,8 +18333,6 @@ https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/troja
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/vmess
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/vmess_domain
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/vmess_ipv4
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/xhttp
-https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/surfboard/xhttp_ipv4
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/xray/base64/hy2
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/xray/base64/hy2_domain
 https://raw.githubusercontent.com/PENZA84/PSG/main/subscriptions/xray/base64/hy2_ipv4
@@ -18440,7 +18398,6 @@ https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countri
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Argentina.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Armenia.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Australia.txt
-https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Austria.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Belarus.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Brazil.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Bulgaria.txt
@@ -18448,7 +18405,6 @@ https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countri
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Chile.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/China.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Colombia.txt
-https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Czechia.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Finland.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/France.txt
 https://raw.githubusercontent.com/PENZA84/Scrape-By-Country/main/configs/countries/Germany.txt
@@ -22055,12 +22011,9 @@ https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Country/VN.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Country/ZA.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/hy2.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/ss.txt
-https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/ssr.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/trojan.txt
-https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/tuic.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/vless.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/vmess.txt
-https://raw.githubusercontent.com/PENZA84/v2go/main/Splitted-By-Protocol/warp.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Sub1.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Sub10.txt
 https://raw.githubusercontent.com/PENZA84/v2go/main/Sub11.txt
@@ -22122,7 +22075,6 @@ https://raw.githubusercontent.com/PENZA84/v2r/main/base64/1.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/10.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/11.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/12.txt
-https://raw.githubusercontent.com/PENZA84/v2r/main/base64/13.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/2.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/3.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/base64/4.txt
@@ -22146,7 +22098,6 @@ https://raw.githubusercontent.com/PENZA84/v2r/main/sub/1.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/10.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/11.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/12.txt
-https://raw.githubusercontent.com/PENZA84/v2r/main/sub/13.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/2.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/3.txt
 https://raw.githubusercontent.com/PENZA84/v2r/main/sub/4.txt
@@ -22594,11 +22545,7 @@ https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/data/nor
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/data/normalized/vmess.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/data/subscriptions/all.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/data/subscriptions/all_base64.txt
-https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/githubmirror/clean/vless.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/githubmirror/new/all_new.txt
-https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/githubmirror/new/cf_fresh.txt
-https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/githubmirror/ru-sni-local/vless.txt
-https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/githubmirror/ru-sni/vless.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/subscriptions/all.part1.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/subscriptions/all.txt
 https://raw.githubusercontent.com/PENZA84/vpn-vless-configs-russia/main/subscriptions/all_base64.part1.txt
@@ -22770,7 +22717,6 @@ https://raw.githubusercontent.com/SimHacker/moollm/main/designs/raw-chats/no-ai-
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/AZ.txt
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Bahari.txt
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Dehestanaki.txt
-https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Hematian.txt
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Kourosh.txt
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Morshedan.txt
 https://raw.githubusercontent.com/Sinaksh0/Warp-config/main/Nekahi.txt
@@ -24889,29 +24835,6 @@ https://raw.githubusercontent.com/ksn38/hh/main/fl/source/fl2025-09-01.txt
 https://raw.githubusercontent.com/ksn38/hh/main/fl/source/fl2025-11-01.txt
 https://raw.githubusercontent.com/kstnkr-rgb/222/main/vpn.txt
 https://raw.githubusercontent.com/l1tok/OSCommunityExplorer/main/backend/repo_f1.txt
-https://raw.githubusercontent.com/lagzian/IranConfigCollector/main/Base64.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/SS/TrinityBase
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/SS/VM_TrinityBase
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/SS/trinity_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/SS_B64.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/VLESS/VL100.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/backup.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/mix.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/mix_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/reality.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/reality_B64.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/vmess.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/vmess_B64.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/main/working.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/SS/TrinityBase
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/SS/trinity_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/mix.txt
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/mix_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/reality_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/vmess_clash.yaml
-https://raw.githubusercontent.com/lagzian/SS-Collector/refs/heads/main/vmess_tvc_clash.yaml
-https://raw.githubusercontent.com/lagzian/TVC/main/lite/subscriptions/meta/mix
-https://raw.githubusercontent.com/lagzian/TVC/refs/heads/main/subscriptions/meta/mix
 https://raw.githubusercontent.com/lanfxx/clashtest/main/clash0221
 https://raw.githubusercontent.com/laoma89/gr/main/d/1.txt
 https://raw.githubusercontent.com/laoma89/gr/main/d/10.txt
@@ -25382,14 +25305,12 @@ https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/category/trojan.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/category/vless.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/category/ws.txt
-https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/main/category/xhttp.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/httpupgrade.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/ss.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/trojan.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/vless.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/vmess.txt
 https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/ws.txt
-https://raw.githubusercontent.com/mohamadfg-dev/telegram-v2ray-configs-collector/refs/heads/main/category/xhttp.txt
 https://raw.githubusercontent.com/money-fly/subaddress/main/vmess.txt
 https://raw.githubusercontent.com/moneyfly1/chromego_merge/refs/heads/main/sub/merged_proxies.yaml
 https://raw.githubusercontent.com/moneyfly1/chromego_merge/refs/heads/main/sub/merged_proxies_new.yaml
@@ -26150,7 +26071,6 @@ https://raw.githubusercontent.com/tepo80/tepo80/main/vip60.txt
 https://raw.githubusercontent.com/tepo80/tepo80/main/vip90.txt
 https://raw.githubusercontent.com/tepo80/tepo80/main/vless.txt
 https://raw.githubusercontent.com/tepo80/tepo80/main/vmess.txt
-https://raw.githubusercontent.com/testnmb/JD/main/fupody.txt
 https://raw.githubusercontent.com/theGreatPeter/v2rayNodes/main/nodes.txt
 https://raw.githubusercontent.com/theGreatPeter/v2rayNodes/refs/heads/main/nodes.txt
 https://raw.githubusercontent.com/thebesttv/vul-arch-package/main/arch.txt
