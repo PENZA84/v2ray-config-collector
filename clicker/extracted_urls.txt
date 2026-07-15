@@ -101,8 +101,8 @@ https://img.shields.io/github/last-commit/4n0nymou3/multi-proxy-config-fetcher?s
 https://img.shields.io/github/license/4n0nymou3/multi-proxy-config-fetcher?style=flat-square
 https://img.shields.io/github/stars/4n0nymou3/multi-proxy-config-fetcher?style=flat-square
 https://maintainers.github.com
-https://opengraph.githubassets.com/9109b70340e77b088ab2b761a80da2c247699a3974b3709cd75f249a47ce3db4/PENZA84/-redfree8-config
-https://opengraph.githubassets.com/c9bd7f8ca5a489e4c9fac4a21a8cfc2d48a0bd2ba8ed96899587c871ad6ac5f7/PENZA84/5ubscrpt10n
+https://opengraph.githubassets.com/22ae1e8083d798a7c97d3ee84c8d5411d7019bba12310512cf45f70ef01c0bcc/PENZA84/5ubscrpt10n
+https://opengraph.githubassets.com/5f105887f1b16bee948518f0033e4dc824da67d43d3de9dc6c21e069782b3b9d/PENZA84/-redfree8-config
 https://opengraph.githubassets.com/ef30d12bc8a9e0fdae5fe74419c44b2ce409afc382c3d50f25c6c7a9d5174ce9/PENZA84/AirLinkVPN
 https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/proxy_configs.txt
 https://raw.githubusercontent.com/4n0nymou3/multi-proxy-config-fetcher/refs/heads/main/configs/singbox_configs.json
