@@ -1,14 +1,19 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 55
+# Total links in this file: 60
 
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2ss://YWVzLTEyOC1nY206YWEyOTdmMmEtNDJiMi00NDBlLTgwY2MtNWM3NThmNWYxMDAz@127.0.0.1:80#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A0
 anytls://2f3a2a4d-ca46-4012-a472-b559d379ad0a@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
 anytls://4aeedead-1354-45a4-935d-8bba5e7f82b5@159.223.12.0:444#🇳🇱_机场推荐:dafei.de_荷兰_05
 anytls://4aeedead-1354-45a4-935d-8bba5e7f82b5@159.223.12.0:444?security=none&type=tcp&sni=addons.mozilla.org&fp=chrome&fingerprint=E9%3A33%3A97%3AA7%3ABF%3AA5%3AAF%3A2A%3A2D%3AB2%3AAF%3A02%3A08%3A2B%3A0A%3A42%3A19%3AC2%3A54%3AA3%3A5B%3A9B%3A50%3A20%3AF8%3AD3%3A41%3AEF%3AF6%3A1C%3A55%3A82&idle_session_check_interval=30&idle_session_timeout=30&udp=1&tls_fingerprint=E9%3A33%3A97%3AA7%3ABF%3AA5%3AAF%3A2A%3A2D%3AB2%3AAF%3A02%3A08%3A2B%3A0A%3A42%3A19%3AC2%3A54%3AA3%3A5B%3A9B%3A50%3A20%3AF8%3AD3%3A41%3AEF%3AF6%3A1C%3A55%3A82#%F0%9F%87%B3%F0%9F%87%B1%20%E6%9C%BA%E5%9C%BA%E6%8E%A8%E8%8D%90%3Adafei.de%20%E8%8D%B7%E5%85%B0%2005
+anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443#[AnyTLS]_🏳️‍🌈_地点_|是否加速_|_流量消耗倍数_3
+anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443#[AnyTLS]_🏳️‍🌈_地点_|是否加速_|_流量消耗倍数_4
 anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%9C%B0%E7%82%B9%20%7C%E6%98%AF%E5%90%A6%E5%8A%A0%E9%80%9F%20%7C%20%E6%B5%81%E9%87%8F%E6%B6%88%E8%80%97%E5%80%8D%E6%95%B0
 anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
+anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443#[AnyTLS]_🏳️‍🌈_地点_|是否加速_|_流量消耗倍数
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%9C%B0%E7%82%B9%20%7C%E6%98%AF%E5%90%A6%E5%8A%A0%E9%80%9F%20%7C%20%E6%B5%81%E9%87%8F%E6%B6%88%E8%80%97%E5%80%8D%E6%95%B0
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
+anytls://850a75e0-2969-4391-8182-3044b6429c6a@j1acjhanlvdsvd.mdlbqwl.com:19830#[AnyTLS]_🇯🇵_🇯🇵_日本_5
+anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#[AnyTLS]_🏳️‍🌈_地点_|是否加速_|_流量消耗倍数_2
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%9C%B0%E7%82%B9%20%7C%E6%98%AF%E5%90%A6%E5%8A%A0%E9%80%9F%20%7C%20%E6%B5%81%E9%87%8F%E6%B6%88%E8%80%97%E5%80%8D%E6%95%B0
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E5%AE%98%E7%BD%91laodayun.com
 anytls://a2d12dc9-c111-45ac-b803-87e48f3484d8@160.16.75.254:443?security=tls&type=tcp&allowInsecure=1&sni=gw.alicdn.com&fp=chrome&insecure=1&udp=1#JP9%EF%BD%9C%E6%9C%BA%E6%88%BF%EF%BD%9C%E4%BD%8E%E9%A3%8E%E9%99%A9
