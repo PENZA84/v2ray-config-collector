@@ -1,0 +1,1 @@
+vless://4001a8b0-6885-4661-82ca-12cad9b05a9d@190.93.244.103:8880?path=%2F&amp;security=none&amp;encryption=none&amp;host=jigar.alialialiali.ir&amp;type=ws#YR+40+ID%28%40Outline_Vpn%29

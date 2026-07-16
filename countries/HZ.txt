@@ -1,1 +1,2 @@
-vless://d84c0e47-7575-44cb-bc05-b55de8b51ca0@188.114.98.0:2053?path=/latest?ed=2560&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=hz.badomzamini.uk#7131.%20VLESS%20%7C%20SNI%3A%20hz.badomzamini.uk%20%7C%20TG%3A%20%40wlrustg
+vless://d84c0e47-7575-44cb-bc05-b55de8b51ca0@188.114.98.0:2053?path=/latest?ed=2560&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=hz.badomzamini.uk#7913.%20VLESS%20%7C%20SNI%3A%20hz.badomzamini.uk%20%7C%20TG%3A%20%40wlrustg
+vless://d84c0e47-7575-44cb-bc05-b55de8b51ca0@188.114.98.0:2053?path=/latest?ed=2560&security=tls&encryption=none&insecure=0&type=ws&allowInsecure=0&sni=hz.badomzamini.uk#7929.%20VLESS%20%7C%20SNI%3A%20hz.badomzamini.uk%20%7C%20TG%3A%20%40wlrustg

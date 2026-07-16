@@ -4,8 +4,7 @@ vless://1e922b22-d169-4461-89c1-07e09ff2617c@162.159.152.81:443?&security=tls&fp
 vless://1e922b22-d169-4461-89c1-07e09ff2617c@162.159.153.194:443?&security=tls&fp=random&alpn=h3&sni=vlesss.xttd.eu.org&type=ws&headerType=&host=vlesss.xttd.eu.org&path=%2Fproxyip%3Dproxyip.fxxk.dedyn.io#CT
 vless://1e922b22-d169-4461-89c1-07e09ff2617c@162.159.153.216:443?&security=tls&fp=random&alpn=h3&sni=vlesss.xttd.eu.org&type=ws&headerType=&host=vlesss.xttd.eu.org&path=%2Fproxyip%3Dproxyip.fxxk.dedyn.io#CT
 vless://1e922b22-d169-4461-89c1-07e09ff2617c@162.159.153.217:443?&security=tls&fp=random&alpn=h3&sni=vlesss.xttd.eu.org&type=ws&headerType=&host=vlesss.xttd.eu.org&path=%2Fproxyip%3Dproxyip.fxxk.dedyn.io#CT
-vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@104.16.196.90:443?path=TG%40ZDYZ2&security=tls&encryption=none&host=cfed.tgzdyz2.top&fp=random&type=ws&sni=cfed.tgzdyz2.top#CT
-vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@172.64.152.6:443?path=TG%40ZDYZ2&security=tls&encryption=none&host=cfed.tgzdyz2.top&fp=random&type=ws&sni=cfed.tgzdyz2.top#CT
+vless://06e4425e-a8cb-4b63-929f-2105604ab0a9@162.159.153.42:443?encryption=none&security=tls&sni=tx.vs2024.dpdns.org&fp=random&allowInsecure=1&type=ws&host=tx.vs2024.dpdns.org&path=%2F%3Fed%3D2560#CT
 trojan://iwangjie@162.159.152.11:443?allowInsecure=0&sni=nodes.830901.xyz&ws=1&wspath=%2F%3Fed%3D2560#CT
 trojan://iwangjie@162.159.152.155:443?allowInsecure=0&sni=nodes.830901.xyz&ws=1&wspath=%2F%3Fed%3D2560#CT
 trojan://iwangjie@162.159.152.205:443?allowInsecure=0&sni=nodes.830901.xyz&ws=1&wspath=%2F%3Fed%3D2560#CT
@@ -52,4 +51,5 @@ trojan://123456@162.159.153.239:443?allowInsecure=0&sni=now-pages-sub-em4.pages.
 trojan://123456@162.159.153.42:443?allowInsecure=0&sni=now-pages-sub-em4.pages.dev&ws=1&wspath=%2F%3Fed%3D2560#CT
 trojan://123456@162.159.153.42:443?security=tls&sni=now-pages-sub-em4.pages.dev&alpn=h3&fp=random&type=ws&host=now-pages-sub-em4.pages.dev&path=%2F%3Fed%3D2560&fragment=1%2C40-60%2C30-50%2Ctlshello#CT
 trojan://123456@162.159.153.72:443?allowInsecure=0&sni=now-pages-sub-em4.pages.dev&ws=1&wspath=%2F%3Fed%3D2560#CT
-vless://06e4425e-a8cb-4b63-929f-2105604ab0a9@162.159.153.42:443?encryption=none&security=tls&sni=tx.vs2024.dpdns.org&fp=random&allowInsecure=1&type=ws&host=tx.vs2024.dpdns.org&path=%2F%3Fed%3D2560#CT
+vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@104.16.196.90:443?path=TG%40ZDYZ2&security=tls&encryption=none&host=cfed.tgzdyz2.top&fp=random&type=ws&sni=cfed.tgzdyz2.top#CT
+vless://2cd6ed0f-636e-4e6c-9449-5a263d7a0fa5@172.64.152.6:443?path=TG%40ZDYZ2&security=tls&encryption=none&host=cfed.tgzdyz2.top&fp=random&type=ws&sni=cfed.tgzdyz2.top#CT

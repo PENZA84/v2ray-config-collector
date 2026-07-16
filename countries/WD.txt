@@ -1,0 +1,1 @@
+trojan://MiTiVPN@104.17.151.126:443?path=/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN/---@MiTiVPN=s---W&security=tls&alpn=h2,http/1.1&insecure=1&host=s-w--i--o.aPp-cLoud.IR&fp=chrome&type=ws&allowInsecure=1&sni=S-wd-u-ao.aPp-cLoud.IR#5846.%20TROJAN%20%7C%20SNI%3A%20S-wd-u-ao.aPp-cLoud.IR%20%7C%20TG%3A%20%40wlrustg
