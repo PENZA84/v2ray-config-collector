@@ -1,10 +1,1 @@
-https://git.hubp.de/miladtahanian/V2RayScrapeByCountry
-https://github.com/AzadNetCH/Clash
-https://github.com/PENZA84/-redfree8-config
-https://github.com/PENZA84/.proxy
-https://github.com/PENZA84/5ubscrpt10n
-https://github.com/PENZA84/AUTORAY
-https://github.com/PENZA84/AetrisVPN
-https://github.com/PENZA84/AetrisVPN-black-list
-https://github.com/PENZA84/AetrisVPN-white-list-lite
-https://github.com/PENZA84/AirLinkVPN
+https://github.com/PENZA84/v2ray-config-collector
