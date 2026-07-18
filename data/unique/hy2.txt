@@ -1,5 +1,5 @@
 # Valid HY2 Configurations - Part 1
-# Total links in this file: 182
+# Total links in this file: 183
 
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.208.164:443?mport=45000-46000&insecure=1&sni=haneda.lol#ð
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.212.157:443?insecure=1&sni=haneda.lol#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20-%20NA%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
@@ -105,6 +105,7 @@ hy2://cih$phu-rlMofru7i4r9@80.240.18.4:443?obfs=salamander&obfs-password=cih%24p
 hy2://de77d530-18f1-4a96-a87f-b21bc7c2142d@129.151.193.163:443?insecure=1&sni=www.microsoft.com#%F0%9F%87%B8%F0%9F%87%AA%20Sweden%20-%20Stockholm%20%F0%9F%8C%8D%20HY2-UDP-TLS%204%E2%83%A3
 hy2://de77d530-18f1-4a96-a87f-b21bc7c2142d@129.151.193.163:443?insecure=1&sni=www.microsoft.com#ð
 hy2://dongtaiwang.com@62.210.124.146:22000
+hy2://dongtaiwang.com@62.210.124.146:22000?insecure=1&sni=www.microsoft.com#+By+EbraSha+%E2%8C%A8%EF%B8%8F
 hy2://e169856c-7c19-4908-9bdf-448dc846163a@129.151.254.139:443?insecure=1&sni=www.bing.com#ð
 hy2://e169856c-7c19-4908-9bdf-448dc846163a@129.151.254.139:443?insecure=1&sni=www.bing.com#🔒
 hy2://e169856c-7c19-4908-9bdf-448dc846163a@130.162.250.164:443?insecure=1&sni=www.bing.com#ð
