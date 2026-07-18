@@ -1,14 +1,7 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 93
+# Total links in this file: 90
 
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@172.245.246.44:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD1
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF2
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@47.236.4.215:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A11
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2ss://YWVzLTEyOC1nY206YWEyOTdmMmEtNDJiMi00NDBlLTgwY2MtNWM3NThmNWYxMDAz@127.0.0.1:80#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A0
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.128.220:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC1
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.129.151:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC2
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.219.15.63:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A12
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@89.185.27.73:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF1
 anytls://2f3a2a4d-ca46-4012-a472-b559d379ad0a@1.1.1.1:443#18号牢大睡醒再弄_4
 anytls://2f3a2a4d-ca46-4012-a472-b559d379ad0a@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄
 anytls://2f3a2a4d-ca46-4012-a472-b559d379ad0a@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄_2
@@ -31,6 +24,7 @@ anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.
 anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E6%AD%A3%E5%9C%A8%E6%B5%8B%E8%AF%95%E4%B8%AD
 anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E7%A8%8D%E5%90%8E%E6%81%A2%E5%A4%8D%E6%9B%B4%E5%A4%9A%E8%8A%82%E7%82%B9
 anytls://69f56e4d-6403-48c4-876d-16a5819c3672@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E8%8A%82%E7%82%B9%E4%B8%8A%E6%9E%B6%E7%A7%92%E5%A2%99
+anytls://712bdc36-24be-11ee-be53-f23c9313b177@d6cc43ac-t9l0g0-tckngf-5fdt.hkt.east.wctype.com:8300?security=tls&type=tcp&allowInsecure=1&sni=d6cc43ac-t9l0g0-tckngf-5fdt.hkt.east.wctype.com&fp=chrome&udp=1&insecure=1#HK1%EF%BD%9C%E5%AE%B6%E5%AE%BD%EF%BD%9C%E9%9D%9E%E5%B8%B8%E5%AE%89%E5%85%A8
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443#18号牢大睡醒再弄_2
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄_3
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄_4
@@ -43,7 +37,6 @@ anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E6%AD%A3%E5%9C%A8%E6%B5%8B%E8%AF%95%E4%B8%AD
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E7%A8%8D%E5%90%8E%E6%81%A2%E5%A4%8D%E6%9B%B4%E5%A4%9A%E8%8A%82%E7%82%B9
 anytls://7468649e-cebd-4a76-8470-982e33062086@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E8%8A%82%E7%82%B9%E4%B8%8A%E6%9E%B6%E7%A7%92%E5%A2%99
-anytls://7468649e-cebd-4a76-8470-982e33062086@free.us1.laodavip.com:443#[AnyTLS]_🇺🇸_🇺🇸美国_|不加速|1x
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#18号牢大睡醒再弄_3
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#[AnyTLS]_18号牢大睡醒再弄_4
@@ -53,6 +46,11 @@ anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#[AnyTLS]_节点上架�
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#[AnyTLS]_节点上架秒墙_3
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#最近有人扫描订阅节点
 anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443#节点上架秒墙_4
+anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E6%9C%80%E8%BF%91%E6%9C%89%E4%BA%BA%E6%89%AB%E6%8F%8F%E8%AE%A2%E9%98%85%E8%8A%82%E7%82%B9
+anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E6%AD%A3%E5%9C%A8%E6%B5%8B%E8%AF%95%E4%B8%AD
+anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E7%A8%8D%E5%90%8E%E6%81%A2%E5%A4%8D%E6%9B%B4%E5%A4%9A%E8%8A%82%E7%82%B9
+anytls://89281585-8bde-4ef2-8807-96c603281ef8@1.1.1.1:443?sni=free.ch1.laodavip.com&insecure=0#%E8%8A%82%E7%82%B9%E4%B8%8A%E6%9E%B6%E7%A7%92%E5%A2%99
+anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#anytls_01
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106327
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20111896
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20120483
@@ -92,5 +90,4 @@ anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&typ
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20882987
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20886565
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20992625
-anytls://ceeb8370-d87a-40c7-b8b9-566716210763@awsjptest.qqa456.com:45677/?type=tcp&insecure=1&fp=chrome&sni=gw.alicdn.com#%F0%9F%87%AF%F0%9F%87%B5%E6%97%A5%E6%9C%AC-03
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
