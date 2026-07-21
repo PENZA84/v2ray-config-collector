@@ -1,5 +1,5 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 48
+# Total links in this file: 50
 
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443#[AnyTLS]_🇭🇰_[直连]香港2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@47.236.4.215:44443#[AnyTLS]_🇸🇬_[直连]新加坡1
@@ -8,6 +8,8 @@ anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.128.220:44443#[AnyTLS]_🇯�
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.129.151:44443#[AnyTLS]_🇯🇵_[直连]日本2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.219.15.63:44443#[AnyTLS]_🇸🇬_[直连]新加坡2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@89.185.27.73:44443#[AnyTLS]_🇭🇰_[直连]香港1
+anytls://850a75e0-2969-4391-8182-3044b6429c6a@j1acjhanlvdsvd.mdlbqwl.com:19024?sni=aa.yangguangnanhai.com&insecure=1#%F0%9F%87%A9%F0%9F%87%AA%20%E5%BE%B7%E5%9B%BD%203%E5%80%8D
+anytls://a698c4a6-c3c9-11ee-9693-f23c91cfbbc9@6dd25b64-tcxds0-te4dj8-1m0fq.hk2.hyhuawei.com:443#🇭🇰_香港_|_HKG_5-1
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#anytls_01
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106327
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20111896
