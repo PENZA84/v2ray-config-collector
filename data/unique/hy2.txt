@@ -1,5 +1,5 @@
 # Valid HY2 Configurations - Part 1
-# Total links in this file: 187
+# Total links in this file: 185
 
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.208.164:443?mport=45000-46000&insecure=1&sni=haneda.lol#ð
 hy2://0ec39bfb-7040-4953-9399-406c61ded790@160.251.212.157:443?insecure=1&sni=haneda.lol#%F0%9F%87%AF%F0%9F%87%B5%20Japan%20-%20NA%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
@@ -12,6 +12,7 @@ hy2://1ab02865393bfa6d@5.161.213.184:443?insecure=1&obfs=salamander&obfs-passwor
 hy2://1ab02865393bfa6d@5.161.213.184:443?insecure=1&sni=www.google.com&obfs=salamander&obfs-password=d5a9baeec9b61a44#⭐@mshojaei77
 hy2://1ab02865393bfa6d@5.161.213.184:443?obfs=salamander&obfs-password=d5a9baeec9b61a44&insecure=1&sni=www.google.com#%F0%9F%87%BA%F0%9F%87%B8%20United%20States%20-%20Ashburn%20%F0%9F%8C%8E%20HY2-UDP-TLS%204%E2%83%A3
 hy2://2a7e95db-fff0-40ab-a24f-0c2ad4080cdf@129.151.193.163:443/?mport=50000-53000&insecure=1&sni=www.microsoft.com#%F0%9F%87%B8%F0%9F%87%AA%E7%91%9E%E5%85%B8%E6%96%AF%E5%BE%B7%E5%93%A5%E5%B0%94%E6%91%A9-1.5%E5%80%8D%E7%8E%87
+hy2://2a7e95db-fff0-40ab-a24f-0c2ad4080cdf@208.87.242.237:443/?mport=50000-53000&insecure=1&sni=www.bing.com#%F0%9F%87%BA%F0%9F%87%B8%E7%BE%8E%E5%9B%BD%E6%B4%9B%E6%9D%89%E7%9F%B64%E5%8F%B7
 hy2://2d068322-b0e3-4c35-991e-58d46d8775f8@45.118.132.243:443?insecure=1&sni=yup.441122.xyz#%F0%9F%87%B8%F0%9F%87%AC%20Singapore%20-%20Singapore%20%F0%9F%8C%8F%20HY2-UDP-TLS%204%E2%83%A3
 hy2://2d068322-b0e3-4c35-991e-58d46d8775f8@45.118.132.243:443?mport=40001-50000&insecure=1&sni=yup.441122.xyz#ð
 hy2://2d068322-b0e3-4c35-991e-58d46d8775f8@45.118.132.243:443?mport=40001-50000&insecure=1&sni=yup.441122.xyz#🔒
@@ -135,13 +136,10 @@ hy2://f6e4b19a3110d19d@207.246.124.135:443?obfs=salamander&obfs-password=8c3ce17
 hy2://gd25pjkHrU4VA2j53xcbdHEI2C97Sz1JVLtpKP1qVsVDIBGwrli1IMsC8aBj7XEDiIi4KF22WsNoDbIO1l1kylbnpMk6WWYVAqWX@178.253.42.152:443?obfs=salamander&obfs-password=vSgTdUGMVBecw7Pi1fLdpzBbKOCD0WyzzGKsy1HvUCJDZXLYm8b1yXAQvasZa9BYeEVhX81vtWKkf3xW&sni=debiantubelinux.space#%F0%9F%87%B7%F0%9F%87%BA%20Russian%20Federation%20-%20St%20Petersburg%20%F0%9F%8C%8D%20HY2-UDP-TLS%204%E2%83%A3
 hy2://gdubbi2zb6gdp0c8@103.251.167.168:443
 hy2://iMqY3uG_5pgEj3hCfyHB-0vB@143.198.235.49:443/?insecure=1#🇺🇸美国
-hy2://mTwkzEmNmip3wJ2ZilGwK7w2sYexYn@147.45.154.150:443?obfs=salamander&obfs-password=znpWJG0Kp5VZGbelhK56SqINeamjre#%F0%9F%87%B7%F0%9F%87%BA%20Russian%20Federation%20-%20Moscow%20%F0%9F%8C%8D%20HY2-UDP-TLS%204%E2%83%A3
-hy2://nRSmYP828VP1UwxlAnWEbmEtlLSH5SE7@147.45.154.150:443?obfs=salamander&obfs-password=6u33lecx372cssb22nzgu5l5fpdhom4ivqwg4fqby133lzsv3q&sni=anymath.ir#ð
-hy2://nRSmYP828VP1UwxlAnWEbmEtlLSH5SE7@147.45.154.150:443?obfs=salamander&obfs-password=6u33lecx372cssb22nzgu5l5fpdhom4ivqwg4fqby133lzsv3q&sni=anymath.ir#🔒
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443/?insecure=1&sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#>>@oneclickvpnkeys
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?sni=hy2.aspidnet.xyz&amp%3Bobfs=salamander&amp%3Bobfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%231
-hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%231%20%5Bfast%5D
+hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#%F0%9F%87%A6%F0%9F%87%AA%20AE%20%7C%20HY2%20%7C%20%40netfreedom0%20%231%20%5Bslow%5D
 hy2://p7Q76LzlnS4hIzr1W3staBOnUe_WwSkR@130.49.161.70:443?sni=hy2.aspidnet.xyz&obfs=salamander&obfs-password=rG07s3COMIEvdnQipRyWzx_H_2xygNC3#🇦🇪
 hy2://prlD*e!1b3Yipr$D795%3F@140.82.33.237:443/?insecure=1&sni=google.com&obfs=salamander&obfs-password=prlD*e%211b3Yipr%24D795%3F#⭐@mshojaei77
 hy2://prlD*e!1b3Yipr$D795%3F@140.82.33.237:443?insecure=1&sni=google.com&obfs=salamander&obfs-password=prlD*e%211b3Yipr%24D795%3F#⭐@mshojaei77
