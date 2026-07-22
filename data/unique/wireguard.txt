@@ -1,11 +1,10 @@
 # Valid WIREGUARD Configurations - Part 1
-# Total links in this file: 15
+# Total links in this file: 14
 
 wireguard://103.108.94.164:80#🇳🇿_hamedp71
 wireguard://185.165.170.3:443#🇮🇸_hamedp71-1
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.1.213.212:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=jCi1I5HBTtwCblBbMzOFmOOFNG1GilYOZgst0kyq9gY%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind24%20-%20Sydney
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.107.198.228:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=tJa6iPx6mpOktn5KoalMslWcpg6pRUdVx3bKDi3wtDg%3D&mtu=1280#%F0%9F%87%B8%F0%9F%87%AC%20wind9%20-%20Singapore
-wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@103.9.79.220:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=SxBT11IISNRou7thGo5A1QtaMjfzPIzZXDxdYEbDxhE%3D&mtu=1280#%F0%9F%87%BB%F0%9F%87%B3%20wind38%20-%20Vietnam
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@116.206.228.180:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=r5BDU0T%2BVGZU6I%2BzuF3vlGrdORtgNvLhY08gQxrFRCw%3D&mtu=1280#%F0%9F%87%A6%F0%9F%87%BA%20wind25%20-%20Melbourne
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@149.57.28.226:80?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=vwimooPysZvNdJULeFQVovYfqhsLG5gVdzgoTnfm%2BiE%3D&mtu=1280#%F0%9F%87%A8%F0%9F%87%A6%20wind23%20-%20Toronto
 wireguard://cIq%2B3tcHVT7gRMl4kIv0WE68ERiTmDtA7rhyHhLJ%2Fmg%3D@167.88.60.244:443?address=100.80.234.177%2F32&presharedkey=N%2FgfMZSjvP8mbXfVP2hnD5CX8BkGvOyheJ67mCpD%2BQQ%3D&reserved=0%2C0%2C0&publickey=%2Foz2frQv99JveBgmTXW22QXIEulQURK79BW%2Bugk8fCE%3D&mtu=1280#%F0%9F%87%BA%F0%9F%87%B8%20wind18%20-%20SantaClara
