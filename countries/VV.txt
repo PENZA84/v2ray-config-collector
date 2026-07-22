@@ -1,0 +1,1 @@
+trojan://bpb-trojan@russia.com:443?security=tls&sni=vv.zplt002.sbs&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=vv.zplt002.sbs&path=%2Ftr%3Fed%3D2560#vv.zplt002.sbs
