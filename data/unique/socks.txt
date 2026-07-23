@@ -1,14 +1,14 @@
 # Valid SOCKS Configurations - Part 1
-# Total links in this file: 196
+# Total links in this file: 180
 
-socks://0da8651e-e1f6-11ec-bd7c-f23c913c8d2b:0da8651e-e1f6-11ec-bd7c-f23c913c8d2b@8a598dfb-t42v40-tcinla-hrtf.los.gotochinatown.net:443/#🇺🇸
-socks://0f6da208-f3f3-11ef-ba82-f23c913c8d2b:0f6da208-f3f3-11ef-ba82-f23c913c8d2b@e39d9542-t42v40-0-1tfbd.los.gotochinatown.net:443/#🇺🇸
-socks://11303a62-9a33-11ee-be7f-f23c9164ca5d:11303a62-9a33-11ee-be7f-f23c9164ca5d@722acd60-t42v40-t7h9gl-1q15s.los.gotochinatown.net:443/#🇺🇸
-socks://19dd9c70-e4a5-11ed-8347-f23c9164ca5d:19dd9c70-e4a5-11ed-8347-f23c9164ca5d@a0c5124d-t42v40-tbicd9-1go3q.los.gotochinatown.net:443/#🇺🇸
-socks://25b46954-9a33-11ee-8b86-f23c91cfbbc9:25b46954-9a33-11ee-8b86-f23c91cfbbc9@f77e775b-t42v40-t7hu58-1q1la.los.gotochinatown.net:443/#🇺🇸
-socks://3085fcf8-a69c-11ec-bd7c-f23c913c8d2b:3085fcf8-a69c-11ec-bd7c-f23c913c8d2b@4ca60853-t42v40-t4up6r-1f0gu.los.gotochinatown.net:443/#🇺🇸
-socks://520b9126-9870-11ef-81b0-f23c9164ca5d:520b9126-9870-11ef-81b0-f23c9164ca5d@fcbf895d-t42v40-t4f48b-1slop.sv.plebai.net:443/#🇺🇸
-socks://541259a8-8df6-11ee-ace4-f23c913c8d2b:541259a8-8df6-11ee-ace4-f23c913c8d2b@cfe1d0ce-t42v40-t6oj1r-1pv16.sv.plebai.net:443/#🇺🇸
+socks://1b13e20c-e778-11ef-907f-f23c913c8d2b:1b13e20c-e778-11ef-907f-f23c913c8d2b@438b6aa1-t42v40-teu3io-1t4wg.los.gotochinatown.net:443/#🇺🇸
+socks://1d142f1c-0303-11ef-b0e2-f23c913c8d2b:1d142f1c-0303-11ef-b0e2-f23c913c8d2b@9f98e971-t42v40-0-1r9oy.los.gotochinatown.net:443/#🇺🇸
+socks://25b2699a-e18e-11ec-8e69-f23c91cfbbc9:25b2699a-e18e-11ec-8e69-f23c91cfbbc9@84a6ad00-t42v40-t4gy0g-yjq0.sv.plebai.net:443/#🇺🇸
+socks://2f115630-04ac-11f0-90e2-f23c913c8d2b:2f115630-04ac-11f0-90e2-f23c913c8d2b@8e05125e-t42v40-0-1tjtd.sv.plebai.net:443/#🇺🇸
+socks://32bd96d6-186b-11f0-9a65-f23c9164ca5d:32bd96d6-186b-11f0-9a65-f23c9164ca5d@ff43333a-t42v40-teqqcv-1rc6n.los.gotochinatown.net:443/#🇺🇸
+socks://331cae90-f7e9-11ed-b4e2-f23c913c8d2b:331cae90-f7e9-11ed-b4e2-f23c913c8d2b@624e3d2e-t42v40-t6dbrs-lj7z.sv.plebai.net:443/#🇺🇸
+socks://44e76f8c-7362-11ec-bb74-f23c9164ca5d:44e76f8c-7362-11ec-bb74-f23c9164ca5d@8f6361fe-t42v40-t5ain7-zn8y.sv.plebai.net:443/#🇺🇸
+socks://62f2374c-891b-11ef-a3f6-f23c9164ca5d:62f2374c-891b-11ef-a3f6-f23c9164ca5d@0f95aed5-t42v40-t61ki5-1smhu.sv.plebai.net:443/#🇺🇸
 socks://91.222.196.8:7071?type=tcp#@kamkarstore
 socks://91.222.196.8:7071?type=tcp#@subioir
 socks://91.222.196.8:7071?type=tcp#Joinð
@@ -18,7 +18,6 @@ socks://91.222.196.8:7071?type=tcp#https://t.me/#@free_v2ray_npv
 socks://91.222.196.8:7071?type=tcp#https://t.me/Configir98
 socks://91.222.196.8:7071?type=tcp#https://t.me/irconfiig
 socks://91.222.196.8:7071?type=tcp#vipV2rayNGnp
-socks://9141f048-0b70-11ef-9eb1-f23c91cfbbc9:9141f048-0b70-11ef-9eb1-f23c91cfbbc9@d2a80771-t42v40-t6k7h7-1rcxl.sv.plebai.net:443/#🇺🇸
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106528
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20110826
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20131487
@@ -46,7 +45,6 @@ socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20597840
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20626905
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20649863
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20652022
-socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20654378
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20692178
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20746770
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20757365
@@ -58,10 +56,6 @@ socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20894940
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20931920
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20934337
 socks://Og%3D%3D@121.169.46.116:1090#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20980946
-socks://Og%3D%3D@193.221.203.192:1080#❓Other_3|1.4MB/s|GPT⁺
-socks://Og%3D%3D@212.58.132.5:1080#❓Other_2|1.5MB/s|GPT⁺
-socks://Og==@118.91.175.146:5678#🇳🇵37869
-socks://Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 socks://Og==@144.24.111.128:1088#%F0%9F%87%AE%F0%9F%87%B3IN_3%7C820KB%2Fs%7CK001-260618%2001
 socks://Og==@193.25.215.182:22222#%F0%9F%87%BA%F0%9F%87%B8US_1502%7C942KB%2Fs%7CX001-260618%2001
 socks://Og==@212.58.132.5:1080#%F0%9F%87%BA%F0%9F%87%B8US_1668%7C820KB%2Fs%7CX001-260618%2001
@@ -82,6 +76,10 @@ socks://Og@193.221.203.192:1080#%E2%9D%93Other_5%7C1.2MB%2Fs%7CP002-260618%2001
 socks://Og@193.25.215.182:22222#%F0%9F%87%BA%F0%9F%87%B8US_1585%7C2.3MB%2Fs%7CX001-260618%2001
 socks://Og@212.58.132.5:1080#%F0%9F%87%BA%F0%9F%87%B8US_1768%7C1.0MB%2Fs%7CX001-260618%2001
 socks://Og@31.47.51.152:1111#%40ShadowProxy66%20%282%29
+socks://Og@37.32.4.53:1080#ð®ð·119678
+socks://Og@37.32.4.53:1080#ð®ð·IR-ð@VPNine1
+socks://Og@37.32.4.53:1080#🇮🇷119678
+socks://Og@37.32.4.53:1080#🇮🇷IR-🚀@VPNine1
 socks://Og@5.160.103.162:1080#%40ShadowProxy66%20%2830%29
 socks://Og@5.160.91.186:1080#%40ShadowProxy66%20%2821%29
 socks://Og@5.255.123.162:1080#%F0%9F%87%B3%F0%9F%87%B1NL_138%7C958KB%2Fs%7CA001-260618%2001
@@ -91,9 +89,8 @@ socks://Og@62.60.210.173:1080#@Surfboardv2ray
 socks://Og@62.60.223.192:8081#Channel
 socks://Og@62.60.223.192:8081#ð©ðª@FreakConfig
 socks://Og@62.60.223.192:8081#🇩🇪@FreakConfig
-socks://Og@81.12.24.160:26154#2https://t.me/@crayingroom
+socks://Og@81.12.24.160:26154#2https://t.me/ConfigX2ray
 socks://Og@81.12.24.160:26154#@Hiddify_Nexttt
-socks://Og@87.107.68.231:1081#%40v2rayNplus%20%7CMiXED%20PSiPHON%F0%9F%8D%8121
 socks://Og@89.44.112.13:1086#%40ShadowProxy66%20%2828%29
 socks://Og@89.44.112.13:1091#@Surfboardv2ray
 socks://Og@91.222.196.8:7071#@FastNetTools
@@ -108,27 +105,19 @@ socks://Og@91.222.196.8:7071#https://t.me/VIPV2rayNGNP
 socks://Og@91.222.196.8:7071#â³@Proxy_Vpney
 socks://Og@91.222.196.8:7071#ðØªØ±Ú©ÛØ¨Û
 socks://Og@91.222.196.8:7071#⏳@Proxy_Vpney
-socks://Og@91.222.196.8:7071#🎖@kakajanترکیبی
 socks://Og@91.222.196.8:7071#🔵⚪️@confihub-psiphon¹⁹²
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw==@91.222.196.8:7071#@sogoandfuckyourlove
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw==@91.222.196.8:7071#ð®ð·27114
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw==@91.222.196.8:7071#ð¦@FreeConfigForYou
+socks://QEV4cHJlc3NfZnJlZXZwbjo@91.222.196.8:7071#🇮🇷26587
 socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw==@91.222.196.8:7071#🇮🇷27114
 socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw==@91.222.196.8:7071#🦉@FreeConfigForYou
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw@91.222.196.8:7071#@vpnbaz
 socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw@91.222.196.8:7071#https://t.me/Configir98
 socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw@91.222.196.8:7071#ð®ð·26559
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw@91.222.196.8:7071#🇮🇷26559
-socks://QHZpcGNvbmZpbmdnOkB2aXBjb25maW5nZw@91.222.196.8:7071#🍓
 socks://TV9ZT1VfRDpQcml2YXRl@85.17.179.81:1080#%F0%9F%87%B3%F0%9F%87%B1NL_157%7C2.5MB%2Fs%7CA001-260618%2001
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0%3D@104.254.90.218:1080#
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0%3D@104.254.90.218:1080#[13584][UnResolvedDomains][0][SS][None][proxy_mtm][2026-07-12][2026-07-23
-socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0%3D@104.254.90.218:1080#[8674][UnResolvedDomains][0][SS][None][proxy_mtm][2026-07-12][2026-07-22
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0=@104.254.90.218:1080#telegram%20%40mtmvpn
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0=@104.254.90.218:1080#â
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0=@104.254.90.218:1080#✅
 socks://U0RQb3J3Rkp4YW9OckxpOjFAU29vblRlYW0@104.254.90.218:1080#@prrofile_purple
-socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28yudou789.top%20%E7%8E%89%E8%B1%86%E5%85%8D%E8%B4%B9%E8%8A%82%E7%82%B9%29
 socks://VDJjbE0wUWxNMFE2Og==@121.169.46.116:1090#%F0%9F%87%B0%F0%9F%87%B7KR%C2%B2_1%7C0.7MB%2Fs%7CGPT%7CX%7CHistory%2001
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%E9%9F%A9%E5%9B%BD%28TG%3A%40tccjd%29
 socks://VDJjbE0wUWxNMFE2Og@121.169.46.116:1090#%F0%9F%87%B0%F0%9F%87%B7KR%C2%B2_1%7C0.7MB%2Fs%7CGPT%7CX%7CHistory%2001
@@ -190,10 +179,5 @@ socks://ZXJtaWE6RXJtaWEzNDcyIw@185.231.183.229:80#ð¦@FreeConfigForYou
 socks://ZXJtaWE6RXJtaWEzNDcyIw@185.231.183.229:80#کانال
 socks://ZXJtaWE6RXJtaWEzNDcyIw@185.231.183.229:80#✅️بیا
 socks://ZXJtaWE6RXJtaWEzNDcyIw@185.231.183.229:80#🦉@FreeConfigForYou
-socks://a698c4a6-c3c9-11ee-9693-f23c91cfbbc9:a698c4a6-c3c9-11ee-9693-f23c91cfbbc9@67eeb32b-t42v40-t3wgt1-1m0fq.sv.plebai.net:443/#🇺🇸
-socks://c3dc8d26-ab2b-11ec-a8bf-f23c91cfbbc9:c3dc8d26-ab2b-11ec-a8bf-f23c91cfbbc9@42e4c85b-t42v40-t41p4y-1hpo0.los.gotochinatown.net:443/#🇺🇸
-socks://d2f0bee2-02f1-11f0-8eb0-f23c9164ca5d:d2f0bee2-02f1-11f0-8eb0-f23c9164ca5d@88d55c8a-t42v40-tc61cs-1tja8.sv.plebai.net:443/#🇺🇸
-socks://e668cd78-6892-11eb-a8bf-f23c91cfbbc9:e668cd78-6892-11eb-a8bf-f23c91cfbbc9@62ef37ff-t42v40-0-20qs.los.gotochinatown.net:443/#🇺🇸
-socks://fbf91120-50ba-11ef-a203-f23c91cfbbc9:fbf91120-50ba-11ef-a203-f23c91cfbbc9@baeda379-t42v40-t6kwk6-1s3lb.los.gotochinatown.net:443/#🇺🇸
-socks://ffa5e74e-e964-11ed-be7e-f23c913c8d2b:ffa5e74e-e964-11ed-be7e-f23c913c8d2b@9e40b9e8-t42v40-0-1lehw.los.gotochinatown.net:443/#🇺🇸
+socks://c594c7ec-8b10-11ef-a2b8-f23c9164ca5d:c594c7ec-8b10-11ef-a2b8-f23c9164ca5d@f11a9382-t42v40-t4ixjm-1hhyy.los.gotochinatown.net:443/#🇺🇸
 socks://telegram-saministamm@185.231.183.229:80#@Confixio
