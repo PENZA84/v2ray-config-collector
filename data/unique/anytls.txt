@@ -1,15 +1,14 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 51
+# Total links in this file: 49
 
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@47.236.4.215:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A11
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2hysteria2://qQe1z5kU8kN6SlKnDt9Ru3Qp@vpn-us-002.fastervpn.world:443?insecure=1&security=tls&sni=vpn-us-002.fastervpn.world#%E7%BE%8E%E5%9B%BD+%E4%BF%84%E5%8B%92%E5%86%88%E5%B7%9E%E6%B3%A2%E7%89%B9%E5%85%B0Amazon%E6%95%B0%E6%8D%AE%E4%B8%AD%E5%BF%83
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2hy2://uj7XGZGUqRlmdpk6rysyZMN333RWsxTFj0hBIMaFV-NUCd5r@ro.h2corp.org:443?security=tls&sni=ro.h2corp.org#%E6%91%A9%E5%B0%94%E5%A4%9A%E7%93%A6+V2CROSS.COM
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2vless://eeb6823c-b926-4ea2-866a-5542edd26e59@store.ubi.com:443?encryption=none&security=tls&sni=t1s1.rittbo.kdns.fr&fp=chrome&insecure=0&allowInsecure=0&ech=cloudflare-ech.com+https://dns.alidns.com/dns-query&type=ws&host=t1s1.rittbo.kdns.fr&path=/#%E7%BE%8E%E5%9B%BD+CloudFlare%E8%8A%82%E7%82%B9
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.128.220:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC1
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.129.151:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.219.15.63:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A12
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@89.185.27.73:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF1
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@h0l2a1i9t3s6s7h4u4p8h8d0t3z4g8f5k0o2f1a8y1z3y7l9p3.o2o0p9m0j1w7l5f6j1q3k4t6q0w9u8j9n5n3z6p2m0e3b1n9b2e8y1f6s0y4.com:44441?sni=baidu.com&insecure=1#%5BH1%E7%BA%BF%5D%E7%BE%8E%E5%9B%BD1
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#anytls_01
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106327
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20111896
@@ -50,5 +49,4 @@ anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&typ
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20882987
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20886565
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20992625
-anytls://c90afede-81f8-439d-9a20-f45579f623ec@us77.jdoanst2026.com:443#🇯🇵_JP_069_|_⬇️_3MB/s
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
