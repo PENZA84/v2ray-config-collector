@@ -1,14 +1,21 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 49
+# Total links in this file: 56
 
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443#[AnyTLS]_🇭🇰_[直连]香港2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@191.96.240.254:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF2
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@47.236.4.215:44443#[AnyTLS]_🇸🇬_[直连]新加坡1
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@47.236.4.215:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A11
-anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2hy2://uj7XGZGUqRlmdpk6rysyZMN333RWsxTFj0hBIMaFV-NUCd5r@ro.h2corp.org:443?security=tls&sni=ro.h2corp.org#%E6%91%A9%E5%B0%94%E5%A4%9A%E7%93%A6+V2CROSS.COM
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2ss://YWVzLTEyOC1nY206YWEyOTdmMmEtNDJiMi00NDBlLTgwY2MtNWM3NThmNWYxMDAz@127.0.0.1:80#%E5%89%A9%E4%BD%99%E6%B5%81%E9%87%8F%EF%BC%9A0
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@64.227.5.97:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E7%BE%8E%E5%9B%BD2vless://eeb6823c-b926-4ea2-866a-5542edd26e59@store.ubi.com:443?encryption=none&security=tls&sni=t1s1.rittbo.kdns.fr&fp=chrome&insecure=0&allowInsecure=0&ech=cloudflare-ech.com+https://dns.alidns.com/dns-query&type=ws&host=t1s1.rittbo.kdns.fr&path=/#%E7%BE%8E%E5%9B%BD+CloudFlare%E8%8A%82%E7%82%B9
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.128.220:44443#[AnyTLS]_🇯🇵_[直连]日本1
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.128.220:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC1
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.129.151:44443#[AnyTLS]_🇯🇵_[直连]日本2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.211.129.151:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%97%A5%E6%9C%AC2
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.219.15.63:44443#[AnyTLS]_🇸🇬_[直连]新加坡2
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@8.219.15.63:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E6%96%B0%E5%8A%A0%E5%9D%A12
+anytls://0ea23540-790a-4aa1-89fe-a3829505c591@89.185.27.73:44443#[AnyTLS]_🇭🇰_[直连]香港1
 anytls://0ea23540-790a-4aa1-89fe-a3829505c591@89.185.27.73:44443?sni=baidu.com&insecure=1#%5B%E7%9B%B4%E8%BF%9E%5D%E9%A6%99%E6%B8%AF1
+anytls://79a295f7-8cfe-46ca-aed6-ebef1f3be53b@173.249.200.68:35594#🇺🇸_美国_|_USA_32
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#anytls_01
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20106327
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20111896
