@@ -1,1 +1,5 @@
 vless://87cd21c8-5366-4837-8a9d-a70d4c440336@181.36.229.212:443?type=ws&security=tls&path=/Free-VPN-CF-Geo-Project/181.36.229.212=443&sni=joss.krukkruk.web.id&fp=randomized#DO
+vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2F%3Fproxyip%3Dproxyip.kr.fxxk.dedyn.io#%E9%9F%A9%E5%9B%BD_Jeollanam-do
+vless://a13df940-020c-465f-bc89-ee5279b5cd6a@59.3.3.161:443?encryption=none&security=tls&sni=kz.ylks.xyz&type=ws&host=kz.ylks.xyz&path=%2Fblue#%E9%9F%A9%E5%9B%BD_Jeollanam-do
+vless://89b3cbba-e6ac-485a-9481-976a0415eab9@59.3.3.161:443?encryption=none&security=tls&sni=vz.ylks.xyz&fp=random&type=ws&host=vz.ylks.xyz&path=%2F#%E9%9F%A9%E5%9B%BD_Jeollanam-do
+vless://c82f8880-bdd8-4a35-b8e7-ad5aa880f7d0@59.3.3.161:443?encryption=none&security=tls&sni=vz.ylkszy.eu.org&fp=random&type=ws&host=vz.ylkszy.eu.org&path=%2F#%E9%9F%A9%E5%9B%BD_Jeollanam-do

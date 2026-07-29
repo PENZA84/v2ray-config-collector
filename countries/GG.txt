@@ -1,2 +1,2 @@
-vless://4e9860f0-ecbd-46bb-93b2-9378c1296b05@173.245.59.16:8080?path=%2Fbackup&security=none&encryption=none&host=home.telewebion.network&type=ws#GG+O+ID%28%40config_plus%29
 vless://f38ef965-f6ae-402c-ab2c-1d42ae49bc9b@104.31.16.85:2095?path=%2F&security=none&encryption=none&host=woudyoulike_none.error.sss20202020202020.iran-check-host-server-sitesssssssssssssssssssssss--sssssssssss.com&type=ws#%40X2Ray_VPN_Proxy+---4trojan://qG9K8AGnn9XH5jUqeFu96g@discord.gg:2083?path=%2F&security=tls&alpn=h2,http/1.1&host=cdn13.cdn2cdn.com&fp=chrome&type=ws&sni=cdn13.cdn2cdn.com#%40X2Ray_VPN_Proxy+-
+vless://4e9860f0-ecbd-46bb-93b2-9378c1296b05@173.245.59.16:8080?path=%2Fbackup&security=none&encryption=none&host=home.telewebion.network&type=ws#GG+O+ID%28%40config_plus%29

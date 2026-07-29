@@ -1,0 +1,1 @@
+trojan://bpb-trojan@russia.com:443?security=tls&sni=ps-chunyen-1.cylee.cyou&alpn=h3&fp=randomized&allowlnsecure=1&type=ws&host=ps-chunyen-1.cylee.cyou&path=%2Ftr%3Fed%3D2560#ps-chunyen-1.cylee.cyou
