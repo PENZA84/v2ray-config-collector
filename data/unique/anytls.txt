@@ -1,5 +1,5 @@
 # Valid ANYTLS Configurations - Part 1
-# Total links in this file: 43
+# Total links in this file: 41
 
 anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?security=tls&type=tcp&packetEncoding=none&sni=anytls2.934618.xyz&udp=1&username=github.com%2FAlvin9999-newpac%2Ffanqiang#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20115193
 anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?security=tls&type=tcp&packetEncoding=none&sni=anytls2.934618.xyz&udp=1&username=github.com%2FAlvin9999-newpac%2Ffanqiang#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20122681
@@ -36,11 +36,9 @@ anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?sec
 anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?security=tls&type=tcp&packetEncoding=none&sni=anytls2.934618.xyz&udp=1&username=github.com%2FAlvin9999-newpac%2Ffanqiang#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20920777
 anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?security=tls&type=tcp&packetEncoding=none&sni=anytls2.934618.xyz&udp=1&username=github.com%2FAlvin9999-newpac%2Ffanqiang#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20980498
 anytls://140.82.116.4:443/Alvin9999-newpac/fanqiang@anytls2.934618.xyz:22880?security=tls&type=tcp&packetEncoding=none&sni=anytls2.934618.xyz&udp=1&username=github.com%2FAlvin9999-newpac%2Ffanqiang#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20988494
-anytls://31b27d2f-5aa3-4be5-ae36-dfde980d5762@2026.xn--cjz291d.co:36748?sni=2026.xn--cjz291d.co&insecure=1#%E9%A6%99%E6%B8%AF%7CBGP%7C02%7C1x
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=0&allowInsecure=0&type=tcp&headerType=none#anytls_01
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20120483
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20475306
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20480765
 anytls://c870fe5a-0729-11f0-8cf9-f23c93136cb3@64.32.13.233:8300?security=tls&type=tcp&packetEncoding=none&allowInsecure=1&sni=76842b4a-tb71c0-tgprfk-ddgs.losjan20.west.wctype.com&insecure=1&udp=1&username=c870fe5a-0729-11f0-8cf9-f23c93136cb3#%F0%9F%8F%B3%EF%B8%8F%20ShatakVPN%20886565
-anytls://d720a490-d56b-11ef-a1cb-f23c9313b177@b7fd6a5e-t9lmo0-t9izwa-64gc.hkt.east.wctype.com:8300?security=tls&type=tcp&allowInsecure=1&sni=b7fd6a5e-t9lmo0-t9izwa-64gc.hkt.east.wctype.com&fp=chrome&udp=1&insecure=1#HK8%EF%BD%9C%E5%AE%B6%E5%AE%BD%EF%BD%9C%E9%9D%9E%E5%B8%B8%E5%AE%89%E5%85%A8
 anytls://qzJvszJHOB@80.240.26.147:443?sni=suiany.makingirangreatagain.com&servername=suiany.makingirangreatagain.com#🇩🇪
