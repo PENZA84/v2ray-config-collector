@@ -2,13 +2,6 @@ name: 🏭 Заводской Автономный Сортировщик (Facto
 
 on:
   workflow_dispatch: # 🔘 Кнопка ручного запуска в панели Actions
-  
-  schedule:
-    - cron: '0 */6 * * *' # ⏱️ Авто-запуск каждые 6 часов
-    
-  push:
-    paths:
-      - 'data/raw_incoming/deep_raw_collected.txt' # 🚀 Триггер по наполнению бункера
 
 permissions:
   contents: write
