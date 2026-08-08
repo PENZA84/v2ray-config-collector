@@ -1,10 +1,6 @@
 name: "Производство Леи 🤍"
 
 on:
-  push:
-    branches: [ main, master ]
-  schedule:
-    - cron: '0 */6 * * *' # ⏰ Запуск каждые 6 часов
   workflow_dispatch:   # Ручной запуск в любой момент
 
 permissions:
@@ -190,8 +186,8 @@ jobs:
           
           # Очищаем только старые текстовые файлы баз, не ломая структуру каталогов
           for f in glob.glob(os.path.join(out_dir, '*.txt')):
-              try: os.remove(f)
-              except: pass
+            try: os.remove(f)
+            except: pass
           
           files = glob.glob('temp_validated/*/*_chunk_*.txt') + glob.glob('temp_validated/*/*/*_chunk_*.txt')
           proto_data = {}
